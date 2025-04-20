@@ -35,12 +35,13 @@
 		![](/Images/3_deepLearning_relu_1.png)
 
 		![](/Images/3_deepLearning_relu_2.png)
-			-	Pros:
-				-	Only negatively saturates
-				-	Better Sparsity so less computation
-			-	Cons:
-				- Dying RELU (Can get stuck at 0)
-				-	Not differentiable at 0 (solved using f′(0)=0)
+
+		-	Pros:
+			-	Only negatively saturates
+			-	Better Sparsity so less computation
+		-	Cons:
+			- Dying RELU (Can get stuck at 0)
+			-	Not differentiable at 0 (solved using f′(0)=0)
 		
 
 		2. **Leaky ReLU** 
