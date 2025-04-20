@@ -173,7 +173,7 @@
 		GRU is a variant of the LSTM.retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.
 		Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r. The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
 
-		<img src="https://latex.codecogs.com/svg.latex? z =\sigma(W_z h_{t-1} + U_z x_t) r"/>
+		![](/Images/3_deepLearning_gru_1.png)
 
 		The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
 		The sigmoid function modulates the output of these functions between 0 and 1. The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the hidden state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
