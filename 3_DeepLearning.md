@@ -38,6 +38,7 @@
 	![](/Images/3_deepLearning_rnn_1.png)
 
 	![](/Images/3_deepLearning_rnn_2.png)
+	
 The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>t</sub>, passed
 through a SoftMax activation, such that the resulting vector is a set of output probabilities.
 
