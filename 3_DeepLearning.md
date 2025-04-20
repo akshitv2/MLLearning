@@ -95,9 +95,9 @@
 	<br/><br/>
 	3.	Questions:
 		1.	Why Non-Linearity Important?
-		
+		<br/><br/>
 		2.	Why is Relu still more prevalent despite leaky relu problem?
-		
+		<br/><br/>
 		3.	Sigmoid vs Softmax		
 
 		|Feature     |      Sigmoid             |	               Softmax                            |
@@ -130,8 +130,8 @@
 	![](/Images/3_deepLearning_rnn_1.png)
 
 	![](/Images/3_deepLearning_rnn_2.png)
-The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>t</sub>, passed
-through a SoftMax activation, such that the resulting vector is a set of output probabilities.
+	The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>t</sub>, passed
+	through a SoftMax activation, such that the resulting vector is a set of output probabilities.
 
 	![](/Images/3_deepLearning_rnn_3.png)
 	
@@ -166,6 +166,20 @@ through a SoftMax activation, such that the resulting vector is a set of output 
 
 		The forget gate defines how much of the previous state h<sub>t-1</sub> you want to allow to pass through. The input gate defines how much of the newly computed state for the current input x<sub>t</sub> you want to let through, and the output gate defines how much of the internal state you want to expose to the next layer. The internal hidden state g is computed based on the current input x<sub>t</sub> and the previous hidden state h<sub>t-1</sub>
 
-		2.
+		LSTM is a drop-in replacement for a SimpleRNN cell.
+		LSTMs are resistant to the vanishing gradient problem.
+
+		2.**Gated recurrent unit (GRU)**
+		GRU is a variant of the LSTM.retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.
+		Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r. The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
+
+		<img src="https://latex.codecogs.com/gif.latex?\begin{align*}
+		z &= \sigma(W_z h_{t-1} + U_z x_t) \\
+		r &= \sigma(W_r h_{t-1} + U_r x_t) \\
+		c &= \tanh(W_c(h_{t-1} * r) + U_c x_t) \\
+		h_t &= (z * c) + ((1 - z) * h_{t-1})
+		\end{align*}" /> 
+
+
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
 17. 
