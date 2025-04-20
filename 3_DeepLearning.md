@@ -43,6 +43,23 @@ through a SoftMax activation, such that the resulting vector is a set of output 
 
 	![](/Images/3_deepLearning_rnn_3.png)
 	
-	2. 
+	2. Backpropagation through time (BPTT)
+	Just like traditional neural networks, training RNNs also involves the backpropagation of gradients. The difference, in this case, is that since the weights are shared by all time steps, the gradient at each output depends not only on the current time step but also on the previous ones. This process is called backpropagation through time.
+	
+	`⚠️[Mentioned in Data Processing]` Check page: https://dennybritz.com/posts/wildml/recurrent-neural-networks-tutorial-part-3/
+
+	3. BPTT Vulnerable to exploding and vanishing gradients
+		BPTT is just regular backpropagation but unrolled through time:
+		- The RNN processes a sequence step by step, updating its hidden state at each time step.
+		- During training, the loss from the final time step is backpropagated through all previous time steps, using the chain rule.
+		- This means gradients are multiplied repeatedly, one time step after another.
+
+		Two Bad Scenarios:
+			- Vanishing Gradients: If the spectral norm (max singular value) of W_h is < 1, the gradients shrink over time.	After enough time steps, they’re so small they’re practically zero → no learning for earlier layers.
+			Especially bad with sigmoid and tanh, because their derivatives are small for large inputs.
+
+			- Exploding Gradients:	If W_h has a norm > 1, each multiplication makes the gradient grow exponentially. Eventually the gradients blow up → unstable training, NaNs, etc.
+	3. 
+
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
 17. 
