@@ -11,8 +11,9 @@
 	2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that determine the importance of each feature. 
 	3. **Bias** (b): A constant term that allows shifting the decision boundary. 
 	4. **Summation Function:** Computes the weighted sum of inputs
-				
-	6. **Activation Function**: Applies a step function (threshold function) to determine the output:
+		![](/Images/3_deepLearning_1_1.png)
+	5. **Activation Function**: Applies a step function (threshold function) to determine the output:
+		![](/Images/3_deepLearning_1_2.png)
 3.  **Feed Forward Neural Networks**
 4.  **Hidden Layers**
 5.  **Width of Model**
