@@ -27,8 +27,10 @@
 	2. Batch
 	3. Mini Batch
 10.  **Vanishing Gradient**
+	1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute anything to the learning process, so the RNN ends up not learning any long-range dependencies
 11. **Exploding Gradient**
 12. **How to diagnose and fix both gradient issues**
+	1. Temp: Exploding gradients can be controlled by clipping them at a predefined threshold. TensorFlow 2.0 allows you to clip gradients using the clipvalue or clipnorm parameter during optimizer construction, or by explicitly clipping gradients using tf.clip_by_value
 13. **Convolutional Neural Networks**
 14. **Residual Connections**
 15. **Recurrent Neural Networks**
@@ -60,7 +62,18 @@ through a SoftMax activation, such that the resulting vector is a set of output 
 		- Exploding Gradients:	If W_h has a norm > 1, each multiplication makes the gradient grow exponentially. Eventually the gradients blow up → unstable training, NaNs, etc.
 	3. Solution to exploding and vanishing `ℹ️[Mentioned in how to diagnose and fix both gradients]`
 		- Of the two, exploding gradients are more easily detectable. The gradients will become very large and turn into Not a Number (NaN), and the training process will crash . Exploding gradients can be controlled by clipping them at a predefined threshold.
-	4. 
 
+		A few approaches exist towards minimizing the problem, such as proper initialization of the W matrix, more aggressive regularization, using ReLU instead of tanh activation, and pretraining the layers using unsupervised methods, the most popular solution is to use LSTM or GRU architectures.
+	4. Variants
+		1. **Long short-term memory (LSTM)**
+
+		![](/Images/3_deepLearning_lstm_1.png)
+		The set of equations representing an LSTM is shown as follows:
+
+		![](/Images/3_deepLearning_lstm_2.png)
+
+		Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>o</sub>, U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output vectors produced can be multiplied element-wise with another vector to define how much of the second vector can pass through the first one.
+
+		2.
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
 17. 
