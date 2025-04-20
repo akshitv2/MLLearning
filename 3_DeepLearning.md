@@ -97,7 +97,7 @@
 		1.	Why Non-Linearity Important?
 		2.	Why is Relu still more prevalent despite leaky relu problem?
 		3.	Sigmoid vs Softmax		
-		|Feature |Sigmoid |Softmax|
+		|Feature     |   Sigmoid 				|											   Softmax|
 		|------------|--------------------------|-----------------------------------------------------|
 		|Use Case    |Binary Classification     |Multi Class Classification                           |
 		|Independence|Each output is independent|Outputs are interdependent (probability distribution)|
