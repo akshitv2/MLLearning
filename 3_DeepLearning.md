@@ -55,10 +55,9 @@ through a SoftMax activation, such that the resulting vector is a set of output 
 		- This means gradients are multiplied repeatedly, one time step after another.
 
 		Two Bad Scenarios:
-			- Vanishing Gradients: If the spectral norm (max singular value) of W_h is < 1, the gradients shrink over time.	After enough time steps, they’re so small they’re practically zero → no learning for earlier layers.
-			Especially bad with sigmoid and tanh, because their derivatives are small for large inputs.
-
-			- Exploding Gradients:	If W_h has a norm > 1, each multiplication makes the gradient grow exponentially. Eventually the gradients blow up → unstable training, NaNs, etc.
+		- Vanishing Gradients: If the spectral norm (max singular value) of W_h is < 1, the gradients shrink over time.	After enough time steps, they’re so small they’re practically zero → no learning for earlier layers.
+		Especially bad with sigmoid and tanh, because their derivatives are small for large inputs.
+		- Exploding Gradients:	If W_h has a norm > 1, each multiplication makes the gradient grow exponentially. Eventually the gradients blow up → unstable training, NaNs, etc.
 	3. 
 
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
