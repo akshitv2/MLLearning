@@ -35,6 +35,7 @@
 		![](/Images/3_deepLearning_relu_1.png)
 
 		![](/Images/3_deepLearning_relu_2.png)
+		
 			-	Pros:
 				-	Only negatively saturates
 				-	Better Sparsity so less computation
