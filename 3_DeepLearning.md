@@ -87,18 +87,21 @@
 
 		The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
 		`❌[Incomplete]`
+
 		7.	**Swish**
+
 		8.	**GELU**
 
-	<hr>
+	<br/><br/>
 	3.	Questions:
-		i.	Why Non-Linearity Important?
-		ii.	Why is Relu still more prevalent despite leaky relu problem?
-		iii.	Sigmoid vs Softmax
-		Feature			Sigmoid	Softmax
-		Use Case	Binary Classification	Multi Class Classification
-		Independence	Each output is independent	Outputs are interdependent (probability distribution)
-		Range	(0, 1) for each class	(0, 1) for each class but all sum up to 1
+		1.	Why Non-Linearity Important?
+		2.	Why is Relu still more prevalent despite leaky relu problem?
+		3.	Sigmoid vs Softmax		
+		|Feature |Sigmoid |Softmax|
+		|------------|--------------------------|-----------------------------------------------------|
+		|Use Case    |Binary Classification     |Multi Class Classification                           |
+		|Independence|Each output is independent|Outputs are interdependent (probability distribution)|
+		|Range	     |(0, 1) for each class     |(0, 1) for each class but all sum up to 1            |
 
 •	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
 •	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
