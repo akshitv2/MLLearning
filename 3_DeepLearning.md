@@ -18,18 +18,86 @@
 		![](/Images/3_deepLearning_1_2.png)
 3.  **Feed Forward Neural Networks**
 4.  **Hidden Layers**
+	Layers between the input and output layers
 5.  **Width of Model**
 6. **Weights and Biases**
 7.  **Universal Approximation Theorem**
+	The Universal Approximation Theorem is a pivotal result in neural network theory, proving that feedforward neural networks can approximate any continuous function under certain conditions.
 8.  **Activation Function**
+	1.	Need
+	Activation functions are crucial in neural networks because they introduce non-linearity into the model, enabling it to learn complex patterns and relationships in data. Without activation functions, a neural network would essentially be a linear model, limiting its ability to handle complex tasks.
+	If we had no activation function, the output of a layer would be simply a weighted sum of the inputs z=w<sub>1</sub>x<sub>1</sub>+w<sub>2</sub>x<sub>2</sub>+...+w<sub>n</sub>x<sub>n</sub>+bz = w_1x_1 + w_2x_2 + ... + w_nx_n + bz=w1x1+w2x2+...+wnxn+b
+
+	2.	Common ones:
+		1.	**ReLU**
+		Rectified Linear Unit – f(x)=max(0,x)
+
+		![](/Images/3_deepLearning_relu_1.png)
+
+		![](/Images/3_deepLearning_relu_2.png)
+			-	Pros:
+				-	Only negatively saturates
+				-	Better Sparsity so less computation
+			-	Cons:
+				- Dying RELU (Can get stuck at 0)
+				-	Not differentiable at 0 (solved using f′(0)=0)
+		
+
+		2. **Leaky ReLU** 
+
+		![](/Images/3_deepLearning_leaky_relu_1.png)
+		Where α: a small positive constant (usually something like 0.01).
+		designed to fix a problem known as the "dying ReLU" problem
+		Leaky ReLU doesn’t just cut off all negative values — instead, it lets a small negative slope through.
+		So even when x<0, the function still outputs a small (negative) value and, more importantly, has a non-zero gradient.
+		•	The neuron still gets to learn (because there's still a gradient to flow back during backpropagation).
+		•	It reduces the risk of neurons getting “stuck” outputting 0 forever.
+
+		3.	**Parametric ReLU**
+		![](/Images/3_deepLearning_leaky_relu_1.png)
+		Here alpha is not fixed and learned during training. Can be shared or different alpha per layer.
+		Gives the network freedom to learn better slopes but this may cause overfitting if you're not careful.
+		Slightly slower than regular Relu due to the extra computation.
+
+		4.	**Sigmoid (Logit)**
+		When x→−∞ f(x)→0
+		When x→+∞ f(x)→1
+		At x=0, f(x)=0.5
+
+			Not used much anymore due to vanishing gradients (since derivative is close to 0).
+		Also computationally expensive.
+
+		5.	**Tanh**
+		like sigmoid, tanh suffers from the vanishing gradient problem for very large or very small inputs and unpopular compared to RELU.
+		
+		6.	**Softmax**
+		The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
+		`❌[Incomplete]`
+		7.	**Swish**
+		8.	**GELU**
+c.	Questions:
+i.	Why Non-Linearity Important?
+ii.	Why is Relu still more prevalent despite leaky relu problem?
+iii.	Sigmoid vs Softmax
+Feature			Sigmoid	Softmax
+Use Case	Binary Classification	Multi Class Classification
+Independence	Each output is independent	Outputs are interdependent (probability distribution)
+Range	(0, 1) for each class	(0, 1) for each class but all sum up to 1
+
+•	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
+•	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
+•	Softmax ensures a mutually exclusive decision by normalizing across all classes.
+•	Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
+•	Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
+
 9. **Gradient Descent**
 	1. Stochastic
 	2. Batch
 	3. Mini Batch
-10.  **Vanishing Gradient**
+10.  **Vanishing Gradient**`❌[Incomplete]`
 	1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute anything to the learning process, so the RNN ends up not learning any long-range dependencies
 11. **Exploding Gradient**
-12. **How to diagnose and fix both gradient issues**
+12. **How to diagnose and fix both gradient issues**`❌[Incomplete]`
 	1. Temp: Exploding gradients can be controlled by clipping them at a predefined threshold. TensorFlow 2.0 allows you to clip gradients using the clipvalue or clipnorm parameter during optimizer construction, or by explicitly clipping gradients using tf.clip_by_value
 13. **Convolutional Neural Networks**
 14. **Residual Connections**
@@ -73,6 +141,8 @@ through a SoftMax activation, such that the resulting vector is a set of output 
 		![](/Images/3_deepLearning_lstm_2.png)
 
 		Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>o</sub>, U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output vectors produced can be multiplied element-wise with another vector to define how much of the second vector can pass through the first one.
+
+		The forget gate defines how much of the previous state h<sub>t-1</sub> you want to allow to pass through. The input gate defines how much of the newly computed state for the current input x<sub>t</sub> you want to let through, and the output gate defines how much of the internal state you want to expose to the next layer. The internal hidden state g is computed based on the current input x<sub>t</sub> and the previous hidden state h<sub>t-1</sub>
 
 		2.
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
