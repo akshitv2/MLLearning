@@ -58,12 +58,16 @@
 		3.	**Parametric ReLU**
 
 		![](/Images/3_deepLearning_leaky_relu_1.png)
-		
+
 		Here alpha is not fixed and learned during training. Can be shared or different alpha per layer.
 		Gives the network freedom to learn better slopes but this may cause overfitting if you're not careful.
 		Slightly slower than regular Relu due to the extra computation.
 
 		4.	**Sigmoid (Logit)**
+
+		![](/Images/3_deepLearning_sigmoid_1.png)
+		![](/Images/3_deepLearning_sigmoid_2.png)
+
 		When x→−∞ f(x)→0
 		When x→+∞ f(x)→1
 		At x=0, f(x)=0.5
@@ -72,21 +76,29 @@
 		Also computationally expensive.
 
 		5.	**Tanh**
+
+		![](/Images/3_deepLearning_tanh_1.png)
+
 		like sigmoid, tanh suffers from the vanishing gradient problem for very large or very small inputs and unpopular compared to RELU.
 		
 		6.	**Softmax**
+
+		![](/Images/3_deepLearning_softmax_1.png)
+
 		The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
 		`❌[Incomplete]`
 		7.	**Swish**
 		8.	**GELU**
-c.	Questions:
-i.	Why Non-Linearity Important?
-ii.	Why is Relu still more prevalent despite leaky relu problem?
-iii.	Sigmoid vs Softmax
-Feature			Sigmoid	Softmax
-Use Case	Binary Classification	Multi Class Classification
-Independence	Each output is independent	Outputs are interdependent (probability distribution)
-Range	(0, 1) for each class	(0, 1) for each class but all sum up to 1
+
+	<hr>
+	3.	Questions:
+		i.	Why Non-Linearity Important?
+		ii.	Why is Relu still more prevalent despite leaky relu problem?
+		iii.	Sigmoid vs Softmax
+		Feature			Sigmoid	Softmax
+		Use Case	Binary Classification	Multi Class Classification
+		Independence	Each output is independent	Outputs are interdependent (probability distribution)
+		Range	(0, 1) for each class	(0, 1) for each class but all sum up to 1
 
 •	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
 •	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
