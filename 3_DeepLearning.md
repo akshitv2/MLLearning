@@ -32,5 +32,17 @@
 13. **Convolutional Neural Networks**
 14. **Residual Connections**
 15. **Recurrent Neural Networks**
+	1. **Working**
+	Used for sequences where the value of last element does predict next. The value of the hidden state at any point in time is a function of the value of the hidden state at the previous time step, and the value of the input at the current time step.
+
+	![](/Images/3_deepLearning_rnn_1.png)
+
+	![](/Images/3_deepLearning_rnn_2.png)
+The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>t</sub>, passed
+through a SoftMax activation, such that the resulting vector is a set of output probabilities.
+
+	![](/Images/3_deepLearning_rnn_3.png)
+	
+	2. 
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
 17. 
