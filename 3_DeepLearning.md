@@ -47,15 +47,18 @@
 		2. **Leaky ReLU** 
 
 		![](/Images/3_deepLearning_leaky_relu_1.png)
+		
 		Where α: a small positive constant (usually something like 0.01).
 		designed to fix a problem known as the "dying ReLU" problem
 		Leaky ReLU doesn’t just cut off all negative values — instead, it lets a small negative slope through.
 		So even when x<0, the function still outputs a small (negative) value and, more importantly, has a non-zero gradient.
-		•	The neuron still gets to learn (because there's still a gradient to flow back during backpropagation).
-		•	It reduces the risk of neurons getting “stuck” outputting 0 forever.
+		-	The neuron still gets to learn (because there's still a gradient to flow back during backpropagation).
+		-	It reduces the risk of neurons getting “stuck” outputting 0 forever.
 
 		3.	**Parametric ReLU**
+
 		![](/Images/3_deepLearning_leaky_relu_1.png)
+		
 		Here alpha is not fixed and learned during training. Can be shared or different alpha per layer.
 		Gives the network freedom to learn better slopes but this may cause overfitting if you're not careful.
 		Slightly slower than regular Relu due to the extra computation.
