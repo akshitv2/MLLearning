@@ -219,7 +219,7 @@ Index of notations to complete/learn more:
 		3.	Pooling`❌[Incomplete]`
 		4.	Padding`❌[Incomplete]`
 	
-	6. Historical Performance
+	6. Historical Performance<br />
 	| Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
 	|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
 	| Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
