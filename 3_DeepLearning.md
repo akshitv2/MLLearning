@@ -125,7 +125,8 @@ Index of notations to complete/learn more:
 	1. Stochastic
 	2. Batch
 	3. Mini Batch
-9.  **Vanishing Gradient**`❌[Incomplete]`<br />
+9. **Epoch**
+10. **Vanishing Gradient**`❌[Incomplete]`<br />
 	1. Cause
 	As you go backward through a deep network (from output toward the input layer), gradients are calculated via the chain rule. That means:
 	$$\frac{dL}{dx} = \frac{dL}{dz_n} \cdot \frac{dz_n}{dz_{n-1}} \cdot \ldots \cdot \frac{dz_2}{dz_1}$$
@@ -312,10 +313,15 @@ Index of notations to complete/learn more:
 		2.**Gated recurrent unit (GRU)**
 		GRU is a variant of the LSTM.retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.
 		Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r. The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
+		<br/>
 		$$z = \sigma(W_z h_{t-1} + U_z x_t)$$
+		<br/>
 		$$r = \sigma(W_r h_{t-1} + U_r x_t)$$
+		<br/>
 		$$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$
+		<br/>
 		$$h_t = (z * c) + ((1 - z) * h_{t-1})$$
+		<br/>
 
 
 		The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
@@ -334,4 +340,55 @@ Index of notations to complete/learn more:
 		
 
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
-17. 
+17. **Data Augmentation**
+	1. Image Data Augmentation
+18.	Weight Initialization
+	1. Questions
+		- Why Initialize with anything other than zero?
+		- Why initialize with uniform distribution?
+19. Loss Functions
+	1. Types
+		1.	Regression:
+			1.	Mean Square Error
+			2.	Mean Absolute Error
+			3.	Mean Squared Log Error
+		2.	Classification
+			1.	Binary Cross Entropy
+			2.	Categorical Cross Entropy
+			3.	Spare Categorical Cross Entropy
+			4.	KL Divergence
+20. Metrics displayed vs Used during training
+21. Optimizers
+	1. SGD
+	2. RMSPROP
+	3. Adam
+22. Regularization 
+23. Transfer Learning
+	Transfer learning is a machine learning technique where a model trained on one task is reused (partially or fully) on a different but related task.
+	Instead of training a model from scratch, you start with a pretrained model that has already learned useful features from a large dataset, and you fine-tune it for your specific task.
+
+	Steps:
+	1. Selecting a Pretrained Model
+	The first step is to select an appropriate pretrained model. These models are often trained on large-scale datasets such as ImageNet (for images), Common Crawl or Wikipedia (for natural language), or AudioSet (for audio). Common pretrained architectures include ResNet, EfficientNet, and VGG for image tasks, or BERT, GPT, and RoBERTa for text-based tasks.
+	2. Model Architecture Analysis
+	A pretrained model generally consists of two main components:
+	-	Feature extractor: The initial layers (often convolutional or embedding layers) that learn to identify general features such as edges, shapes, textures, or word relationships.
+	-	Classifier head: The final layers (often fully connected or linear layers) responsible for task-specific predictions, such as class labels.
+	In transfer learning, the feature extractor is reused (often unchanged), while the classifier head is replaced or modified to suit the new task.
+	3. Freezing and Fine-Tuning
+	There are two main approaches for reusing a pretrained model:
+	-	Feature Extraction (Freezing):
+		- The feature extractor’s weights are frozen, meaning they are not updated during training.
+		- A new classification head is appended and trained on the target dataset.
+		- This approach is useful when the target dataset is small or closely related to the original dataset.
+	-	Fine-Tuning:
+		- After replacing the classification head and training it for a few epochs, some or all of the pretrained layers are unfrozen.
+		- The entire model, or select layers, are retrained with a smaller learning rate to refine feature representations.
+		- Fine-tuning is beneficial when the target task differs significantly from the source task.
+	4. Data Preparation
+	The target dataset must be preprocessed to match the input format expected by the pretrained model. For instance:
+	-	Images must be resized to the same dimensions the original model was trained on.
+	-	Text inputs may require tokenization using the original model’s vocabulary and tokenizer.
+	In some cases, normalization or augmentation techniques consistent with the pretrained model’s training procedure are also necessary.
+
+
