@@ -3,6 +3,11 @@
 
 # Machine Learning Topics
 
+Index of notations to complete/learn more:
+`⚠️[Requires Investigation]`
+`❌[Incomplete]`
+
+
 ## Deep Learning
 1.  **Perceptron**
 	A Perceptron is the simplest type of artificial neural network. It is a type of linear classifier that makes predictions based on a weighted sum of input features followed by an activation function. 
@@ -127,13 +132,106 @@
 	-	Your model gets stuck
 	-	Early layers (closer to the input) get almost no gradient signal
 
+	2. How to detect
+	Methods To Solve:
+	✅ Use ReLU instead of sigmoid/tanh
+	ReLU’s derivative is 1 for positive values — no shrinking
+	✅ Batch Normalization
+	Helps keep the activations and gradients in a healthy range
+	✅ Residual Connections (ResNets)
+	Skip connections help gradients flow more easily through deep networks
+	✅ Careful weight initialization
+	`⚠️[Requires Investigation]` Methods like He or Xavier initialization aim to preserve the scale of activations and gradients
+
+	3. How to Solve
+
+
 	1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute anything to the learning process, so the RNN ends up not learning any long-range dependencies
 
-11. **Exploding Gradient**
+11. **Exploding Gradient**`❌[Incomplete]`
+	Exploding gradients occur when the gradients (partial derivatives of the loss with respect to the model parameters) become very large during backpropagation.
+	These large values can cause:
+	- Model weights to grow excessively. 
+	- Training to become unstable.
+	- Loss to oscillate wildly or become NaN.
+
+	1. Cause
+	2. How to Detect
+	3. How to Fix
+		1.	Gradient Clipping
+		Cap the gradients to a maximum value to prevent them from getting too large.
+		python
+		CopyEdit
+		torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+		2.	Weight Regularization
+		Techniques like L2 regularization help keep weights small.
+		3.	Use Better Activation Functions
+		Like ReLU or variants that are less prone to derivative explosion than, say, tanh or sigmoid.
+		4.	Careful Initialization
+		Initialize weights with methods like Xavier or He initialization to avoid large initial gradients.
+		5.	Use Residual Connections
+		Especially in very deep networks (e.g., ResNets), these help with gradient flow.
+
 12. **How to diagnose and fix both gradient issues**`❌[Incomplete]`
 	1. Temp: Exploding gradients can be controlled by clipping them at a predefined threshold. TensorFlow 2.0 allows you to clip gradients using the clipvalue or clipnorm parameter during optimizer construction, or by explicitly clipping gradients using tf.clip_by_value
 13. **Convolutional Neural Networks**
+	1. Definition
+	Convolutional Neural Networks (CNNs) are a type of deep learning model specifically designed for processing structured grid-like data, such as images.
+	2. Working
+	These layers apply filters (kernels) to input images to extract important features like edges, textures, and patterns.
+	Each filter slides over the input (convolution operation), producing a feature map.
+	The pooling layers are used to reduce the spatial size of feature maps while retaining important information
+	After extracting features, the output is flattened and passed through dense layers.
+
+	The **kernel** is just a small matrix (e.g., 3×3 or 5×5) that slides over the input image (This kernel is trained as goal of this process).
+	It performs a convolution operation by multiplying its values with the pixel values of the input and summing them up. This results in a new matrix called a **feature map**.
+
+	Pooling is not a learnable operation—it’s just a way to reduce the size of the feature map.
+	It takes the feature map (produced by convolution) and applies an operation like:
+	-	Max Pooling → Takes the maximum value in a small window (e.g., 2×2).
+	-	Average Pooling → Takes the average of values in a small window.
+
+	3. Need
+	Images have a spatial structure (e.g., pixels in a face are related to nearby pixels). Fully connected layers treat all pixels as independent, losing important spatial context. Filters detect edges, textures, and shapes locally and pass them deeper into the network.
+	
+	4. Applications:
+	-	Style Transfer
+	
+	5.	Components
+		1.	Convolution
+			1.	Different Types:
+				| Layer Type         | Description                                                        | Input Type                                         |
+				|--------------------|--------------------------------------------------------------------|----------------------------------------------------|
+				| Conv1D             | Used for time series, audio, or NLP tasks                         | 1D sequences (e.g., speech, text embeddings)       |
+				| Conv2D             | Used for image processing                                          | 2D data (e.g., grayscale/RGB images)               |
+				| Conv3D             | Used for volumetric data like medical imaging or videos           | 3D data (e.g., MRI scans, video frames)            |
+				| Conv2DTranspose    | Used for upsampling (e.g., image segmentation, GANs)              | 2D data, like Conv2D but increases spatial size    |
+				| Conv3DTranspose    | Used for 3D upsampling, such as in medical image reconstruction   | 3D data, like Conv3D but increases spatial size    |
+
+		2.	Params
+		-	Kernel: eg. (5,5) specifies the kernel size used
+		-	Padding: Refers to adding extra pixels around the input image before applying the convolution operation. This is done to control the spatial size (height & width) of the output feature map.
+			Types:
+			1.	Valid: No padding
+			2.	Same: Zero Padding (output size = input size)
+		-	Number of filters: Number of different feature maps generated
+
+		3.	Pooling`❌[Incomplete]`
+		4.	Padding`❌[Incomplete]`
+	
+	6. Historical Performance
+	
+
 14. **Residual Connections**
+	Residual connections (also called skip connections) are a technique introduced in ResNet (Residual Networks) that help train very deep neural networks by allowing the network to "skip" one or more layers.
+
+	In very deep networks:
+	-	Training gets harder due to vanishing/exploding gradients
+	-	The network may start performing worse as depth increases (which is counterintuitive). Residual connections allow the network to learn residuals—that is, how much to change the input rather than learning the full transformation from scratch. This helps:
+	-	Improve gradient flow (prevent vanishing/exploding gradients)
+	-	Make optimization easier
+	-	Enable successful training of networks with 100+ layers
+
 15. **Recurrent Neural Networks**
 	1. **Working**
 	Used for sequences where the value of last element does predict next. The value of the hidden state at any point in time is a function of the value of the hidden state at the previous time step, and the value of the input at the current time step.
