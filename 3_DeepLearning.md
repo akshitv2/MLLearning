@@ -99,25 +99,28 @@
 		2.	Why is Relu still more prevalent despite leaky relu problem?
 		<br/><br/>
 		3.	Sigmoid vs Softmax		
-
 		|Feature     |      Sigmoid             |	               Softmax                            |
 		|------------|--------------------------|-----------------------------------------------------|
 		|Use Case    |Binary Classification     |Multi Class Classification                           |
 		|Independence|Each output is independent|Outputs are interdependent (probability distribution)|
 		|Range	     |(0, 1) for each class     |(0, 1) for each class but all sum up to 1            |
 
-•	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
-•	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
-•	Softmax ensures a mutually exclusive decision by normalizing across all classes.
-•	Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
-•	Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
+		•	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
+		•	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
+		•	Softmax ensures a mutually exclusive decision by normalizing across all classes.
+		•	Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
+		•	Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
 
 9. **Gradient Descent**
 	1. Stochastic
 	2. Batch
 	3. Mini Batch
 10.  **Vanishing Gradient**`❌[Incomplete]`
+	1. Definition
+	As you go backward through a deep network (from output toward the input layer), gradients are calculated via the chain rule. That means:
+	
 	1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute anything to the learning process, so the RNN ends up not learning any long-range dependencies
+
 11. **Exploding Gradient**
 12. **How to diagnose and fix both gradient issues**`❌[Incomplete]`
 	1. Temp: Exploding gradients can be controlled by clipping them at a predefined threshold. TensorFlow 2.0 allows you to clip gradients using the clipvalue or clipnorm parameter during optimizer construction, or by explicitly clipping gradients using tf.clip_by_value
@@ -177,6 +180,18 @@
 
 		The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
 		The sigmoid function modulates the output of these functions between 0 and 1. The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the hidden state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
+
+		3. **Peephole LSTM**
+		4. **Bidirectional RNNs**
+		5. **Stateful RNNs**
+	5. **Topologies**
+		![](/Images/3_deepLearning_rnn_5.png)
+
+		Many-to-many use case comes in two flavors. The first one is more popular and is better known as the seq2seq model. In this model, a sequence is read in and produces a context vector representing the input sequence, which is used to generate the output sequence.
+
+		Second many-to-many type has an output cell corresponding to each input cell. This kind of network is suited for use cases where there is a 1:1 correspondence between the input and output, such as time series. The major difference between this model and the seq2seq model is that the input does not have to be completely encoded before the decoding process begins.
+	6. 
+		
 
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
 17. 
