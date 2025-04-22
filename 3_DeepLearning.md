@@ -16,11 +16,9 @@ Index of notations to complete/learn more:
 	2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that determine the importance of each feature. 
 	3. **Bias** (b): A constant term that allows shifting the decision boundary. 
 	4. **Summation Function:** Computes the weighted sum of inputs
-
-		![](/Images/3_deepLearning_1_1.png)
+		$$z = \sum_{i=1}^{n} w_i x_i + b$$
 	5. **Activation Function**: Applies a step function (threshold function) to determine the output:
-	
-		![](/Images/3_deepLearning_1_2.png)
+		$$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
 2.  **Feed Forward Neural Networks**
 3.  **Hidden Layers**
 	Layers between the input and output layers
@@ -51,7 +49,7 @@ Index of notations to complete/learn more:
 
 		2. **Leaky ReLU** 
 
-		![](/Images/3_deepLearning_leaky_relu_1.png)
+		$$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
 		
 		Where α: a small positive constant (usually something like 0.01).
 		designed to fix a problem known as the "dying ReLU" problem
@@ -62,7 +60,7 @@ Index of notations to complete/learn more:
 
 		3.	**Parametric ReLU**
 
-		![](/Images/3_deepLearning_leaky_relu_1.png)
+		$$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
 
 		Here alpha is not fixed and learned during training. Can be shared or different alpha per layer.
 		Gives the network freedom to learn better slopes but this may cause overfitting if you're not careful.
@@ -83,6 +81,13 @@ Index of notations to complete/learn more:
 		5.	**Tanh**
 
 		![](/Images/3_deepLearning_tanh_1.png)
+		$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
+
+		Output Range
+		- tanh(x) outputs values in the range (-1, 1)
+		- At x = 0, tanh(x) = 0
+		- As x → +∞, tanh(x) → 1
+		- As x → -∞, tanh(x) → -1
 
 		like sigmoid, tanh suffers from the vanishing gradient problem for very large or very small inputs and unpopular compared to RELU.
 		
@@ -103,17 +108,18 @@ Index of notations to complete/learn more:
 		<br/><br/>
 		2.	Why is Relu still more prevalent despite leaky relu problem?
 		<br/><br/>
-		3.	Sigmoid vs Softmax
-| Feature | Sigmoid               | Softmax                    |
-|---------|-----------------------|----------------------------|
-| Case    | Binary Classification | Multi Class Classification |
-| Independence| Each output is independent | Outputs are interdependent (probability distribution) |
-| Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |<br/>
-		•	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
-		•	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
-		•	Softmax ensures a mutually exclusive decision by normalizing across all classes.
-		•	Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
-		•	Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
+		3.	Sigmoid vs Softmax	
+	| Feature | Sigmoid               | Softmax                    |
+	|---------|-----------------------|----------------------------|
+	| Case    | Binary Classification | Multi Class Classification |
+	| Independence| Each output is independent | Outputs are interdependent (probability distribution) |
+	| Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |
+	<br/>
+	- Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
+	- It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
+	- Softmax ensures a mutually exclusive decision by normalizing across all classes.
+	- Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
+	- Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
 
 8. **Gradient Descent**
 	1. Stochastic
@@ -218,28 +224,29 @@ Index of notations to complete/learn more:
 		3.	Pooling`❌[Incomplete]`
 		4.	Padding`❌[Incomplete]`
 	
-	6. Historical Performance<br />
-	| Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-	|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
-	| Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
-	| VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
-	| VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
-	| ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
-	| ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
-	| ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
-	| ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
-	| ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
-	| ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
-	| InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
-	| InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
-	| MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
-	| MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
-	| DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
-	| DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
-	| DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
-	| NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
-	| NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
-	
+	6. Historical Performance
+
+		| Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
+		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+		| Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
+		| VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
+		| VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
+		| ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
+		| ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
+		| ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
+		| ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
+		| ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
+		| ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
+		| InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
+		| InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
+		| MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
+		| MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
+		| DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
+		| DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
+		| DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
+		| NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
+		| NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
+		
 
 14. **Residual Connections**
 	Residual connections (also called skip connections) are a technique introduced in ResNet (Residual Networks) that help train very deep neural networks by allowing the network to "skip" one or more layers.
@@ -254,14 +261,14 @@ Index of notations to complete/learn more:
 15. **Recurrent Neural Networks**
 	1. **Working**
 	Used for sequences where the value of last element does predict next. The value of the hidden state at any point in time is a function of the value of the hidden state at the previous time step, and the value of the input at the current time step.
-
-	![](/Images/3_deepLearning_rnn_1.png)
+	$$h_t = \phi(h_{t-1}, X_t)$$
 
 	![](/Images/3_deepLearning_rnn_2.png)
 	The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>t</sub>, passed
 	through a SoftMax activation, such that the resulting vector is a set of output probabilities.
 
-	![](/Images/3_deepLearning_rnn_3.png)
+	$$h_t = \tanh(Wh_{t-1} + Ux_t)$$
+	$$y_t = \mathrm{softmax}(Vh_t)$$
 	
 	2. Backpropagation through time (BPTT)
 	Just like traditional neural networks, training RNNs also involves the backpropagation of gradients. The difference, in this case, is that since the weights are shared by all time steps, the gradient at each output depends not only on the current time step but also on the previous ones. This process is called backpropagation through time.
@@ -287,7 +294,12 @@ Index of notations to complete/learn more:
 
 		![](/Images/3_deepLearning_lstm_1.png)
 		The set of equations representing an LSTM is shown as follows:
-
+		$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
+		$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
+		$$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$
+		$$g = \tanh(W_g h_{t-1} + U_g x_t)$$
+		$$c_t = (f * c_{t-1}) + (g * i)$$
+		$$h_t = \tanh(c_t) * o$$
 		![](/Images/3_deepLearning_lstm_2.png)
 
 		Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>o</sub>, U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output vectors produced can be multiplied element-wise with another vector to define how much of the second vector can pass through the first one.
@@ -300,8 +312,11 @@ Index of notations to complete/learn more:
 		2.**Gated recurrent unit (GRU)**
 		GRU is a variant of the LSTM.retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.
 		Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r. The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
+		$$z = \sigma(W_z h_{t-1} + U_z x_t)$$
+		$$r = \sigma(W_r h_{t-1} + U_r x_t)$$
+		$$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$
+		$$h_t = (z * c) + ((1 - z) * h_{t-1})$$
 
-		![](/Images/3_deepLearning_gru_1.png)
 
 		The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
 		The sigmoid function modulates the output of these functions between 0 and 1. The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the hidden state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
