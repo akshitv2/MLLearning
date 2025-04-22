@@ -109,7 +109,7 @@ Index of notations to complete/learn more:
 | Case    | Binary Classification | Multi Class Classification |
 | Independence| Each output is independent | Outputs are interdependent (probability distribution) |
 | Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |<br/>
--	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
+		-	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
 		-	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
 		-	Softmax ensures a mutually exclusive decision by normalizing across all classes.
 		-	Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
