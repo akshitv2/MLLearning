@@ -104,13 +104,11 @@ Index of notations to complete/learn more:
 		2.	Why is Relu still more prevalent despite leaky relu problem?
 		<br/><br/>
 		3.	Sigmoid vs Softmax
-		
 		| Feature     | Sigmoid                                | Softmax                                          |
-|-------------|----------------------------------------|--------------------------------------------------|
-| Use Case   | Binary Classification                  | Multi Class Classification                       |
-| Independence| Each output is independent            | Outputs are interdependent (probability distribution) |
-| Range       | (0, 1) for each class                  | (0, 1) for each class, but all sum up to 1       |
-
+		|-------------|----------------------------------------|--------------------------------------------------|
+		| Use Case   | Binary Classification                  | Multi Class Classification                       |
+		| Independence| Each output is independent            | Outputs are interdependent (probability distribution) |
+		| Range       | (0, 1) for each class                  | (0, 1) for each class, but all sum up to 1       |
 
 		•	Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
 		•	It can assign high probabilities to multiple classes at the same time, which is problematic when only one class should be selected.
