@@ -21,14 +21,14 @@ Index of notations to complete/learn more:
 	5. **Activation Function**: Applies a step function (threshold function) to determine the output:
 	
 		![](/Images/3_deepLearning_1_2.png)
-3.  **Feed Forward Neural Networks**
-4.  **Hidden Layers**
+2.  **Feed Forward Neural Networks**
+3.  **Hidden Layers**
 	Layers between the input and output layers
-5.  **Width of Model**
-6. **Weights and Biases**
-7.  **Universal Approximation Theorem**
+4.  **Width of Model**
+5. **Weights and Biases**
+6.  **Universal Approximation Theorem**
 	The Universal Approximation Theorem is a pivotal result in neural network theory, proving that feedforward neural networks can approximate any continuous function under certain conditions.
-8.  **Activation Function**
+7.  **Activation Function**
 	1.	Need
 	Activation functions are crucial in neural networks because they introduce non-linearity into the model, enabling it to learn complex patterns and relationships in data. Without activation functions, a neural network would essentially be a linear model, limiting its ability to handle complex tasks.
 	If we had no activation function, the output of a layer would be simply a weighted sum of the inputs z=w<sub>1</sub>x<sub>1</sub>+w<sub>2</sub>x<sub>2</sub>+...+w<sub>n</sub>x<sub>n</sub>+bz = w_1x_1 + w_2x_2 + ... + w_nx_n + bz=w1x1+w2x2+...+wnxn+b
@@ -116,11 +116,11 @@ Index of notations to complete/learn more:
 		•	Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of Independent classes
 		•	Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
 
-9. **Gradient Descent**
+8. **Gradient Descent**
 	1. Stochastic
 	2. Batch
 	3. Mini Batch
-10.  **Vanishing Gradient**`❌[Incomplete]`
+9.  **Vanishing Gradient**`❌[Incomplete]`<br />
 	1. Cause
 	As you go backward through a deep network (from output toward the input layer), gradients are calculated via the chain rule. That means:
 	$$\frac{dL}{dx} = \frac{dL}{dz_n} \cdot \frac{dz_n}{dz_{n-1}} \cdot \ldots \cdot \frac{dz_2}{dz_1}$$
@@ -220,6 +220,26 @@ Index of notations to complete/learn more:
 		4.	Padding`❌[Incomplete]`
 	
 	6. Historical Performance
+	| Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
+	|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+	| Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
+	| VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
+	| VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
+	| ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
+	| ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
+	| ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
+	| ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
+	| ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
+	| ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
+	| InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
+	| InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
+	| MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
+	| MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
+	| DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
+	| DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
+	| DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
+	| NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
+	| NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
 	
 
 14. **Residual Connections**
