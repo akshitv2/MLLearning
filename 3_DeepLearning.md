@@ -104,7 +104,6 @@ Index of notations to complete/learn more:
 		2.	Why is Relu still more prevalent despite leaky relu problem?
 		<br/><br/>
 		3.	Sigmoid vs Softmax
-		
 | Feature | Sigmoid               | Softmax                    |
 |---------|-----------------------|----------------------------|
 | Case    | Binary Classification | Multi Class Classification |
