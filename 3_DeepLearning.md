@@ -116,9 +116,17 @@
 	2. Batch
 	3. Mini Batch
 10.  **Vanishing Gradient**`❌[Incomplete]`
-	1. Definition
+	1. Cause
 	As you go backward through a deep network (from output toward the input layer), gradients are calculated via the chain rule. That means:
-	
+	$$\frac{dL}{dx} = \frac{dL}{dz_n} \cdot \frac{dz_n}{dz_{n-1}} \cdot \ldots \cdot \frac{dz_2}{dz_1}$$
+
+	If each of those derivatives is a number less than 1 (like 0.5), and you multiply a bunch of them together… the product shrinks exponentially. Eventually the gradient becomes so small that it’s practically zero.
+	When that happens:
+	-	Weights stop updating
+	-	Neurons stop learning
+	-	Your model gets stuck
+	-	Early layers (closer to the input) get almost no gradient signal
+
 	1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute anything to the learning process, so the RNN ends up not learning any long-range dependencies
 
 11. **Exploding Gradient**
