@@ -34,8 +34,7 @@ Index of notations to complete/learn more:
 	2.	Common ones:
 		1.	**ReLU**
 		Rectified Linear Unit – f(x)=max(0,x)
-
-		![](/Images/3_deepLearning_relu_1.png)
+		$$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases} $$
 
 		![](/Images/3_deepLearning_relu_2.png)
 
@@ -68,12 +67,12 @@ Index of notations to complete/learn more:
 
 		4.	**Sigmoid (Logit)**
 
-		![](/Images/3_deepLearning_sigmoid_1.png)
+		$$f(x) = \frac{1}{1 + e^{-x}}$$
 		![](/Images/3_deepLearning_sigmoid_2.png)
 
-		When x→−∞ f(x)→0
-		When x→+∞ f(x)→1
-		At x=0, f(x)=0.5
+		When x→−∞ f(x)→0<br/>
+		When x→+∞ f(x)→1<br/>
+		At x=0, f(x)=0.5<br/>
 
 			Not used much anymore due to vanishing gradients (since derivative is close to 0).
 		Also computationally expensive.
@@ -93,7 +92,11 @@ Index of notations to complete/learn more:
 		
 		6.	**Softmax**
 
-		![](/Images/3_deepLearning_softmax_1.png)
+		$$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$
+		where:
+		- z<sub>i</sub> is the i-th logit (raw score)
+		- n is the totoal number of classes
+		- The output is a vector of probabilities that sums to 1
 
 		The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
 		`❌[Incomplete]`
@@ -295,12 +298,12 @@ Index of notations to complete/learn more:
 
 		![](/Images/3_deepLearning_lstm_1.png)
 		The set of equations representing an LSTM is shown as follows:
-		$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
-		$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
-		$$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$
-		$$g = \tanh(W_g h_{t-1} + U_g x_t)$$
-		$$c_t = (f * c_{t-1}) + (g * i)$$
-		$$h_t = \tanh(c_t) * o$$
+		<br/>$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
+		<br/>$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
+		<br/>$$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$
+		<br/>$$g = \tanh(W_g h_{t-1} + U_g x_t)$$
+		<br/>$$c_t = (f * c_{t-1}) + (g * i)$$
+		<br/>$$h_t = \tanh(c_t) * o$$
 		![](/Images/3_deepLearning_lstm_2.png)
 
 		Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>o</sub>, U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output vectors produced can be multiplied element-wise with another vector to define how much of the second vector can pass through the first one.
@@ -315,13 +318,10 @@ Index of notations to complete/learn more:
 		Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r. The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
 		<br/>
 		$$z = \sigma(W_z h_{t-1} + U_z x_t)$$
-		<br/>
 		$$r = \sigma(W_r h_{t-1} + U_r x_t)$$
-		<br/>
 		$$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$
-		<br/>
 		$$h_t = (z * c) + ((1 - z) * h_{t-1})$$
-		<br/>
+		
 
 
 		The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
@@ -340,6 +340,33 @@ Index of notations to complete/learn more:
 		
 
 16. **Normalization** `ℹ️[Mentioned in Data Processing]`
+	1. Batch Normalization
+	Batch Normalization (BatchNorm) is a technique used in deep learning to improve training speed, stability, and performance by normalizing the inputs of each layer. 
+	It helps reduce internal covariate shift, making training more efficient. `⚠️[Requires Investigation]`
+	Batch normalization (BatchNorm) is typically applied to the inputs of a layer, but it operates on the outputs of the previous layer
+	-	In fully connected (dense) layers: Batch Norm is applied to the activations (outputs) of the previous layer before passing them through the next layer.
+	-	In convolutional layers: It is applied to each channel independently before passing through the activation function.
+
+		![](/Images/3_deepLearning_batchnorm_1.png)
+
+		Steps:
+		1.	Calculate the Mean and Variance for each feature across a mini-batch<br/>
+		$$ \mu_B = \frac{1}{m} \sum_{i=1}^{m} x_i $$ 
+		$$ \sigma_B^2 = \frac{1}{m} \sum_{i=1}^{m} (x_i - \mu_B)^2 $$
+		2.	Normalize the Input<br/>
+		$$\hat{x}_i = \frac{x_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+		3. Scale and Shift with Learnable Parameters
+			$$y_i = \gamma \hat{x}_i + \beta$$
+			-	γ (scale) and β\betaβ (shift) are trainable parameters that allow the model to learn an optimal distribution.
+			-	If γ=sqrt(σ<sup>2</sup>) and β= μ<sub>B</sub>, the model can recover the original input distribution.
+	2. Questions
+		1.	Why Are γ and β Parameters Needed?
+			-	Without γ and β, BatchNorm would force activations to always have mean 0 and variance 1.
+			-	Some layers (e.g., ReLU, sigmoid) work better with specific distributions.
+			-	and β allow the network to retain representational power while benefiting from normalization.
+			-	The parameters automatically adapt to what the layer finds best during training
+
+
 17. **Data Augmentation**
 	1. Image Data Augmentation
 18.	Weight Initialization
@@ -362,7 +389,16 @@ Index of notations to complete/learn more:
 	1. SGD
 	2. RMSPROP
 	3. Adam
-22. Regularization 
+22. Regularization
+22.	Layers [TensorFlow]
+	1.	Core
+		1.	tf.keras.layers.Dense
+		2.	tf.keras.layers.Activation
+		3.	tf.keras.layers.Dropout
+		4.	tf.keras.layers.Flatten
+		5.	tf.keras.layers.Reshape
+		6.	tf.keras.layers.Lambda
+
 23. Transfer Learning
 	Transfer learning is a machine learning technique where a model trained on one task is reused (partially or fully) on a different but related task.
 	Instead of training a model from scratch, you start with a pretrained model that has already learned useful features from a large dataset, and you fine-tune it for your specific task.
