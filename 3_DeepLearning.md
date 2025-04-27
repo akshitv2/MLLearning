@@ -416,8 +416,6 @@ Index of notations to complete/learn more:
 	In a sequence-to-sequence model without attention, the encoder might struggle to remember important information from the beginning of a long sequence when processing it step-by-step (especially for longer sequences).
 	If we instead reverse the order of the input sequence, the information from the first time-step in the input has a shorter path length through the unrolled recurrent networks to the corresponding output. 
 
-
-
 	3. Practical Application:
 		1. Use of BOS and EOS: the BOS (Beginning of Sequence) and EOS (End of Sequence) tokens are used in the target language.
 		In many seq2seq tasks, the input and output sequences may not have the same length. The EOS token helps manage variable-length sequences by marking where the meaningful part of the sequence ends.
@@ -437,6 +435,8 @@ Index of notations to complete/learn more:
 		4. Cosine similarity is a static math formula, but if we use a deep learning model for the similarity function can we train it in conjunction with the rest of the model using back propogation?
 		- Yes, exactly! When you use a deep learning model for the similarity function instead of a static formula like cosine similarity, you can train it in conjunction with the rest of the model using backpropagation.This allows the model to adapt and learn the best way to measure similarity based on the data and task at hand.
 		The neural network-based similarity function is typically used in tasks like Siamese networks or triplet loss, where the model is trained to differentiate between similar and dissimilar inputs
+
+17. **Transformers**
 
 17. **Normalization** `ℹ️[Mentioned in Data Processing]`
 	1. Batch Normalization
