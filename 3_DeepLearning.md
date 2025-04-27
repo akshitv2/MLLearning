@@ -294,6 +294,9 @@ Index of notations to complete/learn more:
 
 		A few approaches exist towards minimizing the problem, such as proper initialization of the W matrix, more aggressive regularization, using ReLU instead of tanh activation, and pretraining the layers using unsupervised methods, the most popular solution is to use LSTM or GRU architectures.
 	4. Variants
+
+		![](/Images/3_deepLearning_rnn_4.png)
+
 		1. **Long short-term memory (LSTM)**
 
 		![](/Images/3_deepLearning_lstm_1.png)
@@ -342,28 +345,28 @@ Index of notations to complete/learn more:
 			And because 𝐶𝑡 becomes small, the gradients backpropagated through 𝐶t ​ will also vanish quickly.<br/>
 			Modern LSTM implementations do something special:<br/> They initialize the forget gate bias 𝑏𝑓 ​with a positive value, usually around 1 or 2.
 
-
-
-
 		2.**Gated recurrent unit (GRU)**
-		GRU is a variant of the LSTM.retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.
-		Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r. The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
-		<br/>
+		GRU is a variant of the LSTM.
+		- Retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.<br/>
+		- Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an update gate z and a reset gate r.
+		- The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is in LSTM.
+		
 		$$z = \sigma(W_z h_{t-1} + U_z x_t)$$
 		$$r = \sigma(W_r h_{t-1} + U_r x_t)$$
 		$$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$
 		$$h_t = (z * c) + ((1 - z) * h_{t-1})$$
 		
 
-
-		The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
-		The sigmoid function modulates the output of these functions between 0 and 1. The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the hidden state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
+		- The hidden state (usually noted as ℎ𝑡) carries all the information — both memory and output.
+		- The outputs of the update gate z and the reset gate r are both computed using a combination of the previous hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
+		- The sigmoid function modulates the output of these functions between 0 and 1. 
+		- The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the hidden state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
 
 		3. **Peephole LSTM**
 		4. **Bidirectional RNNs**
 		5. **Stateful RNNs**
 	5. **Topologies**
-	
+
 		![](/Images/3_deepLearning_rnn_5.png)
 
 		Many-to-many use case comes in two flavors. The first one is more popular and is better known as the seq2seq model. In this model, a sequence is read in and produces a context vector representing the input sequence, which is used to generate the output sequence.
@@ -371,8 +374,71 @@ Index of notations to complete/learn more:
 		Second many-to-many type has an output cell corresponding to each input cell. This kind of network is suited for use cases where there is a 1:1 correspondence between the input and output, such as time series. The major difference between this model and the seq2seq model is that the input does not have to be completely encoded before the decoding process begins.
 	6. 
 		
+16. **Encoder Decoer (Seq2Seq)**
+	The encoder-decoder architecture for recurrent neural networks is the standard neural machine translation method that rivals and in some cases outperforms classical statistical machine translation methods.
+	There are three main blocks in the encoder-decoder model,
+	- Encoder
+	- Hidden Vector
+	- Decoder
 
-16. **Normalization** `ℹ️[Mentioned in Data Processing]`
+	![](/Images/3_deepLearning_seq2seq1.png)
+
+	1. Encoder
+	-	Multiple RNN cells can be stacked together to form the encoder. RNN reads each inputs sequentially
+	-	For every timestep (each input) t, the hidden state (hidden vector) h is updated according to the input at that timestep X[i].
+	-	After all the inputs are read by encoder model, the final hidden state of the model represents the context/summary of the whole input sequence.
+	-	Example: Consider the input sequence “I am a Student” to be encoded. There will be totally 4 timesteps ( 4 tokens) for the Encoder model. At each time step, the hidden state h will be updated using the previous hidden state and the current input.
+	- At the first timestep t1, the previous hidden state h0 will be considered as zero or randomly chosen. So the first RNN cell will update the current hidden state with the first input and h0. Each layer outputs two things — updated hidden state and the output for each stage. The outputs at each stage are rejected and only the hidden states will be propagated to the next layer.
+	- At second timestep t2, the hidden state h1 and the second input X[2] will be given as input , and the hidden state h2 will be updated according to both inputs. Then the hidden state h1 will be updated with the new input and will produce the hidden state h2. This happens for all the four stages wrt example taken.
+	- Encoder Vector: This is the final hidden state produced from the encoder part of the model.
+
+	2. Decoder
+	- Decoder generates the output sequence by predicting the next output Yt given the hidden state ht
+	- The input for the decoder is the final hidden vector obtained at the end of encoder model.
+	- Each layer will have three inputs,final encoder hidden state called context vector, hidden vector from previous layer ht-1 and the previous layer output yt-1
+	- At the first layer, the output vector of encoder and the random symbol START, empty hidden state ht-1 will be given as input, the outputs obtained will be y1 and updated hidden state h1
+	- Output Layer: use Softmax activation function at the output layer to produce the probability distribution from a vector of values with the target class of high probability
+
+	3. Attention Mechanism
+	- Requirement: Encoder decoder has a fixed size context vector. A fixed-size vector implies that there's a fixed amount of information that we can store in our summary of the input sequence. Since large sequences have same amount of vector space as small ones, performance may degrade in sequence-to-sequence models for longer input sequences.
+	- To solve this was created a neural network architecture which allows us to build a unique context vector for every decoder time-step based on different weighted aggregations across all of the encoder hidden states.
+
+	- Basically provide a context vector for each encoding stage to decoder.
+	This attention mechanism was referred as an alignment model since it allows the decoder to search across the input sequence for the most relevant time-steps regardless of the temporal position of the decoder model.
+
+	- To align the decoder with correct encoder context we calculate an attention score which can be any function which scores how well they map.
+	Commonly used function:
+	- Dot Product
+	- Additive Attention (Bahdanau Attention)
+	- Cosine Similarity
+
+	- **Reversing the Sequence**:
+	In a sequence-to-sequence model without attention, the encoder might struggle to remember important information from the beginning of a long sequence when processing it step-by-step (especially for longer sequences).
+	If we instead reverse the order of the input sequence, the information from the first time-step in the input has a shorter path length through the unrolled recurrent networks to the corresponding output. 
+
+
+
+	3. Practical Application:
+		1. Use of BOS and EOS: the BOS (Beginning of Sequence) and EOS (End of Sequence) tokens are used in the target language.
+		In many seq2seq tasks, the input and output sequences may not have the same length. The EOS token helps manage variable-length sequences by marking where the meaningful part of the sequence ends.
+		teacher forcing is often used, where the true target (instead of the model's prediction) is fed into the decoder during the next timestep. The EOS token is crucial in this context because it helps the model recognize when to stop depending on the target’s true output.
+
+		2. Teacher Forcing: Teacher forcing is a training technique where, during sequence generation, the model is provided with the true target token from the previous timestep as input, rather than using its own prediction.
+		- 🟢 Pros: This helps the model learn faster and more accurately 
+		- 🔴 Cons: Can cause issues at inference time due to exposure bias, where the model struggles with its own predictions.
+	
+	4. Questions
+		1. then how does the decoder know which part of context to pick for which stage
+		- Attention Score: 
+		2. Is attention score calculated at point of decoding at each stage or encoding?
+		- The attention score is calculated at each stage of decoding, not during encoding. They are calculated for each encoder hidden state with respect to the current decoder hidden state.
+		3. Can we use deep learning functions for calculating attention score?
+		- Absolutely! Using deep learning models to calculate attention scores instead of using simple, predefined functions like dot product or cosine similarity is a powerful way to capture more complex relationships between the encoder and decoder states in tasks like machine translation, text summarization, and other sequence-to-sequence models.
+		4. Cosine similarity is a static math formula, but if we use a deep learning model for the similarity function can we train it in conjunction with the rest of the model using back propogation?
+		- Yes, exactly! When you use a deep learning model for the similarity function instead of a static formula like cosine similarity, you can train it in conjunction with the rest of the model using backpropagation.This allows the model to adapt and learn the best way to measure similarity based on the data and task at hand.
+		The neural network-based similarity function is typically used in tasks like Siamese networks or triplet loss, where the model is trained to differentiate between similar and dissimilar inputs
+
+17. **Normalization** `ℹ️[Mentioned in Data Processing]`
 	1. Batch Normalization
 	Batch Normalization (BatchNorm) is a technique used in deep learning to improve training speed, stability, and performance by normalizing the inputs of each layer. 
 	It helps reduce internal covariate shift, making training more efficient. `⚠️[Requires Investigation]`
