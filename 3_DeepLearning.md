@@ -74,7 +74,7 @@ Index of notations to complete/learn more:
 		When x→+∞ f(x)→1<br/>
 		At x=0, f(x)=0.5<br/>
 
-			Not used much anymore due to vanishing gradients (since derivative is close to 0).
+		Not used much anymore due to vanishing gradients (since derivative is close to 0).
 		Also computationally expensive.
 
 		5.	**Tanh**
@@ -267,7 +267,7 @@ Index of notations to complete/learn more:
 	Used for sequences where the value of last element does predict next. The value of the hidden state at any point in time is a function of the value of the hidden state at the previous time step, and the value of the input at the current time step.
 	$$h_t = \phi(h_{t-1}, X_t)$$
 
-	![](/Images/3_deepLearning_rnn_2.png)
+	![](/Images/3_deepLearning_rnn_2.png)<br/>
 	The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>t</sub>, passed
 	through a SoftMax activation, such that the resulting vector is a set of output probabilities.
 
@@ -297,21 +297,53 @@ Index of notations to complete/learn more:
 		1. **Long short-term memory (LSTM)**
 
 		![](/Images/3_deepLearning_lstm_1.png)
-		The set of equations representing an LSTM is shown as follows:
+		<br/>The set of equations representing an LSTM is shown as follows:
 		<br/>$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
 		<br/>$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
 		<br/>$$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$
-		<br/>$$g = \tanh(W_g h_{t-1} + U_g x_t)$$
-		<br/>$$c_t = (f * c_{t-1}) + (g * i)$$
+		<br/>$$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
+		<br/>$$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
 		<br/>$$h_t = \tanh(c_t) * o$$
 		![](/Images/3_deepLearning_lstm_2.png)
 
 		Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>o</sub>, U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output vectors produced can be multiplied element-wise with another vector to define how much of the second vector can pass through the first one.
 
 		The forget gate defines how much of the previous state h<sub>t-1</sub> you want to allow to pass through. The input gate defines how much of the newly computed state for the current input x<sub>t</sub> you want to let through, and the output gate defines how much of the internal state you want to expose to the next layer. The internal hidden state g is computed based on the current input x<sub>t</sub> and the previous hidden state h<sub>t-1</sub>
+		LSTM is a drop-in replacement for a SimpleRNN cell. LSTMs are resistant to the vanishing gradient problem.
+		1. Breakdown of Equations:
+			1. Cell State: (c) long term memory
+			2. Hidden State: (h) Short term output used for next time step
+			3. Forget:
+				 It decides what information to discard
+				<br/>$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
+				<br>C<sub>t</sub> = f<sub>t</sub> x C<sub>t-1</sub> + (New Stuff)
+				- Outputs values between 0 and 1.
+				- Multiplied element-wise with the previous cell state C_{t-1} to “forget” parts of it.
+			4. Input Gate:
+				When bringing in new information, we want to control how much of it gets saved into the cell state.
+				<br/>$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
+				and C<sub>t</sub> is the output and
+				i_t controls how much of the "new candidate memory
+				<br/>$$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
+				
+			5. Output Gate:
+				 Finally, when producing the next hidden state (h_t), the cell controls how much of the internal cell state to show to the outside world.
+				 The output gate affects only the hidden state ℎ𝑡 , not the cell state 𝐶𝑡​.
 
-		LSTM is a drop-in replacement for a SimpleRNN cell.
-		LSTMs are resistant to the vanishing gradient problem.
+		2. Important Questions:
+			1. **Are the gates static?**
+			- No the gates weights are trainable parameters
+			2. **Does sigmoid use lead to vanishing gradients?**
+			- For calculation of C_t <br/>$$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
+			Having a small f leads to vanishing gradients as output sinks to 0.<br/>
+			If the forget gate 𝑓𝑡  is near 0 (due to bad initial weights) it will multiply 𝐶𝑡-1 by something close to 0.<br/>
+			This erases most of the memory instantly.<br/>
+			As a result, the important long-term information vanishes.
+			And because 𝐶𝑡 becomes small, the gradients backpropagated through 𝐶t ​ will also vanish quickly.<br/>
+			Modern LSTM implementations do something special:<br/> They initialize the forget gate bias 𝑏𝑓 ​with a positive value, usually around 1 or 2.
+
+
+
 
 		2.**Gated recurrent unit (GRU)**
 		GRU is a variant of the LSTM.retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.
