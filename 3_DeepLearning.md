@@ -362,7 +362,7 @@ Index of notations to complete/learn more:
 		3. **Peephole LSTM**
 		4. **Bidirectional RNNs**
 		5. **Stateful RNNs**
-	5. **Topologies**
+	5. **Topologies**<br/>
 		![](/Images/3_deepLearning_rnn_5.png)
 
 		Many-to-many use case comes in two flavors. The first one is more popular and is better known as the seq2seq model. In this model, a sequence is read in and produces a context vector representing the input sequence, which is used to generate the output sequence.
