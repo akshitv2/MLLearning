@@ -400,6 +400,8 @@ Index of notations to complete/learn more:
 	- Output Layer: use Softmax activation function at the output layer to produce the probability distribution from a vector of values with the target class of high probability
 
 	3. Attention Mechanism
+	- Attention itself in Deep learning refers to the ability to evaluate while generating the output how much of different parts of input should be affecting
+	the output.
 	- Requirement: Encoder decoder has a fixed size context vector. A fixed-size vector implies that there's a fixed amount of information that we can store in our summary of the input sequence. Since large sequences have same amount of vector space as small ones, performance may degrade in sequence-to-sequence models for longer input sequences.
 	- To solve this was created a neural network architecture which allows us to build a unique context vector for every decoder time-step based on different weighted aggregations across all of the encoder hidden states.
 
@@ -437,6 +439,75 @@ Index of notations to complete/learn more:
 		The neural network-based similarity function is typically used in tasks like Siamese networks or triplet loss, where the model is trained to differentiate between similar and dissimilar inputs
 
 17. **Transformers**
+	1. Key Topics:
+		1. Positional Encoding `❌[Incomplete]`
+			Implemented orignally using Sinusoidal Positional Encoding.
+			It’s a fixed function (not learned) that uses sine and cosine waves of different frequencies to generate a unique positional pattern for each token in a sequence.
+
+			Even-indexed dimensions use sine; odd-indexed use cosine.
+
+			$$[text{PE}_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$
+			$$[text{PE}_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$
+
+			𝑝𝑜𝑠 = token position in the sequence (0, 1, 2, …)<br>
+			𝑖 = dimension index (0 to 𝑑<sub>model</sub>−1)<br>
+			𝑑<sub>model = total embedding dimension<br>
+
+			Each dimension in the embedding vector uses a sine or cosine wave with a different frequency. This makes each position unique and learnable by the model.
+		2. Attention `ℹ️[Mentioned in Encoder Decoder Attention Mechanism]`
+		3. Self Attention<br>
+		Self-attention is a mechanism that allows each word in a sentence to understand its relationship with other words within the same sentence.
+		4. Multi-head (self-)attention<br> `❌[Incomplete]`
+			The original transformer performs a (self-)attention function multiple times. A single set of the socalled weight matrices.
+			When you have several sets of these matrices, you have multiple attention heads.
+			The attention layer transforms the input vectors into query, key, and value matrices, which are then split into attention heads (hence, multi-head attention).
+			- The query word can be interpreted as the word for which we are calculating the attention function.
+			- The key and value words are the words to which we are paying attention.
+
+			This means 3 Weight matrices are created W<sub>K</sub>, W<sub>Q</sub> and W<sub>v</sub>.
+			For each word embedding x<sub>i</sub>is used to produce
+			- q<sub>i</sub> = x<sub>i</sub>W<sub>Q</sub>
+			- k<sub>i</sub> = x<sub>i</sub>W<sub>K</sub>
+			- v<sub>i</sub> = x<sub>i</sub>W<sub>V</sub>
+
+			This is used to produce the attention weight
+			- a<sub>i,j</sub> = q<sub>i</sub>.k<sub>j</sub>
+			where a<sub>i,j</sub> is the attention from word i to a word j.
+
+			d<sub>k</sub> being the dimension of key vector.
+			Thus 
+			$$a_{ij} = \text{softmax} \left( \frac{Q_i K_j^T}{\sqrt{d_k}} \right)$$
+
+		5. Residual and normalization layers
+			Encoder and decoder layers often combine neural networks with residual connections and normalization steps.
+	2. Questions:
+		1. **How are transformers similar to Encoder Decoder?**
+		2. **How ar they different?**
+			Seq2Seq with RNNs vs Transformers
+			1. Recurrent Layers in Seq2Seq (RNN/LSTM/GRU)
+			Encoder: Processes input sequence token by token, passing hidden states forward.
+			Decoder: Generates output sequence one token at a time, using previous hidden states.
+			Maintains sequential dependencies through recurrence.
+
+			2. Transformers: No Recurrence
+			Replace recurrence with self-attention and positional encodings.
+			Process the entire sequence in parallel.
+			Better at handling long-range dependencies and allows faster training.
+		3. **What is masking and why is it used in transformer?**
+			Masking is used to restrict which tokens are allowed to attend to others in the attention mechanism.
+			- Ensures proper training behavior (e.g., no peeking into future words).
+			- Simulates test-time left-to-right generation during training.
+			Types:
+			- Padding Mask: Ignores [PAD] tokens during attention.
+			- Look-Ahead (Causal) Mask: Prevents a token from attending to future tokens — essential for autoregressive tasks like text generation.
+			- Encoder-Decoder Mask: (Less common) Restricts attention from the decoder to specific encoder positions.
+
+
+	2. Questions
+		1. Why do we divide by root dk?
+		- The dot product of 𝑄 and 𝐾 can become very large, especially as the dimension of the key vectors 𝑑 𝑘 ​ increases. The larger the dot product value, the higher the attention score will be, and this can make the softmax function (which is used to normalize the scores into probabilities) behave poorly during training.
+		For large inputs, softmax behaves in a way that makes the output highly concentrated on the largest values (i.e., the softmax output for the largest value becomes close to 1, and all others become close to 0).
+
 
 17. **Normalization** `ℹ️[Mentioned in Data Processing]`
 	1. Batch Normalization
