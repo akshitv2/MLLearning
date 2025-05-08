@@ -501,6 +501,10 @@ Index of notations to complete/learn more:
 			- Padding Mask: Ignores [PAD] tokens during attention.
 			- Look-Ahead (Causal) Mask: Prevents a token from attending to future tokens — essential for autoregressive tasks like text generation.
 			- Encoder-Decoder Mask: (Less common) Restricts attention from the decoder to specific encoder positions.
+		4. Why not just use indices instead of positional encoding?
+			- A raw index (like just "0", "1", "2") isn’t differentiable and can't capture patterns like “this word is 3 tokens ahead”.
+
+			- Using sinusoidal positional encoding allows the model to generalize to longer sequences and recognize relative as well as absolute positions.
 
 
 	2. Questions

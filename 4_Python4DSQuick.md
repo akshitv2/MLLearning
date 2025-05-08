@@ -1,3 +1,7 @@
+<h1>Numpy Syntax and Code Help</h1>
+
+1. 
+
 <h1>Tensorflow Syntax and Code Help</h1>
 
 1. **tf.data.Dataset**
@@ -33,13 +37,14 @@
             dataset = dataset.filter(lambda x: x % 2 == 0)
             ```
 
-
-
-
 2. **PrefetchDataset (tensorflow.python.data.ops.prefetch_op._PrefetchDataset
 )**
     - Wraps another dataset and prefetches elements from it asynchronously to improve performance (not used directly)
     ```
     dataset = dataset.prefetch(buffer_size=AUTOTUNE)
     ```
-2. s
+3. Load Dataset
+    1. Txt:
+    ```
+    ```
+    
