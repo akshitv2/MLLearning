@@ -11,6 +11,84 @@
 4.  **Feature Selection**
 
 5.  **Sampling**
+	Process of selecting a subset from a larger group (called population) to make inferences about the whole.
+	(Too costly and inefficient to test whole)
+
+	1. Parameter vs Statistic
+	- Parameter: True numeric value describing the population
+	- Statistic: Numeric value derived from the sample.
+
+	2. Sampling Techniques
+		1. Probablity Sampling
+		- Every member of population has a non zero chance of being selected.
+			1. Simple Random Sampling
+			- Every individual has equal chance of being selected
+			- 🟢 Pros: Unbiased if true and easy to analyze
+			- 🔴 Cons: Impractical due to requiring full list of population
+			2. Stratified Sampling
+			- Divide population in to homogenous subgroups (strata) and take random samples from each
+			e.g: Divide by age
+			- 🟢 Pros: Representation of all groups
+			- 🔴 Cons: Requires complex design and knowledge to divide
+			3. Systematic Sampling
+			- Select every k-th item
+			- 🟢 Pros: Easy, good coverage
+			- 🔴 Cons: Hidden numerical patterns cause bias, also requires full list
+			4. Cluster  Sampling
+			- Divide population into clusters and select one or more entire clusters
+			- 🟢 Pros: Cheaper and convenient
+			- 🔴 Cons: Less precise than stratified, bias due to only some clusters
+			5. Mutli Stage Sampling
+			- Combines Several Sampling Methods
+		2. Non Probablity Sampling
+		- Individuals have either unknown or unequal chance of being selection
+			1. Convenience Sampling
+			- Sample whoever you can
+			- 🟢 Pros: Cheap and convenient
+			- 🔴 Cons: Extremely Biased
+			2. Purposive/Judgmental Sampling`❌[Incomplete]`
+			3. Quota Sampling`❌[Incomplete]`
+			4. Snowball Sampling`❌[Incomplete]`
+	3. Sampling Distributions
+	- Probablity distribution of a sample statistic 
+
+	4. Central Limit Theorem
+	- As sample size increases, sampling distribution of the mean tends to become normally distributed regardless of shape of population dist.
+	- When sample is large (usually n>=30)
+	- Sampling distribution should approximate normality to be valid
+
+	5. Standard Error
+	$$\text{SE} = \frac{s}{\sqrt{n}}$$
+	- Standard deviation of sampling dist
+	- Measures how much sample mean is expected to vary from sample to sample.
+	- Decreases as n increases
+
+	6. Law of large numbers
+	- As number of observations increase sample mean converges with true population mean
+
+	7. Sample size determination
+	- For Population Mean
+			$$n = \left( \frac{E}{Z \cdot \sigma} \right)^2$$
+		- 𝑛 = required sample size
+		- 𝑍 = Z-score corresponding to the confidence level (e.g., 1.96 for 95%)
+		- 𝜎 = population standard deviation (estimate if unknown)
+		- 𝐸 = desired margin of error
+	- For Population Proportion
+		$$n = \frac{Z^2 \cdot p \cdot (1 - p)}{E^2}$$
+		- Z = z-score corresponding to the desired confidence level
+		- 𝑝 = estimated population proportion
+		- 𝐸 = margin of error (in decimal form, e.g., 0.05 for 5%)
+
+	8. Margin of Error (E)
+	- Range within which true population parameter is expected to lie with level of confidence.
+
+
+	
+
+
+
+
+
 
 6.  **Normalization**
 
