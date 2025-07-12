@@ -116,7 +116,7 @@ Index of notations to complete/learn more:
         3. Sigmoid vs Softmax
 
            | Feature | Sigmoid | Softmax |
-                                                                                                                                                                     |---------|-----------------------|----------------------------|
+                                                                                                                                                                                |---------|-----------------------|----------------------------|
            | Case | Binary Classification | Multi Class Classification |
            | Independence| Each output is independent | Outputs are interdependent (probability distribution) |
            | Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |
@@ -169,8 +169,8 @@ Index of notations to complete/learn more:
 
 
 9. **Epoch**  
-One complete pass of the entire training dataset through the neural network.  
-1 epoch = the model has seen all N samples once.
+   One complete pass of the entire training dataset through the neural network.  
+   1 epoch = the model has seen all N samples once.
 10. **Vanishing Gradient**`❌[Incomplete]`
     1. Cause  
        As you go backward through a deep network (from output toward the input layer), gradients are calculated via
@@ -305,7 +305,7 @@ One complete pass of the entire training dataset through the neural network.
     6. Historical Performance
 
        | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                                                                        		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                                                                                                                                               		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
        | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
        | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
        | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
