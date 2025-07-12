@@ -19,7 +19,7 @@ Index of notations to complete/learn more:
     5. **Activation Function**: Applies a step function (threshold function) to determine the output:
        $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
 2. **Feed Forward Neural Networks**
-3. **Hidden Layers**  
+3. **Hidden Layers**<br>
    Layers between the input and output layers
 4. **Width of Model**
 5. **Weights and Biases**  
@@ -47,12 +47,12 @@ Index of notations to complete/learn more:
            $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases} $$
            ![](/Images/3_deepLearning_relu_2.png)
 
-        - Pros:
-            - Only negatively saturates
-            - Better Sparsity so less computation
-        - Cons:
-            - Dying RELU (Can get stuck at 0)
-            - Not differentiable at 0 (solved using f′(0)=0)
+            - Pros:
+                - Only negatively saturates
+                - Better Sparsity so less computation
+            - Cons:
+                - Dying RELU (Can get stuck at 0)
+                - Not differentiable at 0 (solved using f′(0)=0)
 
         2. **Leaky ReLU**
            $$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
@@ -89,17 +89,17 @@ Index of notations to complete/learn more:
               like sigmoid, tanh suffers from the vanishing gradient problem for very large or very small inputs and
               unpopular compared to RELU.
 
-            6. **Softmax**$$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$  
-               where:
-                - z<sub>i</sub> is the i-th logit (raw score)
-                - n is the totoal number of classes
-                - The output is a vector of probabilities that sums to 1   
-                  The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
-                  `❌[Incomplete]`
+        6. **Softmax**$$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$  
+           where:
+            - z<sub>i</sub> is the i-th logit (raw score)
+            - n is the totoal number of classes
+            - The output is a vector of probabilities that sums to 1   
+              The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
+              `❌[Incomplete]`
 
-            7. **Swish**
+        7. **Swish**
 
-            8. **GELU**
+        8. **GELU**
 
    <br/><br/>
     3. Questions:
@@ -108,9 +108,9 @@ Index of notations to complete/learn more:
         2. Why is Relu still more prevalent despite leaky relu problem?
            <br/><br/>
         3. Sigmoid vs Softmax
-       
+
            | Feature | Sigmoid | Softmax |
-           |---------|-----------------------|----------------------------|
+                                                                                        |---------|-----------------------|----------------------------|
            | Case | Binary Classification | Multi Class Classification |
            | Independence| Each output is independent | Outputs are interdependent (probability distribution) |
            | Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |
@@ -130,36 +130,50 @@ Index of notations to complete/learn more:
     2. Batch
     3. Mini Batch
 9. **Epoch**
-10. **Vanishing Gradient**`❌[Incomplete]`<br />
-    1. Cause
-       As you go backward through a deep network (from output toward the input layer), gradients are calculated via the
-       chain rule. That means:
-       $$\frac{dL}{dx} = \frac{dL}{dz_n} \cdot \frac{dz_n}{dz_{n-1}} \cdot \ldots \cdot \frac{dz_2}{dz_1}$$
-
-    If each of those derivatives is a number less than 1 (like 0.5), and you multiply a bunch of them together… the
-    product shrinks exponentially. Eventually the gradient becomes so small that it’s practically zero.
-    When that happens:
-    - Weights stop updating
-    - Neurons stop learning
-    - Your model gets stuck
-    - Early layers (closer to the input) get almost no gradient signal
+10. **Vanishing Gradient**`❌[Incomplete]`
+    1. Cause  
+       As you go backward through a deep network (from output toward the input layer), gradients are calculated via
+       the chain rule. That means:  
+       $$\frac{dL}{dx} = \frac{dL}{dz_n} \cdot \frac{dz_n}{dz_{n-1}} \cdot \ldots \cdot \frac{dz_2}{dz_1}$$  
+       If each of those derivatives is a number less than 1 (like 0.5), and you multiply a bunch of them together… the
+       product shrinks exponentially. Eventually the gradient becomes so small that it’s practically zero.When that
+       happens:
+        - Weights stop updating
+        - Neurons stop learning
+        - Your model gets stuck
+        - Early layers (closer to the input) get almost no gradient signal
 
     2. How to detect
-       Methods To Solve:
-       ✅ Use ReLU instead of sigmoid/tanh
-       ReLU’s derivative is 1 for positive values — no shrinking
-       ✅ Batch Normalization
-       Helps keep the activations and gradients in a healthy range
-       ✅ Residual Connections (ResNets)
-       Skip connections help gradients flow more easily through deep networks
-       ✅ Careful weight initialization
-       `⚠️[Requires Investigation]` Methods like He or Xavier initialization aim to preserve the scale of activations
+        1. Gradients Near Zero Monitor gradient norms:  
+           If the gradients are very small (like <10<sup>−6</sup> in early layers, you're likely facing vanishing
+           gradients. 
+            ```
+            for name, param in model.named_parameters():
+            if param.grad is not None:  
+            print(name, param.grad.norm())
+           ```
+
+       2. Weights Stop Updating  
+              Weights in early layers remain almost constant during training — a sign gradients are too small to change
+              them.
+       3. Slow or No Learning   
+          Loss stagnates or accuracy doesn't improve, especially early in training.
+
+    3. How to Solve  
+       Methods To Solve:  
+       ✅ Use ReLU instead of sigmoid/tanh  
+       ReLU’s derivative is 1 for positive values — no shrinking  
+       ✅ Batch Normalization  
+       Helps keep the activations and gradients in a healthy range  
+       ✅ Residual Connections (ResNets)  
+       Skip connections help gradients flow more easily through deep networks  
+       ✅ Careful weight initialization  
+       `⚠️[Requires Investigation]` Methods like He or Xavier initialization aim to preserve the scale of
+       activations  
        and gradients
 
-    3. How to Solve
-
-    1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute
-       anything to the learning process, so the RNN ends up not learning any long-range dependencies
+       1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute
+          anything to the learning process, so the RNN ends up not learning any long-range dependencies
 
 11. **Exploding Gradient**`❌[Incomplete]`
     Exploding gradients occur when the gradients (partial derivatives of the loss with respect to the model parameters)
@@ -250,7 +264,7 @@ Index of notations to complete/learn more:
     6. Historical Performance
 
        | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                      		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                                                                                       		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
        | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
        | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
        | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
