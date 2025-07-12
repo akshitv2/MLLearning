@@ -276,7 +276,7 @@ Index of notations to complete/learn more:
         2. **Different Types**:
 
            | Layer Type | Description | Input Type                                      | 
-                                                                                                                                                          |--------------------|--------------------------------------------------------------------|-------------------------------------------------|
+                                                                                                                                                                                |--------------------|--------------------------------------------------------------------|-------------------------------------------------|
            | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
            | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
            | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
@@ -299,7 +299,7 @@ Index of notations to complete/learn more:
         6. Historical Performance
 
            | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                                                                                                                                                                                                                                                                                                |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                                                                                                                                                                                                                                                                                                                                                                                      |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
            | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
            | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
            | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
@@ -787,6 +787,21 @@ Index of notations to complete/learn more:
            ⚠️ Not Always Optimal for Some Models – In some cases, alternative regularization methods like dropout or
            weight
            decay may work better.
+    3. Questions:
+        1. Why does L1 lead to sparseness but not L2?
+           The key difference comes from how L1 and L2 regularization affect the gradient during optimization.
+           - This means L1 applies a constant force (either +λ+ or −λ) that pushes small weights directly to zero. 
+           - When a weight is small enough, the optimizer finds it cheaper to set it to zero than to keep updating it. 
+           - This creates sparsity because many weights become exactly zero. 
+           - **L2 penalty adds the squared value of weights** 
+           - The L2 penalty is proportional to the weight itself, meaning large weights shrink a lot, but small weights shrink
+             very little. 
+           - Instead of making weights zero, L2 just makes all weights smaller and smoother, but never
+             eliminates them completely.
+           ![img.png](Images/3_deepLearning_Questions1.png)
+           ![img_1.png](Images/3_deepLearning_Questions2.png)
+
+        2.
 22. Layers [TensorFlow]
     1. Core
     1. tf.keras.layers.Dense
