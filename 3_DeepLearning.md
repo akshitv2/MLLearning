@@ -299,7 +299,7 @@ Index of notations to complete/learn more:
         6. Historical Performance
 
            | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                                                                                                                                                                                                                                                                                                                      |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+           |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
            | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
            | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
            | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
@@ -332,10 +332,10 @@ Index of notations to complete/learn more:
     - Enable successful training of networks with 100+ layers
 
 15. **Recurrent Neural Networks**
-    1. **Working**
+    1. **Working**  
        Used for sequences where the value of last element does predict next. The value of the hidden state at any point
        in time is a function of the value of the hidden state at the previous time step, and the value of the input at
-       the current time step.
+       the current time step.  
        $$h_t = \phi(h_{t-1}, X_t)$$
 
     ![](/Images/3_deepLearning_rnn_2.png)<br/>
