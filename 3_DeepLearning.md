@@ -81,7 +81,7 @@ Index of notations to complete/learn more:
            Also, computationally expensive.
            since σ'(x) max value is 0.25
 
-        5. **Tanh**![](/Images/3_deepLearning_tanh_1.png)$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$  
+        5. **Tanh**$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$  
            Output Range
             - tanh(x) outputs values in the range (-1, 1)
             - At x = 0, tanh(x) = 0
@@ -118,7 +118,6 @@ Index of notations to complete/learn more:
            | Independence| Each output is independent | Outputs are interdependent (probability distribution) |
            | Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |
            <br>
-
             - Sigmoid treats each class independently, meaning probabilities don’t sum to 1.
             - It can assign high probabilities to multiple classes at the same time, which is problematic when only one
               class
@@ -163,7 +162,6 @@ Index of notations to complete/learn more:
        Common batch sizes: 32, 64, 128  
        ✅Balance between speed and memory <br>✅Less noise than SGD  
        ⚠️Requires Tuning batch size
-
 
 9. **Epoch**  
    One complete pass of the entire training dataset through the neural network.  
@@ -302,7 +300,7 @@ Index of notations to complete/learn more:
     6. Historical Performance
 
        | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                                                                                                           		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                                                                                                                                                                                         		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
        | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
        | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
        | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
