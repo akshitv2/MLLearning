@@ -255,10 +255,12 @@ Index of notations to complete/learn more:
        goal of this process).
        It performs a convolution operation by multiplying its values with the pixel values of the input and summing them
        up. This results in a new matrix called a **feature map**.  
-       Pooling is not a learnable operation—it’s just a way to reduce the size of the feature map.
+       **Pooling** on the other hand is not a learnable operation—it’s just a way to reduce the size of the feature map.
        It takes the feature map (produced by convolution) and applies an operation like:
         - Max Pooling → Takes the maximum value in a small window (e.g., 2×2).
-        - Average Pooling → Takes the average of values in a small window.
+        - Average Pooling → Takes the average of values in a small window.  
+          Note: Both Pooling and convolution (unless stride = 1 and padded) reduce size of feature map but one of them
+          is a trainable operation and the other is a elementary downsample.
 
     3. **Need**  
        Images have a spatial structure (e.g., pixels in a face are related to nearby pixels). Fully connected layers
@@ -274,7 +276,7 @@ Index of notations to complete/learn more:
         2. **Different Types**:
 
            | Layer Type | Description | Input Type                                      | 
-                                 |--------------------|--------------------------------------------------------------------|-------------------------------------------------|
+                                                                                                                                                          |--------------------|--------------------------------------------------------------------|-------------------------------------------------|
            | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
            | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
            | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
@@ -283,44 +285,43 @@ Index of notations to complete/learn more:
 
         3. Params
 
-           - Kernel: eg. (5,5) specifies the kernel size used
-           - Padding: Refers to adding extra pixels around the input image before applying the convolution operation. This
-             is done to control the spatial size (height & width) of the output feature map.
-             Types:
-               1. Valid: No padding
-               2. Same: Zero Padding (output size = input size)
-           - Number of filters: Number of different feature maps generated
+            - Kernel: eg. (5,5) specifies the kernel size used
+            - Padding: Refers to adding extra pixels around the input image before applying the convolution operation.
+              This is done to control the spatial size (height & width) of the output feature map.  
+              Types:
+                1. Valid: No padding
+                2. Same: Zero Padding (output size = input size)
+            - Number of filters: Number of different feature maps generated
 
         4. Pooling`❌[Incomplete]`
         5. Padding`❌[Incomplete]`
 
-       6. Historical Performance
+        6. Historical Performance
 
-          | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                                                                                                                                                                       |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
-          | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
-          | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
-          | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
-          | ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
-          | ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
-          | ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
-          | ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
-          | ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
-          | ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
-          | InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
-          | InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
-          | MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
-          | MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
-          | DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
-          | DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
-          | DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
-          | NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
-          | NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
+           | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
+                                                                                                                                                                                                                                                                                                                                                                                                |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+           | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
+           | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
+           | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
+           | ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
+           | ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
+           | ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
+           | ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
+           | ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
+           | ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
+           | InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
+           | InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
+           | MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
+           | MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
+           | DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
+           | DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
+           | DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
+           | NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
+           | NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
 
-14. **Residual Connections**
+14. **Residual Connections**<br>
     Residual connections (also called skip connections) are a technique introduced in ResNet (Residual Networks) that
-    help train very deep neural networks by allowing the network to "skip" one or more layers.
-
+    help train very deep neural networks by allowing the network to "skip" one or more layers.  
     In very deep networks:
     - Training gets harder due to vanishing/exploding gradients
     - The network may start performing worse as depth increases (which is counterintuitive). Residual connections allow
@@ -736,7 +737,56 @@ Index of notations to complete/learn more:
     1. SGD
     2. RMSPROP
     3. Adam
-22. Regularization
+22. **Regularization**
+    1. **Definition**
+       Regularization is a technique used to prevent overfitting by adding constraints to a model.  
+       It is needed to prevent overfitting, improve generalization, and ensure stable training of models.  
+       Choosing model: (We Choose simplest model for a loss based on Occam’s Razor)  
+       min : {loss(Training Data|Model)}+λ∗𝑐omplexity(Model)  λ >= 0
+    2. **Types**
+        1. **L1 Lasso**
+           ![img.png](Images/3_deepLearning_L1_regularization.png)
+           L1 regularization adds the absolute values of the coefficients as a penalty to the loss function.  
+           When optimizing the loss function, L1 creates a diamond-shaped constraint region, which often intersects the
+           optimal solution at zero for some weights. `⚠️[Requires Investigation]`
+           <br> Important Properties
+            1. Sparsity Leads to Sparsity   
+               ✅Since it causes sparsity that means certain features get selected which gives underlying relationship of
+               data
+            2.
+        2. **L2 Ridge Regression**
+           ![img.png](Images/3_deepLearning_L2_regularization.png.png)
+           L2 regularization adds the squared values of the coefficients as a penalty.  
+           It reduces overfitting by shrinking the weights but does not lead to sparsity.  
+           ✅It prevents overfitting while keeping all features.  
+           ✅This makes it more stable (less sensitive) to small changes and works better when features are correlated.
+        3. **Elastic Net**<br>
+           Elastic Net combines L1 and L2 regularization, benefiting from both sparsity and weight shrinkage. It is
+           useful when dealing with highly correlated features.
+           ![img.png](Images/3_deepLearning_ElasticNet_regularization.png)
+        4. **Drop Regularization** (Mentioned Elsewhere)
+        5. **Early Stopping**<br>
+           Early stopping is a form of implicit regularization where training stops when the validation error starts
+           increasing, preventing overfitting.
+           ![img.png](Images/3_deepLearning_EarlyStopping_regularization.png)
+           Implemented in TensorFlow using patience
+           ```
+           early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True) 
+           # Restore best weights 
+           # Monitor validationloss 
+           # Stop if no improvement for 10 epochs
+           ```
+           Pros: <br>✅ Prevents Overfitting – Stops training before the model
+           memorizes noise. <br>✅ Reduces Training Time – Saves computational resources by stopping unnecessary
+           training. <br>✅
+           Automatically Selects Optimal Epoch – No need to manually tune the number of epochs.
+           Cons: Limitations of Early Stopping:    
+           ⚠️ May Stop Too Early – If patience is too low, training may stop before reaching the best
+           performance.  
+           ⚠️ Requires a Validation Set – Needs a separate validation set, reducing training data.  
+           ⚠️ Not Always Optimal for Some Models – In some cases, alternative regularization methods like dropout or
+           weight
+           decay may work better.
 22. Layers [TensorFlow]
     1. Core
     1. tf.keras.layers.Dense
