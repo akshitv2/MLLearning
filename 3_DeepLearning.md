@@ -246,10 +246,10 @@ Index of notations to complete/learn more:
        to clip gradients using the clipvalue or clipnorm parameter during optimizer construction, or by explicitly
        clipping gradients using tf.clip_by_value
 13. **Convolutional Neural Networks**
-    1. Definition
-       Convolutional Neural Networks (CNNs) are a type of deep learning model specifically designed for processing
+    1. **Definition**  
+       **Convolutional Neural Networks (CNNs)** are a type of deep learning model specifically designed for processing
        structured grid-like data, such as images.
-    2. Working
+    2. **Working**  
        These layers apply filters (kernels) to input images to extract important features like edges, textures, and
        patterns.
        Each filter slides over the input (convolution operation), producing a feature map.
