@@ -276,11 +276,11 @@ Index of notations to complete/learn more:
         2. **Different Types**:
 
            | Layer Type | Description | Input Type                                      | 
-           |--------------------|--------------------------------------------------------------------|-------------------------------------------------|
+           |------------|-------------|-------------------------------------------------|
            | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
            | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
            | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
-           | Conv2DTranspose | Used for upsampling (e.g., image segmentation, GANs)              | 2D data, like Conv2D but increases spatial size |
+           | Conv2DTranspose | Used for upsampling (e.g., image segmentation, GANs)             | 2D data, like Conv2D but increases spatial size |
            | Conv3DTranspose | Used for 3D upsampling, such as in medical image reconstruction | 3D data, like Conv3D but increases spatial size |
 
         3. Params
