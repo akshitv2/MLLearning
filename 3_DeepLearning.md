@@ -79,6 +79,7 @@ Index of notations to complete/learn more:
            When x→−∞ f(x)→0<br/>When x→+∞ f(x)→1<br/>At x=0, f(x)=0.5<br/>  
            Not used much anymore due to vanishing gradients (since derivative is close to 0).   
            Also, computationally expensive.
+           since σ'(x) max value is 0.25
 
         5. **Tanh**![](/Images/3_deepLearning_tanh_1.png)$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$  
            Output Range
@@ -86,8 +87,10 @@ Index of notations to complete/learn more:
             - At x = 0, tanh(x) = 0
             - As x → +∞, tanh(x) → 1
             - As x → -∞, tanh(x) → -1   
-              like sigmoid, tanh suffers from the vanishing gradient problem for very large or very small inputs and
+              like sigmoid, tanh suffers from the vanishing gradient problem (but not as aggressively) for very large or
+              very small inputs and
               unpopular compared to RELU.
+              Since tanh'(x) = 1 - tanh<sup>2</sup>(x) has a max value of 1
 
         6. **Softmax**$$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$  
            where:
@@ -105,12 +108,15 @@ Index of notations to complete/learn more:
     3. Questions:
         1. Why Non-Linearity Important?
            <br/><br/>
-        2. Why is Relu still more prevalent despite leaky relu problem?
-           <br/><br/>
+        2. Why is Relu still more prevalent despite leaky relu problem?  
+           Mostly due to simplicity to implement. Doesn't require hyperparameters like alpha and runs fast.  
+           Actually has similar accuracy to leaky relu in most problems and dying relu can be avoided by proper weight
+           init, normalization and proper learning rates.
+           Lastly sparsity is a feature not curse of Relu.
         3. Sigmoid vs Softmax
 
            | Feature | Sigmoid | Softmax |
-                                                                                        |---------|-----------------------|----------------------------|
+                                                                                                                                                                     |---------|-----------------------|----------------------------|
            | Case | Binary Classification | Multi Class Classification |
            | Independence| Each output is independent | Outputs are interdependent (probability distribution) |
            | Range | (0, 1) for each class | (0, 1) for each class, but all sum up to 1 |
@@ -124,12 +130,47 @@ Index of notations to complete/learn more:
             - Sigmoid is better than softmax in two main cases: Binary Classification & Multi-Label Classification of
               Independent classes
             - Softmax is computationally more expensive than sigmoid, especially as the number of classes increases.
+        4. Why is softmax e<sup>z<sub>i</sub></sup> and not z<sub>i</sub> when both sum to 1?
+           Zi has certain problems:
+            - Negative values break it e.g 1,2,-3
+            - It becomes a linear relationship. Exponential highlights larger values
+            - Exponential give heightened gradients instead of flatter ones.
 
-8. **Gradient Descent**
-    1. Stochastic
-    2. Batch
-    3. Mini Batch
-9. **Epoch**
+8. **Gradient Descent**  
+   It is the optimization algorithm used to minimize loss function by iteratively adjusting a model's parameters and at
+   core of DL.  
+   θ<sub>new</sub> = θ<sub>old</sub> - η⋅∇L(θ)  
+   where
+    - η is the learning rate (step size)
+    - ∇L(θ) is the gradient of the loss with respect to parameters
+
+   Types:
+    1. Stochastic Gradient Descent  
+       Uses only one training example per update.  
+       Update happens at every sample.  
+       "Stochastic" means random — each update uses a randomly chosen data point.  
+       ✅Faster Updates <br>✅Noisy Updates: Can help escape local minima  
+       ⚠️Less Stable <br>⚠️Noisy Updates: Can zigzag
+
+    2. Batch  
+       Computes the gradient using the entire dataset   
+       Update happens once per epoch  
+       Example: If your dataset has 10,000 samples, one update per 10,000 samples  
+       ✅Accurate Gradient  
+       ✅Smooth Convergence  
+       ⚠️Very slow for large Datasets  
+       ⚠️Consumes a lot of memory
+
+    3. Mini Batch (most common in practice)  
+       Uses a small subset (batch) of the data per update  
+       Common batch sizes: 32, 64, 128  
+       ✅Balance between speed and memory <br>✅Less noise than SGD  
+       ⚠️Requires Tuning batch size
+
+
+9. **Epoch**  
+One complete pass of the entire training dataset through the neural network.  
+1 epoch = the model has seen all N samples once.
 10. **Vanishing Gradient**`❌[Incomplete]`
     1. Cause  
        As you go backward through a deep network (from output toward the input layer), gradients are calculated via
@@ -146,18 +187,18 @@ Index of notations to complete/learn more:
     2. How to detect
         1. Gradients Near Zero Monitor gradient norms:  
            If the gradients are very small (like <10<sup>−6</sup> in early layers, you're likely facing vanishing
-           gradients. 
+           gradients.
             ```
             for name, param in model.named_parameters():
             if param.grad is not None:  
             print(name, param.grad.norm())
            ```
 
-       2. Weights Stop Updating  
-              Weights in early layers remain almost constant during training — a sign gradients are too small to change
-              them.
-       3. Slow or No Learning   
-          Loss stagnates or accuracy doesn't improve, especially early in training.
+        2. Weights Stop Updating  
+           Weights in early layers remain almost constant during training — a sign gradients are too small to change
+           them.
+        3. Slow or No Learning   
+           Loss stagnates or accuracy doesn't improve, especially early in training.
 
     3. How to Solve  
        Methods To Solve:  
@@ -172,8 +213,8 @@ Index of notations to complete/learn more:
        activations  
        and gradients
 
-       1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute
-          anything to the learning process, so the RNN ends up not learning any long-range dependencies
+        1. Temp: The effect of vanishing gradients is that gradients from time steps that are far away do not contribute
+           anything to the learning process, so the RNN ends up not learning any long-range dependencies
 
 11. **Exploding Gradient**`❌[Incomplete]`
     Exploding gradients occur when the gradients (partial derivatives of the loss with respect to the model parameters)
@@ -264,7 +305,7 @@ Index of notations to complete/learn more:
     6. Historical Performance
 
        | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                       		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                                                                                                                                        		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
        | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
        | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
        | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
