@@ -102,9 +102,7 @@ Index of notations to complete/learn more:
 
         7. **Swish**
 
-        8. **GELU**
-
-   <br/><br/>
+        8. **GELU**<br/><br/>
     3. Questions:
         1. Why Non-Linearity Important?
            <br/><br/>
@@ -114,7 +112,6 @@ Index of notations to complete/learn more:
            init, normalization and proper learning rates.
            Lastly sparsity is a feature not curse of Relu.
         3. Sigmoid vs Softmax
-
            | Feature | Sigmoid | Softmax |
            |---------|-----------------------|----------------------------|
            | Case | Binary Classification | Multi Class Classification |
