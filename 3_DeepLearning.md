@@ -250,76 +250,72 @@ Index of notations to complete/learn more:
        Each filter slides over the input (convolution operation), producing a feature map.
        The pooling layers are used to reduce the spatial size of feature maps while retaining important information
        After extracting features, the output is flattened and passed through dense layers.
+       The **kernel** is just a small matrix (e.g., 3×3 or 5×5) that slides over the input image (This kernel is trained
+       as
+       goal of this process).
+       It performs a convolution operation by multiplying its values with the pixel values of the input and summing them
+       up. This results in a new matrix called a **feature map**.  
+       Pooling is not a learnable operation—it’s just a way to reduce the size of the feature map.
+       It takes the feature map (produced by convolution) and applies an operation like:
+        - Max Pooling → Takes the maximum value in a small window (e.g., 2×2).
+        - Average Pooling → Takes the average of values in a small window.
 
-    The **kernel** is just a small matrix (e.g., 3×3 or 5×5) that slides over the input image (This kernel is trained as
-    goal of this process).
-    It performs a convolution operation by multiplying its values with the pixel values of the input and summing them
-    up. This results in a new matrix called a **feature map**.
-
-    Pooling is not a learnable operation—it’s just a way to reduce the size of the feature map.
-    It takes the feature map (produced by convolution) and applies an operation like:
-    - Max Pooling → Takes the maximum value in a small window (e.g., 2×2).
-    - Average Pooling → Takes the average of values in a small window.
-
-    3. Need
+    3. **Need**  
        Images have a spatial structure (e.g., pixels in a face are related to nearby pixels). Fully connected layers
        treat all pixels as independent, losing important spatial context. Filters detect edges, textures, and shapes
        locally and pass them deeper into the network.
 
-    4. Applications:
+    4. **Applications**:
+        - Style Transfer
+        - Object Recognition
 
-    - Style Transfer
+    5. **Components**
+        1. **Convolution**
+        2. **Different Types**:
 
-    5. Components
-        1. Convolution
-        1. Different Types:
-           | Layer Type | Description | Input Type |
-           |--------------------|--------------------------------------------------------------------|----------------------------------------------------|
-           | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)       |
-           | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)               |
-           | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video
-           frames)            |
-           | Conv2DTranspose | Used for upsampling (e.g., image segmentation, GANs)              | 2D data, like Conv2D
-           but increases spatial size |
-           | Conv3DTranspose | Used for 3D upsampling, such as in medical image reconstruction | 3D data, like Conv3D
-           but increases spatial size |
+           | Layer Type | Description | Input Type                                      | 
+                                 |--------------------|--------------------------------------------------------------------|-------------------------------------------------|
+           | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
+           | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
+           | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
+           | Conv2DTranspose | Used for upsampling (e.g., image segmentation, GANs)              | 2D data, like Conv2D but increases spatial size |
+           | Conv3DTranspose | Used for 3D upsampling, such as in medical image reconstruction | 3D data, like Conv3D but increases spatial size |
 
-        2. Params
+        3. Params
 
-        - Kernel: eg. (5,5) specifies the kernel size used
-        - Padding: Refers to adding extra pixels around the input image before applying the convolution operation. This
-          is done to control the spatial size (height & width) of the output feature map.
-          Types:
-            1. Valid: No padding
-            2. Same: Zero Padding (output size = input size)
-        - Number of filters: Number of different feature maps generated
+           - Kernel: eg. (5,5) specifies the kernel size used
+           - Padding: Refers to adding extra pixels around the input image before applying the convolution operation. This
+             is done to control the spatial size (height & width) of the output feature map.
+             Types:
+               1. Valid: No padding
+               2. Same: Zero Padding (output size = input size)
+           - Number of filters: Number of different feature maps generated
 
-        3. Pooling`❌[Incomplete]`
-        4. Padding`❌[Incomplete]`
+        4. Pooling`❌[Incomplete]`
+        5. Padding`❌[Incomplete]`
 
-    6. Historical Performance
+       6. Historical Performance
 
-       | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                                                                                                                                                                         		|------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
-       | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
-       | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
-       | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
-       | ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
-       | ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
-       | ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
-       | ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
-       | ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
-       | ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
-       | InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
-       | InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
-       | MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
-       | MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
-       | DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
-       | DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
-       | DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
-       | NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
-       | NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
-
+          | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
+                                                                                                                                                                                                                                                                       |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+          | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
+          | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
+          | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
+          | ResNet50         | 98        | 74.9%          | 92.1%          | 25.6M      | 107   | 58.2                               | 4.6                                |
+          | ResNet50V2       | 98        | 76.0%          | 93.0%          | 25.6M      | 103   | 45.6                               | 4.4                                |
+          | ResNet101        | 171       | 76.4%          | 92.8%          | 44.7M      | 209   | 89.6                               | 5.2                                |
+          | ResNet101V2      | 171       | 77.2%          | 93.8%          | 44.7M      | 205   | 72.7                               | 5.4                                |
+          | ResNet152        | 232       | 76.6%          | 93.1%          | 60.4M      | 311   | 127.4                              | 6.5                                |
+          | ResNet152V2      | 232       | 78.0%          | 94.2%          | 60.4M      | 307   | 107.5                              | 6.6                                |
+          | InceptionV3      | 92        | 77.9%          | 93.7%          | 23.9M      | 189   | 42.2                               | 6.9                                |
+          | InceptionResNetV2| 215       | 80.3%          | 95.3%          | 55.9M      | 449   | 130.2                              | 10.0                               |
+          | MobileNet        | 16        | 70.4%          | 89.5%          | 4.3M       | 55    | 22.6                               | 3.4                                |
+          | MobileNetV2      | 14        | 71.3%          | 90.1%          | 3.5M       | 105   | 25.9                               | 3.8                                |
+          | DenseNet121      | 33        | 75.0%          | 92.3%          | 8.1M       | 242   | 77.1                               | 5.4                                |
+          | DenseNet169      | 57        | 76.2%          | 93.2%          | 14.3M      | 338   | 96.4                               | 6.7                                |
+          | DenseNet201      | 80        | 77.4%          | 93.6%          | 20.2M      | 402   | 127.2                              | 6.7                                |
+          | NASNetMobile     | 23        | 74.4%          | 91.9%          | 5.3M       | 389   | 27.0                               | 6.7                                |
+          | NASNetLarge      | 343       | 82.5%          | 96.0%          | 88.9M      | 533   | 344.5                              | 20.0                               |
 
 14. **Residual Connections**
     Residual connections (also called skip connections) are a technique introduced in ResNet (Residual Networks) that
