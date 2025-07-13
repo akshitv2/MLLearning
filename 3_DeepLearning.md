@@ -336,26 +336,20 @@ Index of notations to complete/learn more:
        Used for sequences where the value of last element does predict next. The value of the hidden state at any point
        in time is a function of the value of the hidden state at the previous time step, and the value of the input at
        the current time step.  
-       $$h_t = \phi(h_{t-1}, X_t)$$
+       $$h_t = \phi(h_{t-1}, X_t)$$  
+        ![](/Images/3_deepLearning_rnn_2.png)<br/>The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>
+    t</sub>, passed through a SoftMax activation, such that the resulting vector is a set of output probabilities.
+       $$h_t = \tanh(Wh_{t-1} + Ux_t)$$
+       $$y_t = \mathrm{softmax}(Vh_t)$$
 
-    ![](/Images/3_deepLearning_rnn_2.png)<br/>
-    The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>
-    t</sub>, passed
-    through a SoftMax activation, such that the resulting vector is a set of output probabilities.
-
-    $$h_t = \tanh(Wh_{t-1} + Ux_t)$$
-    $$y_t = \mathrm{softmax}(Vh_t)$$
-
-    2. Backpropagation through time (BPTT)
+    2. Backpropagation through time (BPTT)  
        Just like traditional neural networks, training RNNs also involves the backpropagation of gradients. The
        difference, in this case, is that since the weights are shared by all time steps, the gradient at each output
        depends not only on the current time step but also on the previous ones. This process is called backpropagation
        through time.
+       `⚠️[Requires Investigation]` Check page: https://dennybritz.com/posts/wildml/recurrent-neural-networks-tutorial-part-3/
 
-    `⚠️[Requires Investigation]` Check
-    page: https://dennybritz.com/posts/wildml/recurrent-neural-networks-tutorial-part-3/
-
-    3. BPTT Vulnerable to exploding and vanishing gradients
+    3. BPTT Vulnerable to exploding and vanishing gradients<br>
        BPTT is just regular backpropagation but unrolled through time:
         - The RNN processes a sequence step by step, updating its hidden state at each time step.
         - During training, the loss from the final time step is backpropagated through all previous time steps, using
@@ -384,12 +378,12 @@ Index of notations to complete/learn more:
 
        ![](/Images/3_deepLearning_lstm_1.png)
        <br/>The set of equations representing an LSTM is shown as follows:
-       <br/>$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
-       <br/>$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
-       <br/>$$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$
-       <br/>$$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
-       <br/>$$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
-       <br/>$$h_t = \tanh(c_t) * o$$
+       <br/> $$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$  
+       <br/> $$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$  
+       <br/> $$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$  
+       <br/> $$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
+       <br/> $$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
+       <br/> $$h_t = \tanh(c_t) * o$$
        ![](/Images/3_deepLearning_lstm_2.png)
 
        Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with
