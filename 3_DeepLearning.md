@@ -446,9 +446,9 @@ Index of notations to complete/learn more:
           new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is
           in LSTM.
 
-       $$z = \sigma(W_z h_{t-1} + U_z x_t)$$
-       $$r = \sigma(W_r h_{t-1} + U_r x_t)$$
-       $$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$
+       $$z = \sigma(W_z h_{t-1} + U_z x_t)$$  
+       $$r = \sigma(W_r h_{t-1} + U_r x_t)$$  
+       $$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$  
        $$h_t = (z * c) + ((1 - z) * h_{t-1})$$
 
         - The hidden state (usually noted as ℎ𝑡) carries all the information — both memory and output.
