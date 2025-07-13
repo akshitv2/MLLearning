@@ -276,7 +276,7 @@ Index of notations to complete/learn more:
         2. **Different Types**:
 
            | Layer Type | Description | Input Type                                      | 
-                                                                  |------------|-------------|-------------------------------------------------|
+                                            |------------|-------------|-------------------------------------------------|
            | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
            | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
            | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
@@ -299,7 +299,7 @@ Index of notations to complete/learn more:
         6. Historical Performance
 
            | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                                  |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                            |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
            | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
            | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
            | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
@@ -364,7 +364,7 @@ Index of notations to complete/learn more:
           Especially bad with sigmoid and tanh, because their derivatives are small for large inputs.
         - Exploding Gradients:    If W_h has a norm > 1, each multiplication makes the gradient grow exponentially.
           Eventually the gradients blow up → unstable training, NaNs, etc.
-    3. Solution to exploding and vanishing `ℹ️[Mentioned in how to diagnose and fix both gradients]`
+    4. Solution to exploding and vanishing `ℹ️[Mentioned in how to diagnose and fix both gradients]`
         - Of the two, exploding gradients are more easily detectable. The gradients will become very large and turn into
           Not a Number (NaN), and the training process will crash . Exploding gradients can be controlled by clipping
           them at a predefined threshold.
@@ -372,99 +372,116 @@ Index of notations to complete/learn more:
        A few approaches exist towards minimizing the problem, such as proper initialization of the W matrix, more
        aggressive regularization, using ReLU instead of tanh activation, and pretraining the layers using unsupervised
        methods, the most popular solution is to use LSTM or GRU architectures.
-    4. Variants
+    5. Variants
 
        ![](/Images/3_deepLearning_rnn_4.png)
 
         1. **Long short-term memory (LSTM)**
+           ![](/Images/3_deepLearning_lstm_1.png)
+           <br/>The set of equations representing an LSTM is shown as follows:
+           <br/> $$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$  
+           <br/> $$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$  
+           <br/> $$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$  
+           <br/> $$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
+           <br/> $$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
+           <br/> $$h_t = \tanh(c_t) * o$$
+           ![](/Images/3_deepLearning_lstm_2.png)
 
-       ![](/Images/3_deepLearning_lstm_1.png)
-       <br/>The set of equations representing an LSTM is shown as follows:
-       <br/> $$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$  
-       <br/> $$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$  
-       <br/> $$o = \sigma(W_o h_{t-1} + U_o x_t + V_o c_{t-1})$$  
-       <br/> $$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
-       <br/> $$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
-       <br/> $$h_t = \tanh(c_t) * o$$
-       ![](/Images/3_deepLearning_lstm_2.png)
+           Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but
+           with
+           different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>
+           o</sub>,
+           U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output
+           vectors
+           produced can be multiplied element-wise with another vector to define how much of the second vector can
+           pass
+           through the first one.
 
-       Here, i, f, and o are the input, forget, and output gates. They are computed using the same equations but with
-       different parameter matrices W<sub>i</sub>, U<sub>i</sub>, W<sub>f</sub>, U<sub>f</sub>, and W<sub>o</sub>,
-       U<sub>o</sub>. The sigmoid function modulates the output of these gates between 0 and 1, so the output vectors
-       produced can be multiplied element-wise with another vector to define how much of the second vector can pass
-       through the first one.
+           The forget gate defines how much of the previous state h<sub>t-1</sub> you want to allow to pass through.
+           The
+           input gate defines how much of the newly computed state for the current input x<sub>t</sub> you want to
+           let
+           through, and the output gate defines how much of the internal state you want to expose to the next layer.
+           The
+           internal hidden state g is computed based on the current input x<sub>t</sub> and the previous hidden
+           state h<sub>
+           t-1</sub>
+           LSTM is a drop-in replacement for a SimpleRNN cell. LSTMs are resistant to the vanishing gradient
+           problem.
+            1. Breakdown of Equations:
+                1. Cell State: (c) long term memory
+                2. Hidden State: (h) Short term output used for next time step
+                3. Forget:
+                   It decides what information to discard
+                   <br/>$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
+                   <br>C<sub>t</sub> = f<sub>t</sub> x C<sub>t-1</sub> + (New Stuff)
+                    - Outputs values between 0 and 1.
+                    - Multiplied element-wise with the previous cell state C_{t-1} to “forget” parts of it.
+                4. Input Gate:
+                   When bringing in new information, we want to control how much of it gets saved into the cell
+                   state.
+                   <br/>$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
+                   and C<sub>t</sub> is the output and
+                   i_t controls how much of the "new candidate memory
+                   <br/>$$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
 
-       The forget gate defines how much of the previous state h<sub>t-1</sub> you want to allow to pass through. The
-       input gate defines how much of the newly computed state for the current input x<sub>t</sub> you want to let
-       through, and the output gate defines how much of the internal state you want to expose to the next layer. The
-       internal hidden state g is computed based on the current input x<sub>t</sub> and the previous hidden state h<sub>
-       t-1</sub>
-       LSTM is a drop-in replacement for a SimpleRNN cell. LSTMs are resistant to the vanishing gradient problem.
-        1. Breakdown of Equations:
-            1. Cell State: (c) long term memory
-            2. Hidden State: (h) Short term output used for next time step
-            3. Forget:
-               It decides what information to discard
-               <br/>$$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
-               <br>C<sub>t</sub> = f<sub>t</sub> x C<sub>t-1</sub> + (New Stuff)
-                - Outputs values between 0 and 1.
-                - Multiplied element-wise with the previous cell state C_{t-1} to “forget” parts of it.
-            4. Input Gate:
-               When bringing in new information, we want to control how much of it gets saved into the cell state.
-               <br/>$$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
-               and C<sub>t</sub> is the output and
-               i_t controls how much of the "new candidate memory
-               <br/>$$\mathrm{\tilde{C}}_{t} = \tanh(W_g h_{t-1} + U_g x_t)$$
+                5. Output Gate:
+                   Finally, when producing the next hidden state (h_t), the cell controls how much of the internal
+                   cell
+                   state to show to the outside world.
+                   The output gate affects only the hidden state ℎ𝑡 , not the cell state 𝐶𝑡​.
 
-            5. Output Gate:
-               Finally, when producing the next hidden state (h_t), the cell controls how much of the internal cell
-               state to show to the outside world.
-               The output gate affects only the hidden state ℎ𝑡 , not the cell state 𝐶𝑡​.
+            2. Important Questions:
+                1. **Are the gates static?**
+                    - Nothe gates weights are trainable parameters
 
-        2. Important Questions:
-            1. **Are the gates static?**
+                2. **Does sigmoid use lead to vanishing gradients?**
+                    - For calculation of C_t <br/>$$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
+                      Having a small f leads to vanishing gradients as output sinks to 0.<br/>
+                      If the forget gate 𝑓𝑡 is near 0 (due to bad initial weights) it will multiply 𝐶𝑡-1 by
+                      something close to
+                      0.<br/>
+                      This erases most of the memory instantly.<br/>
+                      As a result, the important long-term information vanishes.
+                      And because 𝐶𝑡 becomes small, the gradients backpropagated through 𝐶t ​ will also vanish
+                      quickly.<br/>
+                      Modern LSTM implementations do something special:<br/> They initialize the forget gate bias
+                      𝑏𝑓 ​with a
+                      positive value, usually around 1 or 2.
 
-            - No the gates weights are trainable parameters
+        2. **Gated recurrent unit (GRU)**
+           GRU is a variant of the LSTM.
+            - Retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is
+              simpler, and
+              is, therefore, faster to train, since fewer computations are needed to make updates to its hidden
+              state.<br/>
+            - Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two
+              gates, an
+              update gate z and a reset gate r.
+            - The update gate defines how much previous memory to keep around, and the reset gate defines how to
+              combine
+              the
+              new input with the previous memory. There is no persistent cell state distinct from the hidden state
+              as it is
+              in LSTM.
+              $$z = \sigma(W_z h_{t-1} + U_z x_t)$$  
+              $$r = \sigma(W_r h_{t-1} + U_r x_t)$$  
+              $$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$  
+              $$h_t = (z * c) + ((1 - z) * h_{t-1})$$
 
-            2. **Does sigmoid use lead to vanishing gradients?**
-
-            - For calculation of C_t <br/>$$c_t = (f * c_{t-1}) + (\mathrm{\tilde{C}}_{t} * i)$$
-              Having a small f leads to vanishing gradients as output sinks to 0.<br/>
-              If the forget gate 𝑓𝑡 is near 0 (due to bad initial weights) it will multiply 𝐶𝑡-1 by something close to
-              0.<br/>
-              This erases most of the memory instantly.<br/>
-              As a result, the important long-term information vanishes.
-              And because 𝐶𝑡 becomes small, the gradients backpropagated through 𝐶t ​ will also vanish quickly.<br/>
-              Modern LSTM implementations do something special:<br/> They initialize the forget gate bias 𝑏𝑓 ​with a
-              positive value, usually around 1 or 2.
-
-       2.**Gated recurrent unit (GRU)**
-       GRU is a variant of the LSTM.
-        - Retains the LSTM’s resistance to the vanishing gradient problem, but its internal structure is simpler, and
-          is, therefore, faster to train, since fewer computations are needed to make updates to its hidden state.<br/>
-        - Instead of the input (i), forgot (f), and output (o) gates in the LSTM cell, the GRU cell has two gates, an
-          update gate z and a reset gate r.
-        - The update gate defines how much previous memory to keep around, and the reset gate defines how to combine the
-          new input with the previous memory. There is no persistent cell state distinct from the hidden state as it is
-          in LSTM.
-
-       $$z = \sigma(W_z h_{t-1} + U_z x_t)$$  
-       $$r = \sigma(W_r h_{t-1} + U_r x_t)$$  
-       $$c = \tanh(W_c (h_{t-1} * r) + U_c x_t)$$  
-       $$h_t = (z * c) + ((1 - z) * h_{t-1})$$
-
-        - The hidden state (usually noted as ℎ𝑡) carries all the information — both memory and output.
-        - The outputs of the update gate z and the reset gate r are both computed using a combination of the previous
-          hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
-        - The sigmoid function modulates the output of these functions between 0 and 1.
-        - The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the hidden
-          state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The
-          parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
-
+            - The hidden state (usually noted as ℎ𝑡) carries all the information — both memory and output.
+            - The outputs of the update gate z and the reset gate r are both computed using a combination of the
+              previous
+              hidden state h<sub>t-1</sub> and the current input x<sub>t</sub>.
+            - The sigmoid function modulates the output of these functions between 0 and 1.
+            - The cell state c is computed as a function of the output of the reset gate r and input xt. Finally, the
+              hidden
+              state ht at time t is computed as a function of the cell state c and the previous hidden state ht-1. The
+              parameters Wz, Uz, Wr, Ur, and Wc, Uc, are earned during training.
         3. **Peephole LSTM**
         4. **Bidirectional RNNs**
         5. **Stateful RNNs**
-    5. **Topologies**
+           6**Topologies**
 
        ![](/Images/3_deepLearning_rnn_5.png)
 
@@ -476,7 +493,6 @@ Index of notations to complete/learn more:
        use cases where there is a 1:1 correspondence between the input and output, such as time series. The major
        difference between this model and the seq2seq model is that the input does not have to be completely encoded
        before the decoding process begins.
-    6.
 
 16. **Encoder Decoder (Seq2Seq)**
     The encoder-decoder architecture for recurrent neural networks is the standard neural machine translation method
@@ -489,68 +505,54 @@ Index of notations to complete/learn more:
     ![](/Images/3_deepLearning_seq2seq1.png)
 
     1. Encoder
-       - Multiple RNN cells can be stacked together to form the encoder. RNN reads each inputs sequentially
-       - For every timestep (each input) t, the hidden state (hidden vector) h is updated according to the input at that
-         timestep X[i].
-       - After all the inputs are read by encoder model, the final hidden state of the model represents the context/summary
-         of the whole input sequence and is called the **encoded vector**
-       - Example: Consider the input sequence “I am a Student” to be encoded. There will be totally 4 timesteps ( 4 tokens)
-         for the Encoder model. At each time step, the hidden state h will be updated using the previous hidden state and
-         the current input.
-       - At the first timestep t1, the previous hidden state h0 will be considered as zero or randomly chosen. So the first
-         RNN cell will update the current hidden state with the first input and h0. Each layer outputs two things — updated
-         hidden state and the output for each stage. The outputs at each stage are rejected and only the hidden states will
-         be propagated to the next layer.
-       - At second timestep t2, the hidden state h1 and the second input X[2] will be given as input , and the hidden state
-         h2 will be updated according to both inputs. Then the hidden state h1 will be updated with the new input and will
-         produce the hidden state h2. This happens for all the four stages wrt example taken.
-       - Encoded Vector: This is the final hidden state produced from the encoder part of the model.
-       - Real World Application Note: In real world we usually use more than one layer of RNN/LSTM/GRU at each timestep. In
-         this architecture the Layer 1 RNN at timestep t actually gets hidden state from Layer 1 RNN at timestep t-1 and
-         layer 2 t from layer 2 t-1 i.e. hidden states flow horizontally too and not just final hidden state for each
-         timestep.
+        - Multiple RNN cells can be stacked together to form the encoder. RNN reads each inputs sequentially
+        - For every timestep (each input) t, the hidden state (hidden vector) h is updated according to the input at
+          that
+          timestep X[i].
+        - After all the inputs are read by encoder model, the final hidden state of the model represents the
+          context/summary
+          of the whole input sequence and is called the **encoded vector**
+        - Example: Consider the input sequence “I am a Student” to be encoded. There will be totally 4 timesteps ( 4
+          tokens)
+          for the Encoder model. At each time step, the hidden state h will be updated using the previous hidden state
+          and
+          the current input.
+        - At the first timestep t1, the previous hidden state h0 will be considered as zero or randomly chosen. So the
+          first
+          RNN cell will update the current hidden state with the first input and h0. Each layer outputs two things —
+          updated
+          hidden state and the output for each stage. The outputs at each stage are rejected and only the hidden states
+          will
+          be propagated to the next layer.
+        - At second timestep t2, the hidden state h1 and the second input X[2] will be given as input , and the hidden
+          state
+          h2 will be updated according to both inputs. Then the hidden state h1 will be updated with the new input and
+          will
+          produce the hidden state h2. This happens for all the four stages wrt example taken.
+        - Encoded Vector: This is the final hidden state produced from the encoder part of the model.
+        - Real World Application Note: In real world we usually use more than one layer of RNN/LSTM/GRU at each
+          timestep. In
+          this architecture the Layer 1 RNN at timestep t actually gets hidden state from Layer 1 RNN at timestep t-1
+          and
+          layer 2 t from layer 2 t-1 i.e. hidden states flow horizontally too and not just final hidden state for each
+          timestep.
 
     2. Decoder
 
-       - Decoder generates the output sequence by predicting the next output Yt given the hidden state ht
-       - The input for the decoder is the final hidden vector obtained at the end of encoder model.
-       - Each layer will have three inputs,final encoder hidden state called context vector, hidden vector from previous
-         layer ht-1 and the previous layer output yt-1
-       - At the first layer, the output vector of encoder and the random symbol START, empty hidden state ht-1 will be
-         given as input, the outputs obtained will be y1 and updated hidden state h1
-       - Output Layer: use Softmax activation function at the output layer to produce the probability distribution from a
-         vector of values with the target class of high probability
+        - Decoder generates the output sequence by predicting the next output Yt given the hidden state ht
+        - The input for the decoder is the final hidden vector obtained at the end of encoder model.
+        - Each layer will have three inputs,final encoder hidden state called context vector, hidden vector from
+          previous
+          layer ht-1 and the previous layer output yt-1
+        - At the first layer, the output vector of encoder and the random symbol START, empty hidden state ht-1 will be
+          given as input, the outputs obtained will be y1 and updated hidden state h1
+        - Output Layer: use Softmax activation function at the output layer to produce the probability distribution from
+          a
+          vector of values with the target class of high probability
 
-    3. Attention Mechanism
+    3. Attention Mechanism `ℹ️[Mentioned in Attention Mechanism]`
 
-       - Attention itself in Deep learning refers to the ability to evaluate while generating the output how much of
-         different parts of input should be affecting
-         the output.
-       - Requirement: Encoder decoder has a fixed size context vector. A fixed-size vector implies that there's a fixed
-         amount of information that we can store in our summary of the input sequence. Since large sequences have same
-         amount of vector space as small ones, performance may degrade in sequence-to-sequence models for longer input
-         sequences.
-       - To solve this was created a neural network architecture which allows us to build a unique context vector for every
-         decoder time-step based on different weighted aggregations across all of the encoder hidden states.
-
-       - Basically provide a context vector for each encoding stage to decoder.
-         This attention mechanism was referred as an alignment model since it allows the decoder to search across the input
-         sequence for the most relevant time-steps regardless of the temporal position of the decoder model.
-
-       - To align the decoder with correct encoder context we calculate an attention score which can be any function which
-         scores how well they map.
-         Commonly used function:
-       - Dot Product
-       - Additive Attention (Bahdanau Attention)
-       - Cosine Similarity
-
-       - **Reversing the Sequence**:
-         In a sequence-to-sequence model without attention, the encoder might struggle to remember important information
-         from the beginning of a long sequence when processing it step-by-step (especially for longer sequences).
-         If we instead reverse the order of the input sequence, the information from the first time-step in the input has a
-         shorter path length through the unrolled recurrent networks to the corresponding output.
-
-    4. Practical Application:
+    4. Practical Implementation:
         1. Use of BOS and EOS: the BOS (Beginning of Sequence) and EOS (End of Sequence) tokens are used in the target
            language.
            In many seq2seq tasks, the input and output sequences may not have the same length. The EOS token helps
@@ -563,33 +565,71 @@ Index of notations to complete/learn more:
            provided with the true target token from the previous timestep as input, rather than using its own
            prediction.
 
-        - 🟢 Pros: This helps the model learn faster and more accurately
-        - 🔴 Cons: Can cause issues at inference time due to exposure bias, where the model struggles with its own
-          predictions.
+           - ✅ Pros: This helps the model learn faster and more accurately
+           - ⚠️ Cons: Can cause issues at inference time due to exposure bias, where the model struggles with its own
+             predictions.
+       
+       3. **Reversing the Sequence**:
+          In a sequence-to-sequence model without attention, the encoder might struggle to remember important
+          information from the beginning of a long sequence when processing it step-by-step (especially for longer
+          sequences).
+          If we instead reverse the order of the input sequence, the information from the first time-step in the
+          input has a shorter path length through the unrolled recurrent networks to the corresponding output.
 
     5. Questions
-        1. then how does the decoder know which part of context to pick for which stage  
-           - Attention Score:
+        1. then how does the decoder know which part of context to pick for which stage
+            - Attention Score:
 
-        2. Is attention score calculated at point of decoding at each stage or encoding?  
-           - The attention score is calculated at each stage of decoding, not during encoding. They are calculated for each
-             encoder hidden state with respect to the current decoder hidden state.
+        2. Is attention score calculated at point of decoding at each stage or encoding?
+            - The attention score is calculated at each stage of decoding, not during encoding. They are calculated for
+              each
+              encoder hidden state with respect to the current decoder hidden state.
 
-        3. Can we use deep learning functions for calculating attention score?  
-           - Absolutely! Using deep learning models to calculate attention scores instead of using simple, predefined
-             functions like dot product or cosine similarity is a powerful way to capture more complex relationships
-             between the encoder and decoder states in tasks like machine translation, text summarization, and other
-             sequence-to-sequence models.
+        3. Can we use deep learning functions for calculating attention score?
+            - Absolutely! Using deep learning models to calculate attention scores instead of using simple, predefined
+              functions like dot product or cosine similarity is a powerful way to capture more complex relationships
+              between the encoder and decoder states in tasks like machine translation, text summarization, and other
+              sequence-to-sequence models.
 
         4. Cosine similarity is a static math formula, but if we use a deep learning model for the similarity function
            can we train it in conjunction with the rest of the model using back propagation?
-           - Yes, exactly! When you use a deep learning model for the similarity function instead of a static formula like
-             cosine similarity, you can train it in conjunction with the rest of the model using backpropagation.This
-             allows the model to adapt and learn the best way to measure similarity based on the data and task at hand.
-             The neural network-based similarity function is typically used in tasks like Siamese networks or triplet loss,
-             where the model is trained to differentiate between similar and dissimilar inputs
+            - Yes, exactly! When you use a deep learning model for the similarity function instead of a static formula
+              like
+              cosine similarity, you can train it in conjunction with the rest of the model using backpropagation.This
+              allows the model to adapt and learn the best way to measure similarity based on the data and task at hand.
+              The neural network-based similarity function is typically used in tasks like Siamese networks or triplet
+              loss,
+              where the model is trained to differentiate between similar and dissimilar inputs
 
-17. **Transformers**
+17. **Attention Mechanism**
+    1. **Definition**
+       Attention itself in Deep learning refers to the ability to evaluate while generating the output how much of
+       different parts of input should be affecting
+       the output.
+    2. **Need**
+       Encoder decoder has a fixed size context vector. A fixed-size vector implies that there's a fixed
+       amount of information that we can store in our summary of the input sequence. Since large sequences have same
+       amount of vector space as small ones, performance may degrade in sequence-to-sequence models for longer input
+       sequences.
+    3. **Solution**
+       To solve this Attention provides a neural network architecture which allows us to build a unique context vector
+       for every
+       decoder time-step based on different weighted aggregations across all the encoder hidden states.
+        - Basically provide a context vector for each encoding stage to decoder.
+          This attention mechanism was referred as an alignment model since it allows the decoder to search across the
+          input
+          sequence for the most relevant time-steps regardless of the temporal position of the decoder model.
+
+        - To align the decoder with correct encoder context we calculate an attention score which can be any function
+          which
+          scores how well they map.
+          Commonly used function:
+            - Dot Product
+            - Additive Attention (Bahdanau Attention)
+            - Cosine Similarity
+        
+
+18. **Transformers**
     1. Key Topics:
         1. Positional Encoding `❌[Incomplete]`
            Implemented originally using Sinusoidal Positional Encoding.
@@ -597,7 +637,6 @@ Index of notations to complete/learn more:
            unique positional pattern for each token in a sequence.
 
            Even-indexed dimensions use sine; odd-indexed use cosine.
-
            $$[text{PE}_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$
            $$[text{PE}_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$
 
@@ -607,12 +646,12 @@ Index of notations to complete/learn more:
 
            Each dimension in the embedding vector uses a sine or cosine wave with a different frequency. This makes each
            position unique and learnable by the model.
-        2. Attention `ℹ️[Mentioned in Encoder Decoder Attention Mechanism]`
+        2. Attention `ℹ️[Mentioned in Attention Mechanism]`
         3. Self Attention<br>
            Self-attention is a mechanism that allows each word in a sentence to understand its relationship with other
            words within the same sentence.
         4. Multi-head (self-)attention<br> `❌[Incomplete]`
-           The original transformer performs a (self-)attention function multiple times. A single set of the socalled
+           The original transformer performs a (self-)attention function multiple times. A single set of the so-called
            weight matrices.
            When you have several sets of these matrices, you have multiple attention heads.
            The attention layer transforms the input vectors into query, key, and value matrices, which are then split
@@ -674,7 +713,7 @@ Index of notations to complete/learn more:
           For large inputs, softmax behaves in a way that makes the output highly concentrated on the largest values (
           i.e., the softmax output for the largest value becomes close to 1, and all others become close to 0).
 
-17. **Normalization** `ℹ️[Mentioned in Data Processing]`
+19. **Normalization** `ℹ️[Mentioned in Data Processing]`
     1. Batch Normalization<br>
        Batch Normalization (BatchNorm) is a technique used in deep learning to improve training speed, stability, and
        performance by normalizing the inputs of each layer.
