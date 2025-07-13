@@ -636,8 +636,8 @@ Index of notations to complete/learn more:
            It’s a fixed function (not learned) that uses sine and cosine waves of different frequencies to generate a
            unique positional pattern for each token in a sequence.
 
-           Even-indexed dimensions use sine; odd-indexed use cosine.
-           $$[text{PE}_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$
+           Even-indexed dimensions use sine; odd-indexed use cosine.  
+           $$[text{PE}_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$  
            $$[text{PE}_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)]$$
 
            𝑝𝑜𝑠 = token position in the sequence (0, 1, 2, …)<br>
