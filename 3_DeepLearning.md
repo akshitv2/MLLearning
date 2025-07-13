@@ -276,7 +276,7 @@ Index of notations to complete/learn more:
         2. **Different Types**:
 
            | Layer Type | Description | Input Type                                      | 
-                                                       |------------|-------------|-------------------------------------------------|
+                                                                  |------------|-------------|-------------------------------------------------|
            | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
            | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
            | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
@@ -299,7 +299,7 @@ Index of notations to complete/learn more:
         6. Historical Performance
 
            | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-                                                       |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                                  |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
            | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
            | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
            | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
@@ -478,76 +478,79 @@ Index of notations to complete/learn more:
        before the decoding process begins.
     6.
 
-16. **Encoder Decoer (Seq2Seq)**
+16. **Encoder Decoder (Seq2Seq)**
     The encoder-decoder architecture for recurrent neural networks is the standard neural machine translation method
     that rivals and in some cases outperforms classical statistical machine translation methods.
     There are three main blocks in the encoder-decoder model,
     - Encoder
-    - Hidden Vector
+    - Encoded Vector
     - Decoder
 
     ![](/Images/3_deepLearning_seq2seq1.png)
 
     1. Encoder
-
-    - Multiple RNN cells can be stacked together to form the encoder. RNN reads each inputs sequentially
-    - For every timestep (each input) t, the hidden state (hidden vector) h is updated according to the input at that
-      timestep X[i].
-    - After all the inputs are read by encoder model, the final hidden state of the model represents the context/summary
-      of the whole input sequence.
-    - Example: Consider the input sequence “I am a Student” to be encoded. There will be totally 4 timesteps ( 4 tokens)
-      for the Encoder model. At each time step, the hidden state h will be updated using the previous hidden state and
-      the current input.
-    - At the first timestep t1, the previous hidden state h0 will be considered as zero or randomly chosen. So the first
-      RNN cell will update the current hidden state with the first input and h0. Each layer outputs two things — updated
-      hidden state and the output for each stage. The outputs at each stage are rejected and only the hidden states will
-      be propagated to the next layer.
-    - At second timestep t2, the hidden state h1 and the second input X[2] will be given as input , and the hidden state
-      h2 will be updated according to both inputs. Then the hidden state h1 will be updated with the new input and will
-      produce the hidden state h2. This happens for all the four stages wrt example taken.
-    - Encoder Vector: This is the final hidden state produced from the encoder part of the model.
+       - Multiple RNN cells can be stacked together to form the encoder. RNN reads each inputs sequentially
+       - For every timestep (each input) t, the hidden state (hidden vector) h is updated according to the input at that
+         timestep X[i].
+       - After all the inputs are read by encoder model, the final hidden state of the model represents the context/summary
+         of the whole input sequence and is called the **encoded vector**
+       - Example: Consider the input sequence “I am a Student” to be encoded. There will be totally 4 timesteps ( 4 tokens)
+         for the Encoder model. At each time step, the hidden state h will be updated using the previous hidden state and
+         the current input.
+       - At the first timestep t1, the previous hidden state h0 will be considered as zero or randomly chosen. So the first
+         RNN cell will update the current hidden state with the first input and h0. Each layer outputs two things — updated
+         hidden state and the output for each stage. The outputs at each stage are rejected and only the hidden states will
+         be propagated to the next layer.
+       - At second timestep t2, the hidden state h1 and the second input X[2] will be given as input , and the hidden state
+         h2 will be updated according to both inputs. Then the hidden state h1 will be updated with the new input and will
+         produce the hidden state h2. This happens for all the four stages wrt example taken.
+       - Encoded Vector: This is the final hidden state produced from the encoder part of the model.
+       - Real World Application Note: In real world we usually use more than one layer of RNN/LSTM/GRU at each timestep. In
+         this architecture the Layer 1 RNN at timestep t actually gets hidden state from Layer 1 RNN at timestep t-1 and
+         layer 2 t from layer 2 t-1 i.e. hidden states flow horizontally too and not just final hidden state for each
+         timestep.
 
     2. Decoder
 
-    - Decoder generates the output sequence by predicting the next output Yt given the hidden state ht
-    - The input for the decoder is the final hidden vector obtained at the end of encoder model.
-    - Each layer will have three inputs,final encoder hidden state called context vector, hidden vector from previous
-      layer ht-1 and the previous layer output yt-1
-    - At the first layer, the output vector of encoder and the random symbol START, empty hidden state ht-1 will be
-      given as input, the outputs obtained will be y1 and updated hidden state h1
-    - Output Layer: use Softmax activation function at the output layer to produce the probability distribution from a
-      vector of values with the target class of high probability
+       - Decoder generates the output sequence by predicting the next output Yt given the hidden state ht
+       - The input for the decoder is the final hidden vector obtained at the end of encoder model.
+       - Each layer will have three inputs,final encoder hidden state called context vector, hidden vector from previous
+         layer ht-1 and the previous layer output yt-1
+       - At the first layer, the output vector of encoder and the random symbol START, empty hidden state ht-1 will be
+         given as input, the outputs obtained will be y1 and updated hidden state h1
+       - Output Layer: use Softmax activation function at the output layer to produce the probability distribution from a
+         vector of values with the target class of high probability
 
     3. Attention Mechanism
 
-    - Attention itself in Deep learning refers to the ability to evaluate while generating the output how much of
-      different parts of input should be affecting
-      the output.
-    - Requirement: Encoder decoder has a fixed size context vector. A fixed-size vector implies that there's a fixed
-      amount of information that we can store in our summary of the input sequence. Since large sequences have same
-      amount of vector space as small ones, performance may degrade in sequence-to-sequence models for longer input
-      sequences.
-    - To solve this was created a neural network architecture which allows us to build a unique context vector for every
-      decoder time-step based on different weighted aggregations across all of the encoder hidden states.
+       - Attention itself in Deep learning refers to the ability to evaluate while generating the output how much of
+         different parts of input should be affecting
+         the output.
+       - Requirement: Encoder decoder has a fixed size context vector. A fixed-size vector implies that there's a fixed
+         amount of information that we can store in our summary of the input sequence. Since large sequences have same
+         amount of vector space as small ones, performance may degrade in sequence-to-sequence models for longer input
+         sequences.
+       - To solve this was created a neural network architecture which allows us to build a unique context vector for every
+         decoder time-step based on different weighted aggregations across all of the encoder hidden states.
 
-    - Basically provide a context vector for each encoding stage to decoder.
-      This attention mechanism was referred as an alignment model since it allows the decoder to search across the input
-      sequence for the most relevant time-steps regardless of the temporal position of the decoder model.
+       - Basically provide a context vector for each encoding stage to decoder.
+         This attention mechanism was referred as an alignment model since it allows the decoder to search across the input
+         sequence for the most relevant time-steps regardless of the temporal position of the decoder model.
 
-    - To align the decoder with correct encoder context we calculate an attention score which can be any function which
-      scores how well they map.
-      Commonly used function:
-    - Dot Product
-    - Additive Attention (Bahdanau Attention)
-    - Cosine Similarity
+       - To align the decoder with correct encoder context we calculate an attention score which can be any function which
+         scores how well they map.
+         Commonly used function:
+       - Dot Product
+       - Additive Attention (Bahdanau Attention)
+       - Cosine Similarity
 
-    - **Reversing the Sequence**:
-      In a sequence-to-sequence model without attention, the encoder might struggle to remember important information
-      from the beginning of a long sequence when processing it step-by-step (especially for longer sequences).
-      If we instead reverse the order of the input sequence, the information from the first time-step in the input has a
-      shorter path length through the unrolled recurrent networks to the corresponding output.
+       - **Reversing the Sequence**:
+         In a sequence-to-sequence model without attention, the encoder might struggle to remember important information
+         from the beginning of a long sequence when processing it step-by-step (especially for longer sequences).
+         If we instead reverse the order of the input sequence, the information from the first time-step in the input has a
+         shorter path length through the unrolled recurrent networks to the corresponding output.
 
-    3. Practical Application:
+    4. Practical Application:
         1. Use of BOS and EOS: the BOS (Beginning of Sequence) and EOS (End of Sequence) tokens are used in the target
            language.
            In many seq2seq tasks, the input and output sequences may not have the same length. The EOS token helps
@@ -564,36 +567,32 @@ Index of notations to complete/learn more:
         - 🔴 Cons: Can cause issues at inference time due to exposure bias, where the model struggles with its own
           predictions.
 
-    4. Questions
-        1. then how does the decoder know which part of context to pick for which stage
+    5. Questions
+        1. then how does the decoder know which part of context to pick for which stage  
+           - Attention Score:
 
-        - Attention Score:
+        2. Is attention score calculated at point of decoding at each stage or encoding?  
+           - The attention score is calculated at each stage of decoding, not during encoding. They are calculated for each
+             encoder hidden state with respect to the current decoder hidden state.
 
-        2. Is attention score calculated at point of decoding at each stage or encoding?
-
-        - The attention score is calculated at each stage of decoding, not during encoding. They are calculated for each
-          encoder hidden state with respect to the current decoder hidden state.
-
-        3. Can we use deep learning functions for calculating attention score?
-
-        - Absolutely! Using deep learning models to calculate attention scores instead of using simple, predefined
-          functions like dot product or cosine similarity is a powerful way to capture more complex relationships
-          between the encoder and decoder states in tasks like machine translation, text summarization, and other
-          sequence-to-sequence models.
+        3. Can we use deep learning functions for calculating attention score?  
+           - Absolutely! Using deep learning models to calculate attention scores instead of using simple, predefined
+             functions like dot product or cosine similarity is a powerful way to capture more complex relationships
+             between the encoder and decoder states in tasks like machine translation, text summarization, and other
+             sequence-to-sequence models.
 
         4. Cosine similarity is a static math formula, but if we use a deep learning model for the similarity function
-           can we train it in conjunction with the rest of the model using back propogation?
-
-        - Yes, exactly! When you use a deep learning model for the similarity function instead of a static formula like
-          cosine similarity, you can train it in conjunction with the rest of the model using backpropagation.This
-          allows the model to adapt and learn the best way to measure similarity based on the data and task at hand.
-          The neural network-based similarity function is typically used in tasks like Siamese networks or triplet loss,
-          where the model is trained to differentiate between similar and dissimilar inputs
+           can we train it in conjunction with the rest of the model using back propagation?
+           - Yes, exactly! When you use a deep learning model for the similarity function instead of a static formula like
+             cosine similarity, you can train it in conjunction with the rest of the model using backpropagation.This
+             allows the model to adapt and learn the best way to measure similarity based on the data and task at hand.
+             The neural network-based similarity function is typically used in tasks like Siamese networks or triplet loss,
+             where the model is trained to differentiate between similar and dissimilar inputs
 
 17. **Transformers**
     1. Key Topics:
         1. Positional Encoding `❌[Incomplete]`
-           Implemented orignally using Sinusoidal Positional Encoding.
+           Implemented originally using Sinusoidal Positional Encoding.
            It’s a fixed function (not learned) that uses sine and cosine waves of different frequencies to generate a
            unique positional pattern for each token in a sequence.
 
@@ -676,7 +675,7 @@ Index of notations to complete/learn more:
           i.e., the softmax output for the largest value becomes close to 1, and all others become close to 0).
 
 17. **Normalization** `ℹ️[Mentioned in Data Processing]`
-    1. Batch Normalization
+    1. Batch Normalization<br>
        Batch Normalization (BatchNorm) is a technique used in deep learning to improve training speed, stability, and
        performance by normalizing the inputs of each layer.
        It helps reduce internal covariate shift, making training more efficient. `⚠️[Requires Investigation]`
@@ -792,15 +791,15 @@ Index of notations to complete/learn more:
            of squared gradients.
            Since the sum keeps adding up this shrinks the learning rate over time.
            Pro Cons:
-           - ✅ Ideal for Sparse Data( e.g NLP Tasks)
-           - ✅ No need to tune learning rate much
-           - ⚠️ Learning Rate Keeps Shrinking -> Which May Stop Learning
-           Formula:
-           $$\begin{align*}
-           G_t &= G_{t-1} + g_t^2 \\
-           \theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{G_t} + \epsilon} \cdot g_t
-           \end{align*}
-           $$
+            - ✅ Ideal for Sparse Data( e.g NLP Tasks)
+            - ✅ No need to tune learning rate much
+            - ⚠️ Learning Rate Keeps Shrinking -> Which May Stop Learning
+              Formula:
+              $$\begin{align*}
+              G_t &= G_{t-1} + g_t^2 \\
+              \theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{G_t} + \epsilon} \cdot g_t
+              \end{align*}
+              $$
 22. **Regularization**
     1. **Definition**
        Regularization is a technique used to prevent overfitting by adding constraints to a model.  
