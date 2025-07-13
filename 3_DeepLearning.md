@@ -276,7 +276,7 @@ Index of notations to complete/learn more:
         2. **Different Types**:
 
            | Layer Type | Description | Input Type                                      | 
-           |------------|-------------|-------------------------------------------------|
+                                                       |------------|-------------|-------------------------------------------------|
            | Conv1D | Used for time series, audio, or NLP tasks | 1D sequences (e.g., speech, text embeddings)    | 
            | Conv2D | Used for image processing | 2D data (e.g., grayscale/RGB images)            | 
            | Conv3D | Used for volumetric data like medical imaging or videos | 3D data (e.g., MRI scans, video frames)            |
@@ -299,7 +299,7 @@ Index of notations to complete/learn more:
         6. Historical Performance
 
            | Model             | Size (MB) | Top-1 Accuracy | Top-5 Accuracy | Parameters | Depth | Time (ms) per inference step (CPU) | Time (ms) per inference step (GPU) |
-           |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
+                                                       |------------------|-----------|----------------|----------------|------------|-------|------------------------------------|------------------------------------|
            | Xception         | 88        | 79.0%          | 94.5%          | 22.9M      | 81    | 109.4                              | 8.1                                |
            | VGG16            | 528       | 71.3%          | 90.1%          | 138.4M     | 16    | 69.5                               | 4.2                                |
            | VGG19            | 549       | 71.3%          | 90.0%          | 143.7M     | 19    | 84.8                               | 4.4                                |
@@ -337,8 +337,9 @@ Index of notations to complete/learn more:
        in time is a function of the value of the hidden state at the previous time step, and the value of the input at
        the current time step.  
        $$h_t = \phi(h_{t-1}, X_t)$$  
-        ![](/Images/3_deepLearning_rnn_2.png)<br/>The output vector y<sub>t</sub> at time _t_ is the product of the weight matrix _V_ and the hidden state h<sub>
-    t</sub>, passed through a SoftMax activation, such that the resulting vector is a set of output probabilities.
+       ![](/Images/3_deepLearning_rnn_2.png)<br/>The output vector y<sub>t</sub> at time _t_ is the product of the
+       weight matrix _V_ and the hidden state h<sub>
+       t</sub>, passed through a SoftMax activation, such that the resulting vector is a set of output probabilities.
        $$h_t = \tanh(Wh_{t-1} + Ux_t)$$
        $$y_t = \mathrm{softmax}(Vh_t)$$
 
@@ -347,7 +348,8 @@ Index of notations to complete/learn more:
        difference, in this case, is that since the weights are shared by all time steps, the gradient at each output
        depends not only on the current time step but also on the previous ones. This process is called backpropagation
        through time.
-       `⚠️[Requires Investigation]` Check page: https://dennybritz.com/posts/wildml/recurrent-neural-networks-tutorial-part-3/
+       `⚠️[Requires Investigation]` Check
+       page: https://dennybritz.com/posts/wildml/recurrent-neural-networks-tutorial-part-3/
 
     3. BPTT Vulnerable to exploding and vanishing gradients<br>
        BPTT is just regular backpropagation but unrolled through time:
@@ -728,9 +730,77 @@ Index of notations to complete/learn more:
             4. KL Divergence
 20. Metrics displayed vs Used during training
 21. Optimizers
-    1. SGD
-    2. RMSPROP
-    3. Adam
+    1. **Definition**
+       An optimizer updates model parameters (weights, biases) to reduce loss, using gradients calculated during
+       backpropagation.
+    2. Common Ones
+        1. SGD
+           Stochastic Gradient Descent. Updates weights using the current mini-batch’s gradient.
+           Called “stochastic” because of randomness in mini-batches (Picks one random sample (or mini-batch) at a time)
+           Simple, efficient but can oscillate.
+        2. RMSPROP
+           Root Mean Square Propagation
+           Designed to handle non-stationary objectives and adaptive learning rates.<br>It tracks an exponential moving
+           average of squared gradients. Then it divides the learning rate.
+            - If a parameter has large/unstable gradients → smaller learning rate
+            - If gradients are small/flat → larger learning rate
+            - Formula:
+              $$\begin{align*}
+              E[g^2]_t &= \gamma E[g^2]_{t-1} + (1 - \gamma) g_t^2 \\
+              \theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t
+              \end{align*}
+              $$
+            - Here, θt is the parameter at time step t
+            - gt is gradient at time step t
+            - n is the learning rate
+            - γ is the decay rate
+            - ϵ small constant to prevent division by 0
+            - E[g<sup>2</sup>]t is the moving average of squared gradient
+              Pro Cons:
+            - ✅ Very good for recurrent networks
+            - ✅ Handles exploding/vanishing gradients better
+            - ⚠️ Requires Tuning decay rate y
+
+        3. Adam
+           Adaptive Moment Estimation
+           Most Popular Optimizer by far and works out of the box in most cases.
+           Combines ideas from Momentum and RMSProp. Adjusts step size for each parameter based on gradient history.
+           Pro Cons:
+            - ✅ Works out of the box
+            - ✅ Robust for most problems
+            - ✅ Fast convergence
+            - ⚠️ In practice can overshoot and generalize worse than SGD
+            - ⚠️ Computationally Expensive than others  
+              Formula:
+              $$\begin{align*}
+              m_t &= \beta_1 m_{t-1} + (1 - \beta_1) g_t \\
+              v_t &= \beta_2 v_{t-1} + (1 - \beta_2) g_t^2 \\
+              \hat{m}_t &= \frac{m_t}{1 - \beta_1^t} \\
+              \hat{v}_t &= \frac{v_t}{1 - \beta_2^t} \\
+              \theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \cdot \hat{m}_t
+              \end{align*}
+              $$
+            - Here, θt is the parameter at time step t
+            - gt is gradient at time step t
+            - n is the learning rate
+            - mt, vt = first and second moment estimates
+            - ϵ small constant to prevent division by 0
+            - 𝛽1, 𝛽2 decay rates for the moments
+        4. AdaGrad
+           Adaptive Gradient Algorithm
+           Adapts learning rate per parameter. Uses sum of past squared gradients compared to RMSProp which uses average
+           of squared gradients.
+           Since the sum keeps adding up this shrinks the learning rate over time.
+           Pro Cons:
+           - ✅ Ideal for Sparse Data( e.g NLP Tasks)
+           - ✅ No need to tune learning rate much
+           - ⚠️ Learning Rate Keeps Shrinking -> Which May Stop Learning
+           Formula:
+           $$\begin{align*}
+           G_t &= G_{t-1} + g_t^2 \\
+           \theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{G_t} + \epsilon} \cdot g_t
+           \end{align*}
+           $$
 22. **Regularization**
     1. **Definition**
        Regularization is a technique used to prevent overfitting by adding constraints to a model.  
@@ -784,16 +854,17 @@ Index of notations to complete/learn more:
     3. Questions:
         1. Why does L1 lead to sparseness but not L2?
            The key difference comes from how L1 and L2 regularization affect the gradient during optimization.
-           - This means L1 applies a constant force (either +λ+ or −λ) that pushes small weights directly to zero. 
-           - When a weight is small enough, the optimizer finds it cheaper to set it to zero than to keep updating it. 
-           - This creates sparsity because many weights become exactly zero. 
-           - **L2 penalty adds the squared value of weights** 
-           - The L2 penalty is proportional to the weight itself, meaning large weights shrink a lot, but small weights shrink
-             very little. 
-           - Instead of making weights zero, L2 just makes all weights smaller and smoother, but never
-             eliminates them completely.
-           ![img.png](Images/3_deepLearning_Questions1.png)
-           ![img_1.png](Images/3_deepLearning_Questions2.png)
+            - This means L1 applies a constant force (either +λ+ or −λ) that pushes small weights directly to zero.
+            - When a weight is small enough, the optimizer finds it cheaper to set it to zero than to keep updating it.
+            - This creates sparsity because many weights become exactly zero.
+            - **L2 penalty adds the squared value of weights**
+            - The L2 penalty is proportional to the weight itself, meaning large weights shrink a lot, but small weights
+              shrink
+              very little.
+            - Instead of making weights zero, L2 just makes all weights smaller and smoother, but never
+              eliminates them completely.
+              ![img.png](Images/3_deepLearning_Questions1.png)
+              ![img_1.png](Images/3_deepLearning_Questions2.png)
 
         2.
 22. Layers [TensorFlow]
