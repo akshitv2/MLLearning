@@ -44,7 +44,7 @@ Index of notations to complete/learn more:
     2. Common ones:
         1. **ReLU**
            Rectified Linear Unit – f(x)=max(0,x)  
-           $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases} $$
+           $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}$$
            ![](/Images/3_deepLearning_relu_2.png)
 
             - Pros:
