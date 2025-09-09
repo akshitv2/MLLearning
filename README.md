@@ -1,1 +1,3 @@
-# MLLearning
+git add *
+git commit -m "08.05.2025"
+git push
