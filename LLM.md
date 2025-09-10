@@ -72,6 +72,14 @@
   IDF(T,d) = log(Number of docs in corpus/Number of docs containing t)  
   TFIDF = TFxIDF
   Idea: TF gives how much word appears but is biased to common words. IDF gives lower scores for common words i.e Rare word in docs means probably significant presence.
+- #### Modern Tokenization:
+  - **Byte Pair Encoding**: Iteratively merge two most frequent pairs of characters.  
+  Choose two most frequent pairs of characters that appear together until you reach required vocab so creates combinations of common words: eg Un happpy  
+  h e l l o -> he l l o -> hel l o -> hell o -> hello
+  - **Word Piece Encoding**: Combines word based on maximizing log likelihood of sentences. Likelihood of characters alone grows at rate of (1/26)^c.
+  So a vocab forming increases probablity of words.  
+  $$s^\ast(w) = \arg\max_{s \in \mathcal{S}_V(w)} \prod_{i=1}^{K(s)} P(u_i)
+= \arg\max_{s \in \mathcal{S}_V(w)} \sum_{i=1}^{K(s)} \log P(u_i)$$
 - #### **Positional Encoding**
     Encodes position in sentence as well dimensionally.
   $${PE}_{p,2i}   = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
@@ -198,6 +206,52 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
   Ranks how quickly relevant item appears in a list (done over Q times)  
   Reciprocal Rank is 1/rank of first relevant doc
   $$\text{MRR} = \frac{1}{Q} \sum_{i=1}^{Q} \frac{1}{\text{rank}_i}$$
+
+  ## Parameter Efficient Fine Tuning
+  - Full Fine Tuning: Why NOT? Expensive to compute, high risk of catastrophic forgetting especially when pretrained model Dataset not available to you
+  - Adapters: Small trainable set of layers intrdocued in a frozen model
+  - Prompt Tuning: Small set of soft prompts i.e not a full layer in the arch but instead just embedding added to the start of user's prompt (usually torch.nn.Embedding). Model is frozen throughout
+  - LoRA: Low Rank Adaption : Reduces no. of trainable parameters by learning low rank A and B matrix instead of same rank as the complex model.  Lora modifies the W matrices which sit before attention calc  
+    Q=XWQ​,K=XWK​,V=XWV  
+    For e.g: ΔW=AB, and W<sub>final</sub>​= W + ΔW  
+    so W is not modified at all
+  - Prefix Tuning:
+  
+  ## RAG Specific
+   - Search Algorithms:
+     - BM25: Sparse retrieval -> Lexical matching  
+     Works using tf-idf with some normalization.  
+     🔴Only matches exact tokens and struggles with synonyms  
+     🟢Best performance at keyword heavy queries  
+     🟢Very Fast  
+    - ANN: Approximate Nearest Neighbour  
+    Dense retrieval e.g FAISS, ScaNN  
+    🔴Require expensive embedding model with more compute and memory req  
+    🔴Hard to interpret  
+     🟢Capture Semantic Similarity
+     🟢 Better performance in capturing meaning  
+    - ANN Implementations:
+      - Use Cosine Similarity, Dot Product (If we don't want to normalize, so can capture magnitude not just direction), euclidean distance
+      - HNSW: Builds a multilayer graph for efficient freedy search
+  
+  ## Text Generation Strategies
+  - **Greedy decoding**: Choose simply highest probablity
+  - **Beam Search**: Instead of choosing directly most probable outputs you explore top k probablities at every step essentially becoming a tree.  
+  Can choose between k generated trees:  
+    - Maximum log likelihood (of entire sequence) since later tokens might push up probablity  
+    🟢 Simple to implement  
+    🟢 More optimal than greedy decoding
+    🔴 Doesn't guarantee optimal solution
+  - Top K Sampling: Instead of picking top probablity sample from top K (actually ignores >k and normalizes and picks randomly based on probablity k)
+    - Higher K = more randomness
+  - Top P Sampling: Instead of picking top probablity pick shortest combinations >=p. Actually at each step creates a pool of candidates which combine >=p and choose one of them.
+  Why? Because top k fails if top 5 only cover 20% i.e a lot of reasonable options 
+  - Temperature Scaling: Controls sharpness of probablity distribution before sampling. Higher temp = Flatter Dist
+  $$P_i^{(\tau)} = \frac{\exp\!\left(\frac{z_i}{\tau}\right)}{\sum_j \exp\!\left(\frac{z_j}{\tau}\right)}$$
+  - 
+    - Flatter dist = higher chance for less probablity to be picked
+    - Sharper dist = higher chance for high problity to be picked (greedy)
+
 
   ## Human Centric Eval
 
