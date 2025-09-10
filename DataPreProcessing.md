@@ -92,9 +92,34 @@ Goal behind embeddings is to convert words into vectors and ensure two words/vec
 mapped close in the embedding space. usually calculated via cosine similarity or Euclidean distance
 
 ## Static Embeddings [DEPRECATED]
-Created with a very large but finite corpus thus can only work with words in vocab.
+
+Created with a very large but finite corpus thus can only work with words in vocab.  
 🔴 Don't work well with polysemy. (words with multiple meanings)
 
+1. Word2Vec
+   Trained using a neural network.  
+   Similar to how encoder decoder is. Here W<sub>in</sub> and W<sub>out</sub> exist.
+    1. CBOW (Continous Bag of Words) -> Predict middle word using surrounding
+       input words fed through and multiplied to Win to embed and averaged and multiplied with Wout.
+       Finally, softmax to get output prob and calculate gradient against actual word
+    2. SkipGram -> Predict Surrounding words using middle word
+       ⚠️Figure out how one embedding turns into multiple
+2. Glove (Global Vectors for Word Representation)  
+   Works using global occurrence of words
+   Create a co-occurrence matrix i.e words on both axis and occurrence probablity on each i,j
+   Then $$w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$$
+    i.e the embedding of the two words + bias terms should match their co-occurrence.
+   Deep network trained W using this as loss.  
+   🟢 Produces embeddings where linear relationships capture meaning
+   Example: king - man + woman = queen
+
+## Dynamic Embeddings
+Dynamic embeddings are embeddings that can change depending on context.
+1. Contextual -> Used in attention/Transformers
+
+## **Word Embedding in Non-Textual Context**
+- **Item2Vec** is used to generate dense vector representations of items (e.g., songs, movies, books)
+- Wav2Vec: Converts audio into structures similar to how sentences are.
 
 
 
