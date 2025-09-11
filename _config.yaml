@@ -12,7 +12,6 @@ kramdown:
 # Include these files in the site
 include:
   - index.md
-  - getting-started.md
 
 # Exclude things from being published
 exclude:
