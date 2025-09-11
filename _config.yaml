@@ -1,0 +1,4 @@
+title: My Project Docs
+description: Documentation for my awesome project
+theme: minima   # Built-in GitHub Pages theme
+markdown: kramdown
