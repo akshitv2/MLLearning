@@ -1,13 +1,3 @@
-# Site settings
-title: My Study Notebook        # Name of your site
-description: "A collection of my study notes"  # Short description
-baseurl: ""                     # Leave empty if deploying to username.github.io/repo
-url: "https://akshitv2.github.io/MLLearning/"  # Your GitHub Pages URL
-
-# Theme settings
-theme: jekyll-theme-cayman       # Default Jekyll theme (or choose another)
-
-# Optional settings
-author: Akshit
-markdown: kramdown
-paginate: 10                    # Optional, for blog-style pages
+title: My Site
+description: Just some markdown files
+theme: jekyll-theme-cayman
