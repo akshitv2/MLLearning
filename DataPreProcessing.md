@@ -92,10 +92,12 @@ Done via:
        ℹ️ Note: KL Divergence is the difference between two probablity distribution in terms of bits. Best understood as
        extra bits required to encode from one dist to another.
        $$I(X;Y) = \sum_{x \in X} \sum_{y \in Y} p(x,y) \, \log \left( \frac{p(x,y)}{p(x)\,p(y)} \right)$$
-       Here if p(x,y) = p(x)p(y) then they are independent and log of this becomes 0 i.e. no mutual info between them. 
+       Here if p(x,y) = p(x)p(y) then they are independent and log of this becomes 0 i.e. no mutual info between them.
 
 ## Feature Extraction
-Techniques:   
+
+Techniques:
+
 1. PCA
 2. T-SNE
 3. UMAP
@@ -229,6 +231,12 @@ Created with a very large but finite corpus thus can only work with words in voc
 ## Dynamic Embeddings
 
 Dynamic embeddings are embeddings that can change depending on context.
+
+| Model | How it works                                                                     |
+|-------|----------------------------------------------------------------------------------|
+| ELMo  | Uses a deep LSTM to generate embeddings based on the entire sentence             |
+| BERT  | Uses transformers and attention to create context-aware embeddings for each word |
+| GPT   | Also produces dynamic embeddings (during generation or fine-tuning)              |
 
 1. Contextual -> Used in attention/Transformers
 
