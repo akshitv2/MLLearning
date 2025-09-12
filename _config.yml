@@ -2,6 +2,13 @@ plugins:
   - jekyll-include-cache
   - jekyll-remote-theme
 
+include:
+  - _includes
+
+just_the_docs:
+  search_enabled: true
+  include_head: true
+
 remote_theme: just-the-docs/just-the-docs
 
 author: Akshit
