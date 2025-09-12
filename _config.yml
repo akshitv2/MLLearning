@@ -8,6 +8,8 @@ include:
 just_the_docs:
   search_enabled: true
   include_head: true
+  custom_css:
+    - "assets/css/custom.scss"
 
 remote_theme: just-the-docs/just-the-docs
 
@@ -15,4 +17,4 @@ author: Akshit
 markdown: kramdown
 kramdown:
   math_engine: mathjax
-  syntax_highlighter: rouge  # Optional: Keeps code highlighting working
+  syntax_highlighter: rouge
