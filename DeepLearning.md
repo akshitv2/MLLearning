@@ -148,7 +148,8 @@
          - Normal: $W \sim \mathcal{N}\!\left(0, \; \tfrac{2}{n_{\text{in}}}\right)$
        - n<sub>in</sub> are number of connections in
        - Relu halves outputs (only +ves), variance of he doubled to compensate (compared to Xavier) 
-       - But since the key variance-preserving step happens on the input side, He init only uses fan-in `⚠️[Requires Investigation]`
+       - But since the key variance-preserving step happens on the input side, He init only uses fan-in
+       - (on output side dL/dz gives 1 or 0 only unlike Xavier where it's a complex value)
 11. ### Learning Rate Scheduling
     1. #### Step Decay
        - $\eta_t = \eta_0 \cdot \gamma^{\left\lfloor \tfrac{t}{T} \right\rfloor}$
@@ -203,6 +204,14 @@
        - Performs convolution operation with Filter of **size F** and **Stride S**
        - Filter is trainable 
        - Specify n to have n different filters to produce n separate feature maps
+       - Params:
+         - Filter Size F
+         - Stride S
+         - Padding P -> Extra 0 pixels added to edges of image (in case we don't want to downsample)
+           - Valid/No -> None Added
+           - Same -> Pads to same as input
+           - Full -> Actually upsamples, each layer gets it's full conv
+           - Formula Output Size = 1+(N-F)/S where N is input dimension
      - ##### Pooling:
        - Pooling non trainable downsampling operation
        - Applies simple operation on its filter elements:
@@ -216,6 +225,13 @@
        - Sets middle index and rest 0
      - ##### Fully Connected:
        - Good Ol' Fully Connected Layer
+   - #### Usage:
+     - Deep CNN themselves no longer SOTA but are used extensively in SOTA models e.g. UMAP in diffusion
+     - 🟢 Less resource intensive than ViT
+     - 🟢 Easier to train on small datasets, ViT have massive DS requirements
+   - #### Applications:
+     - Image Classification
+     - Object Detection (can do singular and multiple as well)
 2. ### Recurrent Neural Networks
     1. #### Vanilla RNN
     2. #### LSTM
