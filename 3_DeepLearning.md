@@ -419,8 +419,8 @@
         2. 🔴 Bottle Neck at Encoded Vector: Since context vector is fixed length no matter length of input sequence
         3. 🔴 No long range dependencies: Hidden state decays almost instantly, even long term memory decays across
            sequence
-5. ### Attention Mechanism [explained in Transformers.md](Transformers.md#Attention-Mechanism)
-6. ### Transformer [explained in Transformers.md](Transformers.md)
+5. ### Attention Mechanism [explained in Transformers.md](4_Transformers.md#Attention-Mechanism)
+6. ### Transformer [explained in Transformers.md](4_Transformers.md)
 7. ### Generative Adversarial Network
 8. ### Auto Encoder
 9. ### Variational Auto Encoder

@@ -55,7 +55,7 @@ Improvements over Encoder Decoder:
 
 ## Layers
 
-## 1. **Embedding** [(explained in DataPreProcessing.md)](./DataPreProcessing.md#Word-Embedding)
+## 1. **Embedding** [(explained in DataPreProcessing.md)](1_ DataPreProcessing.md#Word-Embedding)
 
 ## 2. **Positional** Encoding [(explained in LLM.md)](./LLM.md#positional-encoding)
 
