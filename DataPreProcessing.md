@@ -12,7 +12,7 @@
 2. ### Handling Missing Data
    Techniques:
     1. Remove samples (only if classes are balanced and data is not limited)
-    2. For numeric: Replace with population metric for entire DS or class e.g. Mean, Mode, Median
+    2. For numeric: Replace with dataset statistic metrics for entire DS or class e.g. Mean, Mode, Median
     3. For Categorical: Replace with mode or NA
     4. For time series: interpolate
     5. Regress using other variables
@@ -21,17 +21,17 @@
    Methods:
     1. **Z Score**: z score is calculated as ((x - mean) / std dev). Usually safe to ignore |z|>3 (Central limit
        theorem)
-    2. **IQR (Inter Quartile Range)**: Calculated using median, Common to only consider points in Q3-Q1 (75th to 25th
-       Percentile)
+    2. **IQR (Inter Quartile Range)**: Calculated using median, Common to only consider points in Q1-1.5IQR and Q3+
+       1.5IQR (Q3:75th Percentile Q1:25th Percentile)
     3. Mahalanobis Distance:
-    4. **Box Plot Analysis**:
+    4. **Box Plot Analysis**: Visualization method based on IQR
 
 4. ### Data Transformation (Scaling)
     1. **Standardization: (mean = 0, variance = 1)** -> Replace values with Z score
        $$z = \frac{x - \mu}{\sigma}$$
     2. **Min Max Scaling (Normalization)**: Scale 0 to 1
        $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
-    3. **Robust Scaling**: Min max scaling except uses Q3 and Q1 ()
+    3. **Robust Scaling**: Scaling using Q3 and Q1 () where IQR = Q3-Q1
        $$x_i' = \frac{x_i - \text{Median}(X)}{\text{IQR}(X)}$$
     4. **Log Transform**: Used when values are extremely large to bring to comparable range
        $$x_i' = \log(x_i)$$
@@ -47,13 +47,15 @@
 
 6. ### Encoding Categorical Variables
     1. **One hot Encoding**: Replace categories with one in their index, 0 in others
-        - 🟢 Mantains independence of classes
-        - 🔴 Grows Exponentially to classes (not suited for high cardinality)
+        - 🟢 Maintains independence of classes
+        - 🔴 Grows Linearly to classes (not suited for high cardinality)
     2. **Label Encoding**: Assign int to each class
         - 🔴Integer assigned can cause model to assume numerical relationship where none exists
     3. **Ordinal Encoding**: Same as Label except order actually exists like Small Medium Large
-    4. **Binary Encoding**: Similar to one hot but more space efficient and less independent
-    5. **Hash Encoding**: Similar to binary, meant to map high cardinality to individual spaces
+    4. **Binary Encoding**: Similar to one hot but more space efficient and less independent. (Converts classes to
+       binary representations, reusing dimensions but potentially mixing information)
+    5. **Hash Encoding**: Meant to map high cardinality to individual spaces by using a hash table (collisions can
+       occur)
     6. **Target Encoding**: Replace category entirely with mean of target (of samples with said class)
         - 🔴 Can cause leakage of target into sample
     7. **Frequency Encoding**: Replace classes with frequency of entries
@@ -72,6 +74,7 @@ Done via:
 
 1. ### Variance Thresholding
    If feature shows low variance -> High Probablity not contributing to prediction
+   Works only if low variance is meaningless (e.g., near-constant) but can actually be useful in certain cases
 2. ### Correlation Filtering
    Correlated variables can cause multicollinearity.
    **MultiCollinearity** when features are linearly dependent.  
@@ -81,9 +84,9 @@ Done via:
     1. Pearson Correlation (for numeric <-> numeric data):
        $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
        i.e Cov(x,y)/std(x)std(y)
-    2. Correlation Matrix: Calculated using Pearson. Matrix puts every feature X <-> X and looks for higher correlation.
+    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. Matrix puts every feature X <-> X and looks for higher correlation.
     3. ChiSquare Test for Categorical Features
-    4. Monotonic Increase (Spearman): i.e non linear correlated increase for e.g height and weight in population
+    4. Monotonic Increase (Spearman): i.e. non-linear correlated increase for e.g height and weight in population
        $$\rho_{X,Y} = 1 - \frac{6 \sum_{i=1}^{n} d_i^2}{n(n^2 - 1)}$$
        where d<sub>i</sub> = R(x<sub>i</sub>) - R(y<sub>i</sub>) where R is the rank
        ℹ️ Note: Rank here is the position in data if sorted in ascending order
@@ -232,6 +235,7 @@ Process of selecting a subset from a larger group (called population) to make in
     2.  ## Dynamic Embeddings
 
     - Dynamic embeddings are embeddings that can change depending on context.
+    - Embeddings used by common LMs
     - <table><tr><th>Model</th><th>How it works</th> </tr>
       <tr><td>ELMo</td><td>Uses a deep LSTM to generate embeddings based on the entire sentence</td> </tr>
         <tr><td>BERT</td><td>Uses transformers and attention to create context-aware embeddings for each word</td> </tr>

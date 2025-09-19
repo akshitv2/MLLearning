@@ -8,7 +8,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ### 1. [Data Pre-Processing](DataPreProcessing.md)
 - Brief description of Topic 1
-### 2. [Machine Learning](ML.md)
+### 2. [Machine Learning](3_ML.md)
 
 - Brief description of Topic 2
 

@@ -4,26 +4,30 @@
 
 1. **Perceptron**
    Simplest type of artificial neural network.  
-   Makes prediction based on a single input by w*x+b followed an activation function.
+   Predicts using weighted sum and bias followed by an activation function.
     1. **Inputs** (x1,x2,...,xnx_1, x_2, ..., x_nx1,x2,...,xn): Features of the data.
-    2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that determine the importance of
+    2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that stand for importance of
        each feature.
     3. **Bias** (b): A constant term that allows shifting the decision boundary.
     4. **Summation Function:** Computes the weighted sum of inputs
        $$z = \sum_{i=1}^{n} w_i x_i + b$$
     5. **Activation Function**: Applies a step function (threshold function) to determine the output:
-       $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cas
+       $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
 2. **Feed Forward Neural Networks**
+   - Simplest type of NN
+   - Composed of just:
+     - Layers process input → hidden → output.
 3. **Hidden Layers**<br>
-   Layers between the input and output layers
+    - Layers between the input and output layers
 4. ### Width of Model**
+    - Number of neurons in a layer
 5. ### Weights and Biases**
    (Mentioned above)
    Weights: Defined for each connection. Variable input is multiplied with.  
    Biases: Defined for each node. Variable input shifted by.
 6. ### Universal Approximation Theorem
-   Pivotal theorem, proving that provided a sufficiently deep neural network with non-linear activation can approximate
-   any function. (not a proof of finding it but least knowing that it's possible).
+   Pivotal theorem, Any continuous function can be approximated with a sufficiently large neural net with non-linear
+   activations (existence, not efficiency). (not a proof of finding it but least knowing that it's possible).
 7. ### Activation Function:
    Function applied to the output of a neural network.
     1. #### Need:
@@ -32,21 +36,23 @@
         1. ##### Sigmoid [DEPRECATED]
            $$f(x) = \frac{1}{1 + e^{-x}}$$  
            <img src="images/img_4.png" alt="img" width="300">
+            - Bounded [0,1]
             - as x→∞ y-> 1
             - as x->-∞ y-> 0
             - at x = 0, y = 0.5  
               Pro Cons:
             - 🔴 Obsolete
-            - 🔴 f`(x) maxes out at 0.25 i.e sure to cause vanishing gradient as you add more
+            - 🔴 f`(x) maxes out at 0.25 i.e. sure to cause vanishing gradient as you add more
         2. ##### Tanh [DEPRECATED]
            $$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
+            - Bounded [-1,1]
             - as x→∞ y-> 1
             - as x->-∞ y-> -1
             - at x = 0, y = 0  
               <img src="images/img_3.png" alt="img" width="300">
             - Pro Cons:
                 - 🔴 Obsolete
-                - 🔴 f`(x) maxes out at 1 i.e sure to cause vanishing gradient as you add more
+                - 🔴 f`(x) maxes out at 1 i.e. sure to cause vanishing gradient as you add more
         3. ##### ReLU (Rectified Linear Unit)
            $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}$$
             - 🟢 Only negatively saturates
@@ -355,25 +361,6 @@
             - Training: Trains using teacher forcing mostly
 
 6. ### Transformer
-    - ![img_18.png](img_18.png)
-    - Usually Made up of encoder decoder (or one of these)
-    - Improvement over traditional RNN
-        - 🟢 Trained in parallel since each token can look at all others instead of relying on last output (with teacher
-          forcing)
-        - 🟢 No bottleneck: Since no central encoded vector, each token fetches its context from attending to all others
-        - 🟢 Can freely have long range dependencies. Each token can attend to all others.
-    - Made up of
-        1. **Embedding** [(explained in DataPreProcessing.md)](./DataPreProcessing.md#Word-Embedding)
-        2. **Positional** Encoding [(explained in LLM.md)](./LLM.md#positional-encoding)
-        3. **MultiHead** Attention layer
-        4. **Residual Connections**: Each layer's output is added to it's input (through skip connections) (prevents
-           vanishing gradient)
-        5. **Layer Normalization**: In Transformers, two major strategies exist for applying LayerNorm:
-            - ![img_19.png](img_19.png)
-            1. **Post-Normalization** (Post-LN): LayerNorm is applied after the residual connection.
-            2. **Pre-Normalization** (Pre-LN): LayerNorm is applied inside the residual connection, before each
-               sub-layer.
-        6. Feedforward Neural Network: After attention block, each to
 7. ### Generative Adversarial Network
 8. ### Auto Encoder
 9. ### Variational Auto Encoder
