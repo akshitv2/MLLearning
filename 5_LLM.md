@@ -1,58 +1,132 @@
 # LLM
+## Index
 
-# Index
-
-## Foundations
-
-- [n-grams](#n-grams)
-- [Bag of Words](#bag-of-words)
-- [TF-IDF](#tf-idf)
-- [Positional Encoding](#positional-encoding)
-- [Contrastive Learning](#contrastive-learning)
-    - [Contrastive Learning in LLMs](#contrastive-learning-in-llms)
-        - [Types](#types)
-            - Positive pairs
-            - Semantic pairs
-            - Instruction Response Pairs
-        - [Applications](#applications)
-            - Contrastive Pretraining for Embeddings
-            - RAG
-            - Instruction Fine-Tuning
-
-## Challenges
-
-- [Catastrophic Forgetting](#catastrophic-forgetting)
-    - Solutions
-        1. Replay
-        2. Elastic Weight Consolidation
-        3. Dynamic Architectures
-- [Hallucination](#hallucination)
-    - Solutions
-        1. Retrieval Augmented Generation
-        2. Training with uncertainty
-        3. Use symbolic reasoning
-- [Repetition](#repetition)
-- [Degeneration](#degeneration)
-- [Adversarial Prompts](#adversarial-prompts)
-- [Context Rot](#context-rot)
-
-## Evaluation
-
-- [Perplexity](#perplexity)
-- [BLEU](#bleu)
-- [ROUGE](#rouge)
-- [Recall, Precision, F1Score](#recall-precision-f1score)
-- [METEOR](#meteor)
-
-### Evaluation Specific to Tasks
-
-- [Code](#code)
-    - Exact Match
-    - Pass@k
-- [Truthfulness](#truthfulness)
-- [General](#general)
-- [Maths and reasoning](#maths-and-reasoning)
-- [Fact Check](#fact-check)
+- [LLM](#llm)
+  - [Foundations and basics](#foundations-and-basics)
+    - [n-grams](#n-grams)
+    - [Bag of Words](#bag-of-words)
+    - [TF-IDF](#tf-idf)
+    - [Modern Tokenization](#modern-tokenization)
+      - [Byte Pair Encoding](#byte-pair-encoding)
+      - [Word Piece Encoding](#word-piece-encoding)
+    - [Positional Encoding](#positional-encoding)
+      - [Usage](#usage)
+      - [Sinusoidal](#sinusoidal)
+      - [Learned](#learned)
+    - [Contrastive Learning](#contrastive-learning)
+      - [Contrastive Learning in LLMS](#contrastive-learning-in-llms)
+  - [Large Language Models](#large-language-models)
+    - [Training Process](#training-process)
+      - [Pre-Training](#pre-training)
+      - [Fine-Tuning](#fine-tuning)
+    - [Other Types](#other-types-of-llms)
+      - [Multimodal Large Language Models (MLLMs)](#multimodal-large-language-models-mllms)
+      - [Agentic Systems](#agentic-systems)
+      - [Advanced Reasoning Models](#advanced-reasoning-models)
+        - [Key Techniques](#key-techniques)
+          - [Chain of thought Prompting](#chain-of-thought-prompting)
+          - [Self Consistency](#self-consistency)
+          - [Tool Use](#tool-use)
+          - [Tree/Graph Based Reasoning](#treegraph-based-reasoning)
+          - [Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)](#using-rlhf-reinforcement-learning-from-human-feedback-rlaif-reinforcement-learning-from-ai-feedback)
+      - [Small Language Models (SMLs)](#small-language-models-smls)
+  - [RAG : Retrieval Augmented Generation](#rag--retrieval-augmented-generation)
+    - [Composed of](#composed-of)
+      - [Retriever](#retriever)
+      - [Generator](#generator)
+    - [Working Process](#working-process)
+      - [Indexing Phase (The preparation)](#indexing-phase-the-preparation)
+      - [Retrieval and Generation](#retrieval-and-generation)
+    - [Search Algorithms](#search-algorithms)
+      - [Sparse Retrieval](#sparse-retrieval)
+        - [Common Examples](#common-examples)
+          - [BM25](#bm25)
+      - [Dense Retrieval](#dense-retrieval)
+        - [Dual Encoders/Bi-encoders](#dual-encodersbi-encoders)
+        - [Similarity Search](#similarity-search)
+        - [Notable Implementations](#notable-implementations)
+          - [Dense Passage Retrieval (DPR)](#dense-passage-retrieval-dpr)
+          - [ColBert](#colbert)
+          - [Contriever](#contriever)
+          - [RocketQA](#rocketqa)
+        - [Algorithms Used](#algorithms-used)
+          - [Hierarchical Navigable Small World (HNSW)](#hierarchical-navigable-small-world-hnsw)
+          - [FAISS (Facebook AI Similarity Search)](#faiss-facebook-ai-similarity-search)
+          - [ScaNN (Scalable Nearest Neighbors)](#scann-scalable-nearest-neighbors)
+      - [Hybrid Search](#hybrid-search)
+      - [Recursive Retrieval](#recursive-retrieval)
+  - [Prompt Engineering](#prompt-engineering)
+    - [Techniques](#techniques)
+      - [Zero-Shot Prompting](#zero-shot-prompting)
+      - [Few Shot Prompting](#few-shot-prompting)
+      - [Chain-of-Thought (CoT) Prompting](#chain-of-thought-cot-prompting)
+      - [Role-Playing](#role-playing)
+      - [Instruction Tuning](#instruction-tuning)
+    - [Challenges](#challenges)
+      - [Catastrophic Forgetting](#catastrophic-forgetting)
+        - [Catastrophic Forgetting Solutions](#catastrophic-forgetting-solutions)
+          - [Replay](#replay)
+          - [Elastic Weight Consolidation](#elastic-weight-consolidation)
+          - [Dynamic Architectures](#dynamic-architectures)
+      - [Hallucination](#hallucination)
+        - [Hallucination Solution](#hallucination-solution)
+          - [Retrieval Augmented Generation](#retrieval-augmented-generation)
+          - [Training with uncertainty in answer](#training-with-uncertainty-in-answer)
+          - [Use LLMs that can use symbolic reasoning](#use-llms-that-can-use-symbolic-reasoning)
+          - [Chain of thought](#chain-of-thought)
+          - [let AI use tools like calculator](#let-ai-use-tools-like-calculator)
+      - [Repetition](#repetition)
+      - [Degeneration](#degeneration)
+      - [Adversarial Prompts](#adversarial-prompts)
+        - [Solutions](#solutions)
+          - [Instruction Separation](#instruction-separation)
+          - [Input and token validation](#input-and-token-validation)
+          - [Classifier Layer](#classifier-layer)
+          - [Safeguard Systems](#safeguard-systems)
+          - [Human in Loop](#human-in-loop)
+      - [Context Rot](#context-rot)
+        - [Solution](#solution)
+    - [Evaluation](#evaluation)
+      - [Perplexity](#perplexity)
+      - [BLEU: Bilingual Evaluation Understudy](#bleu-bilingual-evaluation-understudy)
+        - [BP: Brevity Penalty](#bp-brevity-penalty)
+        - [Score](#score)
+      - [ROUGE: Recall Oriented Understudy for Gisting Evaluation](#rouge-recall-oriented-understudy-for-gisting-evaluation)
+        - [ROUGE-N](#rouge-n)
+        - [ROUGE-L](#rouge-l)
+        - [ROUGE-W](#rouge-w)
+        - [ROUGE-S/SU](#rouge-ssu)
+      - [Recall, Precision, F1Score](#recall-precision-f1score)
+      - [METEOR: Metric for Evaluation of Translation with Explicit Ordering](#meteor-metric-for-evaluation-of-translation-with-explicit-ordering)
+    - [Evaluation Specific to Tasks](#evaluation-specific-to-tasks)
+      - [Code](#code)
+        - [Exact Match](#exact-match)
+        - [Pass@k](#passk)
+      - [Truthfulness](#truthfulness)
+        - [TruthfulQA](#truthfulqa)
+      - [General: MMLU (Massive Multitask Language Understanding)](#general-mmlu-massive-multitask-language-understanding)
+      - [Maths and reasoning: GSM8K, MATH](#maths-and-reasoning-gsm8k-math)
+      - [Fact Check: FEVER, FAST-CC, SciFact](#fact-check-fever-fast-cc-scifact)
+    - [RAG Metrics](#rag-metrics)
+      - [Recall@k](#recallk)
+      - [Precision@K](#precisionk)
+      - [NDCG: (Normalized Discounted Cumulative Gain)](#ndcg-normalized-discounted-cumulative-gain)
+      - [MRR: Mean Reciprocal Rank](#mrr-mean-reciprocal-rank)
+    - [Parameter Efficient Fine-Tuning](#parameter-efficient-fine-tuning)
+      - [Full Fine-Tuning](#full-fine-tuning)
+      - [Adapters](#adapters)
+      - [Prompt Tuning](#prompt-tuning)
+      - [LoRA (Low Rank Adaption)](#lora-low-rank-adaption)
+      - [Prefix Tuning](#prefix-tuning)
+    - [RAG Specific](#rag-specific)
+      - [Vector DBS](#vector-dbs)
+    - [Text Generation Strategies](#text-generation-strategies)
+      - [Greedy decoding](#greedy-decoding)
+      - [Beam Search](#beam-search)
+      - [Top K Sampling](#top-k-sampling)
+      - [Top P Sampling](#top-p-sampling)
+      - [Temperature Scaling](#temperature-scaling)
+    - [Human Centric Eval](#human-centric-eval)
 
 # Foundations and basics
 
@@ -110,7 +184,7 @@
   Sometime use labels, but can learn without them as well by instead augmenting same sample enough times so that model
   learns to generalize e.g. model learns two
   dogs are similar by augmenting each dog enough times.
-    - **Contrastive Learning in LLMS**
+    - #### Contrastive Learning in LLMS
         - Types:  
           Inputs are text sequences, to create similarity pairs:
             - Positive pairs: (created using augmenting text)
@@ -138,7 +212,7 @@
         - LLMs fed massive text corpora to learn patterns, grammar, facts
     - ### Fine-Tuning:
         - Models further trained on specific tasks to improve targeted use case performance
-- Types:
+- ### Other types of LLMs:
     - ## Multimodal Large Language Models (MLLMs)
         - Integrate vision, audio and even 3d data (basically whatever can be encoded into a common embedding space)
     - ## Agentic Systems
@@ -146,20 +220,20 @@
         - Frameworks: ReAct (Reasoning + Act)
     - ## Advanced Reasoning Models:
         - Optimized for multistep problem-solving rather than just fluent text. Extend base models
-        - Key Techniques:
-            1. Chain of thought Prompting
+        - ## Key Techniques:
+            1. #### Chain of thought Prompting
                 - Model is guided to generate intermediate steps instead of final answer
                 - for e.g. write out logic and calculations for a math problem
-            2. Self Consistency
+            2. #### Self Consistency
                 - Model generates multiple answers instead of one and answers are aggregated (like voting/bagging)
                 - Increases reliability
-            3. Tool Use:
+            3. #### Tool Use:
                 - Calls external systems/tools like apis, calculators
-            4. Tree/Graph Based Reasoning
+            4. #### Tree/Graph Based Reasoning
                 - Use tree/graph like structure instead of one linear chain of reasoning
                 - Branches need to be evaluated
                 - Most consistent one chosen
-            5. Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)
+            5. #### Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)
                 - Reasoning validated by this feedback
     - ## Small Language Models (SMLs)
         - AI language models with fewer parameters and a more focused scope than Large Language Models (LLMs), making
