@@ -12,7 +12,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ### 3. [Deep Learning](3_DeepLearning.md)
 
-### 4. [Large Language Models](LLM.md)
+### 4. [Large Language Models](5_LLM.md)
 
 ---
 
@@ -24,7 +24,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ### 3. [Deep Learning](3_DeepLearning_Recall.md)
 
-### 4. [Large Language Models](LLM.md)
+### 4. [Large Language Models](5_LLM.md)
 
 ---
 
