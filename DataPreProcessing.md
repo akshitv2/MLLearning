@@ -27,7 +27,7 @@
     4. **Box Plot Analysis**: Visualization method based on IQR
 
 4. ### Data Transformation (Scaling)
-    1. **Standardization: (mean = 0, variance = 1)** -> Replace values with Z score
+    1. **Standardization: (mean = 0, variance = 1)** → Replace values with Z score
        $$z = \frac{x - \mu}{\sigma}$$
     2. **Min Max Scaling (Normalization)**: Scale 0 to 1
        $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
@@ -40,9 +40,9 @@
 
 5. ### Handling Outliers
    When and How?
-    1. If Measurement Error/Inconsistent -> Remove or replace
+    1. If Measurement Error/Inconsistent → Remove or replace
         1. Replace using imputation techniques
-    2. If rare but valid -> Keep since usually contains signal
+    2. If rare but valid → Keep since usually contains signal
     3. While scaling using Robust scaling
 
 6. ### Encoding Categorical Variables
@@ -73,7 +73,7 @@ Done via:
 ## **Feature Selection**
 
 1. ### Variance Thresholding
-   If feature shows low variance -> High Probablity not contributing to prediction
+   If feature shows low variance → High Probablity not contributing to prediction
    Works only if low variance is meaningless (e.g., near-constant) but can actually be useful in certain cases
 2. ### Correlation Filtering
    Correlated variables can cause multicollinearity.
@@ -81,10 +81,10 @@ Done via:
    Issues? Destabilizes training as model can't understand which feature to increase weights for.
    Expressive power becomes shared (can 1:9 or 1:1 or -2:12).
    Techniques:
-    1. Pearson Correlation (for numeric <-> numeric data):
+    1. Pearson Correlation (for numeric <→ numeric data):
        $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
        i.e Cov(x,y)/std(x)std(y)
-    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. Matrix puts every feature X <-> X and looks for higher correlation.
+    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. Matrix puts every feature X <→ X and looks for higher correlation.
     3. ChiSquare Test for Categorical Features
     4. Monotonic Increase (Spearman): i.e. non-linear correlated increase for e.g height and weight in population
        $$\rho_{X,Y} = 1 - \frac{6 \sum_{i=1}^{n} d_i^2}{n(n^2 - 1)}$$
@@ -218,10 +218,10 @@ Process of selecting a subset from a larger group (called population) to make in
         1. Word2Vec
            Trained using a neural network.  
            Similar to how encoder decoder is. Here W<sub>in</sub> and W<sub>out</sub> exist.
-            1. CBOW (Continous Bag of Words) -> Predict middle word using surrounding
+            1. CBOW (Continous Bag of Words) → Predict middle word using surrounding
                input words fed through and multiplied to Win to embed and averaged and multiplied with Wout.
                Finally, softmax to get output prob and calculate gradient against actual word
-            2. SkipGram -> Predict Surrounding words using middle word
+            2. SkipGram → Predict Surrounding words using middle word
                ⚠️Figure out how one embedding turns into multiple
         2. Glove (Global Vectors for Word Representation)  
            Works using global occurrence of words
@@ -242,7 +242,7 @@ Process of selecting a subset from a larger group (called population) to make in
         <tr><td>GPT</td><td>Also produces dynamic embeddings (during generation or fine-tuning)</td> </tr>
           </table>
 
-1. Contextual -> Used in attention/Transformers
+1. Contextual → Used in attention/Transformers
 
 ## **Word Embedding in Non-Textual Context**
 

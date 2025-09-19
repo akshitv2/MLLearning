@@ -59,7 +59,7 @@
 ### Foundations
 
 - #### n-grams
-  n -> No. of words  
+  n → No. of words  
   example: Hi I am Sam  
   then 1 gram: ["Hi","I","am","Sam"]  
   then 2 gram: [["Hi","I"],["I","am"],["am","Sam"]]  
@@ -83,7 +83,7 @@
       form words).  
       Choose two most frequent pairs of characters that appear together until you reach required vocab so creates
       combinations of common words: eg Un happy  
-      h e l l o -> he l l o -> hel l o -> hell o -> hello
+      h e l l o → he l l o → hel l o → hell o → hello
     - **Word Piece Encoding**: Combines word based on maximizing log likelihood of sentences. Likelihood of characters
       alone grows at rate of (1/26)^c.
       So a vocab forming increases probablity of words.  
@@ -124,8 +124,8 @@
         - Applications:
             - Contrastive Pretraining for Embeddings: Used in OpenAi's ada & CLIP to produce dense embeddings.
             - RAG: Use vector embeddings to find the closest docs.  
-              Similar docs -> Close  
-              Diff Docs -> Far
+              Similar docs → Close  
+              Diff Docs → Far
             - Instruction Fine-Tuning: Model learns what is the output for instruction  
               i.e. the answer to "Translate to german: Hello" and "Hallo" are closer.
 
@@ -279,7 +279,7 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
 
 
 - ### Search Algorithms:
-    - BM25: Sparse retrieval -> Lexical matching  
+    - BM25: Sparse retrieval → Lexical matching  
       Works using tf-idf with some normalization.
     - 🔴 Only matches exact tokens and struggles with synonyms
     - 🟢 Best performance at keyword heavy queries

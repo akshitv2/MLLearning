@@ -21,7 +21,7 @@ e.g Sorry I didn't understand. You can ask me to do A or B.
 - **Contexts**: Contexts are like flags or conversation states to steer conversation to one intent only once active (useful when too many intents), 
   - two types
     - Input: Set to follow a specific intent  
-    e.g I want to book a hotel -> triggers hotel booker -> how many rooms? (routes to hotel booking only)
+    e.g I want to book a hotel → triggers hotel booker → how many rooms? (routes to hotel booking only)
     - Output: triggered once one intent finishes and routes to another  
       e.g you booked a hotel, now books a taxi pickup
   - Expiry: expires after its time-to-live

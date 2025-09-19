@@ -1,4 +1,4 @@
-# Deep Learning
+#3. Deep Learning
 
 ## Basics
 
@@ -35,10 +35,10 @@
     2. #### Types:
         1. ##### Sigmoid [DEPRECATED]
            $$f(x) = \frac{1}{1 + e^{-x}}$$  
-           <img src="images/img_4.png" alt="img" width="300">
+            - ![img_21.png](img_21.png)
             - Bounded [0,1]
-            - as x→∞ y-> 1
-            - as x->-∞ y-> 0
+            - as x→∞ y→ 1
+            - as x→-∞ y→ 0
             - at x = 0, y = 0.5  
               Pro Cons:
             - 🔴 Obsolete
@@ -46,8 +46,8 @@
         2. ##### Tanh [DEPRECATED]
            $$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
             - Bounded [-1,1]
-            - as x→∞ y-> 1
-            - as x->-∞ y-> -1
+            - as x→∞ y→ 1
+            - as x→-∞ y→ -1
             - at x = 0, y = 0  
               <img src="images/img_3.png" alt="img" width="300">
             - Pro Cons:
@@ -88,7 +88,8 @@
             - The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
 
 8. ### Gradient Descent
-   First order iterative algorithm to find local minima of loss function
+   First order iterative algorithm to find local minima of loss function  
+   $ \theta_{t+1} \;=\; \theta_t \;-\; \eta \,\nabla_\theta J(\theta_t)$
     - Learning Rate: Determines the size of step taken
     - Epoch: One go through of entire dataset
     - Shuffling: Randomizing order of dataset before every epoch.
@@ -263,16 +264,16 @@
             - Params:
                 - Filter Size F
                 - Stride S
-                - Padding P -> Extra 0 pixels added to edges of image (in case we don't want to downsample)
-                    - Valid/No -> None Added
-                    - Same -> Pads to same as input
-                    - Full -> Actually upsamples, each layer gets it's full conv
+                - Padding P → Extra 0 pixels added to edges of image (in case we don't want to downsample)
+                    - Valid/No → None Added
+                    - Same → Pads to same as input
+                    - Full → Actually upsamples, each layer gets it's full conv
                     - Formula Output Size = 1+(N-F)/S where N is input dimension
         - ##### Pooling:
             - Pooling non trainable downsampling operation
             - Applies simple operation on its filter elements:
-                - Max -> 🟢 Preserves Best detected features
-                - Average -> 🟢 Preserves overall features
+                - Max → 🟢 Preserves Best detected features
+                - Average → 🟢 Preserves overall features
         - ##### Conv Transpose:
             - Opposite of convolution, transpose
             - Upsampling operation, trainable
@@ -300,8 +301,8 @@
         - Almost every very deep network (from transformer to deep cnn to Diffusion)
         - Unet (Uses Residual and CNN)
             - Shaped like a U. Walls are downsampling operations and upsampling operations (conv)
-            - Left Side: Encoder -> Downsamples
-            - Right Side: Decoder -> Upsamples
+            - Left Side: Encoder → Downsamples
+            - Right Side: Decoder → Upsamples
             - Bottle Neck: Exists at deeper layers
             - Residual connections exist from each layer left to right to ensure bottleneck doesn't stop data
             - ![img_15.png](img_15.png)

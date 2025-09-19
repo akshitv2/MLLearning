@@ -832,7 +832,7 @@ Index of notations to complete/learn more:
            Pro Cons:
             - ✅ Ideal for Sparse Data( e.g NLP Tasks)
             - ✅ No need to tune learning rate much
-            - ⚠️ Learning Rate Keeps Shrinking -> Which May Stop Learning
+            - ⚠️ Learning Rate Keeps Shrinking → Which May Stop Learning
               Formula:
               $$\begin{align*}
               G_t &= G_{t-1} + g_t^2 \\

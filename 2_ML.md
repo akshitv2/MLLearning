@@ -1,4 +1,4 @@
-# Machine Learning
+# 2. Machine Learning
 
 1. ## Fundamentals
     1. ### Supervised Learning
@@ -109,7 +109,7 @@
         - $$P(C \mid X) = \frac{P(C) \, P(X \mid C)}{P(X)}$$
         - $$P(X \mid C) = \prod_{i=1}^n P(x_i \mid C)$$
         - For Example:
-            - C-> Covid, x1-> has cold, x2->cough
+            - C→ Covid, x1→ has cold, x2→cough
             - Calculate P(C) = no. of examples of class C/ total number of samples
             - P(x<sub>i</sub>|C) = no. of examples of xi in C/ total number of samples in C
             - Use this to calc P(C|X)
@@ -233,7 +233,7 @@
         - ℹ️ Note: To find if two points lie on the same point of line plug them into the equation
             - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b > 0 same side
             - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b < 0 different side
-            - if either equals 0 -> On the line
+            - if either equals 0 → On the line
         - To solve: maximize margins i.e. we need to maximize 1/(2||w||<sup>2</sup>) with constraint
             - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2\end{equation}$$
             - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, \dots, n\end{equation}$$
@@ -258,8 +258,8 @@
             - Noise Point i.e outlier
         - Steps:
             1. Pick any unvisited point (all unvisited at start)
-            2. Start with cluster 1 ->
-            3. if point has > minpoints in its radius ε -> Mark it as core point, else border
+            2. Start with cluster 1 →
+            3. if point has > minpoints in its radius ε → Mark it as core point, else border
             3. Recursively go to each point in its radius marking each to same cluster
             4. If a core point continue recursive process, add borders to cluster but don't follow through on them
             5. Once all points in cluster 1 visited, move to unvisited point and cluster 2, repeat.
@@ -280,13 +280,13 @@
         - Doesn't use y
         - Steps:
             1. Compute Probablity each point j chooses i as neighbour
-                - divided by variance -> This makes sure clusters of different variance represented with same closeness
+                - divided by variance → This makes sure clusters of different variance represented with same closeness
                 - uses - because we want to reward smallest distance
                   $$p_{j \mid i} = \frac{\exp\!\left(-\frac{\lVert x_i - x_j \rVert^2}{2\sigma_i^2}\right)} {\sum_{k \ne i} \exp\!\left(-\frac{\lVert x_i - x_k \rVert^2}{2\sigma_i^2}\right)}$$
                 - ℹ️Note: The K here in question is a parameter we choose called perplexity
-                    - if perplexity low -> Very local spatial locality, preserves local structure well but no global
+                    - if perplexity low → Very local spatial locality, preserves local structure well but no global
                       stability
-                    - if perplexity high -> Very global, preserves global structures well but low local stability
+                    - if perplexity high → Very global, preserves global structures well but low local stability
             2. Recreates same on a Student t distribution by random assignment
                $q_{ij} = \frac{ \left( 1 + \lVert y_i - y_j \rVert^2 \right)^{-1} } {\sum_{k \ne l} \left( 1 + \lVert y_k - y_l \rVert^2 \right)^{-1}}$
             3. Use KL Divergence between the two as loss
