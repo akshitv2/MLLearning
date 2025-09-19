@@ -1,8 +1,104 @@
-#3. Deep Learning
+# 3. Deep Learning
+
+# Index for Deep Learning
+
+- [Basics](#basics)
+    - [Perceptron](#perceptron)
+    - [Feed Forward Neural Networks](#feed-forward-neural-networks)
+    - [Hidden Layers](#hidden-layers)
+    - [Width of Model](#width-of-model)
+    - [Weights and Biases](#weights-and-biases)
+    - [Universal Approximation Theorem](#universal-approximation-theorem)
+    - [Activation Function](#activation-function)
+        - [Need](#need)
+        - [Types](#types)
+            - [Sigmoid](#Sigmoid-DEPRECATED)
+            - [Tanh](#tanh-DEPRECATED)
+            - [ReLU (Rectified Linear Unit)](#relu-rectified-linear-unit)
+            - [Leaky ReLU](#leaky-relu)
+            - [Parametric ReLU](#parametric-relu)
+            - [Swish](#swish)
+            - [eLU (Exponential Linear Unit)](#elu-exponential-linear-unit)
+            - [Softmax](#softmax)
+        - [Questions](#questions)
+    - [Gradient Descent](#gradient-descent)
+        - [Types](#gradient-descent-types)
+            - [Stochastic](#stochastic)
+            - [Batch](#batch)
+            - [Minibatch](#minibatch)
+            - [Momentum Based](#momentum-based)
+            - [Nesterov Accelerated Gradient Descent](#nesterov-accelerated-gradient-descent)
+        - [Common Issues](#common-issues)
+            - [Vanishing Gradient](#vanishing-gradient)
+            - [Exploding Gradient](#exploding-gradient)
+    - [Backpropagation](#backpropagation)
+    - [Weight Initialization](#weight-initialization)
+        - [Zero Init](#zero-init)
+        - [Random Init (Naive)](#random-init-naive)
+        - [Xavier Init](#xavier-init)
+        - [He Init](#he-init)
+    - [Learning Rate Scheduling](#learning-rate-scheduling)
+        - [Step Decay](#step-decay)
+        - [Exponential Decay](#exponential-decay)
+        - [Cosine Annealing](#cosine-annealing)
+        - [Polynomial Decay](#polynomial-decay)
+        - [LR On Plateau](#lr-on-plateau)
+        - [Cyclical](#cyclical)
+        - [One Cycle](#one-cycle)
+    - [Regularization](#regularization)
+        - [L1 LASSO](#l1-lasso)
+        - [L2 Ridge](#l2-ridge)
+        - [Elastic Net](#elastic-net)
+        - [Dropout](#dropout)
+        - [Early Stopping](#early-stopping)
+        - [Batch Norm](#batch-norm)
+        - [Data Augmentation](#data-augmentation)
+    - [Optimizer](#optimizer)
+        - [SGD](#sgd)
+        - [RMSProp](#RMSProp-Root-Mean-Square-Propagation))
+        - [Adam](#adam-adaptive-moment-estimation)
+        - [AdamW](#adamw)
+        - [Ada Grad](#ada-grad)
+- [Architectures](#architectures)
+    - [Convolutional Neural Networks](#convolutional-neural-networks)
+        - [Purpose](#purpose)
+        - [Working](#working)
+        - [Layer Types](#layer-types)
+            - [Convolution](#convolution)
+            - [Pooling](#pooling)
+            - [Conv Transpose](#conv-transpose)
+            - [Unpooling](#unpooling)
+            - [Fully Connected](#fully-connected)
+        - [Usage](#usage)
+        - [Applications](#applications)
+    - [Residual Connections / Skip Connections](#residual-connections--skip-connections)
+        - [Notable Implementations](#notable-implementations)
+    - [Recurrent Neural Networks](#recurrent-neural-networks)
+        - [Vanilla RNN](#vanilla-rnn)
+        - [LSTM](#lstm)
+        - [GRU](#gru)
+    - [Encoder Decoder](#encoder-decoder)
+        - [Architecture](#architecture)
+        - [Shortcomings](#shortcomings)
+    - [Attention Mechanism](4_Transformers.md#Attention-Mechanism)
+    - [Transformer](4_Transformers.md)
+    - [Generative Adversarial Network](#generative-adversarial-network)
+    - [Auto Encoder](#auto-encoder)
+    - [Variational Auto Encoder](#variational-auto-encoder)
+    - [Diffusion Networks](#diffusion-networks)
+    - [Transfer Learning](#transfer-learning)
+        - [Common Uses](#common-uses-tl)
+        - [Usage](#how-to-implement)
+    - [Training Strategies](#training-strategies)
+        - [Teacher Forcing](#teacher-forcing)
+        - [Scheduled Sampling](#scheduled-sampling)
+        - [Curriculum Learning](#curriculum-learning)
+        - [Professor Forcing](#professor-forcing)
+        - [Label Smoothing](#label-smoothing)
 
 ## Basics
 
-1. **Perceptron**
+1. ### Perceptron
    Simplest type of artificial neural network.  
    Predicts using weighted sum and bias followed by an activation function.
     1. **Inputs** (x1,x2,...,xnx_1, x_2, ..., x_nx1,x2,...,xn): Features of the data.
@@ -13,11 +109,11 @@
        $$z = \sum_{i=1}^{n} w_i x_i + b$$
     5. **Activation Function**: Applies a step function (threshold function) to determine the output:
        $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
-2. **Feed Forward Neural Networks**
+2. ### **Feed Forward Neural Networks**
     - Simplest type of NN
     - Composed of just:
         - Layers process input → hidden → output.
-3. **Hidden Layers**<br>
+3. ### **Hidden Layers**
     - Layers between the input and output layers
 4. ### Width of Model**
     - Number of neurons in a layer
@@ -100,7 +196,7 @@
     - Epoch: One go through of entire dataset
     - Shuffling: Randomizing order of dataset before every epoch.
 
-    1. Types:
+    1. ### Gradient Descent Types:
         1. ### Stochastic
             - Uses one training example per update
             - 🔴 Noisy updates can cause zigzagging
@@ -221,7 +317,8 @@
         - Gives fast convergence
         - ![img_11.png](img_11.png)
 12. ### Regularization
-    1. #### L1 LASSO : Least Absolute Shrinkage and selection operator
+    1. #### L1 LASSO
+        - Least Absolute Shrinkage and selection operator
         - Applies linear penalty to magnitude of weight
         - ![img.png](Images/3_deepLearning_L1_regularization.png)
         - Forms n dimensional diamond constraint region
@@ -431,11 +528,11 @@
     - Instead of training a model from scratch, you start with a pretrained model that has already learned useful
       features
       from a large dataset, and you fine-tune it for your specific task.
-    - Common uses:
+    - ### Common uses (TL):
         - Feature extractor: The initial layers (often convolutional or embedding layers) that learn to identify general
           features such as edges, shapes, textures, or word relationships.
             - Often uses as perceptual loss calculating in image models
-    - Usage:
+    - ### How to implement:
         - Freezing and Fine-Tuning
             - Freezing: The feature extractor’s weights are frozen, meaning they are not updated during training.
                 - A new classification head is appended and trained on the target dataset.
@@ -475,11 +572,11 @@
         - 🟢 Improved Generalization
         - 🔴Difficult to tell what model actually considers difficult
     4. #### Professor Forcing
-       - Similar to GAN
-       - Generate both teacher forced and free run output together
-       - Aim is to fool discriminator into thinking it was teacher forced when it wasn't
-       - 🟢 Eliminates Train Test Mismatch
-       - 🟢 Differentiable
-       - 🟢 Works well for longer sequences
-       - 🔴 Very complex
+        - Similar to GAN
+        - Generate both teacher forced and free run output together
+        - Aim is to fool discriminator into thinking it was teacher forced when it wasn't
+        - 🟢 Eliminates Train Test Mismatch
+        - 🟢 Differentiable
+        - 🟢 Works well for longer sequences
+        - 🔴 Very complex
     5. #### Label Smoothing

@@ -72,31 +72,34 @@
   vocab).
   🔴Doesn't care about the word order
 - #### **TF-IDF**
-  Term Frequency Inverse Document Frequency  
-  Tf(T,d) = count of times t appears in doc d/total number of terms in d  
-  IDF(T,d) = log(Number of docs in corpus/Number of docs containing t)  
-  TFIDF = TFxIDF
-  Idea: TF gives how much word appears but is biased to common words. IDF gives lower scores for common words i.e Rare
-  word in docs means probably significant presence.
+    - Term Frequency Inverse Document Frequency
+    - Tf(T,d) = count of times t appears in doc d/total number of terms in d
+    - IDF(T,d) = log(Number of docs in corpus/Number of docs containing t)
+    - TFIDF = TFxIDF
+    - **Idea:** TF gives how much word appears but is biased to common words. IDF gives lower scores for common words
+      i.e Rare
+      word in docs means probably significant presence.
 - #### Modern Tokenization:
-    - **Byte Pair Encoding**: Iteratively merge two most frequent pairs of symbols (starts from characters merging to
-      form words).  
-      Choose two most frequent pairs of characters that appear together until you reach required vocab so creates
-      combinations of common words: eg Un happy  
-      h e l l o → he l l o → hel l o → hell o → hello
-    - **Word Piece Encoding**: Combines word based on maximizing log likelihood of sentences. Likelihood of characters
-      alone grows at rate of (1/26)^c.
-      So a vocab forming increases probablity of words.  
-      $$s^\ast(w) = \arg\max_{s \in \mathcal{S}_V(w)} \prod_{i=1}^{K(s)} P(u_i)
-      = \arg\max_{s \in \mathcal{S}_V(w)} \sum_{i=1}^{K(s)} \log P(u_i)$$
+    - ##### Byte Pair Encoding:
+        - Iteratively merge two most frequent pairs of symbols (starts from characters merging to
+          form words).
+        - Choose two most frequent pairs of characters that appear together until you reach required vocab so creates
+          combinations of common words: eg Un happy  
+          h e l l o → he l l o → hel l o → hell o → hello
+    - ##### **Word Piece Encoding**:
+        - Combines word based on maximizing log likelihood of sentences. Likelihood of characters
+          alone grows at rate of (1/26)^c.
+        - So a vocab forming increases probablity of words.  
+          $$s^\ast(w) = \arg\max_{s \in \mathcal{S}_V(w)} \prod_{i=1}^{K(s)} P(u_i)
+          = \arg\max_{s \in \mathcal{S}_V(w)} \sum_{i=1}^{K(s)} \log P(u_i)$$
 - #### **Positional Encoding**
     - ##### Usage:
         - Added to deep/shallow embeddings to create encoded and embedded token
     - ##### Sinusoidal:
-      Encodes position in sentence as well dimensionally.
-      $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
-      $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
-      where d is the dimension of embedding and p position in sentence
+      - Encodes position in sentence as well dimensionally.
+      - $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
+      - $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
+      - where d is the dimension of embedding and p position in sentence
         - bound to [-1,1] due to sin and cos functions
     - #### Learned:
         - Train a set of vectors to output embedding number
