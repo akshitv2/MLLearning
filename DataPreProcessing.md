@@ -203,40 +203,40 @@ Process of selecting a subset from a larger group (called population) to make in
 
 ## Word Embedding
 
-Goal behind embeddings is to convert words into vectors and ensure two words/vectors of similar meaning/context are
-mapped close in the embedding space. usually calculated via cosine similarity or Euclidean distance
+- Goal behind embeddings is to convert words into vectors and ensure two words/vectors of similar meaning/context are
+  mapped close in the embedding space. usually calculated via cosine similarity or Euclidean distance
+- Types:
+    1. ## Static Embeddings [DEPRECATED]]
 
-## Static Embeddings [DEPRECATED]
+        - Created with a very large but finite corpus thus can only work with words in vocab.
+        - 🔴 Don't work well with polysemy. (words with multiple meanings)
+          Notable Implementations:
 
-Created with a very large but finite corpus thus can only work with words in vocab.  
-🔴 Don't work well with polysemy. (words with multiple meanings)
+        1. Word2Vec
+           Trained using a neural network.  
+           Similar to how encoder decoder is. Here W<sub>in</sub> and W<sub>out</sub> exist.
+            1. CBOW (Continous Bag of Words) -> Predict middle word using surrounding
+               input words fed through and multiplied to Win to embed and averaged and multiplied with Wout.
+               Finally, softmax to get output prob and calculate gradient against actual word
+            2. SkipGram -> Predict Surrounding words using middle word
+               ⚠️Figure out how one embedding turns into multiple
+        2. Glove (Global Vectors for Word Representation)  
+           Works using global occurrence of words
+           Create a co-occurrence matrix i.e. words on both axis and occurrence probablity on each i,j
+           Then $$w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$$
+           i.e. the embedding of the two words + bias terms should match their co-occurrence.
+           Deep network trained W using this as loss.  
+           🟢 Produces embeddings where linear relationships capture meaning
+           Example: king - man + woman = queen
 
-1. Word2Vec
-   Trained using a neural network.  
-   Similar to how encoder decoder is. Here W<sub>in</sub> and W<sub>out</sub> exist.
-    1. CBOW (Continous Bag of Words) -> Predict middle word using surrounding
-       input words fed through and multiplied to Win to embed and averaged and multiplied with Wout.
-       Finally, softmax to get output prob and calculate gradient against actual word
-    2. SkipGram -> Predict Surrounding words using middle word
-       ⚠️Figure out how one embedding turns into multiple
-2. Glove (Global Vectors for Word Representation)  
-   Works using global occurrence of words
-   Create a co-occurrence matrix i.e. words on both axis and occurrence probablity on each i,j
-   Then $$w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$$
-   i.e. the embedding of the two words + bias terms should match their co-occurrence.
-   Deep network trained W using this as loss.  
-   🟢 Produces embeddings where linear relationships capture meaning
-   Example: king - man + woman = queen
+    2.  ## Dynamic Embeddings
 
-## Dynamic Embeddings
-
-Dynamic embeddings are embeddings that can change depending on context.
-
-| Model | How it works                                                                     |
-|-------|----------------------------------------------------------------------------------|
-| ELMo  | Uses a deep LSTM to generate embeddings based on the entire sentence             |
-| BERT  | Uses transformers and attention to create context-aware embeddings for each word |
-| GPT   | Also produces dynamic embeddings (during generation or fine-tuning)              |
+    - Dynamic embeddings are embeddings that can change depending on context.
+    - <table><tr><th>Model</th><th>How it works</th> </tr>
+      <tr><td>ELMo</td><td>Uses a deep LSTM to generate embeddings based on the entire sentence</td> </tr>
+        <tr><td>BERT</td><td>Uses transformers and attention to create context-aware embeddings for each word</td> </tr>
+        <tr><td>GPT</td><td>Also produces dynamic embeddings (during generation or fine-tuning)</td> </tr>
+          </table>
 
 1. Contextual -> Used in attention/Transformers
 

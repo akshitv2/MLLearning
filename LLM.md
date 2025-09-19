@@ -17,7 +17,7 @@
         - [Applications](#applications)
             - Contrastive Pretraining for Embeddings
             - RAG
-            - Instruction Fine Tuning
+            - Instruction Fine-Tuning
 
 ## Challenges
 
@@ -81,7 +81,7 @@
 - #### Modern Tokenization:
     - **Byte Pair Encoding**: Iteratively merge two most frequent pairs of characters.  
       Choose two most frequent pairs of characters that appear together until you reach required vocab so creates
-      combinations of common words: eg Un happpy  
+      combinations of common words: eg Un happy  
       h e l l o -> he l l o -> hel l o -> hell o -> hello
     - **Word Piece Encoding**: Combines word based on maximizing log likelihood of sentences. Likelihood of characters
       alone grows at rate of (1/26)^c.
@@ -89,10 +89,19 @@
       $$s^\ast(w) = \arg\max_{s \in \mathcal{S}_V(w)} \prod_{i=1}^{K(s)} P(u_i)
       = \arg\max_{s \in \mathcal{S}_V(w)} \sum_{i=1}^{K(s)} \log P(u_i)$$
 - #### **Positional Encoding**
-  Encodes position in sentence as well dimensionally.
-  $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
-  $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
-  where d is the dimension of embedding and p position in sentence
+    - ##### Usage:
+        - Added to deep/shallow embeddings to create encoded and embedded token
+    - ##### Sinusoidal:
+      Encodes position in sentence as well dimensionally.
+      $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
+      $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$  
+      where d is the dimension of embedding and p position in sentence
+        - bound to [-1,1] due to sin and cos functions
+    - #### Learned:
+        - Train a set of vectors to output embedding number
+        - Since learned embeddings are not bound by sin and cos can cause embedding collision
+    - ℹ️Note: Since each embedding is different for each position the same word at position 1 and position 2 will appear
+      as different words to the model (but since sin and cos are [-1,1] not that different)
 - #### **Contrastive Learning**
   Type of self supervised learning, teaches models to recognize similar and diff things. Learns by comparing examples.
   Doesn't use labels, instead augments same sample enough times so that model learns to generalize e.g model learns two
@@ -127,19 +136,23 @@
            ℹ️ Note: FIM: Basically squared probablity of getting ∂(y<sub>actual</sub> | x)/∂(this nueron)
         3. Dynamic Architectures: Add neurons or layers for giving model space to learn new tasks.
 - #### **Hallucination
-  **: Model generates incorrect outputs with fluency and confidence. Since LLM are prediction models if they don't know a fact they predict the next best fitting words.
+  **: Model generates incorrect outputs with fluency and confidence. Since LLM are prediction models if they don't know
+  a fact they predict the next best fitting words.
 
 Solution:
+
 1. Retrieval Augmented Generation: Use context to answer + use another LLM as a judge to verify
 2. Training with uncertainity in answer i.e LLM is allowed to say it doesn't know (combine with RLHF)
 3. Use LLMs that can use symbolic reasoning  
-ℹ️Note: Symbolic Reasoning: Manipulating symbols, let LLM come to an answer than know it. Ways to do it?  
+   ℹ️Note: Symbolic Reasoning: Manipulating symbols, let LLM come to an answer than know it. Ways to do it?
+
 - Chain of thought
 - let AI use tools like calculator
 
 - #### **Repetition:**: The model repeats the same words because probablity distribution peaks too sharply there.
 - #### **Degeneration
-  **: Model gives bad outputs in general for eg. repititions, too many i don't know or yes, interesting. Phrases that don't provide quality signal.
+  **: Model gives bad outputs in general for eg. repititions, too many i don't know or yes, interesting. Phrases that
+  don't provide quality signal.
 
 Solution? Increate Temperature, Repitition Penalties, RLHF is always an option
 
@@ -240,22 +253,27 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
   Reciprocal Rank is 1/rank of first relevant doc
   $$\text{MRR} = \frac{1}{Q} \sum_{i=1}^{Q} \frac{1}{\text{rank}_i}$$
 
-  ## Parameter Efficient Fine Tuning
-    - Full Fine Tuning: Why NOT? Expensive to compute, high risk of catastrophic forgetting especially when pretrained
-      model Dataset not available to you
-    - Adapters: Small trainable set of layers intrdocued in a frozen model
-    - Prompt Tuning: Small set of soft prompts i.e not a full layer in the arch but instead just embedding added to the
-      start of user's prompt (usually torch.nn.Embedding). Model is frozen throughout
-    - LoRA: Low Rank Adaption : Reduces no. of trainable parameters by learning low rank A and B matrix instead of same
-      rank as the complex model. Lora modifies the W matrices which sit before attention calc  
-      Q=XWQ​,K=XWK​,V=XWV  
-      For e.g: ΔW=AB, and W<sub>final</sub>​= W + ΔW  
-      so W is not modified at all
-    - Prefix Tuning:
+  ## Parameter Efficient Fine-Tuning
+    - ### Full Fine-Tuning:E
+        - 🔴 Expensive to compute
+        - 🔴 High risk of catastrophic forgetting especially when pretrained model Dataset not available to you to
+          revisit
+    - ### Adapters:
+        - Small trainable set of layers introduced in a frozen model
+    - ### Prompt Tuning:
+        - Small set of soft prompts i.e. not a full layer in the arch but instead just embedding added to the
+          start of user's prompt (usually torch.nn.Embedding). Model is frozen throughout
+    - ### LoRA (Low Rank Adaption) :
+        - Reduces no. of trainable parameters by learning low rank A and B matrix instead of same
+          rank as the complex model. Lora modifies the W matrices which sit before attention calc  
+          Q=XWQ​,K=XWK​,V=XWV  
+          For e.g: ΔW=AB, and W<sub>final</sub>​= W + ΔW  
+          so W is not modified at all
+    - ### Prefix Tuning: to be added
 
   ## RAG Specific
-  - ### Vector DBS
-  - 
+    - ### Vector DBS
+    -
 
 
 - ### Search Algorithms:
@@ -263,14 +281,14 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
       Works using tf-idf with some normalization.  
       🔴Only matches exact tokens and struggles with synonyms  
       🟢Best performance at keyword heavy queries  
-      🟢Very Fast  
-      - ANN: Approximate Nearest Neighbour  
-      Dense retrieval e.g FAISS, ScaNN  
-      🔴Require expensive embedding model with more compute and memory req  
-      🔴Hard to interpret  
-      🟢Capture Semantic Similarity
-      🟢 Better performance in capturing meaning  
-      - ANN Implementations:
+      🟢Very Fast
+        - ANN: Approximate Nearest Neighbour  
+          Dense retrieval e.g. FAISS, ScaNN  
+          🔴Require expensive embedding model with more compute and memory req  
+          🔴Hard to interpret  
+          🟢Capture Semantic Similarity
+          🟢 Better performance in capturing meaning
+        - ANN Implementations:
     - Use Cosine Similarity, Dot Product (If we don't want to normalize, so can capture magnitude not just direction),
       Euclidean distance
     - HNSW: Builds a multilayer graph for efficient greedy search
@@ -295,7 +313,7 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
   $$P_i^{(\tau)} = \frac{\exp\!\left(\frac{z_i}{\tau}\right)}{\sum_j \exp\!\left(\frac{z_j}{\tau}\right)}$$
 -
     - Flatter dist = higher chance for less probablity to be picked
-    - Sharper dist = higher chance for high problity to be picked (greedy)
+    - Sharper dist = higher chance for high probability to be picked (greedy)
 
 ## Human Centric Eval
 

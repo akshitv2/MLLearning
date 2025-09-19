@@ -28,3 +28,36 @@
 
 5. Margin of Error (E)
 	- Range within which true population parameter is expected to lie with level of confidence.
+
+2. Efficient Softmax Variants
+
+When the vocabulary is huge (millions), we don’t want to compute the full softmax denominator (summing over all tokens). Alternatives:
+
+Sampled Softmax / Negative Sampling
+Only compute logits for the true word + a random subset of "negative" words. Used in word2vec, RNN LMs, etc.
+
+Hierarchical Softmax
+Represent vocab as a binary tree (or Huffman tree). Computing probability is 
+𝑂
+(
+log
+⁡
+∣
+𝑉
+∣
+)
+O(log∣V∣) instead of 
+𝑂
+(
+∣
+𝑉
+∣
+)
+O(∣V∣).
+Example: output layer decides "is it in the left subtree or right subtree?" recursively.
+
+Adaptive Softmax (used in large LMs like fairseq)
+Frequent words get their own dense cluster (fast), while rare words are grouped into classes, so you don’t compute the full distribution each time.
+
+Mixture of Softmaxes (MoS)
+Improves expressivity while still working with large vocab outputs.
