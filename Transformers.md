@@ -1,5 +1,50 @@
 # Transformer
 
+- Key component: Attention Mechanism
+
+## Attention Mechanism
+
+Improvements over Encoder Decoder:
+
+- Provides a way for each part of decoder to focus on each part of input
+    - 🟢 Allows selective focus on what part that decoder finds useful (Gives long range dependencies)
+    - 🟢 No bottlenecks as there is no common context vector
+    - 🟢 Allows parallel execution of each segment of decoder (while training)
+
+- Adds a path so at computation of each token, the model can access every part of the input and selectively focus on
+  parts it deems important.
+- ℹ️ In encoder/decoder arch info would fade due to context vector encoding only limited length + model would lose long
+  range relationships.
+- At its core, the attention mechanism computes a set of attention scores that determine how much focus each input
+  element (e.g., a word in a sentence) should receive when processing another element.
+- Composed of:
+    1. Query, Key and Value Vectors:
+        - Query (Q): Represents the question model is asking -> what am I looking for?
+        - Key (K): Represents what info or the label for each token -> I have information on this
+        - Value (V): Actual information that will be passed on choosing this token
+        - Calculated using learned weight matrices W<sub>Q</sub>,W<sub>K</sub> & W<sub>V</sub>.
+        - Q = XW<sub>Q</sub>, K = XW<sub>K</sub>, V = XW<sub>V</sub>
+        - X ∈ R<sup>nxd<sub>model</sub></sup> where dmodel is the embedding dimension
+        - W<sub>Q</sub> ∈ R<sup>d<sub>model</sub>×d<sub>k</sub></sup>
+        - ℹ️ These matrices play no part in encoding decoding outside of attention score calc
+        - ℹ️ The definitions might seem vague, that's because this is their expected role not their literal working
+    2. Attention Scores:
+        - Model calculates how relevant each input token is to every other token by computing dot product
+        - Score = QK<sup>T</sup>
+        - To prevent large values scaled using dk
+        - $Scaled Score = \frac{QK^{\top}}{\sqrt{d_k}} $
+    3. Attention Weights
+        - Passed through softmax function to convert them to probabilities
+        - $\mathrm{Attention Weights}=\mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right) $
+    4. Weighted Sum:
+        - Attention weights are used to compute weighted sum of the value vectors
+        - $\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right) V $
+
+    - ℹ️Note: dk is a key dimensionality vector, usually multiple attention heads are used instead of one large dk
+        - dk is chosen by d<sub>model</sub>/h where h is the number of attention heads
+        - larger dk makes training extremely slow, smaller dks often used. dk=64 common in many models due to comp
+          efficiency
+
 - ![img_18.png](img_18.png)
 - Usually Made up of encoder decoder (or one of these)
 - Improvement over traditional RNN
@@ -61,5 +106,24 @@ FFN(x)=W2​f(W1​x+b1​)+b2​
 - 🟢 Transform the output of attention, basically processing it (basically now i have all the needed info, what should i
   do with it)
 - 🟢 Add non-linearity to the output of attention blocks
- ## 7. Softmax
-At the end of decoder to transform into probabilities
+
+## 7. Softmax
+
+At the end of decoder to transform into probabilities to choose words (in LMs) to output.
+
+## Questions
+
+1. **What is masking and why is it used in transformer?**
+   Masking is used to restrict which tokens are allowed to attend to others in the attention mechanism.
+   - Ensures proper training behavior (e.g., no peeking into future words).
+   - Simulates test-time left-to-right generation during training.
+   Types:
+   - Padding Mask: Ignores [PAD] tokens during attention.
+   - Look-Ahead (Causal) Mask: Prevents a token from attending to future tokens — essential for autoregressive
+   tasks like text generation.
+   - Encoder-Decoder Mask: (Less common) Restricts attention from the decoder to specific encoder positions.
+2. **Why not just use indices instead of positional encoding?**
+   - A raw index (like just "0", "1", "2") isn’t differentiable and can't capture patterns like “this word is 3
+   tokens ahead”.
+   - Using sinusoidal positional encoding allows the model to generalize to longer sequences and recognize
+   relative as well as absolute positions.

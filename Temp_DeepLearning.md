@@ -3,106 +3,6 @@
 Index of notations to complete/learn more:
 `⚠️[Requires Investigation]`
 `❌[Incomplete]`
-
-## Deep Learning
-
-1. **Perceptron**
-   A Perceptron is the simplest type of artificial neural network. It is a type of linear classifier that makes
-   predictions based on a weighted sum of input features followed by an activation function.
-   Composed of: A perceptron consists of the following components:
-    1. **Inputs** (x1,x2,...,xnx_1, x_2, ..., x_nx1,x2,...,xn): Features of the data.
-    2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that determine the importance of
-       each feature.
-    3. **Bias** (b): A constant term that allows shifting the decision boundary.
-    4. **Summation Function:** Computes the weighted sum of inputs
-       $$z = \sum_{i=1}^{n} w_i x_i + b$$
-    5. **Activation Function**: Applies a step function (threshold function) to determine the output:
-       $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
-2. **Feed Forward Neural Networks**
-3. **Hidden Layers**<br>
-   Layers between the input and output layers
-4. **Width of Model**
-5. **Weights and Biases**  
-   (Mentioned above)
-   Weights: Defined for each connection. Variable input is multiplied with.  
-   Biases: Defined for each node. Variable input shifted by.
-6. **Universal Approximation Theorem**
-   The Universal Approximation Theorem is a pivotal result in neural network theory, proving that feedforward neural
-   networks can approximate any continuous function under certain conditions.  
-   The theorem only states that such a mapping exists but provides no way to find it and does no assertion that
-   backpropagation
-   can or will find it.
-7. **Activation Function**
-    1. **Need**  
-       Activation functions are crucial in neural networks because they introduce non-linearity into the model, enabling
-       it to learn complex patterns and relationships in data. Without activation functions, a neural network would
-       essentially be a linear model, limiting its ability to handle complex tasks.
-       If we had no activation function, the output of a layer would be simply a weighted sum of the inputs z=w<sub>
-       1</sub>x<sub>1</sub>+w<sub>2</sub>x<sub>2</sub>+...+w<sub>n</sub>x<sub>n</sub>+bz = w_1x_1 + w_2x_2 + ... +
-       w_nx_n + bz=w1x1+w2x2+...+wnxn+b
-
-    2. Common ones:
-        1. **ReLU**
-           Rectified Linear Unit – f(x)=max(0,x)  
-           $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}$$
-           <br>![](/Images/3_deepLearning_relu_2.png)
-
-            - Pros:
-                - Only negatively saturates
-                - Better Sparsity so less computation
-            - Cons:
-                - Dying RELU (Can get stuck at 0)
-                - Not differentiable at 0 (solved using f′(0)=0)
-
-        2. **Leaky ReLU**
-           $$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
-           Where α: a small positive constant (usually something like 0.01).  
-           Designed to fix a problem known as the "**dying ReLU**" problem  
-           Leaky ReLU doesn’t just cut off all negative values — instead, it lets a small negative slope through.
-           So even when x<0, the function still outputs a small (negative) value and, more importantly, has a non-zero
-           gradient.  
-           Alpha << 1
-
-            - The neuron still gets to learn (because there's still a gradient to flow back during backpropagation).
-            - It reduces the risk of neurons getting “stuck” outputting 0 forever.
-
-        3. **Parametric ReLU**
-           $$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$  
-           Here alpha is not fixed and learned during training.  
-           Can be shared or different alpha per layer.<br>Gives the network freedom to learn better slopes but this may
-           cause overfitting if you're not careful.
-           <br>Slightly slower than regular Relu due to the extra computation.
-
-        4. **Sigmoid (Logit)**  
-           $$f(x) = \frac{1}{1 + e^{-x}}$$
-           ![](/Images/3_deepLearning_sigmoid_2.png)  
-           When x→−∞ f(x)→0<br/>When x→+∞ f(x)→1<br/>At x=0, f(x)=0.5<br/>  
-           Not used much anymore due to vanishing gradients (since derivative is close to 0).   
-           Also, computationally expensive.
-           since σ'(x) max value is 0.25
-
-        5. **Tanh**$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$  
-           Output Range
-            - tanh(x) outputs values in the range (-1, 1)
-            - At x = 0, tanh(x) = 0
-            - As x → +∞, tanh(x) → 1
-            - As x → -∞, tanh(x) → -1   
-              like sigmoid, tanh suffers from the vanishing gradient problem (but not as aggressively) for very large or
-              very small inputs and
-              unpopular compared to RELU.
-              Since tanh'(x) = 1 - tanh<sup>2</sup>(x) has a max value of 1
-
-        6. **Softmax**$$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$  
-           where:
-            - z<sub>i</sub> is the i-th logit (raw score)
-            - n is the totoal number of classes
-            - The output is a vector of probabilities that sums to 1   
-              The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
-              `❌[Incomplete]`
-
-        7. **Swish**
-
-        8. **GELU**<br/><br/>
     3. Questions:
         1. Why Non-Linearity Important?
            <br/><br/>
@@ -700,7 +600,6 @@ Index of notations to complete/learn more:
         4. Why not just use indices instead of positional encoding?
             - A raw index (like just "0", "1", "2") isn’t differentiable and can't capture patterns like “this word is 3
               tokens ahead”.
-
             - Using sinusoidal positional encoding allows the model to generalize to longer sequences and recognize
               relative as well as absolute positions.
 
@@ -843,7 +742,7 @@ Index of notations to complete/learn more:
     1. **Definition**
        Regularization is a technique used to prevent overfitting by adding constraints to a model.  
        It is needed to prevent overfitting, improve generalization, and ensure stable training of models.  
-       Choosing model: (We Choose simplest model for a loss based on Occam’s Razor)  
+       Choosing model: (We Choose the simplest model for a loss based on Occam’s Razor)  
        min : {loss(Training Data|Model)}+λ∗𝑐omplexity(Model)  λ >= 0
     2. **Types**
         1. **L1 Lasso**

@@ -86,6 +86,12 @@
             - Used in multi class classification gives normalized probabilities which sum to 1
             - uses e because summing + and - can cancel some out and e^x is never 0
             - The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
+    3. #### ❓Questions:
+        1. **Why is softmax e<sup>z<sub>i</sub></sup> and not z<sub>i</sub> when both sum to 1?**
+            - Zi has certain problems:
+                - Negative values break it e.g 1,2,-3
+                - It becomes a linear relationship. Exponential highlights larger values
+                - Exponential give heightened gradients instead of flatter ones.
 
 8. ### Gradient Descent
    First order iterative algorithm to find local minima of loss function  
@@ -276,15 +282,16 @@
             - $$v_{t+1} = \mu v_t - \eta \nabla_\theta \mathcal{L}(\theta_t), \quad \theta_{t+1} = \theta_t + v_{t+1}$$
         - [NAG](#Nesterov-Accelerated-Gradient-Descent) is possible to use with this
     2. #### RMSProp (Root Mean Square Propagation)
-       - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
-       - $$ \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \nabla_\theta \mathcal{L}(\theta_t)$$
-       - E[g^2] is a vector, holding one running average per parameter.
-       - $\epsilon$ small number, prevents divide by 0
-       - Adapts learning rate according to each parameter individually.
-       - Keeps a moving squared average of squared gradients (not Expectation)
-       - Updates are smaller when gradient is large -> Why? We want to move slower on params which loss function is highly
-         sensitive to.
-       - Used to be useful in RNNs no longer SOTA
+        - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
+        - $$ \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \nabla_\theta \mathcal{L}(\theta_t)$$
+        - E[g^2] is a vector, holding one running average per parameter.
+        - $\epsilon$ small number, prevents divide by 0
+        - Adapts learning rate according to each parameter individually.
+        - Keeps a moving squared average of squared gradients (not Expectation)
+        - Updates are smaller when gradient is large -> Why? We want to move slower on params which loss function is
+          highly
+          sensitive to.
+        - Used to be useful in RNNs no longer SOTA
     3. #### Adam (Adaptive Moment Estimation)
         - Formulae:
             - $m_t = \beta_1 m_{t-1} + (1-\beta_1)\nabla_\theta \mathcal{L}(\theta_t)$
@@ -294,22 +301,26 @@
             - $\quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon}\hat{m}_t$
         - Uses exponentially decaying moving averages of moments:
             1. First Moment: Mean of gradients (mt) -> Why? Because the raw gradient can be noisy
-            2. Second Moment: Mean of squared gradients (vt) -> Why square? Squaring removes the sign, leaving only the magnitude
+            2. Second Moment: Mean of squared gradients (vt) -> Why square? Squaring removes the sign, leaving only the
+               magnitude
         - Corrects bias introduced by (1-$\beta$) at step 1 (no mt-1)
-        - at final step divides momentum by sqrt of velocity 
+        - at final step divides momentum by sqrt of velocity
         - This controls rate of descent
         - Example:
-          - Suppose a parameter’s gradient sequence looks like this over time:+5,−5,+5,−5
-          - The mean gradient (first moment, 𝑚𝑡) will average out close to zero, because positives and negatives cancel.
-          - The squared gradient (second moment, 𝑣𝑡) will stay large (since 5^2=25, no cancellation).
-          - A parameter with gradients that constantly flip sign is a parameter where the optimizer isn’t confident about which way to move so slows rate of descent
+            - Suppose a parameter’s gradient sequence looks like this over time:+5,−5,+5,−5
+            - The mean gradient (first moment, 𝑚𝑡) will average out close to zero, because positives and negatives
+              cancel.
+            - The squared gradient (second moment, 𝑣𝑡) will stay large (since 5^2=25, no cancellation).
+            - A parameter with gradients that constantly flip sign is a parameter where the optimizer isn’t confident
+              about which way to move so slows rate of descent
     4. #### AdamW
-       - Difference only matters when using L2 Regularization
-       - In vanilla adam lambda penalty is added to gradient
-       - This means penalty is scaled and carried forward in next steps moving average too (penalty of current weights to be precise)
-       - AdamW only applies Lambda penalty at final step seperately
+        - Difference only matters when using L2 Regularization
+        - In vanilla adam lambda penalty is added to gradient
+        - This means penalty is scaled and carried forward in next steps moving average too (penalty of current weights
+          to be precise)
+        - AdamW only applies Lambda penalty at final step seperately
     5. #### Ada grad
-       - Ancestor to RMS Prop without the moving average
+        - Ancestor to RMS Prop without the moving average
 
 ## Architectures
 
@@ -408,25 +419,67 @@
         2. 🔴 Bottle Neck at Encoded Vector: Since context vector is fixed length no matter length of input sequence
         3. 🔴 No long range dependencies: Hidden state decays almost instantly, even long term memory decays across
            sequence
-5. ### Attention Mechanism
-    - #### How it fixes Shortcomings of encoder decoder:
-        - Provides a way for each part of decoder to focus on each part of input
-        - 🟢 Allows selective focus on what part that decoder finds useful (Gives long range dependencies)
-        - 🟢 No bottlenecks as there is no common context vector
-        - 🟢 Allows parallel execution of each segment of decoder (while training)
-    - #### Types:
-        - Bahdanau Attention
-        - Scaled Dot Product
-            - $\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right) V $
-            - Here Q, K and V are
-            - $Q = X W^Q, \quad K = X W^K, \quad V = X W^V$
-            - d<sub>k</sub> controls the size of attention matrices i.e Q and K are n * dk and dk * m
-            - Root dk scales dot product
-            - Softmax-ed to calculate how much should V contribute
-            - Training: Trains using teacher forcing mostly
-
-6. ### Transformer
+5. ### Attention Mechanism [explained in Transformers.md](Transformers.md#Attention-Mechanism)
+6. ### Transformer [explained in Transformers.md](Transformers.md)
 7. ### Generative Adversarial Network
 8. ### Auto Encoder
 9. ### Variational Auto Encoder
 10. ### Diffusion Networks
+11. ### Transfer Learning
+    - Machine learning technique where a model trained on one task is reused (partially or fully)
+      on a different but related task.
+    - Instead of training a model from scratch, you start with a pretrained model that has already learned useful
+      features
+      from a large dataset, and you fine-tune it for your specific task.
+    - Common uses:
+        - Feature extractor: The initial layers (often convolutional or embedding layers) that learn to identify general
+          features such as edges, shapes, textures, or word relationships.
+            - Often uses as perceptual loss calculating in image models
+    - Usage:
+        - Freezing and Fine-Tuning
+            - Freezing: The feature extractor’s weights are frozen, meaning they are not updated during training.
+                - A new classification head is appended and trained on the target dataset.
+                - This approach is useful when the target dataset is small or closely related to the original dataset.
+            - Fine-Tuning:
+                - After replacing the classification head and training it for a few epochs, some or all of the
+                  pretrained layers
+                  are unfrozen.
+                - The entire model, or select layers, are retrained with a smaller learning rate to refine feature
+                  representations.
+                - Fine-tuning is beneficial when the target task differs significantly from the source task.
+12. ### Training Strategies
+    1. #### Teacher Forcing:
+        - Feeds the ground truth previous tokens at time t rather than the model's output at time t-1
+        - 🟢 Allows training in parallel since model is not required to output t-1
+        - 🟢 Allows model to learn accurate output to accurate t-1
+        - 🔴 Exposure Bias: Model struggles with its own predictions since it never trained on that
+    2. #### Scheduled Sampling
+        - Solution to teacher forcing (Solves exposure bias)
+        - Gradually reduces amount of teacher forcing
+        - 🔴 Causes training instability
+        - 🔴 Can cascade errors if models t-1 output is wrong
+    3. #### Curriculum Learning
+        - Trains on easier sequences first then more difficult one
+        - Imitates teaching humans via curriculum
+        - 2 styles:
+            - In Epoch (ordered Batches):
+                - same epoch ordered easy to hard
+                - 🟢 Simple
+                - 🔴 Doesn't give model enough time
+                - 🔴 Can confuse optimizer due to change in gradient
+            - Across Epoch (staged):
+                - Feed easier DS first
+                - 🟢Improved Generalization
+                - 🔴Harder to implement
+        - 🟢 Faster convergence
+        - 🟢 Improved Generalization
+        - 🔴Difficult to tell what model actually considers difficult
+    4. #### Professor Forcing
+       - Similar to GAN
+       - Generate both teacher forced and free run output together
+       - Aim is to fool discriminator into thinking it was teacher forced when it wasn't
+       - 🟢 Eliminates Train Test Mismatch
+       - 🟢 Differentiable
+       - 🟢 Works well for longer sequences
+       - 🔴 Very complex
+    5. #### Label Smoothing
