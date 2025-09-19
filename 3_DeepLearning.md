@@ -14,9 +14,9 @@
     5. **Activation Function**: Applies a step function (threshold function) to determine the output:
        $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
 2. **Feed Forward Neural Networks**
-   - Simplest type of NN
-   - Composed of just:
-     - Layers process input → hidden → output.
+    - Simplest type of NN
+    - Composed of just:
+        - Layers process input → hidden → output.
 3. **Hidden Layers**<br>
     - Layers between the input and output layers
 4. ### Width of Model**
@@ -34,7 +34,7 @@
        Introduce Non Linearity: Without them NN of any depth would be same as one linear transformation
     2. #### Types:
         1. ##### Sigmoid [DEPRECATED]
-           $$f(x) = \frac{1}{1 + e^{-x}}$$  
+           $$f(x) = \frac{1}{1 + e^{-x}}$$
             - ![img_21.png](img_21.png)
             - Bounded [0,1]
             - as x→∞ y→ 1
@@ -124,17 +124,38 @@
         5. ### Nesterov Accelerated Gradient Descent
             - Adds look ahead to momentum i.e. calculates descent from a position which is already at position post this
               update
+            - Basically it uses the velocity update on the theta param (calc) itself instead of just on the final params
             - $$v_t = \gamma v_{t-1} + \eta \nabla_\theta J(\theta_{t-1} - \gamma v_{t-1})$$
             - 🟢 faster convergence
             - Optimizer is peeking ahead and adjusting course in direction before overshooting.
 
     2. ### Common Issues:
         1. ### Vanishing Gradient
+            - During backpropagation gradients are calculated using chain rule:
+              $\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y} \cdot \frac{\partial y}{\partial x}$
+            - if each derivative <1 multiplication causes gradient to earlier layers ~ 0
+            - This causes neurons to stop updating
+            - Solution?
+                - Detection: Manually log gradients or use hooks in pytorch
+                - Use better activation functions: ReLU than sigmoid/tanh, leaky relu than relu
+                - Proper weight init: Xavier/He
+                - Add norm layers
+                - Use Skip connections
         2. ### Exploding Gradient
+            - During backpropagation gradients are calculated using chain rule:
+            - $\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y} \cdot \frac{\partial y}{\partial x}$
+            - if each derivative >1 multiplication causes gradient to earlier layers to reach infinity
+            - Causes spikes in training loss, signal is lost
+            - Solution?
+                - Detection: Manually log gradients or use hooks in pytorch
+                - Gradient Clipping:
+                    - Two Common ways:
+                        1. Clipping by Value: each individual gradient is maxed at v threshold
+                        2. Clip by Norm: if the L2 norm of entire gradient > τ -> clip it by g = g.τ/||g||
 9. ### Backpropagation
 10. ### Weight Initialization
     1. #### Zero Init
-        - Initiliaze all weights as 0
+        - Initialize all weights as 0
         - 🔴⚠️ Terrible idea, any time all weights have same value causes symmetric learning i.e. all neurons in layer
           learn same values
     2. #### Random Init (Naive)
@@ -143,33 +164,40 @@
     3. #### Xavier Init
         - designed to keep variance and gradients approx same across all layers to avoid vanish/exploding gradient
         - ideal for **tanh/sigmoid**
-        - 2 types:
-          -
-          Uniform: $$W \sim \mathcal{U}\!\left(-\sqrt{\tfrac{6}{n_{\text{in}} + n_{\text{out}}}}, \; \sqrt{\tfrac{6}{n_{\text{in}} + n_{\text{out}}}}\right)$$
-            - Normal: $$W \sim \mathcal{N}\!\left(0, \; \tfrac{2}{n_{\text{in}} + n_{\text{out}}}\right)$$
+        - 2 Types:
+            1. Uniform:
+                - $$W \sim \mathcal{U}\!\left(-\sqrt{\tfrac{6}{n_{\text{in}} + n_{\text{out}}}}, \; \sqrt{\tfrac{6}{n_{\text{in}} + n_{\text{out}}}}\right)$$
+            2. Normal:
+                - $$W \sim \mathcal{N}\!\left(0, \; \tfrac{2}{n_{\text{in}} + n_{\text{out}}}\right)$$
         - n<sub>in</sub> and n<sub>out</sub> are number of connections in and out respectively
         - symmetric around 0 and squash values, so both the input side (fan-in) and output side (fan-out) matter
     4. #### He Init
         - designed to keep variance and gradients approx same across all layers to avoid vanish/exploding gradient
         - ideal for **Relu**
         - 2 Types:
-          -
-          Uniform: $W \sim \mathcal{U}\!\left(-\sqrt{\tfrac{6}{n_{\text{in}}}}, \; \sqrt{\tfrac{6}{n_{\text{in}}}}\right)$
-            - Normal: $W \sim \mathcal{N}\!\left(0, \; \tfrac{2}{n_{\text{in}}}\right)$
+            1. Uniform:
+                - $W \sim \mathcal{U}\!\left(-\sqrt{\tfrac{6}{n_{\text{in}}}}, \; \sqrt{\tfrac{6}{n_{\text{in}}}}\right)$
+            2. Normal:
+                - $W \sim \mathcal{N}\!\left(0, \; \tfrac{2}{n_{\text{in}}}\right)$
         - n<sub>in</sub> are number of connections in
-        - Relu halves outputs (only +ves), variance of he doubled to compensate (compared to Xavier)
+        - Relu halves outputs (only +ves), variance of He doubled to compensate (compared to Xavier)
         - But since the key variance-preserving step happens on the input side, He init only uses fan-in
         - (on output side dL/dz gives 1 or 0 only unlike Xavier where it's a complex value)
+        - ℹ️ Pytorch uses He Uniform Initialization by Default
+
+    - ℹ️ Uniform distribution implies each value in this range is equally likely while normal implies higher likelihood
+      at mean
 11. ### Learning Rate Scheduling
     1. #### Step Decay
         - $\eta_t = \eta_0 \cdot \gamma^{\left\lfloor \tfrac{t}{T} \right\rfloor}$
         - Drops LR by a constant factor every few epochs
+        - ![img_22.png](img_22.png)
     2. #### Exponential Decay
         - $\eta_t = \eta_0 \cdot e^{-\lambda t}$
         - Drops learning rate exponentially per epoch
         - ![img_9.png](img_9.png)
     3. #### Cosine Annealing
-        - Follows gentler cosine function
+        - Follows gentler cosine function (convex first then concave)
         - $\eta_t = \eta_{\min} + \tfrac{1}{2}(\eta_0 - \eta_{\min}) \left(1 + \cos\!\left(\frac{\pi t}{T_{\max}}\right)\right)$
         - ![img_10.png](img_10.png)
     4. #### Polynomial Decay
@@ -242,10 +270,46 @@
     7. #### Data Augmentation?
 13. ### Optimizer
     1. #### SGD
-    2. #### RMSProp
-    3. #### Adam
+        - Foundational and simple
+        - $\theta_{t+1} = \theta_t - \eta \, \nabla_\theta \mathcal{L}(\theta_t)$
+        - With momentum :
+            - $$v_{t+1} = \mu v_t - \eta \nabla_\theta \mathcal{L}(\theta_t), \quad \theta_{t+1} = \theta_t + v_{t+1}$$
+        - [NAG](#Nesterov-Accelerated-Gradient-Descent) is possible to use with this
+    2. #### RMSProp (Root Mean Square Propagation)
+       - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
+       - $$ \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \nabla_\theta \mathcal{L}(\theta_t)$$
+       - E[g^2] is a vector, holding one running average per parameter.
+       - $\epsilon$ small number, prevents divide by 0
+       - Adapts learning rate according to each parameter individually.
+       - Keeps a moving squared average of squared gradients (not Expectation)
+       - Updates are smaller when gradient is large -> Why? We want to move slower on params which loss function is highly
+         sensitive to.
+       - Used to be useful in RNNs no longer SOTA
+    3. #### Adam (Adaptive Moment Estimation)
+        - Formulae:
+            - $m_t = \beta_1 m_{t-1} + (1-\beta_1)\nabla_\theta \mathcal{L}(\theta_t)$
+            - $\quad v_t = \beta_2 v_{t-1} + (1-\beta_2)(\nabla_\theta \mathcal{L}(\theta_t))^2$
+            - $\quad \hat{m}_t = \frac{m_t}{1-\beta_1^t}$
+            - $\quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}$
+            - $\quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon}\hat{m}_t$
+        - Uses exponentially decaying moving averages of moments:
+            1. First Moment: Mean of gradients (mt) -> Why? Because the raw gradient can be noisy
+            2. Second Moment: Mean of squared gradients (vt) -> Why square? Squaring removes the sign, leaving only the magnitude
+        - Corrects bias introduced by (1-$\beta$) at step 1 (no mt-1)
+        - at final step divides momentum by sqrt of velocity 
+        - This controls rate of descent
+        - Example:
+          - Suppose a parameter’s gradient sequence looks like this over time:+5,−5,+5,−5
+          - The mean gradient (first moment, 𝑚𝑡) will average out close to zero, because positives and negatives cancel.
+          - The squared gradient (second moment, 𝑣𝑡) will stay large (since 5^2=25, no cancellation).
+          - A parameter with gradients that constantly flip sign is a parameter where the optimizer isn’t confident about which way to move so slows rate of descent
     4. #### AdamW
+       - Difference only matters when using L2 Regularization
+       - In vanilla adam lambda penalty is added to gradient
+       - This means penalty is scaled and carried forward in next steps moving average too (penalty of current weights to be precise)
+       - AdamW only applies Lambda penalty at final step seperately
     5. #### Ada grad
+       - Ancestor to RMS Prop without the moving average
 
 ## Architectures
 
