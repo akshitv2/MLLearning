@@ -7,25 +7,24 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 ## Table of Contents
 
 ### 1. [Data Pre-Processing](DataPreProcessing.md)
-- Brief description of Topic 1
-### 2. [Machine Learning](3_ML.md)
 
-- Brief description of Topic 2
+### 2. [Machine Learning](2_ML.md)
 
-### 3. [Deep Learning](DeepLearning.md)
-
-- Brief description of Topic 3
+### 3. [Deep Learning](3_DeepLearning.md)
 
 ### 4. [Large Language Models](LLM.md)
 
-- Brief description of Topic 4
-
 ---
 
-## Notes
+## Recall Questions
 
-- Each topic has its own markdown file linked above.
-- You can navigate through the sections by clicking the links.
+### 1. [Data Pre-Processing](DataPreProcessing.md)
+
+### 2. [Machine Learning](2_ML.md)
+
+### 3. [Deep Learning](3_DeepLearning_Recall.md)
+
+### 4. [Large Language Models](LLM.md)
 
 ---
 
