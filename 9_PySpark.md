@@ -110,7 +110,9 @@ df.write.json("output.json", mode="overwrite")
 ## DataFrame Operations
 ```python
 # Show DataFrame
-df.show(5)  # Display first 5 rows
+df.show(5)  # Display first 5 rows (Pretty Prints)
+df.head(5)  # Get first 5 rows
+df.tail(5)  # Get last 5 rows
 df.printSchema()  # Display schema
 
 # Select columns
@@ -118,6 +120,9 @@ df.select("col1", "col2").show()
 
 # Filter rows
 df.filter(df.col1 > 100).show()
+
+# Rename Columns
+df.withColumnRenamed("oldName", "newName")
 
 # Group by and aggregate
 df.groupBy("col1").agg({"col2": "sum"}).show()
@@ -130,6 +135,22 @@ df.dropDuplicates(["col1"]).show()
 
 # Drop columns
 df.drop("col1").show()
+```
+## Collect, Count, and Take
+```python
+# Collect: Retrieve all rows as a list of Row objects (use cautiously, pulls data to driver)
+data = df.collect()  # Returns entire DataFrame as a list
+for row in data:
+    print(row["col1"])
+
+# Count: Get total number of rows
+row_count = df.count()  # Returns a single integer
+print(f"Total rows: {row_count}")
+
+# Take: Retrieve first n rows as a list of Row objects
+first_five = df.take(5)  # Returns first 5 rows
+for row in first_five:
+    print(row)
 ```
 
 ## Joins
@@ -145,6 +166,10 @@ df_joined = df1.join(df2, ["key"], "right")
 
 # Full outer join
 df_joined = df1.join(df2, ["key"], "outer")
+
+# Cross Join
+# 🔴 Rows Explode very quickly with this so very dangerous 
+df_joined = df1.crossJoin(df2)
 ```
 
 ## Handling Missing Values
@@ -235,6 +260,51 @@ df.withColumn("date_col", to_date(col("string_date"), "yyyy-MM-dd")).show()
 ## Stopping SparkSession
 ```python
 spark.stop()
+```
+
+## ML Pipeline Ops
+```python
+from pyspark.ml.feature import VectorAssembler, StandardScaler
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.regression import LinearRegression
+from pyspark.ml import Pipeline
+
+# Prepare data: Combine features into a single vector
+assembler = VectorAssembler(
+    inputCols=["feature1", "feature2", "feature3"],
+    outputCol="features"
+)
+
+# Scale features
+scaler = StandardScaler(inputCol="features", outputCol="scaled_features")
+
+# Define a model (e.g., Logistic Regression for classification)
+lr = LogisticRegression(featuresCol="scaled_features", labelCol="label")
+
+# Create pipeline
+pipeline = Pipeline(stages=[assembler, scaler, lr])
+
+# Split data
+train_df, test_df = df.randomSplit([0.8, 0.2], seed=42)
+
+# Fit pipeline
+model = pipeline.fit(train_df)
+
+# Make predictions
+predictions = model.transform(test_df)
+predictions.select("prediction", "label").show()
+
+# Evaluate model (e.g., for classification)
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")
+accuracy = evaluator.evaluate(predictions)
+print(f"Accuracy: {accuracy}")
+
+# Example for regression
+lr_reg = LinearRegression(featuresCol="scaled_features", labelCol="target")
+pipeline_reg = Pipeline(stages=[assembler, scaler, lr_reg])
+model_reg = pipeline_reg.fit(train_df)
+predictions_reg = model_reg.transform(test_df)
 ```
 
 ## Tips
