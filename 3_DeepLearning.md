@@ -519,8 +519,101 @@
 5. ### Attention Mechanism [explained in Transformers.md](4_Transformers.md#Attention-Mechanism)
 6. ### Transformer [explained in Transformers.md](4_Transformers.md)
 7. ### Generative Adversarial Network
+    - Use two neural networks:
+        1. Generator:
+            - Creates new data
+            - Takes random noise as input, transforms into something that resembles real data
+        2. Discriminator:
+            - This neural network acts as a binary classifier.
+            - Its job is to examine an input and determine whether it's genuine or fake.
+    - The Adversarial Process:
+        - The generator and discriminator are trained simultaneously.
+        - The generator tries to produce outputs that are so realistic they can fool the discriminator. The
+          discriminator, in turn, gets better
+          at spotting the fakes.
+        - These are trained alternatingly freezing one while other learns
+        - This creates a feedback loop: every time the discriminator successfully identifies a fake, the generator
+          learns from its mistake and adjusts its parameters to produce more convincing fakes.
+        - Over many iterations, this competitive process drives both networks to improve, with the generator becoming so
+          skilled that the discriminator can no longer reliably tell the difference between a real and a generated
+          sample.
+    - Issues:
+        - Model Collapse:
+            - Model produces limited variety of good examples that fool Discriminator, fails to generalize
+            - one of the most common and significant problems
+        - Vanishing Gradients:
+            - If Discriminator is too strong, Generator gets a 0 for everything
+        - Training Instability and non convergence:
+            - The generator and discriminator are constantly trying to
+              outmaneuver each other, which can lead to oscillations in their performance, making it difficult for the
+              models to converge to a stable state.
+        - Difficulty in Evaluation:
+            - Unlike traditional supervised learning tasks with clear metrics like accuracy,
+              evaluating the quality and diversity of generated samples in GANs is complex.
+            - Metrics like Inception Score (IS) and Fréchet Inception Distance (FID) have been developed, but they only
+              provide a partial understanding of the model's true performance.
 8. ### Auto Encoder
+    - Unsupervised learning model
+    - Primary Goal: Learns a compressed/encoded representation of the input and recreates it to match at output end.
+    - ![img_23.png](img_23.png)
+    - Parts:
+        1. ### Encoder:
+            - Takes the input data and progressively reduces its dimensionality through a series of layers.
+            - The final output of the encoder is the **latent space representation** (also called the bottleneck or
+              code)
+            - This representation is shown to outperform PCA in lower dimensional information capturing
+        2. ### Decoder:
+            - Takes the compressed latent space representation and attempts to reconstruct the original input data.
+            - The goal of the decoder is to make its output as similar as possible to the original input.
+    - Common Types:
+        - Denoising Autoencoder:
+            - trained on corrupted or noisy data. The goal is to learn to reconstruct the original, clean data from the
+              noisy input.
+        - Sparse Autoencoder:
+            - introduce a sparsity constraint on the latent space representation. This means that only a small number of
+              neurons in the bottleneck layer are allowed to be active at any given time. This encourages the network to
+              learn a more efficient and distinct representation of the data.
+    - Applications:
+        - Dimensionality Reduction
+        - Anomaly Detection: By learning a representation of "normal" data, an autoencoder can flag data points that
+          have a high reconstruction error as anomalies.
+        - Image Denoising
+        - Image Generation: (VAE)
 9. ### Variational Auto Encoder
+    - A variational autoencoder (VAE) is a type of generative model that learns a compressed, probabilistic
+      representation of data. Unlike a standard autoencoder, which learns a fixed-point representation, a VAE models the
+      data's underlying structure by mapping it to a distribution in a latent space.
+    - In practice, it maps to fixed points too, but the fixed points are mean and variance. Then these are used as a
+      probablity distribution and sampled from (with a lower z score) to recreate input.
+    - This probabilistic approach allows VAEs to generate new, realistic data points that are similar to the training
+      data.
+    - ![img_24.png](img_24.png)
+    - Components:
+        - Encoder: Maps input to the parameters of a probability distribution in the latent space.
+        - Latent Space: lower-dimensional space where the compressed representations of the data reside. In a VAE, each
+          data point is represented not as a single point, but as a probability distribution
+        - Decoder: This network takes a point sampled from the latent space distribution and reconstructs the original
+          data.
+    - Re parametrization Trick:
+        - The VAE's objective function is a combination of two terms, and we need to use backpropagation to train the
+          network. However, the process of sampling from the latent space distribution (N(μ,σ 2 )) is not
+          differentiable.
+        - reparameterization trick solves this by separating the randomness from the network's parameters. Instead of
+          sampling directly from N(μ,σ^2), we sample from a standard normal distribution N(0,1)
+        - z = μ+σ⋅ϵ
+    - Loss Function:
+        - VAE's objective function, often called the Evidence Lower Bound (ELBO), is a trade-off between two competing
+          goals: accurate reconstruction and a well-behaved latent space.
+        - Consists of Two Parts:
+            - Reconstruction Loss:
+                - This term measures how well the decoder can reconstruct the original input from a
+                  sample of its latent distribution.
+                - Usually binary cross-entropy for black and white images
+                - MSE for colored ones
+            - KL Divergence:
+                - measures the difference between the distribution learned by the encoder for a given data point and a
+                  standard normal distribution N(0,1)
+                  Loss=ReconstructionLoss+β⋅KL_Divergence
 10. ### Diffusion Networks
 11. ### Transfer Learning
     - Machine learning technique where a model trained on one task is reused (partially or fully)
@@ -580,3 +673,16 @@
         - 🟢 Works well for longer sequences
         - 🔴 Very complex
     5. #### Label Smoothing
+13. ### Model Compression and Optimization
+    1. ### Knowledge Distillation
+        - Used to create smaller models yb scaling down larger ones without signficat loss in accuracy
+        - Process:
+            - Use teacher(original) and student model
+            - Train student model to predict the same outputs as teacher but with one difference
+            - Student is trained to predict soft targets (like p for each class in classification) instead of hard
+              labels 1|0
+            - Much easier to learn with softer targets since richer in info
+            - Use combination of: KL Divergence and Standard Loss (e.g. Cross entropy for sample)
+    2. ### Quantisation
+        - Takes a trained model and reduces numerical precision of weights/activations
+        - If precision not reduced by a lot, output remains similar

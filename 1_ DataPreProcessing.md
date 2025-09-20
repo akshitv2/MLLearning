@@ -178,7 +178,7 @@ Process of selecting a subset from a larger group (called population) to make in
             - 🔴 Doesn't capture context
         - Sentence tokenization: Splits text into sentences. (very low usecase)
         - Subword tokenization: Breaks down into smaller units than words (useful in deep learning).  
-          Two Popular Types: (ℹ️ Covered in LLM.md)
+          Two Popular Types: [Modern Tokenizations](5_LLM.md#Modern-tokenization)
             1. Byte Pair Encoding
             2. Word Piece Encoding
 3. ### Stopword Removal

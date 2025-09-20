@@ -2,7 +2,7 @@
 
 ## Index
 
-- [LLM](#llm)
+- [LLM](#5-llm)
     - [Foundations and basics](#foundations-and-basics)
         - [n-grams](#n-grams)
         - [Bag of Words](#bag-of-words)
@@ -129,7 +129,7 @@
 
 # Foundations and basics
 
-- #### n-grams
+- ### n-grams
   n → No. of words  
   example: Hi I am Sam  
   then 1 gram: ["Hi","I","am","Sam"]  
@@ -137,12 +137,12 @@
   then 3 gram: [["Hi","I","am"],["I","am","Sam"]]  
   then 4 gram: ["Hi","I","am","Sam"]
 
-- #### Bag of Words
-  Let our lowercased vocab be ["the","cat","dog","sat","on","mat"]   
-  then BOW converts sentence "The cat sat on the mat" to [2,1,0,1,1,1] (i.e. frequency of each word on the index in
-  vocab).
-  🔴Doesn't care about the word order
-- #### **TF-IDF**
+- ### Bag of Words
+    - Let our lowercased vocab be ["the","cat","dog","sat","on","mat"]
+    - then BOW converts sentence "The cat sat on the mat" to [2,1,0,1,1,1] (i.e. frequency of each word on the index in
+      vocab).
+    - 🔴Doesn't care about the word order
+- ### **TF-IDF**
     - Term Frequency Inverse Document Frequency
     - Tf(T,d) = count of times t appears in doc d/total number of terms in d
     - IDF(T,d) = log(Number of docs in corpus/Number of docs containing t)
@@ -150,7 +150,7 @@
     - **Idea:** TF gives how much word appears but is biased to common words. IDF gives lower scores for common words
       i.e. Rare
       word in docs means probably significant presence.
-- #### Modern Tokenization:
+- ### Modern Tokenization:
     - ##### Byte Pair Encoding:
         - Iteratively merge two most frequent pairs of symbols (starts from characters merging to
           form words).
@@ -183,7 +183,7 @@
   Sometime use labels, but can learn without them as well by instead augmenting same sample enough times so that model
   learns to generalize e.g. model learns two
   dogs are similar by augmenting each dog enough times.
-    - #### Contrastive Learning in LLMS
+    - #### Contrastive Learning in LLMs
         - Types:  
           Inputs are text sequences, to create similarity pairs:
             - Positive pairs: (created using augmenting text)
@@ -212,32 +212,38 @@
     - ### Fine-Tuning:
         - Models further trained on specific tasks to improve targeted use case performance
 - ### Other types of LLMs:
-    - ## Multimodal Large Language Models (MLLMs)
+    - ### Multimodal Large Language Models (MLLMs)
         - Integrate vision, audio and even 3d data (basically whatever can be encoded into a common embedding space)
-    - ## Agentic Systems
+    - ### Agentic Systems
         - New paradigm where LLM agents don't just generate text but have agency -> Use tools, planning and reasoning
         - Frameworks: ReAct (Reasoning + Act)
-    - ## Advanced Reasoning Models:
+    - ### Advanced Reasoning Models:
         - Optimized for multistep problem-solving rather than just fluent text. Extend base models
         - ## Key Techniques:
-            1. #### Chain of thought Prompting
+            1. ### Chain of thought Prompting
                 - Model is guided to generate intermediate steps instead of final answer
                 - for e.g. write out logic and calculations for a math problem
-            2. #### Self Consistency
+            2. ### Self Consistency
                 - Model generates multiple answers instead of one and answers are aggregated (like voting/bagging)
                 - Increases reliability
-            3. #### Tool Use:
+            3. ### Tool Use:
                 - Calls external systems/tools like apis, calculators
-            4. #### Tree/Graph Based Reasoning
+            4. ### Tree/Graph Based Reasoning
                 - Use tree/graph like structure instead of one linear chain of reasoning
                 - Branches need to be evaluated
                 - Most consistent one chosen
-            5. #### Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)
+            5. ### Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)
                 - Reasoning validated by this feedback
-    - ## Small Language Models (SMLs)
+    - ### Small Language Models (SMLs)
         - AI language models with fewer parameters and a more focused scope than Large Language Models (LLMs), making
           them efficient, cost-effective, and ideal for specific tasks and resource-constrained environments like
           smartphones and edge devices.
+    - ### Mixture Of Experts (MoE)
+      - Instead of one dense model, you have many “expert subnetworks,” and only a few are activated per query.
+      - e.g. Google’s Switch Transformer, GLaM, and DeepSeek-V2
+      - ℹ️ One giant model classical approach is still pretty common e.g. Chatgpt-4
+    - ### Instruction Rerouting
+      - Use query classification to determine best suited model and reroute request to that instance
 
 # RAG : Retrieval Augmented Generation
 
@@ -262,11 +268,27 @@
         - Prompt Augmentation: Retrieved chunks combined with original query and prompt is asked from LLM.
         - Response Generation: Regular working of LLM except it has supplemental info this time
 
+    - ℹ️Note: Augmentation step usually adds context as its own separate part on top of the user query.
+      - For e.g:
+        - ````
+          You are a helpful assistant. Use the following retrieved context to answer the question.
+          Retrieved context:
+          - Green tea is rich in catechins, which act as antioxidants.
+          - Studies suggest green tea may improve brain function and fat metabolism.
+          Question: What are the health benefits of green tea?````  
+
+- ## Vector Databases:
+  - 
+
 - ### Search Algorithms:
     - #### Sparse Retrieval:
         - ### BM25
             - Sparse retrieval → Lexical matching
             - Works using tf-idf with some normalization.
+                - Contains three important parts:
+                    - Term Frequency
+                    - Inverse Document Frequency
+                    - Document Length Normalization
             - 🔴 Only matches exact tokens and struggles with synonyms
             - 🟢 Best performance at keyword heavy queries
             - 🟢 Very Fast
@@ -276,16 +298,25 @@
         - 🟢 Better performance in capturing meaning
         - 🔴Require expensive embedding model with more compute and memory req
         - 🔴Hard to interpret
-        - #### Dual Encoders/Bi-encoders:
-            - This is the most prevalent design.
-            - It uses two separate, independent neural networks (often fine-tuned transformer models like BERT,
-              Sentence-Transformers) to encode the query and the documents into the same vector space.
+        - Encoder Design:
+            - ### Single Encoder:
+                - Same model is used for document/chunks as well as query
+                - e.g. OpenAI’s text-embedding-3-small or text-embedding-3-large
+                - Simpler, consistent semantic space → query vectors and doc vectors are comparable directly.
+            - ### Dual Encoders/Bi-encoders:
+                - It uses two separate, independent neural networks (often fine-tuned transformer models like BERT,
+                  Sentence-Transformers) to encode the query and the documents into the same vector space.
+                - Each encoder can specialize (queries are short & interrogative, docs are longer & factual).
+                - More complexity: two models to train, maintain, and store.
+            - ### Cross Encoder:
+                - Sometimes added on top
+                - A third model (not just encoders) can be used in re-ranking
         - #### Similarity Search:
             - Queries vector DB to find document vectors using cosine similarity or dot product (usually)
 
         - #### Notable Implementations:
             - #### Dense Passage Retrieval (DPR):
-                - Uses two BERTs one, uses negatives to push non-relevant docs away
+                - Uses two BERTs , uses negatives to push non-relevant docs away
             - #### ColBert:
                 - Contextualized Late Interaction over BERT
                 - Creates a vector for every token in the document as well as query and does similarity matching on
@@ -333,6 +364,9 @@ Prompt engineering is the art and science of communicating effectively with an A
 4. ### Role-Playing
     - This involves assigning a specific persona or role to the AI. This helps to set the tone, style, and context of
       the conversation.
+        - Worked really well on older LLMs as Early LLMs weren’t instruction-tuned very well.
+        - Newer models are trained to default to a “helpful expert” style when asked technical questions, so the
+          “pretend you are an expert programmer” part is already baked in.
 5. ### Instruction Tuning
     - Providing a list of detailed rules or instructions for the AI to follow.
 
@@ -477,11 +511,12 @@ Prompt engineering is the art and science of communicating effectively with an A
     - FEVER, FAST-CC, SciFact
 
 ## RAG Metrics
+
 - For recall and precision R = Relevant Docs, S<sub>k</sub>= Top k retrieved docs
-  - #### Recall@k:
-      - $$\text{Recall@k} = \frac{|R \cap S_k|}{|R|}$$
-  - #### Precision@K:
-      - $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
+    - #### Recall@k:
+        - $$\text{Recall@k} = \frac{|R \cap S_k|}{|R|}$$
+    - #### Precision@K:
+        - $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
 
 - #### NDCG: (Normalized Discounted Cumulative Gain)
   Search retrieval ranking algo.  
@@ -502,9 +537,11 @@ Prompt engineering is the art and science of communicating effectively with an A
           revisit
     - ### Adapters:
         - Small trainable set of layers introduced in a frozen model
+        - Usually added after feedforward layer
     - ### Prompt Tuning:
-        - Small set of soft prompts i.e. not a full layer in the arch but instead just embedding added to the
-          start of user's prompt (usually torch.nn.Embedding). Model is frozen throughout
+        - Small set of soft prompts i.e. not a full layer in the arch but instead just prepended to the embedding.
+        - added to the start of user's prompt (usually torch.nn.Embedding). Model is frozen throughout.
+        - (Prompt tuning is similar to prefix tuning but involves adding trainable tokens only to the input layer)
     - ### LoRA (Low Rank Adaption):
         - Reduces no. of trainable parameters by learning low rank A and B matrix instead of same
           rank as the complex model. Lora modifies the W matrices which sit before attention calc  
@@ -512,6 +549,8 @@ Prompt engineering is the art and science of communicating effectively with an A
           For e.g: ΔW=AB, and W<sub>final</sub>​= W + ΔW  
           so W is not modified at all
     - ### Prefix Tuning:
+      - Augments KV Matrices 
+      - Increases the dimension of K and V from nxdk to (n+m)xdk
 
   ## RAG Specific
     - ### Vector DBS
@@ -519,9 +558,10 @@ Prompt engineering is the art and science of communicating effectively with an A
 
 ## Text Generation Strategies
 
-- #### Greedy decoding: Choose simply highest probablity
-- #### Beam Search:
-    - Instead of choosing directly most probable outputs you explore top k probablities at every step
+- ### Greedy decoding:
+  - Choose simply highest probablity
+- ### Beam Search:
+    - Instead of choosing directly most probable outputs you explore top k probabilities at every step
     - essentially becoming a tree.
     - Can choose between k generated trees:
         - Maximum log likelihood (of entire sequence) since later tokens might push up probablity
@@ -529,14 +569,14 @@ Prompt engineering is the art and science of communicating effectively with an A
     - 🟢 More optimal than greedy decoding
     - 🔴 Doesn't guarantee optimal solution
 
-- #### Top K Sampling:
-    - Instead of picking top probablity sample from top K (actually ignores >k and normalizes and picks randomly based
-      on probablity k)
+- ### Top K Sampling:
+    - Instead of picking top probablity sample from top K
+    - (actually ignores >k and normalizes and picks randomly based on probablity k)
     - Higher K = more randomness
 
-- #### Top P Sampling:
-    - Instead of picking top probablity pick the shortest combinations >=p. Actually at each step creates a pool of
-      candidates which combine >=p and choose one of them.
+- ### Top P Sampling:
+    - Instead of picking top probablity pick the shortest combinations >=p.
+    - Actually at each step creates a pool of candidates which combine >=p and choose one of them.
     - Why? Because top k fails if top 5 only cover 20% i.e a lot of reasonable options
 
 -  #### Temperature Scaling:
