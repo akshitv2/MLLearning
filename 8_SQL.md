@@ -236,6 +236,21 @@ FROM Table1;
 - **Partition By**: Divides the result set into partitions.
 - **Order By**: Specifies the order within each partition.
 
+- ### Manual Row Selection:
+- ```sql
+  SELECT ColA,
+       ROW_NUMBER() OVER (PARTITION BY ColA ORDER BY ColB) AS RowNum,
+       RANK() OVER (PARTITION BY ColA ORDER BY ColB) AS Rank,
+       SUM(ColB) OVER (
+  PARTITION BY ColA
+  ORDER BY ColB
+  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+  ) AS RunningTotal
+  FROM Table1;
+  ```
+- For selecting only two rows before this: `` ROWS BETWEEN 2 PRECEDING AND CURRENT ROW``
+- For selecting row after this: `` ROWS BETWEEN UNBOUNDED PRECEDING AND 2 FOLLOWING``
+
 ## Data Types
 
 The following table lists common SQL data types, their categories, and descriptions.
