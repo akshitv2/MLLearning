@@ -1,4 +1,4 @@
-# 2. Machine Learning
+# 2 Machine Learning
 
 1. ## Fundamentals
     1. ### Supervised Learning

@@ -1,4 +1,4 @@
-# Deep Learning Recall Questions
+# 3 Deep Learning Recall Questions
 
 This list of questions is designed to test and strengthen your recall of key concepts from the document. Questions are grouped by major sections for easy navigation. Each question includes a link to the relevant subsection in the original document (using the anchors from the index). Answer them from memory first, then click the link to reread and verify.
 

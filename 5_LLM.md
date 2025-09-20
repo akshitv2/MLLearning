@@ -1,132 +1,131 @@
-# LLM
+# 5 LLM
+
 ## Index
 
 - [LLM](#llm)
-  - [Foundations and basics](#foundations-and-basics)
-    - [n-grams](#n-grams)
-    - [Bag of Words](#bag-of-words)
-    - [TF-IDF](#tf-idf)
-    - [Modern Tokenization](#modern-tokenization)
-      - [Byte Pair Encoding](#byte-pair-encoding)
-      - [Word Piece Encoding](#word-piece-encoding)
-    - [Positional Encoding](#positional-encoding)
-      - [Usage](#usage)
-      - [Sinusoidal](#sinusoidal)
-      - [Learned](#learned)
-    - [Contrastive Learning](#contrastive-learning)
-      - [Contrastive Learning in LLMS](#contrastive-learning-in-llms)
-  - [Large Language Models](#large-language-models)
-    - [Training Process](#training-process)
-      - [Pre-Training](#pre-training)
-      - [Fine-Tuning](#fine-tuning)
-    - [Other Types](#other-types-of-llms)
-      - [Multimodal Large Language Models (MLLMs)](#multimodal-large-language-models-mllms)
-      - [Agentic Systems](#agentic-systems)
-      - [Advanced Reasoning Models](#advanced-reasoning-models)
-        - [Key Techniques](#key-techniques)
-          - [Chain of thought Prompting](#chain-of-thought-prompting)
-          - [Self Consistency](#self-consistency)
-          - [Tool Use](#tool-use)
-          - [Tree/Graph Based Reasoning](#treegraph-based-reasoning)
-          - [Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)](#using-rlhf-reinforcement-learning-from-human-feedback-rlaif-reinforcement-learning-from-ai-feedback)
-      - [Small Language Models (SMLs)](#small-language-models-smls)
-  - [RAG : Retrieval Augmented Generation](#rag--retrieval-augmented-generation)
-    - [Composed of](#composed-of)
-      - [Retriever](#retriever)
-      - [Generator](#generator)
-    - [Working Process](#working-process)
-      - [Indexing Phase (The preparation)](#indexing-phase-the-preparation)
-      - [Retrieval and Generation](#retrieval-and-generation)
-    - [Search Algorithms](#search-algorithms)
-      - [Sparse Retrieval](#sparse-retrieval)
-        - [Common Examples](#common-examples)
-          - [BM25](#bm25)
-      - [Dense Retrieval](#dense-retrieval)
-        - [Dual Encoders/Bi-encoders](#dual-encodersbi-encoders)
-        - [Similarity Search](#similarity-search)
-        - [Notable Implementations](#notable-implementations)
-          - [Dense Passage Retrieval (DPR)](#dense-passage-retrieval-dpr)
-          - [ColBert](#colbert)
-          - [Contriever](#contriever)
-          - [RocketQA](#rocketqa)
-        - [Algorithms Used](#algorithms-used)
-          - [Hierarchical Navigable Small World (HNSW)](#hierarchical-navigable-small-world-hnsw)
-          - [FAISS (Facebook AI Similarity Search)](#faiss-facebook-ai-similarity-search)
-          - [ScaNN (Scalable Nearest Neighbors)](#scann-scalable-nearest-neighbors)
-      - [Hybrid Search](#hybrid-search)
-      - [Recursive Retrieval](#recursive-retrieval)
-  - [Prompt Engineering](#prompt-engineering)
-    - [Techniques](#techniques)
-      - [Zero-Shot Prompting](#zero-shot-prompting)
-      - [Few Shot Prompting](#few-shot-prompting)
-      - [Chain-of-Thought (CoT) Prompting](#chain-of-thought-cot-prompting)
-      - [Role-Playing](#role-playing)
-      - [Instruction Tuning](#instruction-tuning)
-    - [Challenges](#challenges)
-      - [Catastrophic Forgetting](#catastrophic-forgetting)
-        - [Catastrophic Forgetting Solutions](#catastrophic-forgetting-solutions)
-          - [Replay](#replay)
-          - [Elastic Weight Consolidation](#elastic-weight-consolidation)
-          - [Dynamic Architectures](#dynamic-architectures)
-      - [Hallucination](#hallucination)
-        - [Hallucination Solution](#hallucination-solution)
-          - [Retrieval Augmented Generation](#retrieval-augmented-generation)
-          - [Training with uncertainty in answer](#training-with-uncertainty-in-answer)
-          - [Use LLMs that can use symbolic reasoning](#use-llms-that-can-use-symbolic-reasoning)
-          - [Chain of thought](#chain-of-thought)
-          - [let AI use tools like calculator](#let-ai-use-tools-like-calculator)
-      - [Repetition](#repetition)
-      - [Degeneration](#degeneration)
-      - [Adversarial Prompts](#adversarial-prompts)
-        - [Solutions](#solutions)
-          - [Instruction Separation](#instruction-separation)
-          - [Input and token validation](#input-and-token-validation)
-          - [Classifier Layer](#classifier-layer)
-          - [Safeguard Systems](#safeguard-systems)
-          - [Human in Loop](#human-in-loop)
-      - [Context Rot](#context-rot)
-        - [Solution](#solution)
-    - [Evaluation](#evaluation)
-      - [Perplexity](#perplexity)
-      - [BLEU: Bilingual Evaluation Understudy](#bleu-bilingual-evaluation-understudy)
-        - [BP: Brevity Penalty](#bp-brevity-penalty)
-        - [Score](#score)
-      - [ROUGE: Recall Oriented Understudy for Gisting Evaluation](#rouge-recall-oriented-understudy-for-gisting-evaluation)
-        - [ROUGE-N](#rouge-n)
-        - [ROUGE-L](#rouge-l)
-        - [ROUGE-W](#rouge-w)
-        - [ROUGE-S/SU](#rouge-ssu)
-      - [Recall, Precision, F1Score](#recall-precision-f1score)
-      - [METEOR: Metric for Evaluation of Translation with Explicit Ordering](#meteor-metric-for-evaluation-of-translation-with-explicit-ordering)
-    - [Evaluation Specific to Tasks](#evaluation-specific-to-tasks)
-      - [Code](#code)
-        - [Exact Match](#exact-match)
-        - [Pass@k](#passk)
-      - [Truthfulness](#truthfulness)
-        - [TruthfulQA](#truthfulqa)
-      - [General: MMLU (Massive Multitask Language Understanding)](#general-mmlu-massive-multitask-language-understanding)
-      - [Maths and reasoning: GSM8K, MATH](#maths-and-reasoning-gsm8k-math)
-      - [Fact Check: FEVER, FAST-CC, SciFact](#fact-check-fever-fast-cc-scifact)
-    - [RAG Metrics](#rag-metrics)
-      - [Recall@k](#recallk)
-      - [Precision@K](#precisionk)
-      - [NDCG: (Normalized Discounted Cumulative Gain)](#ndcg-normalized-discounted-cumulative-gain)
-      - [MRR: Mean Reciprocal Rank](#mrr-mean-reciprocal-rank)
-    - [Parameter Efficient Fine-Tuning](#parameter-efficient-fine-tuning)
-      - [Full Fine-Tuning](#full-fine-tuning)
-      - [Adapters](#adapters)
-      - [Prompt Tuning](#prompt-tuning)
-      - [LoRA (Low Rank Adaption)](#lora-low-rank-adaption)
-      - [Prefix Tuning](#prefix-tuning)
-    - [RAG Specific](#rag-specific)
-      - [Vector DBS](#vector-dbs)
-    - [Text Generation Strategies](#text-generation-strategies)
-      - [Greedy decoding](#greedy-decoding)
-      - [Beam Search](#beam-search)
-      - [Top K Sampling](#top-k-sampling)
-      - [Top P Sampling](#top-p-sampling)
-      - [Temperature Scaling](#temperature-scaling)
-    - [Human Centric Eval](#human-centric-eval)
+    - [Foundations and basics](#foundations-and-basics)
+        - [n-grams](#n-grams)
+        - [Bag of Words](#bag-of-words)
+        - [TF-IDF](#tf-idf)
+        - [Modern Tokenization](#modern-tokenization)
+            - [Byte Pair Encoding](#byte-pair-encoding)
+            - [Word Piece Encoding](#word-piece-encoding)
+        - [Positional Encoding](#positional-encoding)
+            - [Usage](#usage)
+            - [Sinusoidal](#sinusoidal)
+            - [Learned](#learned)
+        - [Contrastive Learning](#contrastive-learning)
+            - [Contrastive Learning in LLMS](#contrastive-learning-in-llms)
+    - [Large Language Models](#large-language-models)
+        - [Training Process](#training-process)
+            - [Pre-Training](#pre-training)
+            - [Fine-Tuning](#fine-tuning)
+        - [Other Types](#other-types-of-llms)
+            - [Multimodal Large Language Models (MLLMs)](#multimodal-large-language-models-mllms)
+            - [Agentic Systems](#agentic-systems)
+            - [Advanced Reasoning Models](#advanced-reasoning-models)
+                - [Key Techniques](#key-techniques)
+                    - [Chain of thought Prompting](#chain-of-thought-prompting)
+                    - [Self Consistency](#self-consistency)
+                    - [Tool Use](#tool-use)
+                    - [Tree/Graph Based Reasoning](#treegraph-based-reasoning)
+                    - [Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)](#using-rlhf-reinforcement-learning-from-human-feedback-rlaif-reinforcement-learning-from-ai-feedback)
+            - [Small Language Models (SMLs)](#small-language-models-smls)
+    - [RAG : Retrieval Augmented Generation](#rag--retrieval-augmented-generation)
+        - [Retriever](#retriever)
+        - [Generator](#generator)
+        - [Working Process](#working-process)
+            - [Indexing Phase (The preparation)](#indexing-phase-the-preparation)
+            - [Retrieval and Generation](#retrieval-and-generation)
+        - [Search Algorithms](#search-algorithms)
+            - [Sparse Retrieval](#sparse-retrieval)
+                - [BM25](#BM25)
+            - [Dense Retrieval](#dense-retrieval)
+                - [Dual Encoders/Bi-encoders](#dual-encodersbi-encoders)
+                - [Similarity Search](#similarity-search)
+                - [Notable Implementations](#notable-implementations)
+                    - [Dense Passage Retrieval (DPR)](#dense-passage-retrieval-dpr)
+                    - [ColBert](#colbert)
+                    - [Contriever](#contriever)
+                    - [RocketQA](#rocketqa)
+                - [Algorithms Used](#algorithms-used)
+                    - [Hierarchical Navigable Small World (HNSW)](#hierarchical-navigable-small-world-hnsw)
+                    - [FAISS (Facebook AI Similarity Search)](#faiss-facebook-ai-similarity-search)
+                    - [ScaNN (Scalable Nearest Neighbors)](#scann-scalable-nearest-neighbors)
+            - [Hybrid Search](#hybrid-search)
+            - [Recursive Retrieval](#recursive-retrieval)
+    - [Prompt Engineering](#prompt-engineering)
+        - [Techniques](#techniques)
+            - [Zero-Shot Prompting](#zero-shot-prompting)
+            - [Few Shot Prompting](#few-shot-prompting)
+            - [Chain-of-Thought (CoT) Prompting](#chain-of-thought-cot-prompting)
+            - [Role-Playing](#role-playing)
+            - [Instruction Tuning](#instruction-tuning)
+        - [Challenges](#challenges)
+            - [Catastrophic Forgetting](#catastrophic-forgetting)
+                - [Catastrophic Forgetting Solutions](#catastrophic-forgetting-solutions)
+                    - [Replay](#replay)
+                    - [Elastic Weight Consolidation](#elastic-weight-consolidation)
+                    - [Dynamic Architectures](#dynamic-architectures)
+            - [Hallucination](#hallucination)
+                - [Hallucination Solution](#hallucination-solution)
+                    - [Retrieval Augmented Generation](#retrieval-augmented-generation)
+                    - [Training with uncertainty in answer](#training-with-uncertainty-in-answer)
+                    - [Use LLMs that can use symbolic reasoning](#use-llms-that-can-use-symbolic-reasoning)
+                    - [Chain of thought](#chain-of-thought)
+                    - [let AI use tools like calculator](#let-ai-use-tools-like-calculator)
+            - [Repetition](#repetition)
+            - [Degeneration](#degeneration)
+            - [Adversarial Prompts](#adversarial-prompts)
+                - [Solutions](#adversarial-prompts-solutions)
+                    - [Instruction Separation](#instruction-separation)
+                    - [Input and token validation](#input-and-token-validation)
+                    - [Classifier Layer](#classifier-layer)
+                    - [Safeguard Systems](#safeguard-systems)
+                    - [Human in Loop](#human-in-loop)
+            - [Context Rot](#context-rot)
+                - [Solution](#context-rot-solution)
+        - [Evaluation](#evaluation)
+            - [Perplexity](#perplexity)
+            - [BLEU: Bilingual Evaluation Understudy](#bleu-bilingual-evaluation-understudy)
+                - [BP: Brevity Penalty](#bp-brevity-penalty)
+                - [Score](#score)
+            - [ROUGE: Recall Oriented Understudy for Gisting Evaluation](#rouge-recall-oriented-understudy-for-gisting-evaluation)
+                - [ROUGE-N](#rouge-n)
+                - [ROUGE-L](#rouge-l)
+                - [ROUGE-W](#rouge-w)
+                - [ROUGE-S/SU](#rouge-ssu)
+            - [Recall, Precision, F1Score](#recall-precision-f1score)
+            - [METEOR: Metric for Evaluation of Translation with Explicit Ordering](#meteor-metric-for-evaluation-of-translation-with-explicit-ordering)
+        - [Evaluation Specific to Tasks](#evaluation-specific-to-tasks)
+            - [Code](#code)
+                - [Exact Match](#exact-match)
+                - [Pass@k](#passk)
+            - [Truthfulness](#truthfulness)
+                - [TruthfulQA](#truthfulqa)
+            - [General](#general)
+            - [Maths and reasoning](#maths-and-reasoning)
+            - [Fact Check](#fact-check)
+        - [RAG Metrics](#rag-metrics)
+            - [Recall@k](#recallk)
+            - [Precision@K](#precisionk)
+            - [NDCG: (Normalized Discounted Cumulative Gain)](#ndcg-normalized-discounted-cumulative-gain)
+            - [MRR: Mean Reciprocal Rank](#mrr-mean-reciprocal-rank)
+        - [Parameter Efficient Fine-Tuning](#parameter-efficient-fine-tuning)
+            - [Full Fine-Tuning](#full-fine-tuning)
+            - [Adapters](#adapters)
+            - [Prompt Tuning](#prompt-tuning)
+            - [LoRA (Low Rank Adaption)](#lora-low-rank-adaption)
+            - [Prefix Tuning](#prefix-tuning)
+        - [RAG Specific](#rag-specific)
+            - [Vector DBS](#vector-dbs)
+        - [Text Generation Strategies](#text-generation-strategies)
+            - [Greedy decoding](#greedy-decoding)
+            - [Beam Search](#beam-search)
+            - [Top K Sampling](#top-k-sampling)
+            - [Top P Sampling](#top-p-sampling)
+            - [Temperature Scaling](#temperature-scaling)
+        - [Human Centric Eval](#human-centric-eval)
 
 # Foundations and basics
 
@@ -252,12 +251,12 @@
         - Simply an LLM you provide docs to
 
 - ## Working Process
-    1. Indexing Phase (The preparation)
+    1. ### Indexing Phase (The preparation)
         - Data Ingestion: Collect data
         - Chunking: Documents broken down to fit LLMs context window
         - Embedding: Convert into numerical representation
         - Vector DataBase: Embeddings stored in specialized db for vectors
-    2. Retrieval and Generation
+    2. #### Retrieval and Generation
         - Query Embedding: User query is also embedded into same space
         - Vector Search: System performs similarity search in vector db to find most relevant document chunks
         - Prompt Augmentation: Retrieved chunks combined with original query and prompt is asked from LLM.
@@ -265,39 +264,43 @@
 
 - ### Search Algorithms:
     - #### Sparse Retrieval:
-        - Common Examples:
-            - BM25: Sparse retrieval → Lexical matching
-                - Works using tf-idf with some normalization.
-                - 🔴 Only matches exact tokens and struggles with synonyms
-                - 🟢 Best performance at keyword heavy queries
-                - 🟢 Very Fast
+        - ### BM25
+            - Sparse retrieval → Lexical matching
+            - Works using tf-idf with some normalization.
+            - 🔴 Only matches exact tokens and struggles with synonyms
+            - 🟢 Best performance at keyword heavy queries
+            - 🟢 Very Fast
     - #### Dense Retrieval:
         - Uses Dense embeddings by converting both query and docs to same common embedding
         - 🟢 Understands semantic similarity and contextual meaning.
         - 🟢 Better performance in capturing meaning
         - 🔴Require expensive embedding model with more compute and memory req
         - 🔴Hard to interpret
-        - Dual Encoders/Bi-encoders:
+        - #### Dual Encoders/Bi-encoders:
             - This is the most prevalent design.
             - It uses two separate, independent neural networks (often fine-tuned transformer models like BERT,
               Sentence-Transformers) to encode the query and the documents into the same vector space.
-        - Similarity Search:
+        - #### Similarity Search:
             - Queries vector DB to find document vectors using cosine similarity or dot product (usually)
 
-        - Notable Implementations:
-            - Dense Passage Retrieval (DPR): Uses two BERTs one, uses negatives to push non-relevant docs away
-            - ColBert: Contextualized Late Interaction over BERT
+        - #### Notable Implementations:
+            - #### Dense Passage Retrieval (DPR):
+                - Uses two BERTs one, uses negatives to push non-relevant docs away
+            - #### ColBert:
+                - Contextualized Late Interaction over BERT
                 - Creates a vector for every token in the document as well as query and does similarity matching on
                   those two.
-            - Contriever
-            - RocketQA
-        - Algorithms Used:
+            - #### Contriever
+            - #### RocketQA
+        - #### Algorithms Used:
             - Dense ret algos are based on ANN (Approximate Nearest Neighbour) Search
-            - **Hierarchical Navigable Small World (HNSW)**: Builds a multi layer graph to find nearest vector
-            - **FAISS (Facebook AI Similarity Search)**: library of algorithms for efficient similarity
-            - **ScaNN (Scalable Nearest Neighbors)**: Developed by Google, ScaNN is a library for ANN search that
-              focuses on
-              high-performance and is particularly effective for large-scale datasets.
+            - #### Hierarchical Navigable Small World (HNSW):
+                - Builds a multi layer graph to find nearest vector
+            - #### FAISS (Facebook AI Similarity Search):
+                - library of algorithms for efficient similarity
+            - #### ScaNN (Scalable Nearest Neighbors):
+                - Developed by Google, ScaNN is a library for ANN search that focuses on high-performance and is
+                  particularly effective for large-scale datasets.
     - #### Hybrid Search
         - Combining semantic search (using embeddings to find related meanings) with keyword search (like TF-IDF or
           BM25) to get the best of both worlds. This ensures that both exact matches and semantically similar
@@ -326,23 +329,27 @@ Prompt engineering is the art and science of communicating effectively with an A
                 English: Good night
                 French:
 3. ### Chain-of-Thought (CoT) Prompting:
-   - Model is guided to generate intermediate steps instead of final answer
-4. ### Role-Playing 
-   - This involves assigning a specific persona or role to the AI. This helps to set the tone, style, and context of the conversation.
+    - Model is guided to generate intermediate steps instead of final answer
+4. ### Role-Playing
+    - This involves assigning a specific persona or role to the AI. This helps to set the tone, style, and context of
+      the conversation.
 5. ### Instruction Tuning
-   - Providing a list of detailed rules or instructions for the AI to follow.
+    - Providing a list of detailed rules or instructions for the AI to follow.
 
 ## Challenges
 
 - ### Catastrophic Forgetting**:
     - Model forgets previously learned information when trained on new task.
     - ### Catastrophic Forgetting Solutions:
-        1. Replay: Store examples of previous task and retrain on them alongside new task
-        2. Elastic Weight Consolidation: (Regularization):
+        1. #### Replay:
+            - Store examples of previous task and retrain on them alongside new task
+        2. #### Elastic Weight Consolidation:
+            - (Regularization):
             - Uses Fisher Information Matrix.
             - if fim score ↑ then importance ↑ so penalizes more.
             - ℹ️ Note: FIM: Basically squared probablity of getting ∂(y<sub>actual</sub> | x)/∂(this nueron)
-        3. Dynamic Architectures: Add neurons or layers for giving model space to learn new tasks.
+        3. #### Dynamic Architectures:
+            - Add neurons or layers for giving model space to learn new tasks.
 - ### Hallucination
     - Model generates incorrect outputs with fluency and confidence. Since LLM are prediction models if they don't know
       a fact they predict the next best fitting words.
@@ -364,22 +371,25 @@ Prompt engineering is the art and science of communicating effectively with an A
       Penalties, RLHF is always an option
 - ### Adversarial Prompts:
     - Models can be tricked by certain malicious prompts.
-    - Solutions?
-        - **Instruction Separation:**
+    - #### Adversarial Prompts Solutions:
+        - ### **Instruction Separation:**
             - Keep the system prompt (instructions the model must follow) separate and immutable in your application
             - Give system prompts much higher priority to prevent overriding
-        - **Input and token validation:**
+        - ### **Input and token validation:**
             - Tokenization: Keep only limited range of chars
             - Validation: Clean inputs of adversarial instructions like "ignore previous instructions"
-        - **Classifier Layer**: Run a fast binary classifier to detect likely prompt-injection content before passing it
-          to the LLM.
-        - **Safeguard Systems**: Build safeguards against info stored in RAG and access to tools which check system
-          identity as well
-        - **Human in Loop**: Add Human approval for high risk queries
+        - ### **Classifier Layer**:
+            - Run a fast binary classifier to detect likely prompt-injection content before passing it
+              to the LLM.
+        - ### **Safeguard Systems**:
+            - Build safeguards against info stored in RAG and access to tools which check system
+              identity as well
+        - ### **Human in Loop**:
+            - Add Human approval for high risk queries
 - ### Context Rot:
     - Degeneration as context window gets larger.
     - LLMs especially earlier ones were often trained on small sequence sets.
-    - Solution:
+    - #### Context Rot Solution:
         - Summarize text as it goes out of immediate window (can use deep embeddings or text summary)
 
 ## Evaluation
@@ -412,15 +422,19 @@ Prompt engineering is the art and science of communicating effectively with an A
         - 🔴 Bad at synonyms/semantically same sentences
 3. #### **ROUGE**: Recall Oriented Understudy for Gisting Evaluation
     - How much of reference is captured by candidate (or how well can candidate recall)
-    - ROUGE-N: use ngrams too
-    - = no. of grams that appear in candidate(maxed out at n grams in
-      ref)/no. of grams that appear in **reference**
-    - ROUGE-L: Measures longest common subsequence
+    - #### ROUGE-N:
+        - use ngrams too
+        - = no. of grams that appear in candidate(maxed out at n grams in
+          ref)/no. of grams that appear in **reference**
+    - #### ROUGE-L:
+        - Measures longest common subsequence
         - Reference: "The cat sat on the mat"
         - Candidate: "Cat sat on mat"
         - LCS = "cat sat on mat" → length = 4
-    - ROUGE-W: (Weighted LCS) Divide by Length of C or R
-    - ROUGE-S/SU: Allows skips
+    - #### ROUGE-W:
+        - (Weighted LCS) Divide by Length of C or R
+    - #### ROUGE-S/SU:
+        - Allows skips
 4. #### **Recall, Precision, F1Score**: Use N grams
     - Precision: No. of correct gen ngrams/total n grams gen
     - Recall: No. of correct gen ngrams/total n grams in ref
@@ -452,22 +466,22 @@ Prompt engineering is the art and science of communicating effectively with an A
             - Pass@1k = 1 - 2c1/5c1 = 0.6
             - Pass@3k = 1 - 2c3/5c3 = 1 - 0 = 1
 2. #### Truthfulness:
-    - TruthfulQA: Benchmark dataset for evaluating truthfulness of LLMs
+    -  #### TruthfulQA:
+        - Benchmark dataset for evaluating truthfulness of LLMs
         - Covers cases which tempt models into giving false answers i.e. cases where humans are often misinformed
-3. General: MMLU (Massive Multitask Language Understanding)
-4. Maths and reasoning: GSM8K, MATH
-5. Fact Check: FEVER, FAST-CC, SciFact
+3.  #### General:
+    - MMLU (Massive Multitask Language Understanding)
+4. #### Maths and reasoning:
+    - GSM8K, MATH
+5.  #### Fact Check:
+    - FEVER, FAST-CC, SciFact
 
 ## RAG Metrics
-
 - For recall and precision R = Relevant Docs, S<sub>k</sub>= Top k retrieved docs
-- #### Recall@k:
-
-$$\text{Recall@k} = \frac{|R \cap S_k|}{|R|}$$
-
-- #### Precision@K:
-
-$$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
+  - #### Recall@k:
+      - $$\text{Recall@k} = \frac{|R \cap S_k|}{|R|}$$
+  - #### Precision@K:
+      - $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
 
 - #### NDCG: (Normalized Discounted Cumulative Gain)
   Search retrieval ranking algo.  
@@ -482,7 +496,7 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
   $$\text{MRR} = \frac{1}{Q} \sum_{i=1}^{Q} \frac{1}{\text{rank}_i}$$
 
   ## Parameter Efficient Fine-Tuning
-    - ### Full Fine-Tuning:E
+    - ### Full Fine-Tuning:
         - 🔴 Expensive to compute
         - 🔴 High risk of catastrophic forgetting especially when pretrained model Dataset not available to you to
           revisit
@@ -491,13 +505,13 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
     - ### Prompt Tuning:
         - Small set of soft prompts i.e. not a full layer in the arch but instead just embedding added to the
           start of user's prompt (usually torch.nn.Embedding). Model is frozen throughout
-    - ### LoRA (Low Rank Adaption) :
+    - ### LoRA (Low Rank Adaption):
         - Reduces no. of trainable parameters by learning low rank A and B matrix instead of same
           rank as the complex model. Lora modifies the W matrices which sit before attention calc  
-          Q=XWQ​,K=XWK​,V=XWV  
+          Q=XW<sub>Q</sub>,K=XW<sub>K</sub>,V=XW<sub>V</sub>  
           For e.g: ΔW=AB, and W<sub>final</sub>​= W + ΔW  
           so W is not modified at all
-    - ### Prefix Tuning: to be added
+    - ### Prefix Tuning:
 
   ## RAG Specific
     - ### Vector DBS
@@ -505,23 +519,29 @@ $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
 
 ## Text Generation Strategies
 
-- **Greedy decoding**: Choose simply highest probablity
-- **Beam Search**: Instead of choosing directly most probable outputs you explore top k probablities at every step
-  essentially becoming a tree.  
-  Can choose between k generated trees:
-    - Maximum log likelihood (of entire sequence) since later tokens might push up probablity  
-      🟢 Simple to implement  
-      🟢 More optimal than greedy decoding
-      🔴 Doesn't guarantee optimal solution
-- Top K Sampling: Instead of picking top probablity sample from top K (actually ignores >k and normalizes and picks
-  randomly based on probablity k)
+- #### Greedy decoding: Choose simply highest probablity
+- #### Beam Search:
+    - Instead of choosing directly most probable outputs you explore top k probablities at every step
+    - essentially becoming a tree.
+    - Can choose between k generated trees:
+        - Maximum log likelihood (of entire sequence) since later tokens might push up probablity
+    - 🟢 Simple to implement
+    - 🟢 More optimal than greedy decoding
+    - 🔴 Doesn't guarantee optimal solution
+
+- #### Top K Sampling:
+    - Instead of picking top probablity sample from top K (actually ignores >k and normalizes and picks randomly based
+      on probablity k)
     - Higher K = more randomness
-- Top P Sampling: Instead of picking top probablity pick shortest combinations >=p. Actually at each step creates a pool
-  of candidates which combine >=p and choose one of them.
-  Why? Because top k fails if top 5 only cover 20% i.e a lot of reasonable options
-- Temperature Scaling: Controls sharpness of probablity distribution before sampling. Higher temp = Flatter Dist
-  $$P_i^{(\tau)} = \frac{\exp\!\left(\frac{z_i}{\tau}\right)}{\sum_j \exp\!\left(\frac{z_j}{\tau}\right)}$$
--
+
+- #### Top P Sampling:
+    - Instead of picking top probablity pick the shortest combinations >=p. Actually at each step creates a pool of
+      candidates which combine >=p and choose one of them.
+    - Why? Because top k fails if top 5 only cover 20% i.e a lot of reasonable options
+
+-  #### Temperature Scaling:
+    - Controls sharpness of probablity distribution before sampling. Higher temp = Flatter Dist
+    - $$P_i^{(\tau)} = \frac{\exp\!\left(\frac{z_i}{\tau}\right)}{\sum_j \exp\!\left(\frac{z_j}{\tau}\right)}$$
     - Flatter dist = higher chance for less probablity to be picked
     - Sharper dist = higher chance for high probability to be picked (greedy)
 

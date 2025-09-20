@@ -1,4 +1,4 @@
-# Questions for Recall from 5_LLM.md
+# 5 LLM Recall
 
 ## Foundations and basics
 - What does 'n' represent in n-grams, and provide an example using the sentence "Hi I am Sam"? [#n-grams](5_LLM.md#n-grams)

@@ -1,4 +1,4 @@
-# 3. Deep Learning
+# 3 Deep Learning
 
 # Index for Deep Learning
 
