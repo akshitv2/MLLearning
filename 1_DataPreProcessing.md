@@ -4,7 +4,7 @@
 
 1. ### Data Cleaning
    Required when data:
-    1. In inconsistent format e.g. dd-mm-yy mm-dd-yyyy together
+    1. In inconsistent format 📌e.g. dd-mm-yy mm-dd-yyyy together
     2. Has Duplicates
     3. Missing values
     4. Noisy
@@ -12,7 +12,7 @@
 2. ### Handling Missing Data
    Techniques:
     1. Remove samples (only if classes are balanced and data is not limited)
-    2. For numeric: Replace with dataset statistic metrics for entire DS or class e.g. Mean, Mode, Median
+    2. For numeric: Replace with dataset statistic metrics for entire DS or class 📌e.g. Mean, Mode, Median
     3. For Categorical: Replace with mode or NA
     4. For time series: interpolate
     5. Regress using other variables
@@ -77,7 +77,7 @@ Done via:
 
 1. ### Variance Thresholding
    If feature shows low variance → High Probablity not contributing to prediction
-   Works only if low variance is meaningless (e.g., near-constant) but can actually be useful in certain cases
+   Works only if low variance is meaningless (📌e.g., near-constant) but can actually be useful in certain cases
 2. ### Correlation Filtering
    Correlated variables can cause multicollinearity.
    **MultiCollinearity** when features are linearly dependent.  
@@ -188,7 +188,7 @@ Process of selecting a subset from a larger group (called population) to make in
             1. Byte Pair Encoding
             2. Word Piece Encoding
 3. ### Stopword Removal
-    - Removes common words that appear frequently but add little meaning (e.g., "the", "is", "and").
+    - Removes common words that appear frequently but add little meaning (📌e.g., "the", "is", "and").
     - 🟢 Reduces dimensionality and focuses on meaningful words.
 4. ### Stemming and Lemmatization
     - Stemming: Cuts words to their base form (may not be a real word).
@@ -201,14 +201,14 @@ Process of selecting a subset from a larger group (called population) to make in
     - Removing Duplicates, Blank Lines
     - Spelling Correction
     - Slang and Abbreviation Handling (Optional)
-    - Expanding contractions (e.g., "can't" → "cannot")
+    - Expanding contractions (📌e.g., "can't" → "cannot")
     - Ensures consistency across the dataset.
 6. ### Vectorization
     - Converts processed text into numerical format.
     - Common methods:
         1. Bag of Words (BoW): Counts word frequency in each document.
         2. TF-IDF (Term Frequency-Inverse Document Frequency): Weighs words by importance.
-        3. Word Embeddings: Represents words in dense vector form based on meaning (e.g., Word2Vec, GloVe, BERT).
+        3. Word Embeddings: Represents words in dense vector form based on meaning (📌e.g., Word2Vec, GloVe, BERT).
 
 ## Word Embedding
 
@@ -252,7 +252,7 @@ Process of selecting a subset from a larger group (called population) to make in
 
 ## **Word Embedding in Non-Textual Context**
 
-- **Item2Vec** is used to generate dense vector representations of items (e.g., songs, movies, books)
+- **Item2Vec** is used to generate dense vector representations of items (📌e.g., songs, movies, books)
 - Wav2Vec: Converts audio into structures similar to how sentences are.
 
 

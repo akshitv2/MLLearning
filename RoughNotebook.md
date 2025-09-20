@@ -17,14 +17,14 @@
 	- For Population Mean
 			$$n = \left( \frac{E}{Z \cdot \sigma} \right)^2$$
 		- 𝑛 = required sample size
-		- 𝑍 = Z-score corresponding to the confidence level (e.g., 1.96 for 95%)
+		- 𝑍 = Z-score corresponding to the confidence level (📌e.g., 1.96 for 95%)
 		- 𝜎 = population standard deviation (estimate if unknown)
 		- 𝐸 = desired margin of error
 	- For Population Proportion
 		$$n = \frac{Z^2 \cdot p \cdot (1 - p)}{E^2}$$
 		- Z = z-score corresponding to the desired confidence level
 		- 𝑝 = estimated population proportion
-		- 𝐸 = margin of error (in decimal form, e.g., 0.05 for 5%)
+		- 𝐸 = margin of error (in decimal form, 📌e.g., 0.05 for 5%)
 
 5. Margin of Error (E)
 	- Range within which true population parameter is expected to lie with level of confidence.

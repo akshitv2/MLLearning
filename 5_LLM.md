@@ -181,7 +181,7 @@
   Type of self supervised/supervised learning, teaches models to recognize similar and diff things. Learns by comparing
   examples.
   Sometime use labels, but can learn without them as well by instead augmenting same sample enough times so that model
-  learns to generalize e.g. model learns two
+  learns to generalize 📌e.g. model learns two
   dogs are similar by augmenting each dog enough times.
     - #### Contrastive Learning in LLMs
         - Types:  
@@ -222,7 +222,7 @@
         - ## Key Techniques:
             1. ### Chain of thought Prompting
                 - Model is guided to generate intermediate steps instead of final answer
-                - for e.g. write out logic and calculations for a math problem
+                - for 📌e.g. write out logic and calculations for a math problem
             2. ### Self Consistency
                 - Model generates multiple answers instead of one and answers are aggregated (like voting/bagging)
                 - Increases reliability
@@ -240,8 +240,8 @@
           smartphones and edge devices.
     - ### Mixture Of Experts (MoE)
       - Instead of one dense model, you have many “expert subnetworks,” and only a few are activated per query.
-      - e.g. Google’s Switch Transformer, GLaM, and DeepSeek-V2
-      - ℹ️ One giant model classical approach is still pretty common e.g. Chatgpt-4
+      - 📌e.g. Google’s Switch Transformer, GLaM, and DeepSeek-V2
+      - ℹ️ One giant model classical approach is still pretty common 📌e.g. Chatgpt-4
     - ### Instruction Rerouting
       - Use query classification to determine best suited model and reroute request to that instance
 
@@ -301,7 +301,7 @@
         - Encoder Design:
             - ### Single Encoder:
                 - Same model is used for document/chunks as well as query
-                - e.g. OpenAI’s text-embedding-3-small or text-embedding-3-large
+                - 📌e.g. OpenAI’s text-embedding-3-small or text-embedding-3-large
                 - Simpler, consistent semantic space → query vectors and doc vectors are comparable directly.
             - ### Dual Encoders/Bi-encoders:
                 - It uses two separate, independent neural networks (often fine-tuned transformer models like BERT,
@@ -399,7 +399,7 @@ Prompt engineering is the art and science of communicating effectively with an A
 - ### **Repetition:**:
     - The model repeats the same words because probablity distribution peaks too sharply there.
 - ### **Degeneration
-    - Model gives bad outputs in general for e.g. repetitions, too many I don't know or yes, interesting. Phrases that
+    - Model gives bad outputs in general for 📌e.g. repetitions, too many I don't know or yes, interesting. Phrases that
       don't provide quality signal.
     - Solution? Increase Temperature if repetition is occurring due to too stringent prediction limit, Repetition
       Penalties, RLHF is always an option

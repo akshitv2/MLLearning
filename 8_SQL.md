@@ -257,24 +257,24 @@ The following table lists common SQL data types, their categories, and descripti
 
 | Category       | Data Type            | Description                                               |
 |----------------|----------------------|-----------------------------------------------------------|
-| **Numeric**    | `INT` / `INTEGER`    | Whole numbers (e.g., 42)                                  |
-|                | `SMALLINT`           | Smaller range of whole numbers (e.g., -32768 to 32767)    |
-|                | `BIGINT`             | Very large integers (e.g., -2^63 to 2^63-1)               |
-|                | `DECIMAL(p, s)`      | Fixed precision and scale (e.g., 123.45 for money)        |
+| **Numeric**    | `INT` / `INTEGER`    | Whole numbers (📌e.g., 42)                                  |
+|                | `SMALLINT`           | Smaller range of whole numbers (📌e.g., -32768 to 32767)    |
+|                | `BIGINT`             | Very large integers (📌e.g., -2^63 to 2^63-1)               |
+|                | `DECIMAL(p, s)`      | Fixed precision and scale (📌e.g., 123.45 for money)        |
 |                | `NUMERIC(p, s)`      | Same as DECIMAL, exact precision                          |
-|                | `FLOAT` / `REAL`     | Approximate floating-point numbers (e.g., 3.14)           |
+|                | `FLOAT` / `REAL`     | Approximate floating-point numbers (📌e.g., 3.14)           |
 |                | `DOUBLE PRECISION`   | Higher precision floating-point numbers                   |
-| **Character**  | `CHAR(n)`            | Fixed-length string, pads with spaces (e.g., 'abc  ')     |
-|                | `VARCHAR(n)`         | Variable-length string with max length (e.g., 'abc')      |
+| **Character**  | `CHAR(n)`            | Fixed-length string, pads with spaces (📌e.g., 'abc  ')     |
+|                | `VARCHAR(n)`         | Variable-length string with max length (📌e.g., 'abc')      |
 |                | `TEXT`               | Large variable-length text                                |
-| **Date/Time**  | `DATE`               | Calendar date (e.g., 2023-01-01)                          |
-|                | `TIME`               | Time of day (e.g., 14:30:00)                              |
-|                | `DATETIME`           | Date and time (e.g., 2023-01-01 14:30:00)                 |
+| **Date/Time**  | `DATE`               | Calendar date (📌e.g., 2023-01-01)                          |
+|                | `TIME`               | Time of day (📌e.g., 14:30:00)                              |
+|                | `DATETIME`           | Date and time (📌e.g., 2023-01-01 14:30:00)                 |
 |                | `TIMESTAMP`          | Date and time with timezone/epoch support                  |
-|                | `INTERVAL`           | A span of time (e.g., 2 days, used in PostgreSQL)         |
+|                | `INTERVAL`           | A span of time (📌e.g., 2 days, used in PostgreSQL)         |
 | **Boolean**    | `BOOLEAN`            | TRUE or FALSE values                                      |
-| **Binary/Other** | `BLOB`             | Binary Large Object (e.g., images, files)                 |
+| **Binary/Other** | `BLOB`             | Binary Large Object (📌e.g., images, files)                 |
 |                | `BYTEA`              | Binary data (PostgreSQL-specific)                         |
 |                | `JSON` / `JSONB`     | Stores JSON data (JSONB for binary JSON in PostgreSQL)    |
-|                | `UUID`               | Universally unique identifier (e.g., 123e4567-e89b-...)  |
+|                | `UUID`               | Universally unique identifier (📌e.g., 123e4567-e89b-...)  |
 |                | `XML`                | Stores XML data                                           |

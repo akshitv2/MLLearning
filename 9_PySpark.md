@@ -6,7 +6,7 @@
 
 ### Core Architecture
 - **SparkSession**: Entry point for DataFrame and SQL APIs. It provides a unified interface to access Spark's functionality.
-- **Cluster Manager**: Manages resources across the cluster (e.g., YARN, Mesos, Kubernetes, Standalone).
+- **Cluster Manager**: Manages resources across the cluster (📌e.g., YARN, Mesos, Kubernetes, Standalone).
 - **Driver**: Runs the main function, creates SparkContext, and coordinates tasks by submitting them to executors.
 - **Executor**: Runs tasks on worker nodes, stores data in memory or disk, and reports results back to the driver.
 - **DAG (Directed Acyclic Graph)**: Represents computation stages as a graph of transformations and actions; optimized by the Catalyst Optimizer.
@@ -19,13 +19,13 @@
 - Transformations are added to a lineage graph instead of tracking changes directly.
 - Lazy Evaluation: Computations are not executed immediately; evaluation occurs only when an action is called.
 - Fault Tolerant: Can recompute lost partitions using lineage.
-- Supports two types of operations: Transformations (e.g., map, filter) and Actions (e.g., collect, count).
+- Supports two types of operations: Transformations (📌e.g., map, filter) and Actions (📌e.g., collect, count).
 
 ### DataFrame
 - Higher-level abstraction built on top of RDDs.
-- Still immutable and follows all RDD properties (e.g., lazy evaluation, fault tolerance).
+- Still immutable and follows all RDD properties (📌e.g., lazy evaluation, fault tolerance).
 - Has a tabular structure with named columns and schema.
-- Lazy Evaluation: Transformations (e.g., filter, groupBy) are not executed until an action (e.g., show, collect) is called.
+- Lazy Evaluation: Transformations (📌e.g., filter, groupBy) are not executed until an action (📌e.g., show, collect) is called.
 - Optimized using Catalyst Optimizer and supports SQL-like queries.
 
 ### RDD vs. DataFrame
@@ -70,21 +70,21 @@
   - **Repartition**: Increases or decreases partitions with a full shuffle (expensive). Example: `df.repartition(8)` (from 4 to 8 partitions).
   - **Coalesce**: Reduces partitions without shuffling (merges existing ones). Cannot increase partitions effectively. Example: `df.coalesce(4)` (from 8 to 4 partitions). Useful before writing to disk to reduce small files.
 - **Data Skew**: Uneven data distribution across partitions leading to slow tasks. Handle with salting (add random suffix to keys), custom partitioning, or AQE.
-- **Shuffle Tuning**: Adjust `spark.sql.shuffle.partitions` (default 200) to control tasks during shuffles (e.g., joins, groupBy).
+- **Shuffle Tuning**: Adjust `spark.sql.shuffle.partitions` (default 200) to control tasks during shuffles (📌e.g., joins, groupBy).
 - **Broadcast Join**: As above, for small-large joins.
 - **Adaptive Query Execution (AQE)**: Automatically optimizes query plans at runtime (enabled by default in Spark 3.0+; handles skew, coalesces partitions dynamically).
 - **Skew Handling**: Beyond salting, use `spark.sql.adaptive.skewJoin.enabled=true` for AQE to split skewed partitions.
 
 ### Predicate Pushdown
-- Optimization technique where filters (predicates) are pushed down to the data source (e.g., Parquet, JDBC).
+- Optimization technique where filters (predicates) are pushed down to the data source (📌e.g., Parquet, JDBC).
 - Reduces data loaded into Spark by filtering at the source level, minimizing I/O and network transfer.
 - Enabled by default for supported formats; use `spark.read.option("pushDownPredicate", true)` if needed.
 - Example: In Parquet, filters like `age > 30` are applied before reading, skipping irrelevant row groups.
 
 ### ETL (Extract, Transform, Load)
-- **Extract**: Load data from sources using `spark.read` (e.g., databases, files).
+- **Extract**: Load data from sources using `spark.read` (📌e.g., databases, files).
 - **Transform**: Apply operations like filtering, aggregating, joining, or UDFs on DataFrames.
-- **Load**: Write transformed data to sinks using `df.write` (e.g., to HDFS, S3, databases).
+- **Load**: Write transformed data to sinks using `df.write` (📌e.g., to HDFS, S3, databases).
 - Best for batch processing; use Structured Streaming for real-time ETL.
 
 ### Graph Processing
@@ -103,12 +103,12 @@
 ### Model Persistence
 - In Spark MLlib, save trained models to disk for reuse.
 - Use `model.save("path/to/model")` to persist (supports formats like Parquet for pipelines).
-- Load with `loaded_model = PipelineModel.load("path/to/model")` or specific model class (e.g., `LogisticRegressionModel.load()`).
+- Load with `loaded_model = PipelineModel.load("path/to/model")` or specific model class (📌e.g., `LogisticRegressionModel.load()`).
 - Enables deployment, versioning, and sharing models across jobs.
 
 ### Best Practices
 - Prefer DataFrame/SQL over RDDs for better optimization and readability.
-- Minimize shuffles (e.g., avoid unnecessary joins, groupBy; use broadcast for small tables).
+- Minimize shuffles (📌e.g., avoid unnecessary joins, groupBy; use broadcast for small tables).
 - Cache strategically for reused datasets, but unpersist when done.
 - Use columnar formats like Parquet for storage efficiency and predicate pushdown.
 - Monitor partitions: Aim for 100-200MB per partition; tune with repartition/coalesce.
@@ -144,7 +144,7 @@
   - **Interoperability**: Supports integration with Python libraries like NumPy and Pandas (via Pandas UDFs) for advanced analytics.
 - **Best Practices**:
   - Use `Pipeline` to streamline workflows and avoid manual staging errors.
-  - Cache intermediate datasets (e.g., feature vectors) to speed up iterative algorithms.
+  - Cache intermediate datasets (📌e.g., feature vectors) to speed up iterative algorithms.
   - Handle missing values and outliers before training (use DataFrame operations like `na.drop()` or `na.fill()`).
   - Optimize hyperparameters using cross-validation for robust models.
   - Test models on a small dataset before scaling to ensure correctness.
@@ -393,7 +393,7 @@ assembler = VectorAssembler(
 # Scale features
 scaler = StandardScaler(inputCol="features", outputCol="scaled_features")
 
-# Define a model (e.g., Logistic Regression for classification)
+# Define a model (📌e.g., Logistic Regression for classification)
 lr = LogisticRegression(featuresCol="scaled_features", labelCol="label")
 
 # Create pipeline
@@ -409,7 +409,7 @@ model = pipeline.fit(train_df)
 predictions = model.transform(test_df)
 predictions.select("prediction", "label").show()
 
-# Evaluate model (e.g., for classification)
+# Evaluate model (📌e.g., for classification)
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 
 evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")

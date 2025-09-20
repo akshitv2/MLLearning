@@ -131,7 +131,7 @@
     2. #### Types:
         1. ##### Sigmoid [DEPRECATED]
            $$f(x) = \frac{1}{1 + e^{-x}}$$
-            - ![img_21.png](img_21.png)
+            - ![img_21.png](Images/img_21.png)
             - Bounded [0,1]
             - as x→∞ y→ 1
             - as x→-∞ y→ 0
@@ -293,15 +293,15 @@
     1. #### Step Decay
         - $\eta_t = \eta_0 \cdot \gamma^{\left\lfloor \tfrac{t}{T} \right\rfloor}$
         - Drops LR by a constant factor every few epochs
-        - ![img_22.png](img_22.png)
+        - ![img_22.png](Images/img_22.png)
     2. #### Exponential Decay
         - $\eta_t = \eta_0 \cdot e^{-\lambda t}$
         - Drops learning rate exponentially per epoch
-        - ![img_9.png](img_9.png)
+        - ![img_9.png](Images/img_9.png)
     3. #### Cosine Annealing
         - Follows gentler cosine function (convex first then concave)
         - $\eta_t = \eta_{\min} + \tfrac{1}{2}(\eta_0 - \eta_{\min}) \left(1 + \cos\!\left(\frac{\pi t}{T_{\max}}\right)\right)$
-        - ![img_10.png](img_10.png)
+        - ![img_10.png](Images/img_10.png)
     4. #### Polynomial Decay
         - $\eta_t = \eta_0 \left( 1 - \frac{t}{T_{\max}} \right)^p$
         - Constant polynomial decay
@@ -311,18 +311,18 @@
         - Increases and decreases learning rate
         - 🔴 Need max and min and cycle rate careful tuning
         - 🟢 can help get out of minima
-        - ![img_7.png](img_7.png)
+        - ![img_7.png](Images/img_7.png)
     7. #### One cycle
         - Increases initially then decreases rapidly
         - Gives fast convergence
-        - ![img_11.png](img_11.png)
+        - ![img_11.png](Images/img_11.png)
 12. ### Regularization
     1. #### L1 LASSO
         - Least Absolute Shrinkage and selection operator
         - Applies linear penalty to magnitude of weight
         - ![img.png](Images/3_deepLearning_L1_regularization.png)
         - Forms n dimensional diamond constraint region
-        - ![img_13.png](img_13.png)
+        - ![img_13.png](Images/img_13.png)
         - 🟢 Causes Sparsity which can speed up computation
         - 🟢 Makes model more interpretable
         - 🔴 Sparsity can force useful weights to 0, once set to 0 always vanishes
@@ -334,7 +334,7 @@
         - And w>1 would be much larger so minimizes this first
         - 🟢 Prevents overfitting while keeping all the features
         - Forms circular constraint region
-        - ![img_14.png](img_14.png)
+        - ![img_14.png](Images/img_14.png)
     3. #### Elastic Net
         - ![img.png](Images/3_deepLearning_ElasticNet_regularization.png)
         - Combines L1 and L2
@@ -361,7 +361,7 @@
         - 🔴 May prematurely stop (good training can have plateaus)
     6. #### Batch Norm
         - Applied after linear and convolution layer but before activation function
-        - (Linear / Convolution)→BatchNorm→Activation(e.g. ReLU)
+        - (Linear / Convolution)→BatchNorm→Activation(📌e.g. ReLU)
         - Converts Values to Z score:
         - $\hat{z} = \frac{z - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$
             - $\epsilon$ term is a small positive number to prevent divide by 0
@@ -422,7 +422,7 @@
 ## Architectures
 
 1. ### Convolutional Neural Networks
-   ![img_12.png](img_12.png)
+   ![img_12.png](Images/img_12.png)
     - #### Purpose:
         - For processing grid structured data like images
     - #### Working:
@@ -455,7 +455,7 @@
         - ##### Fully Connected:
             - Good Ol' Fully Connected Layer
     - #### Usage:
-        - Deep CNN themselves no longer SOTA but are used extensively in SOTA models e.g. UMAP in diffusion
+        - Deep CNN themselves no longer SOTA but are used extensively in SOTA models 📌e.g. UMAP in diffusion
         - 🟢 Less resource intensive than ViT
         - 🟢 Easier to train on small datasets, ViT have massive DS requirements
     - #### Applications:
@@ -477,7 +477,7 @@
             - Right Side: Decoder → Upsamples
             - Bottle Neck: Exists at deeper layers
             - Residual connections exist from each layer left to right to ensure bottleneck doesn't stop data
-            - ![img_15.png](img_15.png)
+            - ![img_15.png](Images/img_15.png)
 3. ### Recurrent Neural Networks
     - Composed of sequential units that use previous output and have hidden states carried forward
     - Each neuron feeds into itself at every timestep, shown below unrolled
@@ -494,7 +494,7 @@
         - $$y_t = \mathrm{softmax}(Vh_t)$$
         - Softmaxxed to give resulting probablities (like in text generation)
     2. #### LSTM
-        - ![img_17.png](img_17.png)
+        - ![img_17.png](Images/img_17.png)
         - Equations:
             - $$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
             - $$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
@@ -555,7 +555,7 @@
 8. ### Auto Encoder
     - Unsupervised learning model
     - Primary Goal: Learns a compressed/encoded representation of the input and recreates it to match at output end.
-    - ![img_23.png](img_23.png)
+    - ![img_23.png](Images/img_23.png)
     - Parts:
         1. ### Encoder:
             - Takes the input data and progressively reduces its dimensionality through a series of layers.
@@ -587,7 +587,7 @@
       probablity distribution and sampled from (with a lower z score) to recreate input.
     - This probabilistic approach allows VAEs to generate new, realistic data points that are similar to the training
       data.
-    - ![img_24.png](img_24.png)
+    - ![img_24.png](Images/img_24.png)
     - Components:
         - Encoder: Maps input to the parameters of a probability distribution in the latent space.
         - Latent Space: lower-dimensional space where the compressed representations of the data reside. In a VAE, each
@@ -682,7 +682,50 @@
             - Student is trained to predict soft targets (like p for each class in classification) instead of hard
               labels 1|0
             - Much easier to learn with softer targets since richer in info
-            - Use combination of: KL Divergence and Standard Loss (e.g. Cross entropy for sample)
+            - Use combination of: KL Divergence and Standard Loss (📌e.g. Cross entropy for sample)
     2. ### Quantisation
         - Takes a trained model and reduces numerical precision of weights/activations
         - If precision not reduced by a lot, output remains similar
+14. ### HyperParameter Tuning
+    - hyperparameters are settings that are not learned by the model during training but are set before training starts.
+      They control the learning process.
+    - 📌Examples of hyperparameters:
+        - **Category**    | Examples
+        - **Model architecture**:    Number of layers, number of neurons per layer
+        - **Learning process:**    Learning rate, batch size, optimizer type
+        - **Regularization:**    Dropout rate, L2/L1 weight decay
+        - **Training process:**    Number of epochs, early stopping patience
+    - ### Need:
+        - Hyperparameters strongly affect model performance:
+        - Too high a learning rate → model may diverge.
+        - Too low → model trains very slowly or gets stuck in a bad minimum.
+        - Too many layers → overfitting.
+        - Too few layers → underfitting.
+    - ### Hyperparameter Tuning Methods:
+        1. ### Manual Search
+            - Try a few combinations by intuition.
+            - Simple but inefficient for large search spaces.
+        2. ### Grid Search
+            - Define discrete values for each hyperparameter.
+            - Train on all combinations.
+            - 🟢 Exhaustive, easy to implement
+            - 🔴 Very computationally expensive for many parameters
+        3. ### Random Search
+            - Randomly sample hyperparameters from distributions.
+            - Often better than grid search because some parameters matter more than others.
+            - Example: sample learning rate from log-uniform(1e-5, 1e-1)
+            - 🟢 Can explore more space efficiently
+            - 🔴 Still can be slow if model is large
+        4. ### Bayesian Optimization
+            - Uses past results to choose the next set of hyperparameters intelligently.
+            - BO treats the objective function (e.g., validation accuracy as a function of hyperparameters) as unknown
+              and expensive to evaluate.
+            - model it probabilistically using a surrogate model (usually a Gaussian Process, GP)
+            - The model is trained for a few epochs for surrogate model can learn its performance
+            - Then it's trying to predict the model's accuracy as a function of hyperparams
+            - Uses Acquisition Function
+                - Acquisition function tells us where to try next.
+                - Common functions:
+                    1. **Expected Improvement (EI)**: Choose points likely to improve current best.
+                    2. **Upper Confidence Bound (UCB)**: Combines mean and uncertainty to balance exploration/exploitation.
+                    3. **Probability of Improvement (PI)**: Probability that the new point improves the best so far.

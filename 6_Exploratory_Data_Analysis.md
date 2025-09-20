@@ -49,7 +49,7 @@
         - ### Capping
             - Limiting extreme values to a certain percentile.
             - Outliers don’t dominate the data but are not entirely discarded.
-            - 📌 e.g., 1st Percentile 500, 99th 5000. If x<500 -> x = 500.
+            - 📌 📌e.g., 1st Percentile 500, 99th 5000. If x<500 -> x = 500.
         - ### Transformation
             - Transformation changes the scale of your data to reduce the impact of outliers.
             - Common Techniques:
@@ -104,7 +104,7 @@
             - **Interquartile Range (IQR)**: The range of the middle 50% of the data. It's the difference between the first quartile (25th percentile) and the third quartile (75th percentile) and is a robust measure of spread.
         3. ## Skewness
             - Measure of asymmetry of a probability distribution.
-            - ![img_28.png](img_28.png)
+            - ![img_28.png](Images/img_28.png)
             - Types:
                 - **Symmetric**: No skew left or right.
                 - **Positive Skew**:
@@ -116,7 +116,7 @@
         4. ## Kurtosis
             - Measure of tailedness of probability distribution.
             - $K = \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^4}{\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2\right)^2}$
-            - ![img_29.png](img_29.png)
+            - ![img_29.png](Images/img_29.png)
             - Types:
                 1. **Leptokurtic (High Kurtosis)**:
                     - Kurtosis > 3.
@@ -132,19 +132,19 @@
             1. # Histograms
                 - Shows the distribution of a single numerical variable.
                 - Divides the data into bins and displays frequency of data points in each bin.
-                - ![img_25.png](img_25.png)
+                - ![img_25.png](Images/img_25.png)
             2. # Density Plot
                 - Graph that visualizes the distribution of a continuous variable using a smoothed curve.
                 - Provides a continuous and fluid representation of the data's probability density function.
                 - Alternative to histogram, using a method called kernel density estimation to smooth out data.
                 - 🟢 Ideal for comparing two or more datasets, as overlapping curves provide an easy way to contrast different distributions.
-                - ![img_27.png](img_27.png)
+                - ![img_27.png](Images/img_27.png)
             3. # Box Plots
                 - Summarizes the distribution of a numerical variable.
                 - Useful for comparing distributions across different groups.
                 - The box represents the IQR, the line inside is the median.
                 - The "whiskers" extend to the minimum and maximum non-outlier values.
-                - ![img_26.png](img_26.png)
+                - ![img_26.png](Images/img_26.png)
             4. # Scatter Plot
                 - Shows the relationship between two numerical variables.
                 - Each point represents an observation, position determined by the values of the two variables.
@@ -161,7 +161,7 @@
                 - 🟢 Clear and easy to interpret for categorical data.
             8. # HeatMaps (for correlation)
                 - A heatmap correlation is a graphical representation of a correlation matrix, where the strength and direction of the relationship between variables are shown using color.
-                - ![img_30.png](img_30.png)
+                - ![img_30.png](Images/img_30.png)
     3. ### Correlation Analysis
         1. # Pearson
             - Measures the linear relationship between two numerical variables.
@@ -224,7 +224,7 @@
             - Pivot Tables/Aggregations: Summarizing data across multiple variables.
 4. # Handling Imbalanced Data
     - Occurs when one class in a dataset is significantly underrepresented compared to others.
-    - Common in classification problems (e.g., fraud detection).
+    - Common in classification problems (📌e.g., fraud detection).
     - Techniques:
         1. # Resampling Techniques
             - **SMOTE (Synthetic Minority Oversampling Technique)**: Generates synthetic samples for the minority class. [Read here](1_DataPreProcessing.md#SMOTE-Synthetic-Minority-Oversampling-Technique)

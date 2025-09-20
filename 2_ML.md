@@ -3,18 +3,18 @@
 1. ## Fundamentals
     1. ### Supervised Learning
        Learning with labels, target variable   
-       e.g. classification, regression
+       📌e.g. classification, regression
     2. ### Unsupervised Learning
        Learning without existing labels, usually to find pattern between data itself  
-       e.g. Clustering
+       📌e.g. Clustering
     3. ### Semisupervised Learning
        Combines labelled and unlabelled data.  
-       For e.g. Self training: Learn from few labels, assign to unlabelled and train
+       For 📌e.g. Self training: Learn from few labels, assign to unlabelled and train
     4. ### Reinforcement Learning
        Models learns by performing or learns results of actions in an environment
     5. ### Self supervised Learning
        Model creates its own labels from data.  
-       e.g. Contrastive learning where model learns by augmenting, masked word models: mask and predict from same
+       📌e.g. Contrastive learning where model learns by augmenting, masked word models: mask and predict from same
        sentence.
 2. ## Concepts
     1. ### **Training**
@@ -35,7 +35,7 @@
             2. Use the remaining K-1 folds as the training set.
             3. Train the model on the training set and evaluate on the test set.
         3. Repeat the process K times, each time with a different fold as the test set.
-        4. Average the performance metrics (e.g., accuracy, RMSE) across all folds for a final score.
+        4. Average the performance metrics (📌e.g., accuracy, RMSE) across all folds for a final score.
            <br>Pros & Cons:
            <br>✅ Provides a better estimate of model performance.
            <br>✅ Helps detect overfitting or underfitting.
@@ -244,7 +244,7 @@
                 - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
         - **Kernel Trick**:
     14. ### DBSCAN
-        ![img_5.png](img_5.png)
+        ![img_5.png](Images/img_5.png)
         - Density based spatial clustering with noise
         - 🟢 Allows non-circular clusters and noise
         - 🔴 Sensitive to hyperparams

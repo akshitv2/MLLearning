@@ -16,7 +16,7 @@ Improvements over Encoder Decoder:
 - ℹ️ In encoder/decoder arch info would fade due to context vector encoding only limited length + model would lose long
   range relationships.
 - At its core, the attention mechanism computes a set of attention scores that determine how much focus each input
-  element (e.g., a word in a sentence) should receive when processing another element.
+  element (📌e.g., a word in a sentence) should receive when processing another element.
 - Composed of:
     1. Query, Key and Value Vectors:
         - Query (Q): Represents the question model is asking -> what am I looking for?
@@ -45,7 +45,7 @@ Improvements over Encoder Decoder:
         - larger dk makes training extremely slow, smaller dks often used. dk=64 common in many models due to comp
           efficiency
 
-- ![img_18.png](img_18.png)
+- ![img_18.png](Images/img_18.png)
 - Usually Made up of encoder decoder (or one of these)
 - Improvement over traditional RNN
     - 🟢 Trained in parallel since each token can look at all others instead of relying on last output (with teacher
@@ -69,13 +69,13 @@ Each layer's output is added to it's input (through skip connections) (prevents 
 
 In Transformers, two major strategies exist for applying LayerNorm
 
-- ![img_19.png](img_19.png)
+- ![img_19.png](Images/img_19.png)
 
 1. ### **Post-Normalization** (Post-LN):
     - LayerNorm is applied after the residual connection.
     - This strategy was used in orignal papers
-    - ![img_20.png](img_20.png)
-        - i.e Input $ x $ goes through sub-layer (e.g., attention $ A(x) $ or feed-forward $ F(x) $).
+    - ![img_20.png](Images/img_20.png)
+        - i.e Input $ x $ goes through sub-layer (📌e.g., attention $ A(x) $ or feed-forward $ F(x) $).
         - Residual: $ x + \text{sub-layer}(x) $.
         - Then apply LayerNorm: $ \text{LN}(x + \text{sub-layer}(x)) $.
         - This is repeated across $ L $ layers.
@@ -115,7 +115,7 @@ At the end of decoder to transform into probabilities to choose words (in LMs) t
 
 1. **What is masking and why is it used in transformer?**
    Masking is used to restrict which tokens are allowed to attend to others in the attention mechanism.
-   - Ensures proper training behavior (e.g., no peeking into future words).
+   - Ensures proper training behavior (📌e.g., no peeking into future words).
    - Simulates test-time left-to-right generation during training.
    Types:
    - Padding Mask: Ignores [PAD] tokens during attention.
