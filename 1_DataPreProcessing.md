@@ -19,12 +19,15 @@
 
 3. ### Outlier Detection
    Methods:
-    1. **Z Score**: z score is calculated as ((x - mean) / std dev). Usually safe to ignore |z|>3 (Central limit
-       theorem)
-    2. **IQR (Inter Quartile Range)**: Calculated using median, Common to only consider points in Q1-1.5IQR and Q3+
-       1.5IQR (Q3:75th Percentile Q1:25th Percentile)
-    3. Mahalanobis Distance:
-    4. **Box Plot Analysis**: Visualization method based on IQR
+    1. ### Z Score:
+       - Z score is calculated as ((x - mean) / std dev). Usually safe to ignore |z|>3 (Central limit
+           theorem)
+    2. ### IQR (Inter Quartile Range):
+       - Calculated using median, Common to only consider points in Q1-1.5IQR and Q3+
+           1.5IQR (Q3:75th Percentile Q1:25th Percentile)
+    3. ### Mahalanobis Distance:
+    4. ### Box Plot Analysis:
+       - Visualization method based on IQR
 
 4. ### Data Transformation (Scaling)
     1. **Standardization: (mean = 0, variance = 1)** → Replace values with Z score
@@ -84,7 +87,8 @@ Done via:
     1. Pearson Correlation (for numeric <→ numeric data):
        $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
        i.e Cov(x,y)/std(x)std(y)
-    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. Matrix puts every feature X <→ X and looks for higher correlation.
+    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. Matrix puts every feature X <→ X and looks for
+       higher correlation.
     3. ChiSquare Test for Categorical Features
     4. Monotonic Increase (Spearman): i.e. non-linear correlated increase for e.g height and weight in population
        $$\rho_{X,Y} = 1 - \frac{6 \sum_{i=1}^{n} d_i^2}{n(n^2 - 1)}$$
@@ -163,6 +167,8 @@ Process of selecting a subset from a larger group (called population) to make in
             - Using these decision boundary points perform SMOTE
         - 🟢 Teach the model more since focuses on creating points in difficult regions
         - 🔴 Can introduce noise
+    3. ### Undersampling
+    4. ### Class Weight Adjustment
 
 ## Text Preprocessing
 
