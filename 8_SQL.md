@@ -1,121 +1,265 @@
-# SQL
+# SQL Guide
 
-<span style="color:orange">Table1</span>
-<span style="color:yellow">Table1</span>
-<span style="color:green">Table1</span>
-<span style="color:aqua">Table1</span>
-<span style="color:lightblue">Table1</span>
-<span style="color:red">Table1</span>
+This guide provides an overview of essential SQL concepts, commands, and data types for managing and querying relational databases. Each section includes explanations and examples to help you understand and apply SQL effectively.
 
-DISTINCT (<span style="color:yellow">ColA</span>)
-COUNT(<span style="color:yellow">ColA</span>)
+## Table Management
 
-ORDER BY <span style="color:yellow">ColA</span> ASC|DESC
-LIMIT N
-OFFSET N
+### Creating and Modifying Tables
+Tables are the core structure for storing data in a relational database. Below are commands to create, modify, and delete tables.
 
-ALTER TABLE <span style="color:orange">Table1</span> ADD <span style="color:yellow">ColA</span> dtype  
-ALTER TABLE <span style="color:orange">Table1</span> MODIFY <span style="color:yellow">ColA</span> dtype  
-ALTER TABLE <span style="color:orange">Table1</span> Drop <span style="color:yellow">ColA</span>
+- **Create a Table**:
+  Use the `CREATE TABLE` statement to define a new table with specified columns and data types.
+  ```sql
+  CREATE TABLE Table1 (
+      ColA INT,
+      ColB VARCHAR(50),
+      ColC DATE
+  );
+  ```
 
-DROP TABLE <span style="color:orange">Table1</span>
+- **Alter a Table**:
+  Modify an existing table to add, change, or remove columns.
+  ```sql
+  ALTER TABLE Table1 ADD ColD FLOAT;           -- Adds a new column
+  ALTER TABLE Table1 MODIFY ColA BIGINT;       -- Modifies an existing column's data type
+  ALTER TABLE Table1 DROP ColC;               -- Removes a column
+  ```
 
-## Index:
-- Fast retrieval, slow insertion
-- Uses more spce
-- CREATE INDEX Index1 on <span style="color:orange">Table1</span>(<span style="color:yellow">ColA</span>)
-- DROP INDEX Index1
+- **Drop a Table**:
+  Delete an entire table and its data permanently.
+  ```sql
+  DROP TABLE Table1;
+  ```
 
-## View
-- View is a virtual table based on the result-set of an SQL statement.  
-- A view always shows up-to-date data! The database engine recreates the view, every time a user queries it.
-CREATE VIEW ViewName AS SELECT <span style="color:yellow">ColA</span>, <span style="color:yellow">ColB</span> FROM <span style="color:orange">Table1</span>;
+### Indexes
+Indexes improve the speed of data retrieval but may slow down data insertion and require additional storage.
 
-## Insertion:
-INSERT INTO <span style="color:orange">Table1</span> values (1,'ABC',...)  
-INSERT INTO <span style="color:orange">Table1</span>(<span style="color:yellow">ColA</span>, <span style="color:yellow">ColB</span>) values (1,'ABC',...)
+- **Create an Index**:
+  ```sql
+  CREATE INDEX Index1 ON Table1(ColA);
+  ```
+- **Drop an Index**:
+  ```sql
+  DROP INDEX Index1;
+  ```
 
-## Update:
-UPDATE <span style="color:orange">Table1</span> SET <span style="color:yellow">ColA</span> = 'SomeValue' where <span style="color:yellow">ColB</span> = 'This'
+### Views
+A view is a virtual table based on the result of an SQL query. It dynamically reflects changes in the underlying tables.
 
-## Deletion
-DELETE FROM <span style="color:orange">Table1</span> where ...
+- **Create a View**:
+  ```sql
+  CREATE VIEW ViewName AS
+  SELECT ColA, ColB
+  FROM Table1
+  WHERE ColA > 10;
+  ```
+  Views are useful for simplifying complex queries and providing a layer of abstraction.
 
-COMMIT;
-ROLLBACK;
+## Data Manipulation
 
-SELECT <span style="color:yellow">ColA</span>,  
-    AVG(<span style="color:yellow">ColB</span>),  
-    MEAN(<span style="color:yellow">ColB</span>),  
-    SUM(<span style="color:yellow">ColB</span>),  
-    MIN(<span style="color:yellow">ColB</span>),  
-    MAX(<span style="color:yellow">ColB</span>)  
-FROM <span style="color:orange">Table1</span> group by <span style="color:yellow">ColA</span> having <span style="color:yellow">ColA</span> > ...;
+### Inserting Data
+Add new records to a table using the `INSERT INTO` statement.
 
-## String Utils
-SELECT  
-UPPER('...'),  
-LOWER('...'),  
-LENGTH('...'),  
-TRIM('...'),
-SUBSTRING('...', start, end),  
-CONCAT('...','...'),  
-REPLACE('...','...')  
-from ....
+- **Insert with All Columns**:
+  ```sql
+  INSERT INTO Table1 VALUES (1, 'ABC', '2023-01-01');
+  ```
+- **Insert Specific Columns**:
+  ```sql
+  INSERT INTO Table1 (ColA, ColB) VALUES (1, 'ABC');
+  ```
 
-### Date Selection
-WHERE ColDate >= NOW() - INTERVAL 30 DAY  
-WHERE ColDate >= NOW() - INTERVAL 1 MONTH  
-WHERE ColDate >= NOW() - INTERVAL 1 YEAR  
+### Updating Data
+Modify existing records using the `UPDATE` statement.
 
-### Case
-SELECT CASE  
-    WHEN <span style="color:yellow">ColA</span> > 5 THEN 'Something'  
-    WHEN <span style="color:yellow">ColA</span> = 5 THEN 'SomethingElse'  
-    ELSE 'Something else again'  
-FROM ...
+```sql
+UPDATE Table1
+SET ColA = 'NewValue'
+WHERE ColB = 'Condition';
+```
 
-### JOINS
-SELECT <span style="color:orange">Table1</span>.<span style="color:yellow">ColA</span>, <span style="color:orange">Table2</span>.<span style="color:yellow">ColB</span> FROM T1 as <span style="color:orange">Table1</span> <span style="color:red">INNER JOIN</span> T2 as <span style="color:orange">Table2</span> ON <span style="color:orange">Table1</span>.<span style="color:yellow">ColX</span> = <span style="color:orange">Table2</span>.<span style="color:yellow">ColX</span>;   
-SELECT <span style="color:orange">Table1</span>.<span style="color:yellow">ColA</span>, <span style="color:orange">Table2</span>.<span style="color:yellow">ColB</span> FROM T1 as <span style="color:orange">Table1</span> <span style="color:red">LEFT JOIN</span> T2 as <span style="color:orange">Table2</span> ON <span style="color:orange">Table1</span>.<span style="color:yellow">ColX</span> = <span style="color:orange">Table2</span>.<span style="color:yellow">ColX</span>;   
-SELECT <span style="color:orange">Table1</span>.<span style="color:yellow">ColA</span>, <span style="color:orange">Table2</span>.<span style="color:yellow">ColB</span> FROM T1 as <span style="color:orange">Table1</span> <span style="color:red">RIGHT JOIN</span> T2 as <span style="color:orange">Table2</span> ON <span style="color:orange">Table1</span>.<span style="color:yellow">ColX</span> = <span style="color:orange">Table2</span>.<span style="color:yellow">ColX</span>;   
-SELECT <span style="color:orange">Table1</span>.<span style="color:yellow">ColA</span>, <span style="color:orange">Table2</span>.<span style="color:yellow">ColB</span> FROM T1 as <span style="color:orange">Table1</span> <span style="color:red">FULL JOIN</span> T2 as <span style="color:orange">Table2</span> ON <span style="color:orange">Table1</span>.<span style="color:yellow">ColX</span> = <span style="color:orange">Table2</span>.<span style="color:yellow">ColX</span>;   
-SELECT <span style="color:orange">Table1</span>.<span style="color:yellow">ColA</span>, <span style="color:orange">Table2</span>.<span style="color:yellow">ColB</span> FROM T1 as <span style="color:orange">Table1</span> <span style="color:red">CROSS JOIN</span> T2 as <span style="color:orange">Table2</span> ON <span style="color:orange">Table1</span>.<span style="color:yellow">ColX</span> = <span style="color:orange">Table2</span>.<span style="color:yellow">ColX</span>;   
+### Deleting Data
+Remove records from a table using the `DELETE` statement.
+
+```sql
+DELETE FROM Table1
+WHERE ColA = 5;
+```
+
+### Transaction Control
+Ensure data integrity with transaction commands.
+
+- **Commit Changes**:
+  ```sql
+  COMMIT;
+  ```
+- **Rollback Changes**:
+  ```sql
+  ROLLBACK;
+  ```
+
+## Querying Data
+
+### Selecting Data
+Retrieve data from tables using the `SELECT` statement.
+
+- **Basic Selection**:
+  ```sql
+  SELECT ColA, ColB
+  FROM Table1;
+  ```
+- **Distinct Values**:
+  ```sql
+  SELECT DISTINCT ColA
+  FROM Table1;
+  ```
+- **Aggregate Functions**:
+  Perform calculations on data.
+  ```sql
+  SELECT ColA,
+         AVG(ColB),
+         SUM(ColB),
+         MIN(ColB),
+         MAX(ColB)
+  FROM Table1
+  GROUP BY ColA
+  HAVING ColA > 10;
+  ```
+
+### Sorting and Limiting
+Control the order and number of results.
+
+- **Order By**:
+  Sort results in ascending (`ASC`) or descending (`DESC`) order.
+  ```sql
+  SELECT ColA
+  FROM Table1
+  ORDER BY ColA ASC;
+  ```
+- **Limit and Offset**:
+  Restrict the number of rows returned and skip a specified number of rows.
+  ```sql
+  SELECT ColA
+  FROM Table1
+  LIMIT 10
+  OFFSET 5;
+  ```
+
+### String Functions
+Manipulate string data with built-in functions.
+
+```sql
+SELECT UPPER('text'),          -- Converts to uppercase
+       LOWER('TEXT'),          -- Converts to lowercase
+       LENGTH('text'),         -- Returns string length
+       TRIM('  text  '),       -- Removes leading/trailing spaces
+       SUBSTRING('text', 1, 3),-- Extracts substring
+       CONCAT('text', 'more'), -- Concatenates strings
+       REPLACE('text', 't', 'T') -- Replaces characters
+FROM Table1;
+```
+
+### Date Filtering
+Filter records based on date and time conditions.
+
+```sql
+SELECT ColA
+FROM Table1
+WHERE ColDate >= NOW() - INTERVAL '30 DAY';   -- Last 30 days
+WHERE ColDate >= NOW() - INTERVAL '1 MONTH';  -- Last month
+WHERE ColDate >= NOW() - INTERVAL '1 YEAR';   -- Last year
+```
+
+### Conditional Logic
+Use `CASE` statements for conditional logic in queries.
+
+```sql
+SELECT ColA,
+       CASE
+           WHEN ColA > 5 THEN 'High'
+           WHEN ColA = 5 THEN 'Medium'
+           ELSE 'Low'
+       END AS Category
+FROM Table1;
+```
+
+### Joins
+Combine data from multiple tables based on related columns.
+
+- **Inner Join**:
+  Returns only matching records from both tables.
+  ```sql
+  SELECT Table1.ColA, Table2.ColB
+  FROM Table1
+  INNER JOIN Table2 ON Table1.ColX = Table2.ColX;
+  ```
+- **Left Join**:
+  Returns all records from the left table and matching records from the right table.
+  ```sql
+  SELECT Table1.ColA, Table2.ColB
+  FROM Table1
+  LEFT JOIN Table2 ON Table1.ColX = Table2.ColX;
+  ```
+- **Right Join**:
+  Returns all records from the right table and matching records from the left table.
+  ```sql
+  SELECT Table1.ColA, Table2.ColB
+  FROM Table1
+  RIGHT JOIN Table2 ON Table1.ColX = Table2.ColX;
+  ```
+- **Full Join**:
+  Returns all records when there is a match in either table.
+  ```sql
+  SELECT Table1.ColA, Table2.ColB
+  FROM Table1
+  FULL JOIN Table2 ON Table1.ColX = Table2.ColX;
+  ```
+- **Cross Join**:
+  Returns the Cartesian product of both tables.
+  ```sql
+  SELECT Table1.ColA, Table2.ColB
+  FROM Table1
+  CROSS JOIN Table2;
+  ```
 
 ### Window Functions
-- Partitioning and order are optional
-- But highly recommended to order since data can be unorderly stored
-  
-SELECT ROW_NUMBER()  
-<span style="color:red">RANK()  
-SUM()  
-OVER ([PARTITION BY <span style="color:yellow">ColA</span>] [ORDER BY <span style="color:yellow">ColB</span>]) </span>AS NewCol from <span style="color:orange">Table1</span>
+Perform calculations across a set of rows related to the current row.
 
+```sql
+SELECT ColA,
+       ROW_NUMBER() OVER (PARTITION BY ColA ORDER BY ColB) AS RowNum,
+       RANK() OVER (PARTITION BY ColA ORDER BY ColB) AS Rank,
+       SUM(ColB) OVER (PARTITION BY ColA ORDER BY ColB) AS RunningTotal
+FROM Table1;
+```
 
+- **Partition By**: Divides the result set into partitions.
+- **Order By**: Specifies the order within each partition.
 
-# Data Types
+## Data Types
+
+The following table lists common SQL data types, their categories, and descriptions.
 
 | Category       | Data Type            | Description                                               |
 |----------------|----------------------|-----------------------------------------------------------|
-| **Numeric**    | `INT` / `INTEGER`    | Whole numbers                                             |
-|                | `SMALLINT`           | Smaller range of whole numbers                            |
-|                | `BIGINT`             | Very large integers                                       |
-|                | `DECIMAL(p, s)`      | Fixed precision and scale (exact decimals, e.g. money)    |
+| **Numeric**    | `INT` / `INTEGER`    | Whole numbers (e.g., 42)                                  |
+|                | `SMALLINT`           | Smaller range of whole numbers (e.g., -32768 to 32767)    |
+|                | `BIGINT`             | Very large integers (e.g., -2^63 to 2^63-1)               |
+|                | `DECIMAL(p, s)`      | Fixed precision and scale (e.g., 123.45 for money)        |
 |                | `NUMERIC(p, s)`      | Same as DECIMAL, exact precision                          |
-|                | `FLOAT` / `REAL`     | Approximate floating-point numbers                        |
+|                | `FLOAT` / `REAL`     | Approximate floating-point numbers (e.g., 3.14)           |
 |                | `DOUBLE PRECISION`   | Higher precision floating-point numbers                   |
-| **Character**  | `CHAR(n)`            | Fixed-length string (pads with spaces if shorter)         |
-|                | `VARCHAR(n)`         | Variable-length string with a maximum length              |
+| **Character**  | `CHAR(n)`            | Fixed-length string, pads with spaces (e.g., 'abc  ')     |
+|                | `VARCHAR(n)`         | Variable-length string with max length (e.g., 'abc')      |
 |                | `TEXT`               | Large variable-length text                                |
-| **Date/Time**  | `DATE`               | Calendar date (YYYY-MM-DD)                                |
-|                | `TIME`               | Time of day (HH:MM:SS)                                    |
-|                | `DATETIME`           | Date and time (YYYY-MM-DD HH:MM:SS)                       |
-|                | `TIMESTAMP`          | Date and time, often with timezone/epoch support          |
-|                | `INTERVAL`           | A span of time (PostgreSQL, Oracle)                       |
-| **Boolean**    | `BOOLEAN`            | TRUE / FALSE values                                       |
+| **Date/Time**  | `DATE`               | Calendar date (e.g., 2023-01-01)                          |
+|                | `TIME`               | Time of day (e.g., 14:30:00)                              |
+|                | `DATETIME`           | Date and time (e.g., 2023-01-01 14:30:00)                 |
+|                | `TIMESTAMP`          | Date and time with timezone/epoch support                  |
+|                | `INTERVAL`           | A span of time (e.g., 2 days, used in PostgreSQL)         |
+| **Boolean**    | `BOOLEAN`            | TRUE or FALSE values                                      |
 | **Binary/Other** | `BLOB`             | Binary Large Object (e.g., images, files)                 |
-|                | `BYTEA`              | Binary data (PostgreSQL)                                  |
-|                | `JSON` / `JSONB`     | Stores JSON data (PostgreSQL, MySQL)                      |
-|                | `UUID`               | Universally unique identifier                             |
+|                | `BYTEA`              | Binary data (PostgreSQL-specific)                         |
+|                | `JSON` / `JSONB`     | Stores JSON data (JSONB for binary JSON in PostgreSQL)    |
+|                | `UUID`               | Universally unique identifier (e.g., 123e4567-e89b-...)  |
 |                | `XML`                | Stores XML data                                           |
-
