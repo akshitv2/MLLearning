@@ -1,4 +1,4 @@
-# Exploratory Data Analysis
+# 6 Exploratory Data Analysis
 
 - Set of techniques for understanding a dataset.
 - Uses a list of methods - primarily visual - to explore and summarize main characteristics of dataset

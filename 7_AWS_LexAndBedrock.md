@@ -1,8 +1,8 @@
-# 6. AWS Lex & Bedrock
+# 7 AWS Lex & Bedrock
 
 # AWS Lex
 AWS Chatbot service, allows Voice and Text
-Benifits: Simple, seamless deployment and scaling  
+Benefits: Simple, seamless deployment and scaling  
 ℹ️ Seamless Deployment: Deployment without disruption
 ### Components:
 - **Bot**: Chatbot container
