@@ -1,144 +1,122 @@
 # 9 PySpark
 
-- Python Api For Apache Spark
+- Python API for Apache Spark
 
+## Core Concepts
 
-## Core Architecture
-- ## SparkSession: Entry point for DataFrame and SQL APIs.
-- **Cluster Manager**: Manages resources (e.g., YARN, Mesos, Standalone).
-- **Driver**: Runs the main function, creates SparkContext, and coordinates tasks.
-- **Executor**: Runs tasks on worker nodes, stores data in memory/disk.
-- **DAG (Directed Acyclic Graph)**: Represents computation stages; optimized by Catalyst Optimizer.
-- **Catalyst Optimizer**: Query optimizer for DataFrame/SQL operations, improves execution plans.
-- ## RDD: Resilient Distributed Dataset
-    - Distributed Data structure
-    - Represents Data in Spark's memory across clusters for parallel computation
-    - Immutable : Doesn't change once created
-    - Transactions are added to lineage graph instead of track changes
-    - Lazy Evaluation -> Doesn't execute Immediately (evaluation is done when neccessary)
-    - Fault Tolerant
-- ## DataFrame:
-    - Higher Level than RDD (RDD are still the basis of these)
-    - Still Immutable (all things about RDD still apply)
-    - Has tabular structure
-    - Lazy Eval: Transformations (e.g., filter, groupBy) are not executed until an action (e.g., show, collect) is called.
-  
-## RDD vs. DataFrame
-- **RDD**: Low-level, functional API; requires manual optimization.
-- **DataFrame**: Higher-level, structured API; leverages Catalyst Optimizer for performance.
-- **When to Use RDD**: Complex custom operations not supported by DataFrame/SQL APIs.
+### Core Architecture
+- **SparkSession**: Entry point for DataFrame and SQL APIs. It provides a unified interface to access Spark's functionality.
+- **Cluster Manager**: Manages resources across the cluster (e.g., YARN, Mesos, Kubernetes, Standalone).
+- **Driver**: Runs the main function, creates SparkContext, and coordinates tasks by submitting them to executors.
+- **Executor**: Runs tasks on worker nodes, stores data in memory or disk, and reports results back to the driver.
+- **DAG (Directed Acyclic Graph)**: Represents computation stages as a graph of transformations and actions; optimized by the Catalyst Optimizer.
+- **Catalyst Optimizer**: Query optimizer for DataFrame and SQL operations, which analyzes and improves execution plans through rule-based and cost-based optimizations.
+- **Tungsten Execution Engine**: Low-level engine that optimizes memory management and code generation for faster performance.
 
-## Fault Tolerance
-- **Lineage**: Tracks transformations to rebuild data if partitions are lost.
-- **Checkpointing**: Saves intermediate data to disk (`df.checkpoint()`).
+### RDD (Resilient Distributed Dataset)
+- Distributed data structure that represents data in Spark's memory across clusters for parallel computation.
+- Immutable: Once created, it cannot be changed.
+- Transformations are added to a lineage graph instead of tracking changes directly.
+- Lazy Evaluation: Computations are not executed immediately; evaluation occurs only when an action is called.
+- Fault Tolerant: Can recompute lost partitions using lineage.
+- Supports two types of operations: Transformations (e.g., map, filter) and Actions (e.g., collect, count).
 
-## Data Sources
-- **Formats**: CSV, JSON, Parquet, ORC, Avro, JDBC, Delta.
-- **Read**: `spark.read.format("csv").load("file.csv")`.
-- **Write**: `df.write.format("parquet").save("output")`.
-- **Modes**: `overwrite`, `append`, `ignore`, `error`.
+### DataFrame
+- Higher-level abstraction built on top of RDDs.
+- Still immutable and follows all RDD properties (e.g., lazy evaluation, fault tolerance).
+- Has a tabular structure with named columns and schema.
+- Lazy Evaluation: Transformations (e.g., filter, groupBy) are not executed until an action (e.g., show, collect) is called.
+- Optimized using Catalyst Optimizer and supports SQL-like queries.
 
-- ## Parquet:
-    - Parquet is a columnar storage file format that is widely used in big data processing
-    - optimized for efficient data storage and retrieval
-    - Supports compression (e.g., Snappy, Gzip), reducing storage footprint.
-    - Parquet stores data column-wise instead of row-wise.
-    - 🟢 When you query only age and salary, Parquet doesn’t read the name column at all, saving disk I/O and can filter
-      rows before loading them into memory.
-- ## .Collect():
-    - Trigger computation of lineage graph and brings all data to driver node
-    - Can crash driver if data is too large
-    - Only suitable for DEV/small Dataset
-    - Use instead:
-        - .take(n)
-        - .show(n)
-- ## .Cache():
-    - Marks Dataset to be cached for when you next compute it
-    - Shorthand for .persist(StorageLevel.MEMORY_AND_DISK)
-    - Caches on cluster memory, Stores on disk if too large for memory
-    - Heavy objects can cause OOM Crash
-- ## .unpersist():
-    - Remove from cache
+### RDD vs. DataFrame
+- **RDD**: Low-level, functional API; requires manual optimization and is more flexible for unstructured data or custom operations.
+- **DataFrame**: Higher-level, structured API; leverages Catalyst Optimizer for automatic performance improvements and is easier for SQL-like operations.
+- **When to Use RDD**: For complex custom operations not supported by DataFrame or SQL APIs, or when working with unstructured data requiring fine-grained control.
 
-- ## Broadcast Join:
-    - Join optimization technique used when joining a large Dataframe with a small one.
-    - Instead of shuffling large Dataframe across cluster spark broadcasts small Dataframe to all worker codes to join
-      with each partition of large dataframe
-    - Reduces I/O
-    - Make sure dataset being broadcasted is small enough to fit in memory of each node.
-    - Usage:
-      ```python
-      from pyspark.sql import SparkSession
-      from pyspark.sql.functions import broadcast
-      spark = SparkSession.builder.appName("BroadcastJoinExample").getOrCreate()
-      # Example DataFrames
-      large_df = spark.read.csv("large_data.csv", header=True, inferSchema=True)
-      small_df = spark.read.csv("small_data.csv", header=True, inferSchema=True)
-      # Using broadcast join
-      joined_df = large_df.join(broadcast(small_df), on="id", how="inner")
-      ```
-- ## User Defined Functions (UDF)
-    - Custom User Created Functions that can be registered to spark
-    - UDFs let you apply any custom Python logic to DataFrame columns.
-    - 🔴 Performance note: UDFs are slower than built-in Spark SQL functions because they require serialization and
-      Python-JVM communication.
-    - Use built-in functions if possible.
-    - 🟢 10-100x Faster than base python function usage
-    - Example:
-        - ```python
-          from pyspark.sql import SparkSession
-          from pyspark.sql.functions import udf
-          from pyspark.sql.types import IntegerType, StringType
-          spark = SparkSession.builder.appName("UDFExample").getOrCreate()
-          def square(x):
-            if x is not None:
-                return x * x
-          square_udf = udf(square, IntegerType())```
-## Performance Optimization
-- **Caching/Persisting**: Store DataFrame in memory (`df.cache()` or `df.persist(StorageLevel.MEMORY_AND_DISK)`).
-- **Partitioning**: Control data distribution (`df.repartition(10)` or `df.coalesce(2)`).
-- **Broadcast Join**: Optimize small-table joins (`spark.sql("SELECT /*+ BROADCAST(t2) */ * FROM t1 JOIN t2")`).
-- **Shuffle Tuning**: Adjust `spark.sql.shuffle.partitions` (default: 200).
-- **Skew Handling**: Address data skew with salting or repartitioning.
-- **AQE (Adaptive Query Execution)**: Automatically optimizes query plans (enabled by default in Spark 3.0+).
+### Fault Tolerance
+- **Lineage**: Tracks transformations applied to the data, allowing Spark to rebuild lost partitions by recomputing from the original data source.
+- **Checkpointing**: Saves intermediate data to disk for long-running jobs to break lineage and avoid recomputation (`df.checkpoint(eager=True)` for immediate checkpointing).
+- **Persistence**: Caches data in memory or disk to prevent recomputation on failures (see Storage Levels below).
 
-- ## Repartition
-    - Used to increase or decrease the number of partitions.
-    - 🔴 repartition always performs a full shuffle, so it can be expensive.
-    - Shuffles data
-        - ```python 
-            # Assume df has 4 partitions
-            df_repart = df.repartition(8)  # Now it has 8 partitions```
+### Data Sources and Formats
+- **Supported Formats**: CSV, JSON, Parquet, ORC, Avro, JDBC/ODBC (for databases), Delta Lake, Text, Hive tables.
+- **Reading Data**: Use `spark.read.format("format").option("key", "value").load("path")` for flexible loading.
+- **Writing Data**: Use `df.write.format("format").mode("mode").save("path")`.
+- **Write Modes**: `overwrite` (replace existing data), `append` (add to existing), `ignore` (skip if exists), `error` (throw error if exists).
+- **Parquet Format**:
+  - Columnar storage file format optimized for big data processing.
+  - Supports efficient data storage and retrieval with schema evolution.
+  - Compression options: Snappy (fast, moderate compression), Gzip (higher compression, slower).
+  - Stores data column-wise (vs. row-wise in formats like CSV), enabling predicate pushdown and skipping irrelevant columns.
+  - Example Benefit: Querying only "age" and "salary" skips reading "name" column, reducing I/O and allowing row filtering before loading into memory.
 
-- ## Coalesce
-    - Reduce the number of partitions
-    - Doesn't shuffle data
-    - Used to merge small partitions to reduce overhead (common before writing to disk)
-    - If you specify a larger number of partitions than the current ones, Spark will NOT perform a shuffle by default,
-      and the extra partitions may end up empty
-    - ```python 
-            # Assume df has 8 partitions
-            df_repart = df.coalesce(8)  # Now it has 4 partitions```
-- ## Skew
-  - When data is unevenly distributed across partitions.
+### Operations and Functions
+- **Collect()**: Triggers computation of the lineage graph and brings all data to the driver node as a list. Can cause driver OOM if data is too large; suitable only for development or small datasets. Alternatives: `.take(n)` (first n rows), `.show(n)` (pretty-print n rows).
+- **Cache()**: Marks a dataset for caching on first computation. Shorthand for `.persist(StorageLevel.MEMORY_AND_DISK)`. Stores in cluster memory, spills to disk if too large. Can cause OOM for heavy objects.
+- **Unpersist()**: Removes a dataset from cache to free up resources.
+- **User-Defined Functions (UDF)**:
+  - Custom Python functions registered in Spark for applying logic to DataFrame columns.
+  - Performance Note: UDFs are slower than built-in Spark SQL functions due to serialization and Python-JVM overhead (10-100x slower than native functions in some cases).
+  - Recommendation: Prefer built-in functions; use UDFs only when necessary. Pandas UDFs (vectorized) can be 10-100x faster than standard UDFs for batch operations.
 
-## Predicate Pushdown
-## ETL (Extract Transform Load)
-## Graph:
-  1. Graph Frames: 
-  
-## STreaming
-## Model Persistence
+### Joins
+- Types: Inner, Left, Right, Full Outer, Cross (Cartesian product; dangerous as it can explode row count).
+- **Broadcast Join**: Optimization for joining a large DataFrame with a small one. Broadcasts the small DataFrame to all worker nodes, avoiding shuffle of the large one. Reduces I/O but ensure the small dataset fits in each node's memory.
+- Usage Hint: `from pyspark.sql.functions import broadcast; large_df.join(broadcast(small_df), on="key")`.
 
-## Best Practices
-- Use DataFrame/SQL over RDDs for better performance.
-- Minimize shuffles (e.g., reduce joins, groupBy).
-- Cache strategically to avoid recomputation.
-- Use appropriate data formats (e.g., Parquet for columnar storage).
-- Monitor and tune partition sizes based on data volume.
+### Performance Optimization
+- **Caching/Persisting**: Store DataFrames in memory or disk to avoid recomputation (`df.cache()` or `df.persist(StorageLevel.MEMORY_AND_DISK)`).
+- **Partitioning**:
+  - **Repartition**: Increases or decreases partitions with a full shuffle (expensive). Example: `df.repartition(8)` (from 4 to 8 partitions).
+  - **Coalesce**: Reduces partitions without shuffling (merges existing ones). Cannot increase partitions effectively. Example: `df.coalesce(4)` (from 8 to 4 partitions). Useful before writing to disk to reduce small files.
+- **Data Skew**: Uneven data distribution across partitions leading to slow tasks. Handle with salting (add random suffix to keys), custom partitioning, or AQE.
+- **Shuffle Tuning**: Adjust `spark.sql.shuffle.partitions` (default 200) to control tasks during shuffles (e.g., joins, groupBy).
+- **Broadcast Join**: As above, for small-large joins.
+- **Adaptive Query Execution (AQE)**: Automatically optimizes query plans at runtime (enabled by default in Spark 3.0+; handles skew, coalesces partitions dynamically).
+- **Skew Handling**: Beyond salting, use `spark.sql.adaptive.skewJoin.enabled=true` for AQE to split skewed partitions.
 
-## Storage Levels
+### Predicate Pushdown
+- Optimization technique where filters (predicates) are pushed down to the data source (e.g., Parquet, JDBC).
+- Reduces data loaded into Spark by filtering at the source level, minimizing I/O and network transfer.
+- Enabled by default for supported formats; use `spark.read.option("pushDownPredicate", true)` if needed.
+- Example: In Parquet, filters like `age > 30` are applied before reading, skipping irrelevant row groups.
 
+### ETL (Extract, Transform, Load)
+- **Extract**: Load data from sources using `spark.read` (e.g., databases, files).
+- **Transform**: Apply operations like filtering, aggregating, joining, or UDFs on DataFrames.
+- **Load**: Write transformed data to sinks using `df.write` (e.g., to HDFS, S3, databases).
+- Best for batch processing; use Structured Streaming for real-time ETL.
+
+### Graph Processing
+- **GraphFrames**: A DataFrame-based library for graph processing (install via `--packages graphframes:graphframes:0.8.2-spark3.0-s_2.12`).
+- Builds graphs from vertex and edge DataFrames.
+- Supports algorithms: PageRank, Connected Components, Label Propagation, Shortest Paths, Triangle Count.
+- Example: Create a graph with `g = GraphFrame(vertices, edges)`, then `g.pageRank(resetProbability=0.15, tol=0.01)`.
+
+### Streaming
+- **Structured Streaming**: Spark's API for processing streaming data as unbounded tables.
+- Handles late data, watermarks for event-time processing, and fault-tolerant exactly-once semantics.
+- Sources: Kafka, Files, Sockets; Sinks: Console, Files, Kafka, Foreach.
+- Example: Read stream `df = spark.readStream.format("kafka").load()`, apply transformations, write `query = df.writeStream.outputMode("append").format("console").start()`.
+- Supports windowed aggregations, joins with static or streaming data.
+
+### Model Persistence
+- In Spark MLlib, save trained models to disk for reuse.
+- Use `model.save("path/to/model")` to persist (supports formats like Parquet for pipelines).
+- Load with `loaded_model = PipelineModel.load("path/to/model")` or specific model class (e.g., `LogisticRegressionModel.load()`).
+- Enables deployment, versioning, and sharing models across jobs.
+
+### Best Practices
+- Prefer DataFrame/SQL over RDDs for better optimization and readability.
+- Minimize shuffles (e.g., avoid unnecessary joins, groupBy; use broadcast for small tables).
+- Cache strategically for reused datasets, but unpersist when done.
+- Use columnar formats like Parquet for storage efficiency and predicate pushdown.
+- Monitor partitions: Aim for 100-200MB per partition; tune with repartition/coalesce.
+- Enable AQE and monitor via Spark UI for bottlenecks.
+- Avoid collect() on large data; use sampling or aggregations.
+- Test on small data before scaling.
+
+### Storage Levels
 | Storage Level           | Use Disk | Use Memory | Use Off-Heap | Deserialized | Replication |
 |-------------------------|----------|------------|--------------|--------------|-------------|
 | `DISK_ONLY`             | Yes      | No         | No           | -            | 1           |
@@ -153,28 +131,23 @@
 | `MEMORY_AND_DISK_SER_2` | Yes      | Yes        | No           | No           | 2           |
 | `OFF_HEAP`              | No       | No         | Yes          | No           | 1           |
 
-# PySpark CheatSheet
+## PySpark Cheat Sheet
 
-## Initializing PySpark
-
+### Initializing PySpark
 ```python
 from pyspark.sql import SparkSession
 
 # Create SparkSession
-spark = SparkSession.builder
-.appName("MyApp")
-.getOrCreate()
+spark = SparkSession.builder.appName("MyApp").getOrCreate()
 ```
 
-## Reading Config
-
+### Reading Config
 ```python
-# where spark is created in last command
+# Get configuration
 spark.sparkContext.getConf()
 ```
 
-## Reading Data
-
+### Reading Data
 ```python
 # Read CSV
 df = spark.read.csv("file.csv", header=True, inferSchema=True)
@@ -185,22 +158,20 @@ df = spark.read.json("file.json")
 # Read Parquet
 df = spark.read.parquet("file.parquet")
 
-df = spark.read.textFile()
-
+# Read Text File
+df = spark.read.text("file.txt")
 ```
 
-## Load Into RDDs
-
+### Loading Into RDDs/DataFrames
 ```python
-# Load into DataFrame
+# Create DataFrame from list
 spark.createDataFrame(data, ["colAName", ...])
 
-# Create RDD from existing python object like list
-SparkContext.parallelize(someList)
+# Create RDD from Python list
+spark.sparkContext.parallelize(someList)
 ```
 
-## Writing Data
-
+### Writing Data
 ```python
 # Write to CSV
 df.write.csv("output.csv", header=True, mode="overwrite")
@@ -212,8 +183,7 @@ df.write.parquet("output.parquet", mode="overwrite")
 df.write.json("output.json", mode="overwrite")
 ```
 
-## DataFrame Operations
-
+### DataFrame Operations
 ```python
 # Show DataFrame
 df.show(5)  # Display first 5 rows (Pretty Prints)
@@ -243,8 +213,7 @@ df.dropDuplicates(["col1"]).show()
 df.drop("col1").show()
 ```
 
-## Collect, Count, and Take
-
+### Collect, Count, and Take
 ```python
 # Collect: Retrieve all rows as a list of Row objects (use cautiously, pulls data to driver)
 data = df.collect()  # Returns entire DataFrame as a list
@@ -261,8 +230,7 @@ for row in first_five:
     print(row)
 ```
 
-## Joins
-
+### Joins
 ```python
 # Inner join
 df_joined = df1.join(df2, ["key"], "inner")
@@ -276,13 +244,15 @@ df_joined = df1.join(df2, ["key"], "right")
 # Full outer join
 df_joined = df1.join(df2, ["key"], "outer")
 
-# Cross Join
-# 🔴 Rows Explode very quickly with this so very dangerous 
+# Cross Join (dangerous, can explode rows)
 df_joined = df1.crossJoin(df2)
+
+# Broadcast Join
+from pyspark.sql.functions import broadcast
+joined_df = large_df.join(broadcast(small_df), on="id", how="inner")
 ```
 
-## Handling Missing Values
-
+### Handling Missing Values
 ```python
 # Drop rows with nulls
 df.na.drop().show()
@@ -294,8 +264,7 @@ df.na.fill(0).show()
 df.na.fill({"col1": 0, "col2": "unknown"}).show()
 ```
 
-## SQL Queries
-
+### SQL Queries
 ```python
 # Register DataFrame as a temporary view
 df.createOrReplaceTempView("table_name")
@@ -305,8 +274,7 @@ result = spark.sql("SELECT col1, COUNT(*) FROM table_name GROUP BY col1")
 result.show()
 ```
 
-## Window Functions
-
+### Window Functions
 ```python
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number, rank
@@ -321,33 +289,34 @@ df.withColumn("row_num", row_number().over(windowSpec)).show()
 df.withColumn("rank", rank().over(windowSpec)).show()
 ```
 
-## UDF (User-Defined Functions)
-
+### UDF (User-Defined Functions)
 ```python
 from pyspark.sql.functions import udf
-from pyspark.sql.types import StringType
-
+from pyspark.sql.types import StringType, IntegerType
 
 # Define UDF
-def my_function(x):
-    return x.upper() if x else x
-
-
-udf_my_function = udf(my_function, StringType())
+def square(x):
+    if x is not None:
+        return x * x
+square_udf = udf(square, IntegerType())
 
 # Apply UDF
+df.withColumn("squared_col", square_udf(df.col1)).show()
+
+# Another example
+def my_function(x):
+    return x.upper() if x else x
+udf_my_function = udf(my_function, StringType())
 df.withColumn("upper_col", udf_my_function(df.col1)).show()
 ```
 
-## Performance Optimization
-
+### Performance Optimization
 ```python
 # Cache DataFrame
 df.cache()
 
 # Persist with specific storage level
 from pyspark.storagelevel import StorageLevel
-
 df.persist(StorageLevel.MEMORY_AND_DISK)
 
 # Repartition DataFrame
@@ -357,8 +326,7 @@ df_repartitioned = df.repartition(10)
 df_coalesced = df.coalesce(2)
 ```
 
-## Common Functions
-
+### Common Functions
 ```python
 from pyspark.sql.functions import col, lit, when, concat, to_date
 
@@ -375,14 +343,7 @@ df.withColumn("full_name", concat(col("first_name"), lit(" "), col("last_name"))
 df.withColumn("date_col", to_date(col("string_date"), "yyyy-MM-dd")).show()
 ```
 
-## Stopping SparkSession
-
-```python
-spark.stop()
-```
-
-## ML Pipeline Ops
-
+### ML Pipeline Ops
 ```python
 from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.classification import LogisticRegression
@@ -428,8 +389,12 @@ model_reg = pipeline_reg.fit(train_df)
 predictions_reg = model_reg.transform(test_df)
 ```
 
-## Tips
+### Stopping SparkSession
+```python
+spark.stop()
+```
 
+### Tips
 - Use `explain()` to view the execution plan: `df.explain()`
 - Check number of partitions: `df.rdd.getNumPartitions()`
 - Use `mode="append"` for incremental writes.
