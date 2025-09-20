@@ -22,14 +22,11 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ## Recall Questions
 
-### 1. [Data Pre-Processing](1_DataPreProcessing.md)
-
-### 2. [Machine Learning](2_ML.md)
-
-### 3. [Deep Learning](3_DeepLearning_Recall.md)
-
-### 4. [Large Language Models](5_LLM_Recall.md)
-
+1. ### X[Data Pre-Processing](1_DataPreProcessing.md)
+2. ### X[Machine Learning](2_ML.md)
+3. ### [Deep Learning](3_DeepLearning_Recall.md)
+4. ### [Large Language Models](5_LLM_Recall.md)
+9. ### [PySpark](9_PySpark_Recall.md) 
 ---
 
 ## Contributing
