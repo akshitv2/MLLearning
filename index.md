@@ -1,13 +1,13 @@
 # 00 Index
 
 Welcome to my study notebook! This serves as an index to all topics and notes.
-<iframe src="https://giphy.com/embed/dzaUX7CAG0Ihi" width="480" height="259" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/hello-hi-dzaUX7CAG0Ihi">via GIPHY</a></p>
+<img src="https://media1.tenor.com/m/hTE7x1-avYIAAAAC/bear-hello.gif">
 
 ---
 
 ## Table of Contents
 
-### 1. [Data Pre-Processing](1_ DataPreProcessing.md)
+### 1. [Data Pre-Processing](1_DataPreProcessing.md)
 
 ### 2. [Machine Learning](2_ML.md)
 
@@ -19,7 +19,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ## Recall Questions
 
-### 1. [Data Pre-Processing](1_ DataPreProcessing.md)
+### 1. [Data Pre-Processing](1_DataPreProcessing.md)
 
 ### 2. [Machine Learning](2_ML.md)
 
