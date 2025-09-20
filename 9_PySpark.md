@@ -116,6 +116,40 @@
 - Avoid collect() on large data; use sampling or aggregations.
 - Test on small data before scaling.
 
+### MLlib (Machine Learning Library)
+- **Overview**: Spark MLlib is Apache Spark's scalable machine learning library, designed for distributed data processing. It provides tools for classification, regression, clustering, recommendation, feature engineering, and pipeline construction, optimized for large-scale datasets.
+- **Key Components**:
+  - **Data Preparation**:
+    - **VectorAssembler**: Combines multiple columns into a single feature vector.
+    - **StandardScaler**, **MinMaxScaler**: Normalizes or scales features for consistent ranges.
+    - **StringIndexer**, **OneHotEncoder**: Converts categorical variables into numerical representations.
+    - **Tokenizer**, **CountVectorizer**, **TF-IDF**: Processes text data for natural language processing tasks.
+  - **Algorithms**:
+    - Classification: LogisticRegression, DecisionTreeClassifier, RandomForestClassifier, NaiveBayes, GBTClassifier (Gradient-Boosted Trees).
+    - Regression: LinearRegression, DecisionTreeRegressor, RandomForestRegressor, GBTRegressor.
+    - Clustering: KMeans, BisectingKMeans, GaussianMixture, LDA (Latent Dirichlet Allocation).
+    - Recommendation: ALS (Alternating Least Squares) for collaborative filtering.
+    - Frequent Pattern Mining: FP-Growth, PrefixSpan.
+  - **Pipelines**:
+    - Combines data preprocessing, feature engineering, and model training into a single workflow.
+    - Ensures consistency between training and testing phases.
+    - Example: Chain `VectorAssembler`, `StandardScaler`, and `LogisticRegression` in a `Pipeline`.
+  - **Model Evaluation**:
+    - Evaluators like `MulticlassClassificationEvaluator`, `RegressionEvaluator`, `ClusteringEvaluator`.
+    - Metrics: Accuracy, precision, recall, F1-score, RMSE, MAE.
+  - **Hyperparameter Tuning**:
+    - Use `CrossValidator` or `TrainValidationSplit` with `ParamGridBuilder` to search for optimal model parameters.
+    - Example: Tune `maxDepth` and `numTrees` for a `RandomForestClassifier`.
+  - **Distributed Processing**: MLlib leverages Spark's distributed architecture, enabling parallel training and prediction on large datasets across clusters.
+  - **Interoperability**: Supports integration with Python libraries like NumPy and Pandas (via Pandas UDFs) for advanced analytics.
+- **Best Practices**:
+  - Use `Pipeline` to streamline workflows and avoid manual staging errors.
+  - Cache intermediate datasets (e.g., feature vectors) to speed up iterative algorithms.
+  - Handle missing values and outliers before training (use DataFrame operations like `na.drop()` or `na.fill()`).
+  - Optimize hyperparameters using cross-validation for robust models.
+  - Test models on a small dataset before scaling to ensure correctness.
+  - Monitor model performance using Spark UI to detect bottlenecks in training.
+
 ### Storage Levels
 | Storage Level           | Use Disk | Use Memory | Use Off-Heap | Deserialized | Replication |
 |-------------------------|----------|------------|--------------|--------------|-------------|
