@@ -153,6 +153,7 @@ Handling missing values depends on the context:
 ## 4. What is the difference between bagging and boosting?
 
 **Answer:**  
+
 | Feature        | Bagging                      | Boosting                         |
 |----------------|------------------------------|---------------------------------|
 | Model Training | Parallel                     | Sequential                       |
@@ -278,6 +279,7 @@ Handling missing values depends on the context:
 ## 16. Explain difference between supervised, unsupervised, and reinforcement learning.
 
 **Answer:**  
+
 | Type                     | Input/Output                  | Example                         |
 |---------------------------|-------------------------------|---------------------------------|
 | Supervised Learning       | Labeled data                  | Regression, Classification      |
@@ -321,7 +323,8 @@ Handling missing values depends on the context:
 
 ## 20. Explain the difference between ARIMA and Prophet models.
 
-**Answer:**  
+**Answer:**
+
 | Feature                  | ARIMA                     | Prophet                         |
 |--------------------------|---------------------------|---------------------------------|
 | Trend Handling           | Manual differencing        | Automatic trend changepoints    |
@@ -344,6 +347,7 @@ Handling missing values depends on the context:
 ## 22. Explain the difference between batch processing and stream processing.
 
 **Answer:**  
+
 | Feature          | Batch Processing            | Stream Processing             |
 |------------------|----------------------------|-------------------------------|
 | Data Input       | Large, accumulated         | Continuous, real-time         |
@@ -393,6 +397,7 @@ Handling missing values depends on the context:
 ## 27. Explain the difference between parametric and non-parametric models.
 
 **Answer:**  
+
 | Feature            | Parametric                   | Non-Parametric                 |
 |--------------------|-----------------------------|--------------------------------|
 | Assumptions        | Fixed number of parameters  | Flexible, grows with data      |
