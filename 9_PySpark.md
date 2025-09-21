@@ -4,6 +4,28 @@
 
 ## Core Concepts
 
+# PySpark vs Hadoop (Key Differences)
+
+- **Speed**:  
+  - Hadoop → Disk-based, slower (reads/writes at every stage).  
+  - PySpark → In-memory computation, up to 100x faster.
+
+- **Ease of Use**:  
+  - Hadoop → Verbose Java code.  
+  - PySpark → Simple, concise APIs in Python, SQL-like syntax.
+
+- **Analytics Support**:  
+  - Hadoop → Mainly batch processing.  
+  - PySpark → Built-in support for SQL, ML, graph, and streaming.
+
+- **Real-time Processing**:  
+  - Hadoop → Batch only.  
+  - PySpark → Handles streaming + real-time workloads.
+
+- **Ecosystem & Adoption**:  
+  - Hadoop → Legacy use, declining.  
+  - PySpark → Modern, widely adopted (Databricks, AWS EMR, etc.).
+
 ### Core Architecture
 - **SparkSession**: Entry point for DataFrame and SQL APIs. It provides a unified interface to access Spark's functionality.
 - **Cluster Manager**: Manages resources across the cluster (📌e.g., YARN, Mesos, Kubernetes, Standalone).

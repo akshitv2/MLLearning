@@ -260,9 +260,9 @@
             1. Pick any unvisited point (all unvisited at start)
             2. Start with cluster 1 →
             3. if point has > minpoints in its radius ε → Mark it as core point, else border
-            3. Recursively go to each point in its radius marking each to same cluster
-            4. If a core point continue recursive process, add borders to cluster but don't follow through on them
-            5. Once all points in cluster 1 visited, move to unvisited point and cluster 2, repeat.
+            4. Recursively go to each point in its radius marking each to same cluster
+            5. If a core point continue recursive process, add borders to cluster but don't follow through on them
+            6. Once all points in cluster 1 visited, move to unvisited point and cluster 2, repeat.
         - Variants:
             - HDBSCAN
     15. ### PCA
@@ -284,6 +284,7 @@
                 - uses - because we want to reward smallest distance
                   $$p_{j \mid i} = \frac{\exp\!\left(-\frac{\lVert x_i - x_j \rVert^2}{2\sigma_i^2}\right)} {\sum_{k \ne i} \exp\!\left(-\frac{\lVert x_i - x_k \rVert^2}{2\sigma_i^2}\right)}$$
                 - ℹ️Note: The K here in question is a parameter we choose called perplexity
+                    - We adjust variance to match to have <= perplexity decided by us.
                     - if perplexity low → Very local spatial locality, preserves local structure well but no global
                       stability
                     - if perplexity high → Very global, preserves global structures well but low local stability
@@ -297,4 +298,60 @@
         - 🔴 Very sensitive to perplexity param
 
     17. ### UMAP
+        - Uniform Manifold Approximation and Projection
+        - a dimensionality reduction technique used for visualizing high-dimensional data in a lower-dimensional space,
+        - Process:
+            1. Constructs a Graph: UMAP builds a weighted graph where data points are nodes, and edges represent
+               similarities (distances) between points in the high-dimensional space.
+            2. Preserves Local Structure: UMAP focuses on preserving the local neighborhood of each point, ensuring that
+               points close in the original space remain close in the reduced space.
+            3. Unlike some other methods (e.g., t-SNE), UMAP also considers the global structure, maintaining the
+               overall shape of the data manifold.
+            4. It optimizes the low-dimensional representation by minimizing a cost function that balances local and
+               global relationships, using a process similar to stochastic gradient descent.
+        - Speed: UMAP is faster than t-SNE
+        - Flexibility: It can handle various types of data
+        - UMAP is faster and scales better with large datasets than T-sne
+        - It preserves more of the global structure compared to t-SNE, which focuses heavily on local structure.
     18. ### Gaussian Mixture Models
+    19. ### SHAP
+        - SHAP (SHapley Additive exPlanations) is a powerful and widely used technique in machine learning that helps
+          you understand the output of your models.
+        - ells you why a model made a particular prediction by quantifying the contribution of each feature to that
+          prediction
+        - crucial aspect of explainable AI (XAI)
+        - Based on Gametheory where Players cooperate to win a payout, and the Shapley value fairly distributes the
+          payout among them based on their marginal contributions.
+        - Working Process:
+            1. Baseline (reference prediction):
+                - Start with the model’s expected prediction if no features were known (e.g., the mean prediction across
+                  the dataset).
+            2. Marginal Contribution of Each Feature:
+                - To compute a feature’s contribution, we calculate difference in models prediction with or without.
+            3. For Feature Interaction:
+                - we evaluate a feature’s contribution across all possible subsets of features (called coalition)
+            4. Calculate Shapely Value
+                - Final Contribution of each feature = avg of its marginal contributions across all subsets
+        - ℹ️ How do we do missing features?
+            1. Can substitute with average for that feature
+            2. Can substitute it with random values in that feature and average across those
+            3. Tree based methods provide missing value paths
+        - Implementations:
+            - KernelSHAP → model-agnostic, approximates Shapley values via sampling.
+            - TreeSHAP → fast, exact method for tree-based models (XGBoost, LightGBM, CatBoost).
+            - DeepSHAP → approximates Shapley values for deep learning models.
+
+    20. ### LIME
+        - Local Interpretable Model-Agnostic Explanations
+        - Technique to explain individual predictions of any machine learning model.
+        - works by locally approximating the complex (black-box) model with a simpler, interpretable model (usually
+          linear regression).
+        - Process:
+            1. Pick the sample to explain
+            2. Generate Perturbations (neighbours)
+            3. Get model predictions for neighbors
+            4. Weight samples by proximity, closer get higher
+            5. Train a surrogate model like sparse linear regression
+            6. Interpret the surrogate model
+                - The coefficients of the surrogate model tell you which features were most important for this specific
+                  prediction

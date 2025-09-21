@@ -587,9 +587,35 @@ Prompt engineering is the art and science of communicating effectively with an A
 
 ## Human Centric Eval
 
+### Model Communication 
+A structured way to pass context to the model, so it can understand:
+- Who said what 
+- What order events happened in 
+- Which instructions are active
 
+- role: Identifies whether the message is from the user, assistant, or system. 
+- content: The actual text. 
+- metadata: Optional additional information (like formatting, function calls, or special instructions).
 
+often like :
+```json
+{
+  "role": "user" | "assistant" | "system",
+  "content": "The text content",
+  "metadata": { "optional": "info" }
+}
+```
 
+### Why it's needed:
+- Clarity: The model can distinguish commands vs. conversation. 
+- Memory: Past messages can be preserved within the context window. 
+- Control: System instructions can steer the model’s behavior without confusing it with user input.
+
+### Model Context Protocol
+The Model Context Protocol (MCP) is an open-source framework designed to standardize the way AI systems, particularly large language models like Anthropic's Claude, integrate with and share data from external tools, systems, and data sources.
+MCP was created to solve this by providing a single, open standard that all developers can build upon.
+
+MCP Servers: These are external programs that implement the MCP standard. They provide a specific set of capabilities to the AI application. An MCP server might be a connector to a database, a cloud service, a file system, or a specific API.
 
 
 

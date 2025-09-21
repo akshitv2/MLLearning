@@ -84,4 +84,4 @@ Available Models:
 5. To integrate knowledge bases:
    1. Create a knowledge store: Either S3
 6. Add your knowledge base <br> ![alt text](Images/image-21.png) <br> Choose your embedding and vector store ![alt text](Images/image-22.png)
-7. 
+

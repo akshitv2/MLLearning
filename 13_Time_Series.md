@@ -99,39 +99,144 @@
       to be normally distributed
     - Model is a simple linear regression
 2. ### Moving Average (MA) Models
-   - Use past forecast errors (residuals) to predict future values
-   - $Y_t = \mu + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \dots + \theta_q \epsilon_{t-q} + \epsilon_t$
-   - effective when the variations in the time series are due to random shocks that have a lingering effect on future values.
+    - Use past forecast errors (residuals) to predict future values
+    - $Y_t = \mu + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \dots + \theta_q \epsilon_{t-q} + \epsilon_t$
+    - effective when the variations in the time series are due to random shocks that have a lingering effect on future
+      values.
 3. ### Autoregressive Moving Average (ARMA) Models
-   - Combination of the AR and MA models. 
-   - $Y_t = c + \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \theta_1 \epsilon_{t-1} + \dots + \theta_q \epsilon_{t-q} + \epsilon_t$
-   - $Y_t = c + \sum_{i=1}^{p} \phi_i Y_{t-i} + \sum_{j=1}^{q} \theta_j \epsilon_{t-j} + \epsilon_t$
-   - Used for stationary time series and is denoted as ARMA(p, q), where p is the order of the AR component
-   - 
+    - Combination of the AR and MA models.
+    - $Y_t = c + \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \theta_1 \epsilon_{t-1} + \dots + \theta_q \epsilon_{t-q} + \epsilon_t$
+    - $Y_t = c + \sum_{i=1}^{p} \phi_i Y_{t-i} + \sum_{j=1}^{q} \theta_j \epsilon_{t-j} + \epsilon_t$
+    - Used for stationary time series and is denoted as ARMA(p, q), where p is the order of the AR component
+    -
 4. ### Autoregressive Integrated Moving Average (ARIMA) Models
-   - an extension of ARMA models specifically designed to handle non-stationary time series.
-   - "I" stands for "Integrated," which refers to the differencing step needed to make the series stationary.
-   - ARIMA model is denoted as ARIMA(p, d, q)
-     - p: The order of the AR component (number of lag observations).
-     - d: The degree of differencing (the number of times the series is differenced to achieve stationarity)
-     - q: q: The order of the MA component (the number of lagged forecast errors).
+    - an extension of ARMA models specifically designed to handle non-stationary time series.
+    - "I" stands for "Integrated," which refers to the differencing step needed to make the series stationary.
+    - ARIMA model is denoted as ARIMA(p, d, q)
+        - p: The order of the AR component (number of lag observations).
+        - d: The degree of differencing (the number of times the series is differenced to achieve stationarity)
+        - q: q: The order of the MA component (the number of lagged forecast errors).
+    - ℹ️ Integrated Part Explained:
+        - ### 1. Purpose
+            - Make a **non-stationary time series stationary** by removing trends (or seasonality in some cases).
+            - Stationarity is required for ARMA modeling to work properly.
+
+          ### 2. Differencing
+            - **First difference (d = 1):**  
+              \[
+              Y_t = X_t - X_{t-1}
+              \]  
+              Removes linear trends.
+
+                - **Second difference (d = 2):**  
+                  \[
+                  Z_t = Y_t - Y_{t-1} = X_t - 2X_{t-1} + X_{t-2}
+                  \]  
+                  Used if the series still has a trend after first differencing.
+
+                - Usually, **d ≤ 2** is sufficient.
+
+          ### 3. ARMA Modeling
+            - After differencing, we model the **stationary series \(Y_t\)** using AR (autoregressive) and MA (
+              moving average) components.
+          ### 4. Forecasting Original Series
+            - Predictions are made on \(Y_t\) first.
+                - To get predictions for the original series \(X_t\):  
+                  \[
+                  X_{t+1} = X_t + \hat{Y}_{t+1}, \quad X_{t+2} = X_{t+1} + \hat{Y}_{t+2}, \dots
+                  \]
+                - This “undoes” the differencing, integrating the forecast back to the original scale.
+          ### 5. Key Points
+            - Differencing = subtract previous values to remove trends.
+                - Over-differencing can make the series noisy; under-differencing leaves trends in the data.
+                - Always model the **differenced (stationary) series** with ARMA; integrate back to original series for
+                  forecasts.
+
 5. ### Seasonal ARIMA (SARIMA)
     - Extension of the ARIMA model that explicitly handles time series with seasonality.
     - introduces seasonal terms to account for repeating patterns.
     - A SARIMA model is denoted as SARIMA(p, d, q)(P, D, Q)m, where:
-      - (p, d, q): The non-seasonal components (same as ARIMA).
-      - (P, D, Q): The seasonal components.
-      - P: The seasonal autoregressive order.
-      - D: The seasonal differencing order.
-      - Q: The seasonal moving average order.
+        - (p, d, q): The non-seasonal components (same as ARIMA).
+        - (P, D, Q): The seasonal components.
+        - P: The seasonal autoregressive order.
+        - D: The seasonal differencing order.
+        - Q: The seasonal moving average order.
+    - ## Seasonal Components
+        1. **Seasonal Autoregressive (SAR) - P**
+            - AR on seasonal lags (multiples of s):  
+              \[
+              X_t = \Phi_1 X_{t-s} + \Phi_2 X_{t-2s} + \dots + \epsilon_t
+              \]
+            - Φ (capital phi) represents the coefficients of the seasonal autoregressive (SAR) terms
+            - Φ1,…,ΦP = seasonal AR coefficients, controlling how much past seasonal values affect the current value
+        2. **Seasonal Differencing (D)**
+            - Removes seasonal trends:  
+              \[
+              Y_t = X_t - X_{t-s}
+              \]
+        3. **Seasonal Moving Average (SMA) - Q**
+            - MA on seasonal lags of errors:  
+              \[
+              X_t = \epsilon_t + \Theta_1 \epsilon_{t-s} + \Theta_2 \epsilon_{t-2s} + \dots
+              \]
+
+
 6. ### Exponential Smoothing (ES) Methods
-   -  forecasting models that assign exponentially decreasing weights to older observations.
-   - more recent data points have a greater influence on the forecast.
-   - ### Simple Exponential Smoothing:
-     - This is for data with no trend or seasonality.
-     - It forecasts a future value based on a weighted average of past observations, with the weights decaying exponentially as the observations get older.
-   -  ### Holt's Linear Trend Model
-     - extension of simple exponential smoothing that handles data with a trend
-   - ### Holt-Winters' Seasonal Model: 
-     - It's used for data with both a trend and seasonality.
-     - uses three smoothing equations: one for the level, one for the trend, and one for the seasonal component.
+    - forecasting models that assign exponentially decreasing weights to older observations.
+    - more recent data points have a greater influence on the forecast.
+    - ### Simple Exponential Smoothing:
+        - This is for data with no trend or seasonality.
+        - It forecasts a future value based on a weighted average of past observations, with the weights decaying
+          exponentially as the observations get older.
+    -  ### Holt's Linear Trend Model
+    - extension of simple exponential smoothing that handles data with a trend
+    - ### Holt-Winters' Seasonal Model:
+        - It's used for data with both a trend and seasonality.
+        - uses three smoothing equations: one for the level, one for the trend, and one for the seasonal component.
+
+### How To Fit ARIMA/SARIMA etc.?
+
+1. ### Parameter Selection with ACF and PACF
+    - ![img_7.png](img_7.png)
+    - ACF Plot:
+        - Shows the correlation between a time series and its lagged values. (Basically Cor(Xt,Xt-k))
+        - For an MA(q) model, the ACF will be significant for the first q lags and then drop to zero
+    - PACF Plot:
+        - Shows the correlation between a time series and its lagged values after the effects of the intermediate
+          lags have been removed.
+        - basically Cor(Xt and Xt-k) but we ignore values in middle which borrowed from Xt-k
+        - For an AR(p) model, the PACF will be significant for the first p lags and then drop to zero.
+2. ### Maximum Likelihood Estimation (MLE):
+    - For calculating coefficients (ϕ's and θ's)
+    - **Likelihood Function:**
+        - The likelihood function represents the probability of observing the data given a set of parameters.
+    - **Iterative Optimization**:
+      - 
+
+## Forecasting using Machine Learning:
+
+1. ## Linear Regression:
+    - Linear regression can be used for time series forecasting by creating a "supervised learning" problem.
+    - achieved through the use of lag features.
+2. ## Tree Based Models:
+    - Can capture non-linear relationships and interactions between features without making assumptions about the
+      underlying data distribution.
+    - makes them well-suited for more complex time series
+3. ## Support Vector Regression
+
+## Forecasting using Deep Learning:
+
+1. RNNs
+    - handle sequential data by using a feedback loop.
+    - allows information from previous steps in the sequence to influence the processing of the current step
+2. Convolutional Neural Networks (CNNs) for Time Series
+    - A 1D CNN applies a filter (or kernel) to a specific segment of the time series data.
+    - This process is repeated across the entire sequence, creating a feature map.
+    - effective at identifying local, short-term patterns like trends or cycles.
+    - By stacking multiple convolutional layers, CNNs can learn hierarchical features, making them a powerful tool for
+      time series feature extraction.
+3. Sequence-to-Sequence (Seq2Seq) Models
+4. Time Series Transformer
+    - Deep learning model that uses the Transformer architecture's self-attention mechanism to capture long-range
+      dependencies and complex patterns in sequential data for tasks like forecasting, anomaly detection, and
+      classification.
