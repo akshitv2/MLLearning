@@ -236,6 +236,33 @@ FROM Table1;
 - **Partition By**: Divides the result set into partitions.
 - **Order By**: Specifies the order within each partition.
 
+### Functions List
+
+# SQL Window Functions Cheat Sheet
+
+| Category | Function | Description |
+|----------|----------|-------------|
+| Ranking | ROW_NUMBER() | Assigns a unique sequential number to each row in the partition. |
+| Ranking | RANK() | Assigns a rank with ties getting the same rank; gaps exist for ties. |
+| Ranking | DENSE_RANK() | Assigns a rank with ties getting the same rank; no gaps. |
+| Ranking | NTILE(n) | Divides rows into `n` roughly equal groups and assigns a bucket number. |
+| Value Access | LAG(column, offset, default) | Returns value from `offset` rows before the current row. |
+| Value Access | LEAD(column, offset, default) | Returns value from `offset` rows after the current row. |
+| Value Access | FIRST_VALUE(column) | Returns the first value in the window. |
+| Value Access | LAST_VALUE(column) | Returns the last value in the window. |
+| Value Access | NTH_VALUE(column, n) | Returns the nth value in the window. |
+| Aggregates | SUM(column) | Sum of values in the window. |
+| Aggregates | AVG(column) | Average of values in the window. |
+| Aggregates | MIN(column) | Minimum value in the window. |
+| Aggregates | MAX(column) | Maximum value in the window. |
+| Aggregates | COUNT(column) | Count of rows in the window. |
+| Statistical | CUME_DIST() | Cumulative distribution: fraction of rows <= current row. |
+| Statistical | PERCENT_RANK() | Relative rank of row: `(rank-1)/(total_rows-1)`. |
+| Statistical | PERCENTILE_CONT(value) WITHIN GROUP (ORDER BY column) | Continuous percentile. |
+| Statistical | PERCENTILE_DISC(value) WITHIN GROUP (ORDER BY column) | Discrete percentile. |
+| Statistical | MEDIAN() | Median value (supported in some SQL dialects). |
+
+
 - ### Manual Row Selection:
 - ```sql
   SELECT ColA,

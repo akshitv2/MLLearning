@@ -43,14 +43,23 @@
 ## Data Ecosystem:
 
 1. ### Data Warehouse:
-    - central repository for structured, clean data.
+    - Central repository for structured, clean data.
     - Populated by ETL
+        - Amazon Redshift
+        - Google BigQuery
+        - Snowflake
 2. ### Data Lake:
     - Data lake is a repository for raw, unstructured data.
     - ELT is often used here, as you can load data in its original format and transform it later as needed.
+    - Platforms/Services:
+        - AWS S3 + AWS Lake Formation
+        - Azure Data Lake
+        - Good Cloud Storage
+        - Apache Hadoop (HDFS)
 3. ### Data Mart:
     - A data mart is a smaller, subject-oriented data warehouse
     - Often serving a specific department (e.g., marketing, finance
+    -
 
 # Extract Phase
 
@@ -130,7 +139,7 @@
         2. SCD Type 2: Creates a new record for the new value, keeping the old record as a historical entry. Most common
            and powerful.
 
-## Load Phase:
+# Load Phase:
 
 - Final Step of ETL Process
 - Data loaded into a target system, such as a data warehouse, where it becomes available for analysis.
@@ -150,13 +159,183 @@
 3. ### Bulk Loading:
     - Loading large chunks of data in a single operation
     - Standard in modern ETL, highly optimized by data warehouses
-    - Bulk loading tools bypass some of the database's standard transactional overhead, resulting in much faster performance
+    - Bulk loading tools bypass some of the database's standard transactional overhead, resulting in much faster
+      performance
     - Best for high volume data
 4. ### Row by Row Loading
-   - Much slower and less efficient process
-   - only for small one off loads
+    - Much slower and less efficient process
+    - only for small one off loads
 5. ### Managing Data Integrity During the Load:
-   - Done through techniques like:
-     - primary key checks to prevent duplicate records
-     - Constraint validation to ensure conformity to schema and rules
-     - Most ETL tools and data warehouses handle these checks automatically during the loading process.
+    - Done through techniques like:
+        - primary key checks to prevent duplicate records
+        - Constraint validation to ensure conformity to schema and rules
+        - Most ETL tools and data warehouses handle these checks automatically during the loading process.
+
+## Target Systems
+
+- Type of target system dictates the loading method and the final data structure.
+
+# Data Modelling and Design
+
+## Relational Databases
+
+- ### Schema:
+    - schema is the overall logical structure of a database
+- ### Tables/Relations:
+    - Where the data is stored, organized into rows and columns.
+- ### Relationships:
+    - Relationships are the connections between tables, established using keys
+- ### Normalization and Denormalization
+    - ### Normalization:
+        - process of organizing data to reduce redundancy and improve data integrity
+        - Best for systems like OLTP (Online Transaction Processing) with frequent updates
+    - ### Denormalization:
+        - Process of adding redundant data back into tables to improve query performance.
+        - Reduces the number of joins needed to retrieve data, making it faster for analytics
+        - Best for OLAP systems which are read heavy
+
+## Dimensional Modelling
+
+- data design technique for data warehouses.
+- ### Tables:
+    - ### Fact Table:
+        - The table contains the numerical, measurable data
+        - Very large because they hold every single transaction
+        - it's like a receipt of each transaction
+        - Store measurable, numeric, additive values — things you want to aggregate
+        - Each row = an event or measurement at a certain grain.
+        - They link to dimensions via foreign keys.
+    - ### Dimension Table:
+        - Provide descriptive context for numbers in fact table
+        - describes a “who, what, when, where, how” about the fact
+        - generally smaller and less frequently updated than the fact table
+        - Can contain numeric data but it has to be descriptive
+    - facts are immutable history, dimensions are context that can evolve.
+    - 📌 Example:
+        - ### Tiny Dimensional Modeling Example
+
+## Fact Table: FactSales
+
+Each row represents one sale.
+
+| DateKey    | ProductKey | CustomerKey | Quantity | SalesAmount |
+|------------|------------|-------------|----------|-------------|
+| 2025-09-21 | 101        | 201         | 2        | 1500        |
+
+## Dimension Table: DimProduct
+
+Descriptive info about products.
+
+| ProductKey | Name     | Category | ListPrice |
+|------------|----------|----------|-----------|
+| 101        | Widget A | Gadget   | 800       |
+
+## Dimension Table: DimCustomer
+
+Descriptive info about customers.
+
+| CustomerKey | Name  | AgeGroup | City  |
+|-------------|-------|----------|-------|
+| 201         | Alice | 25–34    | Delhi |
+
+## Notes
+
+- **FactSales**: measurable outcomes (Quantity, SalesAmount).
+- **DimProduct**: descriptive attributes of product (ListPrice, Name, Category).
+- **DimCustomer**: descriptive attributes of customer (AgeGroup, City).
+- Fact table links to dimensions via keys to provide context for analysis.
+
+- ### Schemas:
+  ![img_5.png](img_5.png)
+    1. ### Star Schema (most common):
+        - Fact table in the center
+        - Dimension tables surround the fact table, connected to it by keys.
+        - Simple and Efficient
+    2. ### Snowflake Schema
+        - Snowflake Schema is a more complex version of a star schema
+        - Broken down into sub-dimensions to reduce data redundancy
+        - Saves storage, but queries are slower and complex
+    3. ### Galaxy Schema / Fact Constellation:
+        - Multiple fact tables sharing dimension tables.
+        - Useful for complex warehouses.
+
+## Data Warehouse Design
+
+1. Designing schemas for analytics and reporting:
+    - easy to understand and navigate for non-technical users.
+    - star schema are ideal for this
+2. The role of primary keys and foreign keys in ETL
+    - Primary keys (PK) uniquely identify each row in a table
+        - PK is essential for the Load phase, as it ensures that each record is unique and can be correctly identified.
+    - Foreign keys (FK) are columns in one table that refer to the primary key in another table, creating a link between
+      them.
+        - In the Transform phase, you use foreign keys to join data from various sources and link fact tables to their
+          corresponding dimension tables.
+
+## ETL Tools
+
+### Open Source Tools:
+
+1. Apache NiFi
+2. Apache Airflow
+
+### Cloud Native Services:
+
+1. AWS Glue
+2. Azure Data Factory
+3. Google Cloud Dataflow
+
+## ETL Practices
+
+![img_6.png](img_6.png)
+
+## ETL Job Orchestration and Scheduling
+
+- Orchestration is the automated management of a series of ETL jobs (or data pipelines).
+- Instead of manually running each step, an orchestrator ensures the jobs run in the correct order and on a set
+  schedule.
+
+  ## Data Pipeline
+    - Data pipeline is a sequence of steps that moves data from a source to a destination.
+    - **An orchestrator** defines this sequence, manages the resources, and tracks the status of each job
+    - Apache Airflow or cloud-native services like AWS Step Functions are used for this
+  ## Handling dependencies between jobs
+    - In a complex ETL workflow, some jobs can't start until others are complete.
+    - Orchestration tools automatically manage these dependencies
+
+## Monitoring and Error Handling
+
+1. Log:
+    - Record every action taken by an ETL job, including start and end times
+    - the number of rows processed, and any errors encountered.
+    - This log is a critical tool for debugging.
+2. Alerting:
+    - Notifies the data team immediately when a job fails or a data quality issue is detected.
+3. Failure recovery:
+    - Involves having a plan to restart a failed job.
+    - This could mean automatically retrying the job,
+    - resuming it from the point of failure
+    - manually rerunning the entire process after fixing the underlying issue.
+
+## Ensuring data lineage and traceability:
+
+- Data lineage is the lifecycle of data, including its origin, transformations, and final destination.
+- Maintaining a record of data lineage is essential for auditing, debugging, and understanding the impact of changes.
+
+## Performance Optimization
+
+Optimizing ETL jobs for speed and efficiency is key to handling large datasets and meeting business needs.
+
+- ### Tuning ETL jobs for speed and efficiency:
+    - This involves fine-tuning the code and processes.
+    - 📌For example, using a bulk loading strategy instead of row-by-row loading can drastically reduce load times.
+- ### Partitioning and indexing strategies:
+    - Partitioning divides a large table into smaller, more manageable parts. Queries that only need to access data from
+      a specific partition (e.g., a specific date range) will run much faster because they don't have to scan the entire
+      table.
+
+## Data Governance and Quality
+### Implementing data quality checks and rules:
+- Data quality checks should be a standard part of the Transform phase.
+
+## Auditing and compliance for regulatory standards (e.g., GDPR, HIPAA)
