@@ -109,7 +109,7 @@
 
 ## Probability
 
-- **Probability of an Event**: 
+- **Probability of an Event**:
   \[
   P(A) = \frac{\text{Number of favorable outcomes for } A}{\text{Total number of outcomes in sample space}}
   \]
@@ -122,13 +122,13 @@
   P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
   \]
 - **Probability Rules**:
-  - **Union**: 
+  - **Union**:
     \[
     P(A \cup B) = P(A) + P(B) - P(A \cap B)
     \]
-  - **Intersection**: 
+  - **Intersection**:
     \[
-    P(A \cap B) = P(A) \cdot P(B) \quad \text{(if A and B are independent)}
+    P(A \cap B) = P(A) \cdot P(B) \quad \text{(if } A \text{ and } B \text{ are independent)}
     \]
 - **Probability Independence**: Events $A$ and $B$ are independent if:
   \[
@@ -195,14 +195,91 @@
 2. **Hypothesis Testing**:
    - Involves testing a null hypothesis ($H_0$) against an alternative hypothesis ($H_a$).
    - Key components: test statistic, p-value, significance level ($\alpha$).
-   - Common tests: z-test, t-test, chi-square test, ANOVA.
+   - Common tests:
+     - **One-Sample Z-Test**: Tests if a sample mean differs from a known population mean when population variance is known and sample size is large ($n > 30$).
+       \[
+       z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}
+       \]
+       Use when: Data is normally distributed, population variance is known, and $n > 30$.
+     - **One-Sample T-Test**: Tests if a sample mean differs from a known or hypothesized population mean when population variance is unknown or sample size is small ($n \leq 30$).
+       \[
+       t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}
+       \]
+       Use when: Data is normally distributed or approximately normal, population variance is unknown.
+     - **Two-Sample Z-Test**: Compares means of two independent samples when population variances are known and sample sizes are large.
+       \[
+       z = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+       \]
+       Use when: Both samples are independent, normally distributed, and population variances are known.
+     - **Two-Sample T-Test**: Compares means of two independent samples when population variances are unknown.
+       - **Equal Variances** (pooled t-test):
+         \[
+         t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_p^2 \left( \frac{1}{n_1} + \frac{1}{n_2} \right)}}
+         \]
+         where $s_p^2$ is the pooled variance:
+         \[
+         s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
+         \]
+       - **Unequal Variances** (Welch’s t-test):
+         \[
+         t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+         \]
+       Use when: Samples are independent, data is normally distributed, and variances may or may not be equal (test with Levene’s or F-test).
+     - **Paired T-Test**: Tests the difference between paired observations (e.g., before and after measurements).
+       \[
+       t = \frac{\bar{d}}{s_d / \sqrt{n}}
+       \]
+       where $\bar{d}$ is the mean of differences, $s_d$ is the standard deviation of differences.
+       Use when: Data is paired, differences are normally distributed.
+     - **Chi-Square Goodness-of-Fit Test**: Tests if observed categorical data fits an expected distribution.
+       \[
+       \chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+       \]
+       Use when: Data is categorical, expected frequencies are at least 5.
+     - **Chi-Square Test of Independence**: Tests if two categorical variables are independent.
+       \[
+       \chi^2 = \sum \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+       \]
+       Use when: Data is in a contingency table, expected frequencies are at least 5.
+     - **ANOVA (Analysis of Variance)**:
+       - **One-Way ANOVA**: Tests if means of three or more groups are equal.
+         \[
+         F = \frac{\text{MSG}}{\text{MSE}}
+         \]
+         where $\text{MSG}$ is mean square between groups, $\text{MSE}$ is mean square error.
+       Use when: Comparing means across multiple groups, data is normally distributed, variances are equal (test with Levene’s test).
+     - **Mann-Whitney U Test**: Non-parametric test comparing two independent samples when normality is not assumed.
+       Use when: Data is not normally distributed, comparing two groups.
+     - **Kruskal-Wallis Test**: Non-parametric alternative to one-way ANOVA for comparing three or more groups.
+       Use when: Data is not normally distributed, comparing multiple groups.
+   - **Choosing a Hypothesis Test**:
+     - **Step 1: Identify the data type**:
+       - Numerical (continuous): Use z-test, t-test, or ANOVA.
+       - Categorical: Use chi-square tests.
+       - Ordinal or non-normal: Use non-parametric tests (e.g., Mann-Whitney, Kruskal-Wallis).
+     - **Step 2: Determine the number of groups**:
+       - One sample: One-sample z-test or t-test.
+       - Two samples: Two-sample z-test, t-test, paired t-test, or Mann-Whitney U.
+       - Three or more groups: ANOVA or Kruskal-Wallis.
+     - **Step 3: Check assumptions**:
+       - Normality: Use Shapiro-Wilk or visual inspection (e.g., Q-Q plot).
+       - Equal variances: Use Levene’s or F-test.
+       - Sample size: Large ($n > 30$) for z-tests; small for t-tests.
+     - **Step 4: Define the hypothesis**:
+       - Null ($H_0$): No effect or difference (e.g., means are equal).
+       - Alternative ($H_a$): Effect or difference exists (one-tailed or two-tailed).
+     - **Step 5: Consider paired vs. independent**:
+       - Paired data (e.g., before/after): Use paired t-test.
+       - Independent groups: Use two-sample tests or ANOVA.
+     - **Step 6: Parametric vs. non-parametric**:
+       - If normality or equal variances are violated, use non-parametric tests (e.g., Mann-Whitney, Kruskal-Wallis).
 
 3. **Correlation and Covariance**:
    - **Covariance**: Measures how two variables change together:
      \[
      \text{Cov}(X, Y) = E[(X - \mu_X)(Y - \mu_Y)]
      \]
-   - **Correlation**: Normalized covariance, ranging from -1 to 1:
+   - **Correlation**: Normalized covariance, ranging from $-1$ to $1$:
      \[
      \rho = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y}
      \]
@@ -228,4 +305,4 @@
      \[
      f(x) = \lambda e^{-\lambda x}, \quad x \geq 0
      \]
-     Mean: $1/\lambda$, Variance: $1/\lambda^2$.
+     Mean: $\frac{1}{\lambda}$, Variance: $\frac{1}{\lambda^2}$.
