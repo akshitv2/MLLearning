@@ -6,8 +6,10 @@ include:
   - _includes
 
 just_the_docs:
-  search_enabled: true
+  search_enabled: false
   include_head: true
+  aux_links_new_tab: true
+  heading_anchors: true
   custom_css:
     - "assets/css/custom.scss"
 
