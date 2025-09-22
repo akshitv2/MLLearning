@@ -1,4 +1,12 @@
-# 4 Machine Learning
+---
+title: Machine Learning
+nav_order: 3
+parent: Notes
+layout: default
+---
+
+
+# Machine Learning
 
 ## Fundamental Types
 
