@@ -1,4 +1,9 @@
-# ML Questions
+---
+title: Machine Learning
+nav_order: 5
+parent: QnA
+layout: default
+---
 
 0. **how do decision trees handle missing values**
     - Surrogate Splits: When the best splitting feature has missing values, the tree looks for another feature that produces a similar split (a surrogate).

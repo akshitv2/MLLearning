@@ -1,3 +1,10 @@
+---
+title: Machine Learning
+nav_order: 5
+parent: QnA
+layout: default
+---
+
 # INT
 # Data Science Interview Questions and Answers
 

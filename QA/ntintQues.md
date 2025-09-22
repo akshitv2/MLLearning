@@ -1,3 +1,10 @@
+---
+title: Machine Learning
+nav_order: 5
+parent: QnA
+layout: default
+---
+
 # INT-NT
 # Extended Non-Technical Machine Learning / Data Science Interview Questions
 
@@ -168,6 +175,7 @@ For long-term projects, I break tasks into phases, set milestones, and regularly
 I use explainable models when possible, apply techniques like SHAP or LIME, and provide clear documentation on how features contribute to predictions.
 
 # Non-Technical Interview Questions and Answers for Data Science / ML Role
+
 
 ## 1. Tell me about yourself.
 I have a software development background with X years of experience building scalable applications. Over time, I became interested in data-driven decision-making, which led me to upskill in data science and machine learning. I’ve applied ML to projects like predicting user behavior, automating analytics workflows, and building recommendation systems. I enjoy bridging the gap between engineering and data science to create impactful solutions.
