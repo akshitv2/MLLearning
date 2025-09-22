@@ -1,7 +1,7 @@
 ---
 title: Deep Learning Recall
 nav_order: 5
-parent: Notes
+parent: Recall
 layout: default
 ---
 
