@@ -11,7 +11,7 @@ just_the_docs:
   custom_css:
     - "assets/css/custom.scss"
 
-remote_theme: just-the-docs/just-the-docs
+remote_theme: eliahuhorwitz/Academic-project-page-template
 
 author: Akshit
 markdown: kramdown
