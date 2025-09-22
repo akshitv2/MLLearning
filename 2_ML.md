@@ -1,45 +1,43 @@
 # 2 Machine Learning
 
-1. ## Fundamentals
-    1. ### Supervised Learning
-       Learning with labels, target variable   
-       📌e.g. classification, regression
-    2. ### Unsupervised Learning
-       Learning without existing labels, usually to find pattern between data itself  
-       📌e.g. Clustering
-    3. ### Semisupervised Learning
-       Combines labelled and unlabelled data.  
-       For 📌e.g. Self training: Learn from few labels, assign to unlabelled and train
-    4. ### Reinforcement Learning
-       Models learns by performing or learns results of actions in an environment
-    5. ### Self supervised Learning
-       Model creates its own labels from data.  
-       📌e.g. Contrastive learning where model learns by augmenting, masked word models: mask and predict from same
-       sentence.
-2. ## Concepts
-    1. ### **Training**
-    2. ### **Testing**
-    3. ### Bias Variance Trade-Off
-       In ML Trade off between model's ability to make accurate predictions on training data and its ability to
-       generalize to unseen data.
+## Fundamental Types
+
+| Type                     |                                                                               | Example                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| Supervised Learning      | Learning with labels, target variable                                         | Classification, Regression                                                                                      |
+| Unsupervised Learning    | Learning without existing labels, usually to find pattern between data itself | Clustering                                                                                                      |
+| Semisupervised Learning  | Combines labelled and unlabelled data.                                        | Self training: Learn from few labels, assign to unlabelled and train                                            |
+| Reinforcement Learning   | Models learns by performing or learns results of actions in an environment.   | Q Learning                                                                                                      |
+| Self supervised Learning | Model creates its own labels from data.                                       | Contrastive learning where model learns by augmenting, masked word models: mask and predict from same sentence. |
+
+## Concepts
+
+1. ### **Training**
+2. ### **Testing**
+3. ### Bias Variance Trade-Off
+    - In ML Trade off between model's ability to make accurate predictions on training data and its ability to
+      generalize to unseen data.
         1. **Bias**: Error due to overly simplistic assumptions in the learning algorithm
         2. **Variance**: model's sensitivity to fluctuations in the training data
            The goal is to find a balance between bias and variance
-    4. ### Cross Validation
-       Used to assess the performance and generalization ability of a model.i.e. It is a model evaluation process to
-       compare models/hyperparameters  
-       **K Folds:**
-        1. Split the dataset into K equal-sized folds (subsets).
-        2. For each fold:
-            1. Use that fold as the test set.
-            2. Use the remaining K-1 folds as the training set.
-            3. Train the model on the training set and evaluate on the test set.
-        3. Repeat the process K times, each time with a different fold as the test set.
-        4. Average the performance metrics (📌e.g., accuracy, RMSE) across all folds for a final score.
-           <br>Pros & Cons:
-           <br>✅ Provides a better estimate of model performance.
-           <br>✅ Helps detect overfitting or underfitting.
-           <br>⚠️ Computationally expensive for large datasets.
+
+4. ### Cross Validation
+   Used to assess the performance and generalization ability of a model.i.e. It is a model evaluation process to
+   compare models/hyperparameters
+   ![img_9.png](img_9.png)
+
+   **K Folds:**
+    1. Split the dataset into K equal-sized folds (subsets).
+    2. For each fold:
+        1. Use that fold as the test set.
+        2. Use the remaining K-1 folds as the training set.
+        3. Train the model on the training set and evaluate on the test set.
+    3. Repeat the process K times, each time with a different fold as the test set.
+    4. Average the performance metrics (📌e.g., accuracy, RMSE) across all folds for a final score.
+       <br>Pros & Cons:
+       <br>✅ Provides a better estimate of model performance.
+       <br>✅ Helps detect overfitting or underfitting.
+       <br>⚠️ Computationally expensive for large datasets.
 3. ## Evaluation Metrics
    <br>TP = True Positives
    <br>TN = True Negatives
