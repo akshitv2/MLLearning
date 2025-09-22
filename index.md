@@ -5,8 +5,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ---
 
-## Table of Contents
-
+## Notes
 1. ### [Data Pre-Processing](Notes/DataPreProcessing.md)
 2. ### [Machine Learning](Notes/MachineLearning.md)
 3. ### [Machine Learning](Notes/Statistics.md)
@@ -28,9 +27,9 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 1. ### X[Data Pre-Processing](Notes/DataPreProcessing.md)
 2. ### X[Machine Learning](Notes/MachineLearning.md)
-3. ### [Deep Learning](Notes/3_DeepLearning_Recall.md)
-4. ### [Large Language Models](Notes/5_LLM_Recall.md)
-9. ### [PySpark](Notes/9_PySpark_Recall.md) 
+3. ### [Deep Learning](Recall/3_DeepLearning_Recall.md)
+4. ### [Large Language Models](Recall/5_LLM_Recall.md)
+9. ### [PySpark](Recall/9_PySpark_Recall.md) 
 ---
 
 ## Contributing

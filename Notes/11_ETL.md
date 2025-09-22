@@ -1,4 +1,12 @@
-# 11 Data Engineering
+---
+title: Data Engineering
+nav_order: 11
+parent: Notes
+layout: default
+---
+
+
+# Data Engineering
 
 ## 1. **Core Concepts**
 

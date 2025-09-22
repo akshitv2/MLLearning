@@ -1,4 +1,11 @@
-# 7 LLM
+---
+title: LLM
+nav_order: 7
+parent: Notes
+layout: default
+---
+
+# LLM
 
 ## Index
 

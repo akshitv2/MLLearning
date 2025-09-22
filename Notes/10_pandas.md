@@ -1,4 +1,11 @@
-# 10 Pandas Cheatsheet
+---
+title: Pandas
+nav_order: 10
+parent: Notes
+layout: default
+---
+
+# Pandas Cheatsheet
 
 This cheatsheet covers common Pandas operations for data manipulation and analysis in Python.
 

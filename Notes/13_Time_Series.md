@@ -1,4 +1,12 @@
-# 12 Time Series
+---
+title: Time Series
+nav_order: 13
+parent: Notes
+layout: default
+---
+
+
+# Time Series
 
 - Sequence of data points, collected and ordered chronologically.
 - A time series is simply a set of observations measured sequentially through time.

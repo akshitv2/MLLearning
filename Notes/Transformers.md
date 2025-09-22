@@ -1,4 +1,11 @@
-# 6 Transformer
+---
+title: Transformer
+nav_order: 6
+parent: Notes
+layout: default
+---
+
+# Transformer
 
 - Key component: Attention Mechanism
 

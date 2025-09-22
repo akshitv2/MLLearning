@@ -1,4 +1,11 @@
-# 8 SQL
+---
+title: SQL
+nav_order: 8
+parent: Notes
+layout: default
+---
+
+# SQL
 
 This guide provides an overview of essential SQL concepts, commands, and data types for managing and querying relational databases. Each section includes explanations and examples to help you understand and apply SQL effectively.
 

@@ -1,4 +1,11 @@
-# 7 AWS Lex & Bedrock
+---
+title: AWS Lex & Bedrock
+nav_order: 14
+parent: Notes
+layout: default
+---
+
+# AWS Lex & Bedrock
 
 # AWS Lex
 AWS Chatbot service, allows Voice and Text
