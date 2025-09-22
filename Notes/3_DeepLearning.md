@@ -131,7 +131,7 @@
     2. #### Types:
         1. ##### Sigmoid [DEPRECATED]
            $$f(x) = \frac{1}{1 + e^{-x}}$$
-            - ![img_21.png](Images/img_21.png)
+            - ![img_21.png](../Images/img_21.png)
             - Bounded [0,1]
             - as x→∞ y→ 1
             - as x→-∞ y→ 0
@@ -293,15 +293,15 @@
     1. #### Step Decay
         - $\eta_t = \eta_0 \cdot \gamma^{\left\lfloor \tfrac{t}{T} \right\rfloor}$
         - Drops LR by a constant factor every few epochs
-        - ![img_22.png](Images/img_22.png)
+        - ![img_22.png](../Images/img_22.png)
     2. #### Exponential Decay
         - $\eta_t = \eta_0 \cdot e^{-\lambda t}$
         - Drops learning rate exponentially per epoch
-        - ![img_9.png](Images/img_9.png)
+        - ![img_9.png](../Images/img_9.png)
     3. #### Cosine Annealing
         - Follows gentler cosine function (convex first then concave)
         - $\eta_t = \eta_{\min} + \tfrac{1}{2}(\eta_0 - \eta_{\min}) \left(1 + \cos\!\left(\frac{\pi t}{T_{\max}}\right)\right)$
-        - ![img_10.png](Images/img_10.png)
+        - ![img_10.png](../Images/img_10.png)
     4. #### Polynomial Decay
         - $\eta_t = \eta_0 \left( 1 - \frac{t}{T_{\max}} \right)^p$
         - Constant polynomial decay
@@ -311,32 +311,32 @@
         - Increases and decreases learning rate
         - 🔴 Need max and min and cycle rate careful tuning
         - 🟢 can help get out of minima
-        - ![img_7.png](Images/img_7.png)
+        - ![img_7.png](../Images/img_7.png)
     7. #### One cycle
         - Increases initially then decreases rapidly
         - Gives fast convergence
-        - ![img_11.png](Images/img_11.png)
+        - ![img_11.png](../Images/img_11.png)
 12. ### Regularization
     1. #### L1 LASSO
         - Least Absolute Shrinkage and selection operator
         - Applies linear penalty to magnitude of weight
-        - ![img.png](Images/3_deepLearning_L1_regularization.png)
+        - ![img.png](../Images/3_deepLearning_L1_regularization.png)
         - Forms n dimensional diamond constraint region
-        - ![img_13.png](Images/img_13.png)
+        - ![img_13.png](../Images/img_13.png)
         - 🟢 Causes Sparsity which can speed up computation
         - 🟢 Makes model more interpretable
         - 🔴 Sparsity can force useful weights to 0, once set to 0 always vanishes
     2. #### L2 Ridge
-        - ![img.png](Images/3_deepLearning_L2_regularization.png.png)
+        - ![img.png](../Images/3_deepLearning_L2_regularization.png.png)
         - Applies quadratic penalty to magnitude of weight
         - Since penalty is quad doesn't force sparsity
         - Since w < 1 would make w^2 even smaller
         - And w>1 would be much larger so minimizes this first
         - 🟢 Prevents overfitting while keeping all the features
         - Forms circular constraint region
-        - ![img_14.png](Images/img_14.png)
+        - ![img_14.png](../Images/img_14.png)
     3. #### Elastic Net
-        - ![img.png](Images/3_deepLearning_ElasticNet_regularization.png)
+        - ![img.png](../Images/3_deepLearning_ElasticNet_regularization.png)
         - Combines L1 and L2
         - Combines benefit of both
         - 🔴 Requires tuning of relative lambda 1 and 2 for benefits
@@ -422,7 +422,7 @@
 ## Architectures
 
 1. ### Convolutional Neural Networks
-   ![img_12.png](Images/img_12.png)
+   ![img_12.png](../Images/img_12.png)
     - #### Purpose:
         - For processing grid structured data like images
     - #### Working:
@@ -477,7 +477,7 @@
             - Right Side: Decoder → Upsamples
             - Bottle Neck: Exists at deeper layers
             - Residual connections exist from each layer left to right to ensure bottleneck doesn't stop data
-            - ![img_15.png](Images/img_15.png)
+            - ![img_15.png](../Images/img_15.png)
 3. ### Recurrent Neural Networks
     - Composed of sequential units that use previous output and have hidden states carried forward
     - Each neuron feeds into itself at every timestep, shown below unrolled
@@ -494,7 +494,7 @@
         - $$y_t = \mathrm{softmax}(Vh_t)$$
         - Softmaxxed to give resulting probablities (like in text generation)
     2. #### LSTM
-        - ![img_17.png](Images/img_17.png)
+        - ![img_17.png](../Images/img_17.png)
         - Equations:
             - $$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
             - $$f = \sigma(W_f h_{t-1} + U_f x_t + V_f c_{t-1})$$
@@ -555,7 +555,7 @@
 8. ### Auto Encoder
     - Unsupervised learning model
     - Primary Goal: Learns a compressed/encoded representation of the input and recreates it to match at output end.
-    - ![img_23.png](Images/img_23.png)
+    - ![img_23.png](../Images/img_23.png)
     - Parts:
         1. ### Encoder:
             - Takes the input data and progressively reduces its dimensionality through a series of layers.
@@ -587,7 +587,7 @@
       probablity distribution and sampled from (with a lower z score) to recreate input.
     - This probabilistic approach allows VAEs to generate new, realistic data points that are similar to the training
       data.
-    - ![img_24.png](Images/img_24.png)
+    - ![img_24.png](../Images/img_24.png)
     - Components:
         - Encoder: Maps input to the parameters of a probability distribution in the latent space.
         - Latent Space: lower-dimensional space where the compressed representations of the data reside. In a VAE, each

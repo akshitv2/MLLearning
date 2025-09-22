@@ -24,7 +24,7 @@
 4. ### Cross Validation
    Used to assess the performance and generalization ability of a model.i.e. It is a model evaluation process to
    compare models/hyperparameters
-   ![img_9.png](img_9.png)
+   ![img_9.png](../assets/Images/ML/img_9.png)
 
    **K Folds:**
     1. Split the dataset into K equal-sized folds (subsets).
@@ -51,26 +51,26 @@
     3. ### Recall
        $$\text{Recall} = \frac{TP}{TP + FN}$$
     4. ### Sensitivity
-       = TN/TN+FP
+       $\text{Recall} = \frac{TN}{TN + FP}$
     5. ### ROC Curve
         - Receiver Operating Characteristic Curve
         - Plots: TPR vs FPR where TPR = TP/TP+FN, FPR = FP/FP+TN
-          ![img.png](img.png)
+          ![img.png](../assets/Images/ML/img.png)
         - Plotting
-          ![img_1.png](img_1.png)
-        - how to use?
+          ![img_1.png](../assets/Images/ML/img_1.png)
+        - **Using ROC Curve**:
             1. Set Threshold to 1 (for TP) and plot every prediction (will be 0,0)
             2. Slowly lower threshold for classification and watch as TPR and FPR rise
             3. Choose threshold for which plot is closest to (0,1)
-        - 🔴 Not suitable for high class imbalance as it will be close to 0,1 if it predicts majority label each time
-        - ⚠️ Use Precision Recall Curve
+        - ⚠️ Not suitable for high class imbalance as it will be close to 0,1 if it predicts majority label each time
+        - 💡 Use Precision Recall Curve
     6. ### Precision Recall Curve
         - Better when dataset is highly imbalanced.
         - Plotted using thresholding similarly except plots precision recall. start with threshold = 1 i.e no positives.
         - ℹ️ When Tp = 0 and Fp = 0, we define precision as 1 (otherwise would be 0/0)
         - Here we want both prec and recall to be high, i.e false positive less and false negative less.
         - Aim: Find point closest to (1,1)
-          ![img_2.png](img_2.png)
+          ![img_2.png](../assets/Images/ML/img_2.png)
     7. ### AUC
        Area Under ROC Curve
     8. ### F1 Score
@@ -99,7 +99,7 @@
         - Working: Find K points closest to new sample, assign class based on majority of them
         - Ideal to use Odd (if binary classfn). Else choose lowest dist or smallest total dist.
         - How to decide K? Elbow Plot
-          ![img.png](Images/img.png)
+          ![img.png](../Images/img.png)
     4. ### Naive Bayes
         - Supervised Classification algo
         - **Naive** - Assumes P(X|C) = P(x<sub>1</sub>...X<sub>n</sub>|C) is equal to ΠP(x<sub>i</sub>|C)
@@ -175,7 +175,7 @@
                     3. Average: Averages of all dists
                     4. Ward: instead of distance choose clusters which cause least in cluster variance
             4. Combine clusters and repeat until they reach one common cluster
-               ![img_1.png](Images/img_1.png)
+               ![img_1.png](../Images/img_1.png)
         - 🟢 No need to specify K
         - 🔴 Computation requirements limit to small/medium datasets
         - 🟢 Can handle non-spherical clusters by defining custom linkage
@@ -225,7 +225,7 @@
 
     13. ### Support Vector Machines
         - Classification Algo
-          ![img_3.png](img_3.png)
+          ![img_3.png](../assets/Images/ML/img_3.png)
         - Separates points out by finding support vector that best separates points with the largest margin.
         - Margin ⬆️ confidence ⬆️
         - ℹ️ Note: To find if two points lie on the same point of line plug them into the equation
@@ -236,13 +236,13 @@
             - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2\end{equation}$$
             - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, \dots, n\end{equation}$$
         - **Soft Margin Classifier**:
-          ![img_4.png](img_4.png)
+          ![img_4.png](../assets/Images/ML/img_4.png)
             - Instead of using hard margin, allow slack using slack variable $ \epsilon $
                 - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i\end{equation}$$
                 - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
         - **Kernel Trick**:
     14. ### DBSCAN
-        ![img_5.png](Images/img_5.png)
+        ![img_5.png](../Images/img_5.png)
         - Density based spatial clustering with noise
         - 🟢 Allows non-circular clusters and noise
         - 🔴 Sensitive to hyperparams

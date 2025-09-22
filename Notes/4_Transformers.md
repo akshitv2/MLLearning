@@ -45,7 +45,7 @@ Improvements over Encoder Decoder:
         - larger dk makes training extremely slow, smaller dks often used. dk=64 common in many models due to comp
           efficiency
 
-- ![img_18.png](Images/img_18.png)
+- ![img_18.png](../Images/img_18.png)
 - Usually Made up of encoder decoder (or one of these)
 - Improvement over traditional RNN
     - 🟢 Trained in parallel since each token can look at all others instead of relying on last output (with teacher
@@ -69,12 +69,12 @@ Each layer's output is added to it's input (through skip connections) (prevents 
 
 In Transformers, two major strategies exist for applying LayerNorm
 
-- ![img_19.png](Images/img_19.png)
+- ![img_19.png](../Images/img_19.png)
 
 1. ### **Post-Normalization** (Post-LN):
     - LayerNorm is applied after the residual connection.
     - This strategy was used in orignal papers
-    - ![img_20.png](Images/img_20.png)
+    - ![img_20.png](../Images/img_20.png)
         - i.e Input $ x $ goes through sub-layer (📌e.g., attention $ A(x) $ or feed-forward $ F(x) $).
         - Residual: $ x + \text{sub-layer}(x) $.
         - Then apply LayerNorm: $ \text{LN}(x + \text{sub-layer}(x)) $.

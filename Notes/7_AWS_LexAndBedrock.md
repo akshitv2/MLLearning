@@ -43,21 +43,21 @@ Benefits: Simple, seamless deployment and scaling
   
 
 ## Creating a Lex Bot
-- On lex create<br>![alt text](Images/image.png)
-- Have a few options<br>![alt text](Images/image-1.png)
-- Can configure timeout<br>![alt text](Images/image-2.png)
-- Can add multiple languages and specify intent confidence score <br>![alt text](Images/image-3.png)
-- Creating new intent <br>![alt text](Images/image-4.png)
-- Add sample utterances to compute similarity and finally confidence from <br>![alt text](Images/image-5.png)
-- Select text and select from drop down to convert part of utterance to slot which will be populated at the bottom (name them appropriately) <br>![alt text](Images/image-6.png)![alt text](Images/image-7.png)
-- Give prompts to make sure user populates slot<br> ![alt text](Images/image-8.png)
-- If Amazon Predefined Slot Types Doesn't fit create a new slot type i.e new data type<br> ![alt text](Images/image-9.png) which can expand (capitalization, stemming, spaces) or be very strict ![alt text](Images/image-10.png)
-- Add confirmation for the value<br>![alt text](Images/image-11.png)
-- You can visualize convo using visual builder <br>![alt text](Images/image-12.png)![alt text](Images/image-13.png)
+- On lex create<br>![alt text](../Images/image.png)
+- Have a few options<br>![alt text](../Images/image-1.png)
+- Can configure timeout<br>![alt text](../Images/image-2.png)
+- Can add multiple languages and specify intent confidence score <br>![alt text](../Images/image-3.png)
+- Creating new intent <br>![alt text](../Images/image-4.png)
+- Add sample utterances to compute similarity and finally confidence from <br>![alt text](../Images/image-5.png)
+- Select text and select from drop down to convert part of utterance to slot which will be populated at the bottom (name them appropriately) <br>![alt text](../Images/image-6.png)![alt text](../Images/image-7.png)
+- Give prompts to make sure user populates slot<br> ![alt text](../Images/image-8.png)
+- If Amazon Predefined Slot Types Doesn't fit create a new slot type i.e new data type<br> ![alt text](../Images/image-9.png) which can expand (capitalization, stemming, spaces) or be very strict ![alt text](../Images/image-10.png)
+- Add confirmation for the value<br>![alt text](../Images/image-11.png)
+- You can visualize convo using visual builder <br>![alt text](../Images/image-12.png)![alt text](../Images/image-13.png)
 - Define lambda handler to handle<br>
-![alt text](Images/image-14.png)
-- Can give response cards to make interaction easier by adding Response Cards <br>![alt text](Images/image-15.png)![alt text](Images/image-16.png)
-- Can use Amazon AI Intents using AWS Bedrock <br>![alt text](Images/image-23.png)
+![alt text](../Images/image-14.png)
+- Can give response cards to make interaction easier by adding Response Cards <br>![alt text](../Images/image-15.png)![alt text](../Images/image-16.png)
+- Can use Amazon AI Intents using AWS Bedrock <br>![alt text](../Images/image-23.png)
 
 
 # AWS Bedrock
@@ -77,11 +77,11 @@ Available Models:
 6. Stability - Stable Diffusion
 
 ## Setup
-1. Choose model <br> ![alt text](Images/image-17.png)
-2. Test model on playground <br> ![alt text](Images/image-18.png)
-3. You can also compare multiple models in terms of output, speed etc <br> ![alt text](Images/image-19.png)
-4. Model access isn't available to begin with but can be granted really quickly <br>![alt text](Images/image-20.png)
+1. Choose model <br> ![alt text](../Images/image-17.png)
+2. Test model on playground <br> ![alt text](../Images/image-18.png)
+3. You can also compare multiple models in terms of output, speed etc <br> ![alt text](../Images/image-19.png)
+4. Model access isn't available to begin with but can be granted really quickly <br>![alt text](../Images/image-20.png)
 5. To integrate knowledge bases:
    1. Create a knowledge store: Either S3
-6. Add your knowledge base <br> ![alt text](Images/image-21.png) <br> Choose your embedding and vector store ![alt text](Images/image-22.png)
+6. Add your knowledge base <br> ![alt text](../Images/image-21.png) <br> Choose your embedding and vector store ![alt text](../Images/image-22.png)
 
