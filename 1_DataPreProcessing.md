@@ -4,257 +4,245 @@
 
 1. ### Data Cleaning
    Required when data:
-    1. In inconsistent format 📌e.g. dd-mm-yy mm-dd-yyyy together
-    2. Has Duplicates
-    3. Missing values
-    4. Noisy
+   1. Is in inconsistent format (e.g., dates like dd-mm-yy and mm-dd-yyyy together)
+   2. Has duplicates
+   3. Has missing values
+   4. Is noisy
 
 2. ### Handling Missing Data
    Techniques:
-    1. Remove samples (only if classes are balanced and data is not limited)
-    2. For numeric: Replace with dataset statistic metrics for entire DS or class 📌e.g. Mean, Mode, Median
-    3. For Categorical: Replace with mode or NA
-    4. For time series: interpolate
-    5. Regress using other variables
+   1. Remove samples (only if classes are balanced and data is not limited)
+   2. For numeric data: Replace with dataset statistical metrics for the entire dataset or per class (e.g., mean, mode, median)
+   3. For categorical data: Replace with mode or "NA"
+   4. For time series: Interpolate (e.g., linear interpolation between known points)
+   5. Regress using other variables (e.g., use regression models to predict missing values based on correlated features)
 
 3. ### Outlier Detection
    Methods:
-    1. ### Z Score:
-       - Z score is calculated as ((x - mean) / std dev). Usually safe to ignore |z|>3 (Central limit
-           theorem)
-    2. ### IQR (Inter Quartile Range):
-       - Calculated using median, Common to only consider points in Q1-1.5IQR and Q3+
-           1.5IQR (Q3:75th Percentile Q1:25th Percentile)
-    3. ### Mahalanobis Distance:
-    4. ### Box Plot Analysis:
-       - Visualization method based on IQR
+   1. ### Z-Score:
+      - Z-score is calculated as $z = \frac{x - \mu}{\sigma}$. Usually safe to consider |z| > 3 as outliers (based on the Central Limit Theorem).
+   2. ### IQR (Interquartile Range):
+      - Calculated using median. Common to consider only points within [Q1 - 1.5 × IQR, Q3 + 1.5 × IQR] (where Q1 is 25th percentile, Q3 is 75th percentile, IQR = Q3 - Q1).
+   3. ### Mahalanobis Distance:
+      - Measures the distance of a point from the mean, accounting for the covariance among variables. Useful for multivariate outliers.
+   4. ### Box Plot Analysis:
+      - Visualization method based on IQR to identify outliers.
 
 4. ### Data Transformation (Scaling)
-    1. **Standardization: (mean = 0, variance = 1)** → Replace values with Z score
-       $$z = \frac{x - \mu}{\sigma}$$
-    2. **Min Max Scaling (Normalization)**: Scale 0 to 1
-       $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
-    3. **Robust Scaling**: Scaling using Q3 and Q1 () where IQR = Q3-Q1
-       $$x_i' = \frac{x_i - \text{Median}(X)}{\text{IQR}(X)}$$
-    4. **Log Transform**: Used when values are extremely large to bring to comparable range
-       $$x_i' = \log(x_i)$$
-       🟢Handles outliers well even if not limited all values to 0 to 1
-    5. Box Core Transform:
+   1. **Standardization (mean = 0, variance = 1)**: Replace values with Z-score
+      $$z = \frac{x - \mu}{\sigma}$$
+   2. **Min-Max Scaling (Normalization)**: Scale to [0, 1]
+      $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
+   3. **Robust Scaling**: Scaling using Q3 and Q1, where IQR = Q3 - Q1
+      $$x_i' = \frac{x_i - \median(X)}{\IQR(X)}$$
+   4. **Log Transform**: Used when values are extremely large to bring them to a comparable range
+      $$x_i' = \log(x_i)$$
+      - Handles outliers well, even if not limiting all values to [0, 1]
+   5. **Box-Cox Transform**:
+      - A power transformation to stabilize variance and make the data more normally distributed.
+      $$x_i' = \begin{cases} 
+      \frac{x_i^\lambda - 1}{\lambda} & \lambda \neq 0 \\
+      \log(x_i) & \lambda = 0 
+      \end{cases}$$
 
 5. ### Handling Outliers
    When and How?
-    1. If Measurement Error/Inconsistent → Remove or replace
-        1. Replace using imputation techniques
-    2. If rare but valid → Keep since usually contains signal
-    3. While scaling using Robust scaling
+   1. If due to measurement error or inconsistency: Remove or replace
+      1. Replace using imputation techniques (e.g., mean/median replacement or model-based imputation)
+   2. If rare but valid: Keep, as they usually contain useful signal
+   3. While scaling: Use robust scaling to minimize impact
 
 6. ### Encoding Categorical Variables
-    1. **One hot Encoding**: Replace categories with one in their index, 0 in others
-        - 🟢 Maintains independence of classes
-        - 🔴 Grows Linearly to classes (not suited for high cardinality)
-    2. **Label Encoding**: Assign int to each class
-        - 🔴Integer assigned can cause model to assume numerical relationship where none exists
-    3. **Ordinal Encoding**: Same as Label except order actually exists like Small Medium Large
-    4. **Binary Encoding**: Similar to one hot but more space efficient and less independent. (Converts classes to
-       binary representations, reusing dimensions but potentially mixing information)
-    5. **Hash Encoding**: Meant to map high cardinality to individual spaces by using a hash table (collisions can
-       occur)
-    6. **Target Encoding**: Replace category entirely with mean of target (of samples with said class)
-        - 🔴 Can cause leakage of target into sample
-    7. **Frequency Encoding**: Replace classes with frequency of entries
-        - 🟢 Can simplify encoding of very high cardinality
-        - 🔴 Maps multiple categories to same and can be confusing when no imbalance
+   1. **One-Hot Encoding**: Replace categories with 1 in their index, 0 in others
+      - 🟢 Maintains independence of classes
+      - 🔴 Grows linearly with number of classes (not suited for high cardinality)
+   2. **Label Encoding**: Assign integers to each class
+      - 🔴 Integers assigned can cause the model to assume numerical relationships where none exist
+   3. **Ordinal Encoding**: Same as label encoding, but used when order actually exists (e.g., Small, Medium, Large)
+   4. **Binary Encoding**: Similar to one-hot but more space-efficient and less independent (converts classes to binary representations, reusing dimensions but potentially mixing information)
+   5. **Hash Encoding**: Maps high-cardinality categories to fixed-size vectors using a hash function (collisions can occur)
+   6. **Target Encoding**: Replace category with the mean of the target variable for samples in that category
+      - 🔴 Can cause leakage of target information into features
+   7. **Frequency Encoding**: Replace classes with their frequency of occurrence
+      - 🟢 Can simplify encoding for very high cardinality
+      - 🔴 Maps multiple categories to the same value and can be confusing when no inherent imbalance
 
 ## Dimensionality Reduction Techniques
 
-Reduce number of features in dataset while preserving info.  
+Reduce the number of features in a dataset while preserving information.  
 Done via:
 
-1. Feature Selection: Selecting subset of features
-2. Feature Extraction: Create new features extracting all important info from data
+1. Feature Selection: Selecting a subset of features
+2. Feature Extraction: Creating new features that extract all important information from the data
 
-## **Feature Selection**
+## Feature Selection
 
 1. ### Variance Thresholding
-   If feature shows low variance → High Probablity not contributing to prediction
-   Works only if low variance is meaningless (📌e.g., near-constant) but can actually be useful in certain cases
+   If a feature shows low variance, it has a high probability of not contributing to prediction.  
+   Works only if low variance is meaningless (e.g., near-constant features), but variance can be useful in certain cases.
+
 2. ### Correlation Filtering
-   Correlated variables can cause multicollinearity.
-   **MultiCollinearity** when features are linearly dependent.  
-   Issues? Destabilizes training as model can't understand which feature to increase weights for.
-   Expressive power becomes shared (can 1:9 or 1:1 or -2:12).
+   Correlated variables can cause multicollinearity.  
+   **Multicollinearity**: When features are linearly dependent.  
+   Issues: Destabilizes training as the model can't distinguish which feature to assign weights to; expressive power becomes shared (e.g., coefficients could be 1:9, 1:1, or -2:12).  
    Techniques:
-    1. Pearson Correlation (for numeric <→ numeric data):
-       $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
-       i.e Cov(x,y)/std(x)std(y)
-    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. Matrix puts every feature X <→ X and looks for
-       higher correlation.
-    3. ChiSquare Test for Categorical Features
-    4. Monotonic Increase (Spearman): i.e. non-linear correlated increase for e.g height and weight in population
-       $$\rho_{X,Y} = 1 - \frac{6 \sum_{i=1}^{n} d_i^2}{n(n^2 - 1)}$$
-       where d<sub>i</sub> = R(x<sub>i</sub>) - R(y<sub>i</sub>) where R is the rank
-       ℹ️ Note: Rank here is the position in data if sorted in ascending order
-    5. Kendall
-    6. Mutual Information Score: Uses KL Divergence
-       ℹ️ Note: KL Divergence is the difference between two probablity distribution in terms of bits. Best understood as
-       extra bits required to encode from one dist to another.
-       $$I(X;Y) = \sum_{x \in X} \sum_{y \in Y} p(x,y) \, \log \left( \frac{p(x,y)}{p(x)\,p(y)} \right)$$
-       Here if p(x,y) = p(x)p(y) then they are independent and log of this becomes 0 i.e. no mutual info between them.
+   1. Pearson Correlation (for numeric-numeric data):
+      $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
+      i.e., $\cov(X,Y) / (\std(X) \std(Y))$
+   2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. The matrix compares every feature pair and looks for high correlations.
+   3. Chi-Square Test: For categorical features
+   4. Monotonic Increase (Spearman): For non-linear correlations (e.g., height and weight in a population)
+      $$\rho_{X,Y} = 1 - \frac{6 \sum_{i=1}^{n} d_i^2}{n(n^2 - 1)}$$
+      where $d_i = R(x_i) - R(y_i)$ and $R$ is the rank (position in sorted ascending order)
+   5. Kendall: Measures ordinal association
+   6. Mutual Information Score: Uses KL Divergence
+      - KL Divergence: The difference between two probability distributions in terms of bits (extra bits required to encode one distribution using the other).
+      $$I(X;Y) = \sum_{x \in X} \sum_{y \in Y} p(x,y) \log \left( \frac{p(x,y)}{p(x)p(y)} \right)$$
+      If $p(x,y) = p(x)p(y)$, they are independent (log term becomes 0, no mutual information).
 
 ## Feature Extraction
 
 Techniques:
 
-1. PCA
-2. T-SNE
-3. UMAP
+1. **PCA (Principal Component Analysis)**: Linear technique that transforms data into uncorrelated components ordered by variance explained.
+2. **t-SNE (t-Distributed Stochastic Neighbor Embedding)**: Non-linear dimensionality reduction for visualization, preserves local structure.
+3. **UMAP (Uniform Manifold Approximation and Projection)**: Similar to t-SNE but faster and better at preserving global structure.
 
-## **Sampling**
+## Sampling
 
-Process of selecting a subset from a larger group (called population) to make inferences about the whole.
-(Too costly and inefficient to test whole)
+Process of selecting a subset from a larger group (population) to make inferences about the whole (too costly and inefficient to test the entire population).
 
-1. Parameter vs Statistic
+1. **Parameter vs Statistic**
+   - Parameter: True numeric value describing the population
+   - Statistic: Numeric value derived from the sample
 
-- Parameter: True numeric value describing the population
-- Statistic: Numeric value derived from the sample.
+2. **Probability Sampling**
+   - Every member of the population has a non-zero chance of being selected.
+   1. **Simple Random Sampling**
+      - Every individual has an equal chance of being selected.
+      - 🟢 Pros: Unbiased if truly random and easy to analyze
+      - 🔴 Cons: Impractical due to requiring a full list of the population
+   2. **Stratified Sampling**
+      - Divide population into homogeneous subgroups (strata) and take random samples from each (e.g., divide by age).
+      - 🟢 Pros: Ensures representation of all groups
+      - 🔴 Cons: Requires complex design and knowledge to divide strata
+   3. **Systematic Sampling**
+      - Select every k-th item.
+      - 🟢 Pros: Easy, good coverage
+      - 🔴 Cons: Hidden numerical patterns can cause bias; requires full list
+   4. **Cluster Sampling**
+      - Divide population into clusters and select one or more entire clusters.
+      - 🟢 Pros: Cheaper and convenient
+      - 🔴 Cons: Less precise than stratified; bias due to only some clusters selected
+   5. **Multi-Stage Sampling**
+      - Combines several sampling methods (e.g., cluster then random within clusters).
 
-1. Probability Sampling
-    - Every member of population has a non-zero chance of being selected.
+3. **Non-Probability Sampling**
+   - Individuals have either unknown or unequal chances of being selected.
+   1. **Convenience Sampling**
+      - Sample whoever is accessible.
+      - 🟢 Pros: Cheap and convenient
+      - 🔴 Cons: Extremely biased
+   2. **Purposive/Judgmental Sampling**
+      - Researcher selects samples based on expert judgment or specific characteristics.
+      - 🟢 Pros: Targeted and efficient for qualitative research
+      - 🔴 Cons: Subjective and prone to bias
+   3. **Quota Sampling**
+      - Like stratified, but non-random selection within predefined quotas (e.g., interview 50 men and 50 women).
+      - 🟢 Pros: Ensures diversity without full population list
+      - 🔴 Cons: Non-random, potential selection bias
+   4. **Snowball Sampling**
+      - Start with initial subjects who refer others (useful for hard-to-reach populations, e.g., rare disease patients).
+      - 🟢 Pros: Effective for hidden populations
+      - 🔴 Cons: Biased toward connected individuals; hard to control
+   5. **Sampling Distributions**
+      - The distribution of a statistic (e.g., sample mean) over many samples. Central Limit Theorem: Sample means approximate normal distribution for large n, regardless of population shape.
 
-    1. Simple Random Sampling
-        - Every individual has equal chance of being selected
-        - 🟢 Pros: Unbiased if true and easy to analyze
-        - 🔴 Cons: Impractical due to requiring full list of population
-    2. Stratified Sampling
-        - Divide population in to homogenous subgroups (strata) and take random samples from each
-          e.g: Divide by age
-        - 🟢 Pros: Representation of all groups
-        - 🔴 Cons: Requires complex design and knowledge to divide
-    3. Systematic Sampling
-        - Select every k-th item
-        - 🟢 Pros: Easy, good coverage
-        - 🔴 Cons: Hidden numerical patterns cause bias, also requires full list
-    4. Cluster Sampling
-        - Divide population into clusters and select one or more entire clusters
-        - 🟢 Pros: Cheaper and convenient
-        - 🔴 Cons: Less precise than stratified, bias due to only some clusters
-    5. Multi Stage Sampling
-        - Combines Several Sampling Methods
-2. Non Probability Sampling
-    - Individuals have either unknown or unequal chance of being selection
-
-    1. Convenience Sampling
-        - Sample whoever you can
-        - 🟢 Pros: Cheap and convenient
-        - 🔴 Cons: Extremely Biased
-    2. Purposive/Judgmental Sampling`❌[Incomplete]`
-    3. Quota Sampling`❌[Incomplete]`
-    4. Snowball Sampling`❌[Incomplete]`
-    5. Sampling Distributions
-3. Over And Under Sampling: Handling imbalance in dataset by either choosing from lower representation class more or
-   less from over-represented class to create balance.  
+4. **Over- and Under-Sampling**: Handling class imbalance by oversampling the minority class or undersampling the majority class to create balance.
    Techniques:
-    1. ### SMOTE: (Synthetic Minority Oversampling Technique)
-        - Choose lower representation class. Plot similar to k means and take a subset of points and use their average
-          value as new entry.
-        - 🔴Not real data so might overfit
-    2. ### ADASYN: (Adaptive Synthetic Sampling)
-        - Handles imbalance in datasets but focuses on creating harder to classify samples
-        - How?
-            - Plot all points on graph, for each point in minority class find which minority points have max majority
-              neighbours (mimicking KNN)
-            - Using these decision boundary points perform SMOTE
-        - 🟢 Teach the model more since focuses on creating points in difficult regions
-        - 🔴 Can introduce noise
-    3. ### Undersampling
-    4. ### Class Weight Adjustment
+   1. ### SMOTE (Synthetic Minority Oversampling Technique)
+      - For the minority class, use k-nearest neighbors to create synthetic samples by interpolating between neighbors.
+      - 🔴 Not real data, so might cause overfitting
+   2. ### ADASYN (Adaptive Synthetic Sampling)
+      - Similar to SMOTE but focuses on generating more samples near decision boundaries (minority points with many majority neighbors).
+      - 🟢 Teaches the model more by focusing on difficult regions
+      - 🔴 Can introduce noise
+   3. ### Undersampling
+      - Randomly remove samples from the majority class (e.g., RandomUnderSampler or NearMiss for intelligent selection).
+   4. ### Class Weight Adjustment
+      - Assign higher weights to minority class during model training to penalize misclassifications more.
 
 ## Text Preprocessing
 
 1. ### Lowercasing
-    - Standardize text to lowercase
+   - Standardize text to lowercase for consistency.
+
 2. ### Tokenization
-    - Splits text into smaller units (called tokens), usually words.
-    - Types of tokenization:
-        - Word tokenization: Splits text into individual words.
-        - Character tokenization: Splits text into characters.
-            - 🟢 Small vocab
-            - 🔴 Too much to compute
-            - 🔴 Doesn't capture context
-        - Sentence tokenization: Splits text into sentences. (very low usecase)
-        - Subword tokenization: Breaks down into smaller units than words (useful in deep learning).  
-          Two Popular Types: [Modern Tokenizations](5_LLM.md#Modern-tokenization)
-            1. Byte Pair Encoding
-            2. Word Piece Encoding
+   - Splits text into smaller units (tokens), usually words.
+   - Types:
+     - Word tokenization: Splits into individual words.
+     - Character tokenization: Splits into characters.
+       - 🟢 Small vocabulary
+       - 🔴 Computationally intensive; doesn't capture context
+     - Sentence tokenization: Splits into sentences (low use case).
+     - Subword tokenization: Breaks into smaller units than words (useful in deep learning).  
+       Two popular types: (See [Modern Tokenizations](5_LLM.md#Modern-tokenization))
+       1. Byte Pair Encoding (BPE)
+       2. WordPiece Encoding
+
 3. ### Stopword Removal
-    - Removes common words that appear frequently but add little meaning (📌e.g., "the", "is", "and").
-    - 🟢 Reduces dimensionality and focuses on meaningful words.
+   - Removes common words that appear frequently but add little meaning (e.g., "the", "is", "and").
+   - 🟢 Reduces dimensionality and focuses on meaningful words.
+
 4. ### Stemming and Lemmatization
-    - Stemming: Cuts words to their base form (may not be a real word).
-    - Example: "running" → "run", "flies" → "fli"
-    - Lemmatization: Converts words to their meaningful base form using vocabulary and grammar.
-        - o Example: "running" → "run", "better" → "good"
-    - Lemmatization is usually more accurate than stemming.
+   - Stemming: Reduces words to their base form (may not be a real word).
+     - Example: "running" → "run", "flies" → "fli"
+   - Lemmatization: Converts to meaningful base form using vocabulary and grammar.
+     - Example: "running" → "run", "better" → "good"
+   - Lemmatization is usually more accurate than stemming.
+
 5. ### Others:
-    - Removing Punctuation, Numbers, and Special Characters
-    - Removing Duplicates, Blank Lines
-    - Spelling Correction
-    - Slang and Abbreviation Handling (Optional)
-    - Expanding contractions (📌e.g., "can't" → "cannot")
-    - Ensures consistency across the dataset.
+   - Removing punctuation, numbers, and special characters
+   - Removing duplicates and blank lines
+   - Spelling correction
+   - Slang and abbreviation handling (optional)
+   - Expanding contractions (e.g., "can't" → "cannot")
+   - HTML tag removal (for web-scraped text)
+   - Emoji handling (remove or convert to text)
+   - Ensures consistency across the dataset.
+
 6. ### Vectorization
-    - Converts processed text into numerical format.
-    - Common methods:
-        1. Bag of Words (BoW): Counts word frequency in each document.
-        2. TF-IDF (Term Frequency-Inverse Document Frequency): Weighs words by importance.
-        3. Word Embeddings: Represents words in dense vector form based on meaning (📌e.g., Word2Vec, GloVe, BERT).
+   - Converts processed text into numerical format.
+   - Common methods:
+     1. Bag of Words (BoW): Counts word frequency in each document.
+     2. TF-IDF (Term Frequency-Inverse Document Frequency): Weighs words by importance across documents.
+     3. Word Embeddings: Represents words in dense vector form based on meaning (e.g., Word2Vec, GloVe, BERT).
 
 ## Word Embedding
 
-- Goal behind embeddings is to convert words into vectors and ensure two words/vectors of similar meaning/context are
-  mapped close in the embedding space. usually calculated via cosine similarity or Euclidean distance
+- Goal: Convert words into vectors such that similar words (in meaning/context) are close in embedding space (measured by cosine similarity or Euclidean distance).
 - Types:
-    1. ## Static Embeddings [DEPRECATED]]
+  1. ## Static Embeddings [DEPRECATED]
+     - Created with a large but finite corpus; only works with words in vocabulary.
+     - 🔴 Doesn't handle polysemy well (words with multiple meanings).  
+       Notable Implementations:
+     1. **Word2Vec**: Trained using a neural network with input (W_in) and output (W_out) embeddings.
+        1. CBOW (Continuous Bag of Words): Predicts middle word from surrounding words (averaged embeddings).
+        2. Skip-Gram: Predicts surrounding words from middle word (better for rare words).
+     2. **GloVe (Global Vectors for Word Representation)**: Uses global co-occurrence matrix (words on axes, co-occurrence counts in cells).  
+        Trained to satisfy $w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$.  
+        - 🟢 Captures linear relationships (e.g., king - man + woman ≈ queen).
+     3. **FastText**: Extension of Word2Vec that uses subword information (n-grams) to handle OOV words and morphology.
 
-        - Created with a very large but finite corpus thus can only work with words in vocab.
-        - 🔴 Don't work well with polysemy. (words with multiple meanings)
-          Notable Implementations:
+  2. ## Dynamic Embeddings
+     - Embeddings change based on context; used by modern language models.
+     - | Model | How it works |
+       |-------|--------------|
+       | ELMo | Uses deep biLSTM to generate embeddings from the entire sentence. |
+       | BERT | Uses transformers and attention for bidirectional context-aware embeddings. |
+       | GPT  | Uses transformer decoders for left-to-right context; produces dynamic embeddings during generation or fine-tuning. |
 
-        1. Word2Vec
-           Trained using a neural network.  
-           Similar to how encoder decoder is. Here W<sub>in</sub> and W<sub>out</sub> exist.
-            1. CBOW (Continous Bag of Words) → Predict middle word using surrounding
-               input words fed through and multiplied to Win to embed and averaged and multiplied with Wout.
-               Finally, softmax to get output prob and calculate gradient against actual word
-            2. SkipGram → Predict Surrounding words using middle word
-               ⚠️Figure out how one embedding turns into multiple
-        2. Glove (Global Vectors for Word Representation)  
-           Works using global occurrence of words
-           Create a co-occurrence matrix i.e. words on both axis and occurrence probablity on each i,j
-           Then $$w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$$
-           i.e. the embedding of the two words + bias terms should match their co-occurrence.
-           Deep network trained W using this as loss.  
-           🟢 Produces embeddings where linear relationships capture meaning
-           Example: king - man + woman = queen
+## Word Embedding in Non-Textual Context
 
-    2.  ## Dynamic Embeddings
-
-    - Dynamic embeddings are embeddings that can change depending on context.
-    - Embeddings used by common LMs
-    - <table><tr><th>Model</th><th>How it works</th> </tr>
-      <tr><td>ELMo</td><td>Uses a deep LSTM to generate embeddings based on the entire sentence</td> </tr>
-        <tr><td>BERT</td><td>Uses transformers and attention to create context-aware embeddings for each word</td> </tr>
-        <tr><td>GPT</td><td>Also produces dynamic embeddings (during generation or fine-tuning)</td> </tr>
-          </table>
-
-1. Contextual → Used in attention/Transformers
-
-## **Word Embedding in Non-Textual Context**
-
-- **Item2Vec** is used to generate dense vector representations of items (📌e.g., songs, movies, books)
-- Wav2Vec: Converts audio into structures similar to how sentences are.
-
-
-
-
+- **Item2Vec**: Generates dense vector representations of items (e.g., songs, movies, books) based on sequences (similar to Word2Vec).
+- **Wav2Vec**: Converts audio waveforms into vector representations (self-supervised learning on speech data).
