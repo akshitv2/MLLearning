@@ -11,7 +11,7 @@ just_the_docs:
   custom_css:
     - "assets/css/custom.scss"
 
-remote_theme: vaibhavvikas/jekyll-theme-minimalistic
+remote_theme: just-the-docs/just-the-docs
 
 author: Akshit
 markdown: kramdown
