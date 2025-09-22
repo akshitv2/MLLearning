@@ -1,4 +1,4 @@
-# 6 Exploratory Data Analysis
+# 2 Exploratory Data Analysis
 
 - Set of techniques for understanding a dataset.
 - Uses a list of methods - primarily visual - to explore and summarize main characteristics of dataset
@@ -227,8 +227,8 @@
     - Common in classification problems (📌e.g., fraud detection).
     - Techniques:
         1. # Resampling Techniques
-            - **SMOTE (Synthetic Minority Oversampling Technique)**: Generates synthetic samples for the minority class. [Read here](1_DataPreProcessing.md#SMOTE-Synthetic-Minority-Oversampling-Technique)
-            - **ADASYN (Adaptive Synthetic Sampling)**: Similar to SMOTE but focuses on harder-to-classify minority samples. [Read here](1_DataPreProcessing.md#ADASYN-Adaptive-Synthetic-Sampling)
+            - **SMOTE (Synthetic Minority Oversampling Technique)**: Generates synthetic samples for the minority class. [Read here](DataPreProcessing.md#SMOTE-Synthetic-Minority-Oversampling-Technique)
+            - **ADASYN (Adaptive Synthetic Sampling)**: Similar to SMOTE but focuses on harder-to-classify minority samples. [Read here](DataPreProcessing.md#ADASYN-Adaptive-Synthetic-Sampling)
             - **Undersampling**: Reduces the majority class to balance the dataset.
             - **Class Weight Adjustment**: Assigns higher weights to minority class samples in model training.
             - 🟢 Improves model performance on imbalanced datasets.

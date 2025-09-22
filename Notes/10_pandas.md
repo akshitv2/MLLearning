@@ -1,4 +1,4 @@
-# Pandas Cheatsheet
+# 10 Pandas Cheatsheet
 
 This cheatsheet covers common Pandas operations for data manipulation and analysis in Python.
 

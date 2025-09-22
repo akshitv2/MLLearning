@@ -1,4 +1,4 @@
-# LLM and Embedding Model Selection Guide
+# 13 LLM and Embedding Model Selection Guide
 
 This guide provides a concise, tabular overview of key LLM and embedding models to simplify selection for your use case, with a focus on essential details: variants, sizes, features, access, pros/cons, and usage scenarios. Less critical data (e.g., niche models like BLOOM, GPT-NeoX, Vicuna, BERT) is excluded for clarity. Amazon Titan models are retained for AWS relevance. Pros/cons and usage recommendations are enhanced with practical insights based on performance, cost, and ecosystem fit, current as of September 2025.
 

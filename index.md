@@ -7,14 +7,14 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ## Table of Contents
 
-1. ### [Data Pre-Processing](Notes/1_DataPreProcessing.md)
-2. ### [Machine Learning](Notes/2_ML.md)
-3. ### [Machine Learning](Notes/3_Statistics.md)
-4. ### [Deep Learning](Notes/3_DeepLearning.md)
-5. ### [Transformers](Notes/4_Transformers.md)
-6. ### [Large Language Models](Notes/5_LLM.md)
-7. ### [Exploratory Data Analysis](Notes/6_Exploratory_Data_Analysis.md)
-8. ### [AWS Lex And Bedrock](Notes/7_AWS_LexAndBedrock.md)
+1. ### [Data Pre-Processing](Notes/DataPreProcessing.md)
+2. ### [Machine Learning](Notes/MachineLearning.md)
+3. ### [Machine Learning](Notes/Statistics.md)
+4. ### [Deep Learning](Notes/DeepLearning.md)
+5. ### [Transformers](Notes/Transformers.md)
+6. ### [Large Language Models](Notes/LLM.md)
+7. ### [Exploratory Data Analysis](Notes/ExploratoryDataAnalysis.md)
+8. ### [AWS Lex And Bedrock](Notes/AWSLexAndBedrock.md)
 9. ### [SQL](Notes/8_SQL.md)
 10. ### [PySpark](Notes/9_PySpark.md)
 11. ### [Pandas](Notes/10_pandas.md)
@@ -26,8 +26,8 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 
 ## Recall Questions
 
-1. ### X[Data Pre-Processing](Notes/1_DataPreProcessing.md)
-2. ### X[Machine Learning](Notes/2_ML.md)
+1. ### X[Data Pre-Processing](Notes/DataPreProcessing.md)
+2. ### X[Machine Learning](Notes/MachineLearning.md)
 3. ### [Deep Learning](Notes/3_DeepLearning_Recall.md)
 4. ### [Large Language Models](Notes/5_LLM_Recall.md)
 9. ### [PySpark](Notes/9_PySpark_Recall.md) 

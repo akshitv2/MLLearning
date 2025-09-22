@@ -186,7 +186,7 @@ Process of selecting a subset from a larger group (population) to make inference
        - 🔴 Computationally intensive; doesn't capture context
      - Sentence tokenization: Splits into sentences (low use case).
      - Subword tokenization: Breaks into smaller units than words (useful in deep learning).  
-       Two popular types: (See [Modern Tokenizations](5_LLM.md#Modern-tokenization))
+       Two popular types: (See [Modern Tokenizations](LLM.md#Modern-tokenization))
        1. Byte Pair Encoding (BPE)
        2. WordPiece Encoding
 

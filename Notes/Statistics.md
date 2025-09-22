@@ -1,4 +1,4 @@
-# Statistics
+# 3 Statistics
 
 ## Central Tendency Measures
 

@@ -1,4 +1,4 @@
-# 4 Transformer
+# 6 Transformer
 
 - Key component: Attention Mechanism
 
@@ -57,7 +57,7 @@ Improvements over Encoder Decoder:
 
 ## 1. **Embedding** [(explained in DataPreProcessing.md)](1_ DataPreProcessing.md#Word-Embedding)
 
-## 2. **Positional** Encoding [(explained in LLM.md)](5_LLM.md#positional-encoding)
+## 2. **Positional** Encoding [(explained in LLM.md)](LLM.md#positional-encoding)
 
 ## 3. **MultiHead** Attention layer
 
