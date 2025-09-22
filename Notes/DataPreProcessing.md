@@ -5,7 +5,7 @@ parent: Notes
 layout: default
 ---
 
-# 1 Data Pre-Processing
+# Data Pre-Processing
 
 ## Common Data Pre-Processing
 
