@@ -5,22 +5,21 @@ parent: Notes
 layout: default
 ---
 
-![img_15.png](img_15.png)
-![img_16.png](img_16.png)
-
-![img_17.png](img_17.png)
-![img_18.png](img_18.png)
-![img_19.png](img_19.png)
-![img_20.png](img_20.png)
-![img_21.png](img_21.png)
-![img_22.png](img_22.png)
-Default: error pauses 
-![img_23.png](img_23.png)
-Amazon States Language
-![img_24.png](img_24.png)
-![img_25.png](img_25.png)
-a heartbeat is a way to ensure that a task is still alive and making progress while it runs.
-For activities (manual or external worker tasks), your worker needs to periodically call `SendTaskHeartbeat` API to tell Step Functions that it’s still alive.
+- ![img_15.png](img_15.png)
+- ![img_16.png](img_16.png)
+- ![img_17.png](img_17.png)
+- ![img_18.png](img_18.png)
+- ![img_19.png](img_19.png)
+- ![img_20.png](img_20.png)
+- ![img_21.png](img_21.png)
+- ![img_22.png](img_22.png)
+- Default: error pauses 
+- ![img_23.png](img_23.png)
+- Amazon States Language
+- ![img_24.png](img_24.png)
+- ![img_25.png](img_25.png)
+- a heartbeat is a way to ensure that a task is still alive and making progress while it runs.
+- For activities (manual or external worker tasks), your worker needs to periodically call `SendTaskHeartbeat` API to tell Step Functions that it’s still alive.
 
 # AWS Step Functions Textbook: A Comprehensive Guide
 
