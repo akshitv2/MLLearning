@@ -7,6 +7,7 @@ layout: default
 
 
 # Time Series
+![img.png](img.png)
 
 - Sequence of data points, collected and ordered chronologically.
 - A time series is simply a set of observations measured sequentially through time.

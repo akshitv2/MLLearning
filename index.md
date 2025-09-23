@@ -19,12 +19,12 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 6. ### [Large Language Models](Notes/LLM.md)
 7. ### [Exploratory Data Analysis](Notes/ExploratoryDataAnalysis.md)
 8. ### [AWS Lex And Bedrock](Notes/AWSLexAndBedrock.md)
-9. ### [SQL](Notes/8_SQL.md)
-10. ### [PySpark](Notes/9_PySpark.md)
-11. ### [Pandas](Notes/10_pandas.md)
-12. ### [ETL](Notes/11_ETL.md)
-13. ### [Model Choice](Notes/12_Model_Choice.md)
-14. ### [Time Series](Notes/13_Time_Series.md)
+9. ### [SQL](Notes/SQL.md)
+10. ### [PySpark](Notes/PySpark.md)
+11. ### [Pandas](Notes/pandas.md)
+12. ### [ETL](Notes/ETL.md)
+13. ### [Model Choice](Notes/ModelGuide.md)
+14. ### [Time Series](Notes/TimeSeries.md)
 
 ---
 
