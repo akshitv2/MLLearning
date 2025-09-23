@@ -143,4 +143,40 @@ service inquiry rather than an appointment request, our prompt node classifies i
 routes it to "FlowOutputNode_2"
 ![img_6.png](img_6.png)
 Add our knowledge base and AI agent to the flow to handle the respective route.
+
 ![img_5.png](img_5.png)
+
+
+### AWS Bedrock Guard rails
+Guardrails are essentially safety or compliance rules applied to model outputs. They help:
+- Prevent unsafe, biased, or undesirable content.
+- Ensure responses follow your business policies or regulatory requirements.
+- Limit outputs to specific formats, styles, or topics.
+- Types of guardrails:
+  - Content Guardrails: Filter offensive, unsafe, or restricted content. 
+  - Business/Policy Guardrails: Ensure responses comply with company rules. 
+  - Format Guardrails: Enforce structured outputs, like JSON or XML. 
+  - Domain-Specific Guardrails: Restrict responses to a specific knowledge domain.
+- Example:
+```json
+{
+  "modelId": "model-id",
+  "inputText": "Summarize this document.",
+  "requestSettings": {
+    "guardrails": {
+      "enabled": true,
+      "rules": [
+        {
+          "type": "contentFilter",
+          "level": "moderate"
+        },
+        {
+          "type": "outputFormat",
+          "format": "JSON"
+        }
+      ]
+    }
+  }
+}
+
+```
