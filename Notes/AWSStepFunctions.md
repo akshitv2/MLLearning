@@ -15,13 +15,17 @@ layout: default
 - ![img_20.png](img_20.png)
 - ![img_21.png](img_21.png)
 - ![img_22.png](img_22.png)
-- Default: error pauses 
+- Default: error pauses
+- Step Functions issues a task token to a worker and pauses. The worker (or external system) later calls Step Functions
+  with that token to signal success or failure, which resumes the workflow.
 - ![img_23.png](img_23.png)
 - Amazon States Language
 - ![img_24.png](img_24.png)
 - ![img_25.png](img_25.png)
 - a heartbeat is a way to ensure that a task is still alive and making progress while it runs.
-- For activities (manual or external worker tasks), your worker needs to periodically call `SendTaskHeartbeat` API to tell Step Functions that it’s still alive.
+- For activities (manual or external worker tasks), your worker needs to periodically call `SendTaskHeartbeat` API to
+  tell Step Functions that it’s still alive.
+- The output size limit for AWS Step Functions is 256 KB of data per workflow invocation
 
 # AWS Step Functions Textbook: A Comprehensive Guide
 
@@ -356,15 +360,17 @@ Example:
   Suitable for processes like order fulfillment.
 - **Express Workflows**: Optimized for high-throughput, short-lived workflows (up to 5 minutes) with at-least-once
   execution. Ideal for event-driven applications.
-ℹ️ Note:
-  - Unlike Standard workflows, Express workflows do not persist the entire execution history in a durable store.
-  - If you use Express Workflows, your tasks must be idempotent. 
-    - Example: Writing to a database with “insert if not exists” logic, or using a unique transaction ID to prevent duplicate processing.
-  - Express workflows are designed for high-throughput, low-latency execution.
-    - If Step Functions sends a task to a Lambda and doesn’t get an acknowledgment quickly (e.g., network timeout), it resends the request.
-    - This means duplicate invocations can occur, even if the task itself is stateless or idempotent.
-  - Standard Workflows, Step Functions waits for a task to report either success or failure before moving on to the next step. (for synchronous tasks)
-
+  ℹ️ Note:
+    - Unlike Standard workflows, Express workflows do not persist the entire execution history in a durable store.
+    - If you use Express Workflows, your tasks must be idempotent.
+        - Example: Writing to a database with “insert if not exists” logic, or using a unique transaction ID to prevent
+          duplicate processing.
+    - Express workflows are designed for high-throughput, low-latency execution.
+        - If Step Functions sends a task to a Lambda and doesn’t get an acknowledgment quickly (e.g., network timeout),
+          it resends the request.
+        - This means duplicate invocations can occur, even if the task itself is stateless or idempotent.
+    - Standard Workflows, Step Functions waits for a task to report either success or failure before moving on to the
+      next step. (for synchronous tasks)
 
 ## Common Use Cases
 
@@ -629,6 +635,19 @@ AWS Step Functions is a versatile service for orchestrating serverless workflows
 handling, parallelism, and service integration. This textbook provides a detailed guide to understanding and
 implementing Step Functions, from basic concepts to advanced use cases. By following best practices and leveraging
 examples, you can build scalable, reliable workflows for a variety of applications.
+
+## Step Functions Can Call each other
+
+- Two modes of execution :
+    1. Asynchronous (startExecution)
+        - Parent kicks off the child workflow.
+        - Immediately moves on without waiting.
+        - You usually just get the executionArn back.
+    2. Synchronous (startExecution.sync)
+        - Parent starts the child workflow.
+        - Waits until the child finishes (success or failure).
+        - Child’s output becomes the parent state’s output.
+        - Great for chaining workflows together.
 
 ## Additional Resources
 

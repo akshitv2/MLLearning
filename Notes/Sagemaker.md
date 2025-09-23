@@ -365,6 +365,7 @@ visual interface.
 
 A data flow is essentially a visual and logical representation of the steps you use to process and transform data. It
 lets you move data from raw sources to a form suitable for machine learning
+
 - ### Viewing:
     - In SageMaker Data Wrangler, you can preview and process your data in-memory without explicitly writing it
       anywhere.
@@ -405,3 +406,56 @@ detection).
   automatically label a portion of your data. The model’s labels are then sent to human reviewers for verification,
   which helps improve efficiency and quality. This process is called active learning.
 
+## Amazon SageMaker Model Registry
+![img_26.png](img_26.png)
+
+- Feature within AWS SageMaker designed to manage the lifecycle of machine learning (ML) models.
+- Acts as a central repository for storing, versioning, and tracking models, making it easier for teams to deploy,
+  monitor, and govern ML   models in production.
+
+
+## Key Features
+- **Model Versioning:** Each registered model gets a version number.
+- **Metadata & Lineage:** Stores info like training data, hyperparameters, metrics.
+- **Approval Workflow:** Supports `Pending`, `Approved`, `Rejected` statuses.
+- **Deployment Integration:** Models can be deployed directly from the registry.
+- **Collaboration:** Teams can share and review models easily.
+- **Model Packaging:** Includes artifacts, inference code, and environment info for reproducibility.
+
+---
+
+## How to Register a Model
+
+### Requirements
+- Trained model artifacts (e.g., `.tar.gz` file in S3)
+- Optionally, inference container (`image_uri`) for deployment
+- Metadata: model name, description, metrics
+
+### Steps
+
+1. **Train Model**
+   - Using SageMaker training jobs, pipelines, or custom methods.
+
+2. **Create a Model Object**
+```python
+from sagemaker import Model
+model = Model(
+    image_uri="your-container-image-uri",
+    model_data="s3://bucket/model.tar.gz",
+    role="SageMakerRole"
+)
+```
+
+Notes:
+1. Deployment not required for registration.
+2. image_uri is usually a base SageMaker container for the framework, not a running endpoint.
+3. Supports both programmatic registration and console-based registration.
+4. Model approval workflow is like Git pull requests:
+5. Developers register models
+6. Reviewers approve/reject based on metrics, lineage, and artifacts
+7. Only approved models are deployed
+8. Review process involves:
+   - Checking metrics (accuracy, F1, RMSE, etc.)
+   - Inspecting model artifacts and inference code 
+   - Reviewing lineage and metadata (training data, hyperparameters)
+   - Optional evaluation reports (bias, fairness, performance)
