@@ -27,10 +27,14 @@ layout: default
         - Missing data can arise due to errors in data collection, system failures, or incomplete responses.
         - Strategies for handling missing data ensure the dataset remains usable without introducing significant bias.
         - ### Imputation Strategies
-            - **Mean Imputation**: Replace missing values with the mean of the column. Best for numerical data with no extreme outliers.
-            - **Median Imputation**: Replace missing values with the median of the column. Robust to outliers, suitable for skewed distributions.
-            - **Mode Imputation**: Replace missing values with the most frequent value in the column. Ideal for categorical data.
-            - **Interpolation**: Estimate missing values based on surrounding data points, often used in time-series data.
+            - **Mean Imputation**: Replace missing values with the mean of the column. Best for numerical data with no
+              extreme outliers.
+            - **Median Imputation**: Replace missing values with the median of the column. Robust to outliers, suitable
+              for skewed distributions.
+            - **Mode Imputation**: Replace missing values with the most frequent value in the column. Ideal for
+              categorical data.
+            - **Interpolation**: Estimate missing values based on surrounding data points, often used in time-series
+              data.
             - 🟢 Simple to implement and preserves dataset size.
             - 🔴 May introduce bias if missing data is not random.
         - ### Regression Imputation
@@ -38,8 +42,10 @@ layout: default
             - 🟢 Accounts for relationships between variables.
             - 🔴 Computationally intensive and assumes linear relationships.
         - ### Advanced Methods
-            - **K-Nearest Neighbors (KNN) Imputation**: Replace missing values with the average of the nearest neighbors based on other features.
-            - **Multiple Imputation by Chained Equations (MICE)**: Models each variable with missing data as a function of other variables iteratively.
+            - **K-Nearest Neighbors (KNN) Imputation**: Replace missing values with the average of the nearest neighbors
+              based on other features.
+            - **Multiple Imputation by Chained Equations (MICE)**: Models each variable with missing data as a function
+              of other variables iteratively.
             - 🟢 More accurate for complex datasets.
             - 🔴 Computationally expensive and requires careful implementation.
     3. ### Handling Duplicates
@@ -78,7 +84,7 @@ layout: default
             - 🟢 Simple and effective.
             - 🟢 Avoids statistical distortion.
             - 🔴 Risk losing signal.
-    7. ### [Encoding](DataPreProcessing.md#Encoding-Categorical-Variables) 
+    7. ### [Encoding](DataPreProcessing.md#Encoding-Categorical-Variables)
         - Converts categorical data into numerical format for analysis or modeling.
     8. ### Creating New Features
         - Involves generating new variables from existing data to enhance analysis or model performance.
@@ -86,12 +92,14 @@ layout: default
         - 🟢 Can uncover hidden patterns or improve model accuracy.
         - 🔴 May increase complexity or risk overfitting.
     9. ### Date Time Decomposition
-        - Process of breaking down a single date-time value into its individual components to make it easier to analyze, manipulate, or use in calculations.
+        - Process of breaking down a single date-time value into its individual components to make it easier to analyze,
+          manipulate, or use in calculations.
         - Examples: Extracting year, month, day, hour, or weekday from a timestamp.
         - 🟢 Facilitates time-based analysis and feature engineering.
         - 🔴 Requires careful handling of time zones and formats.
 2. ### Data Exploration
-    - Involves applying statistical and visual methods to understand the dataset's structure, patterns, and relationships.
+    - Involves applying statistical and visual methods to understand the dataset's structure, patterns, and
+      relationships.
     - Includes generating summary statistics, visualizations, and correlation analysis to gain insights.
 
 - ### Tools:
@@ -102,8 +110,11 @@ layout: default
             - **Mode**: The most frequently occurring value.
         2. ### Measures of Dispersion (Spread)
             - **Range**: The difference between the maximum and minimum values.
-            - **Variance and Standard Deviation**: Measures of how much the data deviates from the mean. A higher standard deviation indicates greater spread.
-            - **Interquartile Range (IQR)**: The range of the middle 50% of the data. It's the difference between the first quartile (25th percentile) and the third quartile (75th percentile) and is a robust measure of spread.
+            - **Variance and Standard Deviation**: Measures of how much the data deviates from the mean. A higher
+              standard deviation indicates greater spread.
+            - **Interquartile Range (IQR)**: The range of the middle 50% of the data. It's the difference between the
+              first quartile (25th percentile) and the third quartile (75th percentile) and is a robust measure of
+              spread.
         3. ### Skewness
             - Measure of asymmetry of a probability distribution.
             - ![img_28.png](../Images/img_28.png)
@@ -139,7 +150,8 @@ layout: default
                 - Graph that visualizes the distribution of a continuous variable using a smoothed curve.
                 - Provides a continuous and fluid representation of the data's probability density function.
                 - Alternative to histogram, using a method called **kernel density estimation** to smooth out data.
-                - 🟢 Ideal for comparing two or more datasets, as overlapping curves provide an easy way to contrast different distributions.
+                - 🟢 Ideal for comparing two or more datasets, as overlapping curves provide an easy way to contrast
+                  different distributions.
                 - ![img_27.png](../Images/img_27.png)
             3. ### Box Plots
                 - Summarizes the distribution of a numerical variable.
@@ -153,8 +165,10 @@ layout: default
                 - 🟢 Excellent for spotting correlations.
                 - ![img_27.png](img_27.png)
             5. # Pair Plots
-                - A pair plot, also known as a scatterplot matrix, is a visualization tool that displays pairwise relationships between multiple numerical variables in a dataset.
-                - It creates a grid of plots, with scatter plots showing the relationship between two different variables.
+                - A pair plot, also known as a scatterplot matrix, is a visualization tool that displays pairwise
+                  relationships between multiple numerical variables in a dataset.
+                - It creates a grid of plots, with scatter plots showing the relationship between two different
+                  variables.
                 - ![img_28.png](img_28.png)
             6. # Pie Chart
                 - Displays the proportion of categories in a categorical variable.
@@ -166,12 +180,14 @@ layout: default
                 - 🟢 Clear and easy to interpret for categorical data.
                 - ![img_30.png](img_30.png)
             8. # HeatMaps (for correlation)
-                - A heatmap correlation is a graphical representation of a correlation matrix, where the strength and direction of the relationship between variables are shown using color.
+                - A heatmap correlation is a graphical representation of a correlation matrix, where the strength and
+                  direction of the relationship between variables are shown using color.
                 - ![img_30.png](../Images/img_30.png)
     3. ### Correlation Analysis
         1. ### Pearson
             - Measures the linear relationship between two numerical variables.
-            - Values range from -1 to 1, where 1 indicates a perfect positive linear relationship, -1 indicates a perfect negative linear relationship, and 0 indicates no linear relationship.
+            - Values range from -1 to 1, where 1 indicates a perfect positive linear relationship, -1 indicates a
+              perfect negative linear relationship, and 0 indicates no linear relationship.
             - 🟢 Works well for normally distributed data.
             - 🔴 Sensitive to outliers.
         2. ### Spearman
@@ -196,45 +212,48 @@ layout: default
     - Focuses on studying one variable to understand its characteristics.
     - Helps to describe data and find patterns within a single feature.
     - Tools Used:
-        1. # For Numerical Features
+        1. ### For Numerical Features
             - Summary Statistics: Mean, Mode, Median, Variance, Skew, Kurtosis.
             - Visualization: Histogram, BoxPlots, Density Plot, Violin Plot.
-        2. # For Categorical Features
+        2. ### For Categorical Features
             - Frequency Counts and Proportions.
             - Visualizations: Bar Plot, Pie Chart.
 2. ### Bivariate Analysis
     - Focuses on identifying relationships between two variables to find connections, correlations, and dependencies.
     - Basically identifies how two variables interact with each other.
     - Types:
-        1. # Numerical vs Numerical
+        1. ### Numerical vs Numerical
             - Correlation Analysis (Pearson, Spearman, Kendall), Scatter Plots, Pair Plots.
-        2. # Numerical vs Categorical
+        2. ### Numerical vs Categorical
             - Visualizations: Box Plots, Violin Plots, or Bar Plots to compare numerical values across categories.
             - Statistical Tests: T-tests or ANOVA to assess differences.
-        3. # Categorical vs Categorical
+        3. ### Categorical vs Categorical
             - Cross Tabulation.
             - Chi-square test.
             - Stacked bar charts/heatmaps.
 3. ### Multivariate Analysis
     - Analyzes relationships among three or more variables simultaneously.
     - Tools Used:
-        - # Correlation Heatmap
+        - ### Correlation Heatmap
             - Visualizes the correlation matrix for multiple variables.
-        - # Pairwise Plots/Scatter Matrix
+        - ### Pairwise Plots/Scatter Matrix
             - Extends pair plots to multiple variables for a comprehensive view.
-        - # Dimensionality Reduction
-            - **PCA (Principal Component Analysis)**: Reduces the dimensionality of the dataset while preserving variance.
+        - ### Dimensionality Reduction
+            - **PCA (Principal Component Analysis)**: Reduces the dimensionality of the dataset while preserving
+              variance.
             - **T-SNE/UMAP**: Visualization techniques for high-dimensional data.
-        - # Interactions
+        - ### Interactions
             - Feature Combinations: Creating new features by combining existing ones.
             - Pivot Tables/Aggregations: Summarizing data across multiple variables.
-4. # Handling Imbalanced Data
+4. ### Handling Imbalanced Data
     - Occurs when one class in a dataset is significantly underrepresented compared to others.
     - Common in classification problems (📌e.g., fraud detection).
     - Techniques:
-        1. # Resampling Techniques
-            - **SMOTE (Synthetic Minority Oversampling Technique)**: Generates synthetic samples for the minority class. [Read here](DataPreProcessing.md#SMOTE-Synthetic-Minority-Oversampling-Technique)
-            - **ADASYN (Adaptive Synthetic Sampling)**: Similar to SMOTE but focuses on harder-to-classify minority samples. [Read here](DataPreProcessing.md#ADASYN-Adaptive-Synthetic-Sampling)
+        1. ### Resampling Techniques
+            - **SMOTE (Synthetic Minority Oversampling Technique)**: Generates synthetic samples for the minority
+              class. [Read here](DataPreProcessing.md#SMOTE-Synthetic-Minority-Oversampling-Technique)
+            - **ADASYN (Adaptive Synthetic Sampling)**: Similar to SMOTE but focuses on harder-to-classify minority
+              samples. [Read here](DataPreProcessing.md#ADASYN-Adaptive-Synthetic-Sampling)
             - **Undersampling**: Reduces the majority class to balance the dataset.
             - **Class Weight Adjustment**: Assigns higher weights to minority class samples in model training.
             - 🟢 Improves model performance on imbalanced datasets.
