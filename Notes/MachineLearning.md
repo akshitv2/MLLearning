@@ -122,6 +122,7 @@ layout: default
         - Use this to calc P(C𑁇X)
 5. ### Decision Trees
     - Supervised - Classification and Regression
+    - Also called **Classification and Regression Tree (CART)**
     - Split data to create leafs with maximal purity
     - Can be used for classification or regression:
 
@@ -194,39 +195,39 @@ layout: default
         - Apply K means with K = 2 with multiple different centroids (Choose one with the lowest SSE overall)
         - Repeat
 
-8. ### Hierarchical Clustering:
+9. ### Hierarchical Clustering:
    Instead of setting out with a fixed k, we can cluster in a tree like manner.   
    Benefit? Cutting at any depth gives us that number of clusters.  
    Two ways:
     - Agglomerative i.e. Bottom up
     - Divisive i.e. Top Down
 
-9. ### Agglomerative Clustering
-    - Bottom up hierarchical clustering
-    - Steps:
-        1. Start with each point being its own class
-        2. Calculate length from every other points, merge the closest ones to form combined class
-        3. Now for each class (cluster) calculate distance from every other cluster
-            - Actually you calculate distance between every single point in both clusters
-            - Choose a measure as cluster distance, called **linkage**
-            - Linkage Types:
-                1. Single: Min dist between any 2 points
-                2. Complete: Max dist between any 2 points
-                3. Average: Averages of all dists
-                4. Ward: instead of distance choose clusters which cause least in cluster variance
-        4. Combine clusters and repeat until they reach one common cluster
-           ![img_1.png](../Images/img_1.png)
-    - 🟢 No need to specify K
-    - 🔴 Computation requirements limit to small/medium datasets
-    - 🟢 Can handle non-spherical clusters by defining custom linkage
-10. ### Random Forest
+10. ### Agglomerative Clustering
+     - Bottom up hierarchical clustering
+     - Steps:
+         1. Start with each point being its own class
+         2. Calculate length from every other points, merge the closest ones to form combined class
+         3. Now for each class (cluster) calculate distance from every other cluster
+             - Actually you calculate distance between every single point in both clusters
+             - Choose a measure as cluster distance, called **linkage**
+             - Linkage Types:
+                 1. Single: Min dist between any 2 points
+                 2. Complete: Max dist between any 2 points
+                 3. Average: Averages of all dists
+                 4. Ward: instead of distance choose clusters which cause least in cluster variance
+         4. Combine clusters and repeat until they reach one common cluster
+            ![img_1.png](../Images/img_1.png)
+     - 🟢 No need to specify K
+     - 🔴 Computation requirements limit to small/medium datasets
+     - 🟢 Can handle non-spherical clusters by defining custom linkage
+11. ### Random Forest
     Bagging implementation
     Builds n decision trees, each tree being given a bootstrapped dataset.  
     At each split each tree gets a subset of features, split normally using gini impurity
     This ensures reduced variance and more generalization
     Build each tree till either they form or clip at a common length
     Vote for classification
-11. ### Gradient Boosted Machines
+12. ### Gradient Boosted Machines
     Boosting implementation (usually for regression)  
     Builds decision trees (not a rule but usually means this in practice), each weak learner aims to correct error (
     residual) of previous weak learner.  
@@ -241,7 +242,7 @@ layout: default
        h<sub>m</sub>(x) = next weak learner
        $ \eta $ = learning rate
 
-12. ### XGBoost
+13. ### XGBoost
     - Extreme Gradient Boost - Extreme version of GBM
     - Doesn't just use decision trees and residuals but also gradient and hessian (Newtonian Method)
     - Uses a regularized objective function
@@ -263,133 +264,134 @@ layout: default
     - Add multiple such trees to base score to fit (with learning rate $ \eta $)
     - $\hat{y}_i^{(t)} = \hat{y}_i^{(t-1)} + \eta\, f_t(x_i)$
 
-    13. ### Support Vector Machines
-        - Classification Algo
-          ![img_3.png](../assets/Images/ML/img_3.png)
-        - Separates points out by finding support vector that best separates points with the largest margin.
-        - Margin ⬆️ confidence ⬆️
-        - ℹ️ Note: To find if two points lie on the same point of line plug them into the equation
-            - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b > 0 same side
-            - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b < 0 different side
-            - if either equals 0 → On the line
-        - To solve: maximize margins i.e. we need to maximize 1/(2||w||<sup>2</sup>) with constraint
-            - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2\end{equation}$$
-            - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, \dots, n\end{equation}$$
-        - **Soft Margin Classifier**:
-          ![img_4.png](../assets/Images/ML/img_4.png)
-            - Instead of using hard margin, allow slack using slack variable $ \epsilon $
-                - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i\end{equation}$$
-                - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
-        - **Kernel Trick**:
-    14. ### DBSCAN
-        ![img_5.png](../Images/img_5.png)
-        - Density based spatial clustering with noise
-        - 🟢 Allows non-circular clusters and noise
-        - 🔴 Sensitive to hyperparams
-        - 🔴 Struggles with density variation in same dataset
-        - Uses params:
-            - ε : Cluster Radius
-            - Min Points
-        - Defines 3 types of points:
-            - Core Point
-            - Border Point
-            - Noise Point i.e outlier
-        - Steps:
-            1. Pick any unvisited point (all unvisited at start)
-            2. Start with cluster 1 →
-            3. if point has > minpoints in its radius ε → Mark it as core point, else border
-            4. Recursively go to each point in its radius marking each to same cluster
-            5. If a core point continue recursive process, add borders to cluster but don't follow through on them
-            6. Once all points in cluster 1 visited, move to unvisited point and cluster 2, repeat.
-        - Variants:
-            - HDBSCAN
-    15. ### PCA
-        - Principal Component Analysis - Doesn't use target variable
-        - Breaks down all features into n PCA vectors (which are weighted linear combinations of other features) using
-          eigen vectors
-        - We usually consider only first 2 PCA components as they contain most of the variance of data
-        - 🔴 Bad for interpretability
-        - 🟢 Finds compact uncorrelated representations
-        - 🔴 Doesn't optimize for predicting y
-    16. ### T-SNE
-        - T stochastic neighbour embedding
-        - used exclusively for visualization
-        - Embeds higher dimension to lower preserving spatial locality
-        - Doesn't use y
-        - Steps:
-            1. Compute Probablity each point j chooses i as neighbour
-                - divided by variance → This makes sure clusters of different variance represented with same closeness
-                - uses - because we want to reward smallest distance
-                  $$p_{j \mid i} = \frac{\exp\!\left(-\frac{\lVert x_i - x_j \rVert^2}{2\sigma_i^2}\right)} {\sum_{k \ne i} \exp\!\left(-\frac{\lVert x_i - x_k \rVert^2}{2\sigma_i^2}\right)}$$
-                - ℹ️Note: The K here in question is a parameter we choose called perplexity
-                    - We adjust variance to match to have <= perplexity decided by us.
-                    - if perplexity low → Very local spatial locality, preserves local structure well but no global
-                      stability
-                    - if perplexity high → Very global, preserves global structures well but low local stability
-            2. Recreates same on a Student t distribution by random assignment
-               $q_{ij} = \frac{ \left( 1 + \lVert y_i - y_j \rVert^2 \right)^{-1} } {\sum_{k \ne l} \left( 1 + \lVert y_k - y_l \rVert^2 \right)^{-1}}$
-            3. Use KL Divergence between the two as loss
-               function $\mathrm{KL}(P \,\|\, Q) = \sum_{i \ne j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$
-            4. Perform gradient descent, one trained q should match spatial locality like p
-        - Why T dist used? T dist has flatter mean and heavier tails, points do not crowd at center and are more spread
-          about
-        - 🔴 Very sensitive to perplexity param
+14. ### Support Vector Machines
+    - Classification Algo
+      ![img_3.png](../assets/Images/ML/img_3.png)
+    - Separates points out by finding support vector that best separates points with the largest margin.
+    - Margin ⬆️ confidence ⬆️
+    - ℹ️ Note: To find if two points lie on the same point of line plug them into the equation
+        - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b > 0 same side
+        - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b < 0 different side
+        - if either equals 0 → On the line
+    - To solve: maximize margins i.e. we need to maximize 1/(2❙❙w❙❙<sup>2</sup>) with constraint
+        - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2\end{equation}$$
+        - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, \dots, n\end{equation}$$
+    - **Soft Margin Classifier**:
+      ![img_4.png](../assets/Images/ML/img_4.png)
+        - Instead of using hard margin, allow slack using slack variable $ \epsilon $
+            - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i\end{equation}$$
+            - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
+    - **Kernel Trick**:
+15. ### DBSCAN
+    ![img_5.png](../Images/img_5.png)
+    - Density based spatial clustering with noise
+    - 🟢 Allows non-circular clusters and noise
+    - 🔴 Sensitive to hyperparams
+    - 🔴 Struggles with density variation in same dataset
+    - Uses params:
+        - ε : Cluster Radius
+        - Min Points
+    - Defines 3 types of points:
+        - Core Point
+        - Border Point
+        - Noise Point i.e outlier
+    - Steps:
+        1. Pick any unvisited point (all unvisited at start)
+        2. Start with cluster 1 →
+        3. if point has > minpoints in its radius ε → Mark it as core point, else border
+        4. Recursively go to each point in its radius marking each to same cluster
+        5. If a core point continue recursive process, add borders to cluster but don't follow through on them
+        6. Once all points in cluster 1 visited, move to unvisited point and cluster 2, repeat.
+    - Variants:
+        - HDBSCAN
+16. ### PCA
+    - Principal Component Analysis - Doesn't use target variable
+    - Breaks down all features into n PCA vectors (which are weighted linear combinations of other features) using
+      eigen vectors
+    - Note: Essentially creates linear combinations of features with the highest amount of variability starting from PC1, PC2...
+    - We usually consider only first 2 PCA components as they contain most of the variance of data
+    - 🔴 Bad for interpretability
+    - 🟢 Finds compact uncorrelated representations
+    - 🔴 Doesn't optimize for predicting y
+17. ### T-SNE
+    - T stochastic neighbour embedding
+    - Used exclusively for visualization
+    - Embeds higher dimension to lower preserving spatial locality
+    - Doesn't use y
+    - Steps:
+        1. Compute Probablity each point j chooses i as neighbour
+            - divided by variance → This makes sure clusters of different variance represented with same closeness
+            - uses - because we want to reward the smallest distance
+              $$p_{j \mid i} = \frac{\exp\!\left(-\frac{\lVert x_i - x_j \rVert^2}{2\sigma_i^2}\right)} {\sum_{k \ne i} \exp\!\left(-\frac{\lVert x_i - x_k \rVert^2}{2\sigma_i^2}\right)}$$
+            - ℹ️Note: The K here in question is a parameter we choose called perplexity
+                - We adjust variance to match to have <= perplexity decided by us.
+                - if perplexity low → Very local spatial locality, preserves local structure well but no global
+                  stability
+                - if perplexity high → Very global, preserves global structures well but low local stability
+        2. Recreates same on a Student t distribution by random assignment
+           $q_{ij} = \frac{ \left( 1 + \lVert y_i - y_j \rVert^2 \right)^{-1} } {\sum_{k \ne l} \left( 1 + \lVert y_k - y_l \rVert^2 \right)^{-1}}$
+        3. Use KL Divergence between the two as loss
+           function $\mathrm{KL}(P \,\|\, Q) = \sum_{i \ne j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$
+        4. Perform gradient descent, one trained q should match spatial locality like p
+    - Why T dist used? T dist has flatter mean and heavier tails, points do not crowd at center and are more spread
+      about
+    - 🔴 Very sensitive to perplexity param
 
-    17. ### UMAP
-        - Uniform Manifold Approximation and Projection
-        - a dimensionality reduction technique used for visualizing high-dimensional data in a lower-dimensional space,
-        - Process:
-            1. Constructs a Graph: UMAP builds a weighted graph where data points are nodes, and edges represent
-               similarities (distances) between points in the high-dimensional space.
-            2. Preserves Local Structure: UMAP focuses on preserving the local neighborhood of each point, ensuring that
-               points close in the original space remain close in the reduced space.
-            3. Unlike some other methods (e.g., t-SNE), UMAP also considers the global structure, maintaining the
-               overall shape of the data manifold.
-            4. It optimizes the low-dimensional representation by minimizing a cost function that balances local and
-               global relationships, using a process similar to stochastic gradient descent.
-        - Speed: UMAP is faster than t-SNE
-        - Flexibility: It can handle various types of data
-        - UMAP is faster and scales better with large datasets than T-sne
-        - It preserves more of the global structure compared to t-SNE, which focuses heavily on local structure.
-    18. ### Gaussian Mixture Models
-    19. ### SHAP
-        - SHAP (SHapley Additive exPlanations) is a powerful and widely used technique in machine learning that helps
-          you understand the output of your models.
-        - ells you why a model made a particular prediction by quantifying the contribution of each feature to that
-          prediction
-        - crucial aspect of explainable AI (XAI)
-        - Based on Gametheory where Players cooperate to win a payout, and the Shapley value fairly distributes the
-          payout among them based on their marginal contributions.
-        - Working Process:
-            1. Baseline (reference prediction):
-                - Start with the model’s expected prediction if no features were known (e.g., the mean prediction across
-                  the dataset).
-            2. Marginal Contribution of Each Feature:
-                - To compute a feature’s contribution, we calculate difference in models prediction with or without.
-            3. For Feature Interaction:
-                - we evaluate a feature’s contribution across all possible subsets of features (called coalition)
-            4. Calculate Shapely Value
-                - Final Contribution of each feature = avg of its marginal contributions across all subsets
-        - ℹ️ How do we do missing features?
-            1. Can substitute with average for that feature
-            2. Can substitute it with random values in that feature and average across those
-            3. Tree based methods provide missing value paths
-        - Implementations:
-            - KernelSHAP → model-agnostic, approximates Shapley values via sampling.
-            - TreeSHAP → fast, exact method for tree-based models (XGBoost, LightGBM, CatBoost).
-            - DeepSHAP → approximates Shapley values for deep learning models.
+18. ### UMAP
+    - Uniform Manifold Approximation and Projection
+    - a dimensionality reduction technique used for visualizing high-dimensional data in a lower-dimensional space,
+    - Process:
+        1. Constructs a Graph: UMAP builds a weighted graph where data points are nodes, and edges represent
+           similarities (distances) between points in the high-dimensional space.
+        2. Preserves Local Structure: UMAP focuses on preserving the local neighborhood of each point, ensuring that
+           points close in the original space remain close in the reduced space.
+        3. Unlike some other methods (e.g., t-SNE), UMAP also considers the global structure, maintaining the
+           overall shape of the data manifold.
+        4. It optimizes the low-dimensional representation by minimizing a cost function that balances local and
+           global relationships, using a process similar to stochastic gradient descent.
+    - Speed: UMAP is faster than t-SNE
+    - Flexibility: It can handle various types of data
+    - UMAP is faster and scales better with large datasets than T-sne
+    - It preserves more of the global structure compared to t-SNE, which focuses heavily on local structure.
+19. ### Gaussian Mixture Models
+20. ### SHAP
+    - SHAP (SHapley Additive exPlanations) is a powerful and widely used technique in machine learning that helps
+      you understand the output of your models.
+    - ells you why a model made a particular prediction by quantifying the contribution of each feature to that
+      prediction
+    - crucial aspect of explainable AI (XAI)
+    - Based on Gametheory where Players cooperate to win a payout, and the Shapley value fairly distributes the
+      payout among them based on their marginal contributions.
+    - Working Process:
+        1. Baseline (reference prediction):
+            - Start with the model’s expected prediction if no features were known (e.g., the mean prediction across
+              the dataset).
+        2. Marginal Contribution of Each Feature:
+            - To compute a feature’s contribution, we calculate difference in models prediction with or without.
+        3. For Feature Interaction:
+            - we evaluate a feature’s contribution across all possible subsets of features (called coalition)
+        4. Calculate Shapely Value
+            - Final Contribution of each feature = avg of its marginal contributions across all subsets
+    - ℹ️ How do we do missing features?
+        1. Can substitute with average for that feature
+        2. Can substitute it with random values in that feature and average across those
+        3. Tree based methods provide missing value paths
+    - Implementations:
+        - KernelSHAP → model-agnostic, approximates Shapley values via sampling.
+        - TreeSHAP → fast, exact method for tree-based models (XGBoost, LightGBM, CatBoost).
+        - DeepSHAP → approximates Shapley values for deep learning models.
 
-    20. ### LIME
-        - Local Interpretable Model-Agnostic Explanations
-        - Technique to explain individual predictions of any machine learning model.
-        - works by locally approximating the complex (black-box) model with a simpler, interpretable model (usually
-          linear regression).
-        - Process:
-            1. Pick the sample to explain
-            2. Generate Perturbations (neighbours)
-            3. Get model predictions for neighbors
-            4. Weight samples by proximity, closer get higher
-            5. Train a surrogate model like sparse linear regression
-            6. Interpret the surrogate model
-                - The coefficients of the surrogate model tell you which features were most important for this specific
-                  prediction
+21. ### LIME
+    - Local Interpretable Model-Agnostic Explanations
+    - Technique to explain individual predictions of any machine learning model.
+    - works by locally approximating the complex (black-box) model with a simpler, interpretable model (usually
+      linear regression).
+    - Process:
+        1. Pick the sample to explain
+        2. Generate Perturbations (neighbours)
+        3. Get model predictions for neighbors
+        4. Weight samples by proximity, closer get higher
+        5. Train a surrogate model like sparse linear regression
+        6. Interpret the surrogate model
+            - The coefficients of the surrogate model tell you which features were most important for this specific
+              prediction
