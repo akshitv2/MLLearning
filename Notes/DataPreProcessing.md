@@ -25,15 +25,23 @@ layout: default
    5. Regress using other variables (e.g., use regression models to predict missing values based on correlated features)
 
 3. ### Outlier Detection
-   Methods:
-   1. ### Z-Score:
-      - Z-score is calculated as $z = \frac{x - \mu}{\sigma}$. Usually safe to consider ❙z❙ > 3 as outliers (based on the Central Limit Theorem).
-   2. ### IQR (Interquartile Range):
-      - Calculated using median. Common to consider only points within [Q1 - 1.5 × IQR, Q3 + 1.5 × IQR] (where Q1 is 25th percentile, Q3 is 75th percentile, IQR = Q3 - Q1).
-   3. ### Mahalanobis Distance:
-      - Measures the distance of a point from the mean, accounting for the covariance among variables. Useful for multivariate outliers.
-   4. ### Box Plot Analysis:
-      - Visualization method based on IQR to identify outliers.
+   - Basic Methods:
+     1. ### Z-Score:
+        - Z-score is calculated as $z = \frac{x - \mu}{\sigma}$. Usually safe to consider ❙z❙ > 3 as outliers (based on the Central Limit Theorem).
+     2. ### IQR (Interquartile Range):
+        - Calculated using median. Common to consider only points within  
+          - [**Q1** - 1.5 × IQR, **Q3** + 1.5 × IQR]
+          - (where Q1 is 25th percentile, Q3 is 75th percentile, IQR = Q3 - Q1).
+     3. ### Mahalanobis Distance:
+        - Measures the distance of a point from the mean, accounting for the covariance among variables. Useful for multivariate outliers.
+     4. ### Box Plot Analysis:
+        - Visualization method based on IQR to identify outliers.
+   - ML Algorithms Based:
+     1. ### DBSCAN:
+        - Density based spatial clustering with noise
+        - Finds outliers automatically
+     2. ### Auto Encoders:
+        - High reconstruction error can be used as a parameter to identify outliers
 
 4. ### Data Transformation (Scaling)
    1. **Standardization (mean = 0, variance = 1)**: Replace values with Z-score
