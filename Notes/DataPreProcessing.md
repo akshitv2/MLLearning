@@ -48,17 +48,19 @@ layout: default
             - High reconstruction error can be used as a parameter to identify outliers
 
 4. ### Data Transformation (Scaling)
-    1. ### **Standardization (mean = 0, variance = 1)**:
+    1. ### Standardization:
+        - (mean = 0, variance = 1)**:
         - Replace values with Z-score
         - $$z = \frac{x - \mu}{\sigma}$$
-    2. ### **Min-Max Scaling (Normalization)**: Scale to [0, 1]
+    2. ### Min-Max Scaling (Normalization): Scale to [0, 1]
         - $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
-    3. ### **Robust Scaling**:
+    3. ### Robust Scaling:
         - Scaling using Q3 and Q1, where IQR = Q3 - Q1
         - $$x_i' = \frac{x_i - \median(X)}{\IQR(X)}$$
         - ℹ️ Note: 90th percentile means 90% data lies below this
         - ℹ️ Note: Q3 and Q1 are 75th and 25th percentile respectively
-    4. ### **Log Transform**: Used when values are extremely large to bring them to a comparable range
+    4. ### Log Transform:
+        - Used when values are extremely large to bring them to a comparable range
         - $$x_i' = \log(x_i)$$
         - Handles outliers well, even if not limiting all values to [0, 1]
     5. ### **Box-Cox Transform**:
@@ -284,7 +286,7 @@ inefficient to test the entire population).
     2. ## Dynamic Embeddings
         - Embeddings change based on context; used by modern language models.
         - | Model | How it works |
-          |-------|--------------|
+                    |-------|--------------|
           | ELMo | Uses deep biLSTM to generate embeddings from the entire sentence. |
           | BERT | Uses transformers and attention for bidirectional context-aware embeddings. |
           | GPT  | Uses transformer decoders for left-to-right context; produces dynamic embeddings during generation or fine-tuning. |
