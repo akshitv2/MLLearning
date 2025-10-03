@@ -113,6 +113,7 @@ Done via:
         - **Issues**: Destabilizes training as the model can't distinguish which feature to assign weights to;
           expressive power becomes shared (e.g., coefficients could be 1:9, 1:1, or -2:12).
     - Techniques:
+
     1. Pearson Correlation (for numeric-numeric data):
        $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
        i.e., $$\cov(X,Y) / (\std(X) \std(Y))$$
@@ -127,7 +128,7 @@ Done via:
         - KL Divergence: The difference between two probability distributions in terms of bits (extra bits required to
           encode one distribution using the other).
           $$I(X;Y) = \sum_{x \in X} \sum_{y \in Y} p(x,y) \log \left( \frac{p(x,y)}{p(x)p(y)} \right)$$
-          If $p(x,y) = p(x)p(y)$, they are independent (log term becomes 0, no mutual information).
+            - ℹ️ If $p(x,y) = p(x)p(y)$, they are independent (log term becomes 0, no mutual information).
 
 ## Feature Extraction
 
@@ -274,7 +275,8 @@ inefficient to test the entire population).
             2. Skip-Gram: Predicts surrounding words from middle word (better for rare words).
         2. **GloVe (Global Vectors for Word Representation)**: Uses global co-occurrence matrix (words on axes,
            co-occurrence counts in cells).  
-           Trained to satisfy $w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$.
+           Trained to satisfy
+            - $$w_i^T \tilde{w}_j + b_i + \tilde{b}_j \approx \log(X_{ij})$$
             - 🟢 Captures linear relationships (e.g., king - man + woman ≈ queen).
         3. **FastText**: Extension of Word2Vec that uses subword information (n-grams) to handle OOV words and
            morphology.
@@ -282,7 +284,7 @@ inefficient to test the entire population).
     2. ## Dynamic Embeddings
         - Embeddings change based on context; used by modern language models.
         - | Model | How it works |
-                           |-------|--------------|
+          |-------|--------------|
           | ELMo | Uses deep biLSTM to generate embeddings from the entire sentence. |
           | BERT | Uses transformers and attention for bidirectional context-aware embeddings. |
           | GPT  | Uses transformer decoders for left-to-right context; produces dynamic embeddings during generation or fine-tuning. |
