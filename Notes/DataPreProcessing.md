@@ -44,18 +44,19 @@ layout: default
         - High reconstruction error can be used as a parameter to identify outliers
 
 4. ### Data Transformation (Scaling)
-   1. **Standardization (mean = 0, variance = 1)**: Replace values with Z-score
-      $$z = \frac{x - \mu}{\sigma}$$
+   1. **Standardization (mean = 0, variance = 1)**: 
+      - Replace values with Z-score
+      - $$z = \frac{x - \mu}{\sigma}$$
    2. **Min-Max Scaling (Normalization)**: Scale to [0, 1]
-      $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
+      - $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
    3. **Robust Scaling**: Scaling using Q3 and Q1, where IQR = Q3 - Q1
-      $$x_i' = \frac{x_i - \median(X)}{\IQR(X)}$$
+      - $$x_i' = \frac{x_i - \median(X)}{\IQR(X)}$$
    4. **Log Transform**: Used when values are extremely large to bring them to a comparable range
-      $$x_i' = \log(x_i)$$
+      - $$x_i' = \log(x_i)$$
       - Handles outliers well, even if not limiting all values to [0, 1]
    5. **Box-Cox Transform**:
       - A power transformation to stabilize variance and make the data more normally distributed.
-      $$x_i' = \begin{cases} 
+      - $$x_i' = \begin{cases} 
       \frac{x_i^\lambda - 1}{\lambda} & \lambda \neq 0 \\
       \log(x_i) & \lambda = 0 
       \end{cases}$$
