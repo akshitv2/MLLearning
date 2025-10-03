@@ -18,12 +18,12 @@ layout: default
 ## Steps/Process
 
 1. Data Cleaning and Preprocessing
-    1. # Data Cleaning
+    1. ### Data Cleaning
         - Process of identifying and correcting errors, inconsistencies, or inaccuracies in the dataset.
         - Includes fixing typos, standardizing formats, and resolving inconsistencies in data entries.
         - 🟢 Ensures data quality and reliability for analysis.
         - 🔴 Can be time-consuming and may require domain knowledge to identify errors.
-    2. # Handling Missing Data
+    2. ### Handling Missing Data
         - Missing data can arise due to errors in data collection, system failures, or incomplete responses.
         - Strategies for handling missing data ensure the dataset remains usable without introducing significant bias.
         - ### Imputation Strategies
@@ -51,40 +51,35 @@ layout: default
         - Outliers are data points that deviate significantly from the rest of the dataset.
         - Can skew analysis and affect model performance if not addressed.
     5. ### Outlier Detection Methods
-        - Refer to [Outlier Detection](#reade here)(1_DataPreProcessing.md#Outlier-detection)
+        - Refer to [Outlier Detection](DataPreProcessing.md#Outlier-detection)
     6. ### Outlier Treatment
         - ### Capping
             - Limiting extreme values to a certain percentile.
             - Outliers don’t dominate the data but are not entirely discarded.
-            - 📌 📌e.g., 1st Percentile 500, 99th 5000. If x<500 -> x = 500.
+            - 📌e.g., 1st Percentile 500, 99th 5000. If x<500 -> x = 500.
         - ### Transformation
             - Transformation changes the scale of your data to reduce the impact of outliers.
             - Common Techniques:
-                1. # Log Transformation
+                1. ### Log Transformation
                     - Applies y=log(x) to compress large values.
                     - Best for positively skewed data.
-                2. # Square Root Transformation
+                2. ### Square Root Transformation
                     - Applies y = sqrt(x).
                     - 🟢 Reduces impact of large values without being as strong as log.
-                3. # Box-Cox Transformation
+                3. ### Box-Cox Transformation
                     - $y(\lambda) = \begin{cases} \frac{y^\lambda - 1}{\lambda}, & \lambda \neq 0 \\ \ln(y), & \lambda = 0 \end{cases}$
                     - Generalized transformation.
-                    - 🔴 Requires choosing Lambda.
                     - 🟢 Keeps all data.
+                    - 🔴 Requires choosing Lambda.
                     - 🔴 Hard to interpret.
                     - 🔴 Not applicable to <=0.
         - ### Removal
             - Removing outliers involves deleting the extreme values entirely from your dataset.
             - 🟢 Simple and effective.
-            - 🔴 Risk losing signal.
             - 🟢 Avoids statistical distortion.
-    7. ### Encoding
+            - 🔴 Risk losing signal.
+    7. ### [Encoding](DataPreProcessing.md#Encoding-Categorical-Variables) 
         - Converts categorical data into numerical format for analysis or modeling.
-        - Common techniques:
-            - **One-Hot Encoding**: Creates binary columns for each category.
-            - **Label Encoding**: Assigns a unique integer to each category.
-            - 🟢 Enables use of categorical data in algorithms.
-            - 🔴 One-hot encoding can increase dimensionality significantly.
     8. ### Creating New Features
         - Involves generating new variables from existing data to enhance analysis or model performance.
         - Examples: Creating interaction terms, polynomial features, or aggregating data.
@@ -95,21 +90,21 @@ layout: default
         - Examples: Extracting year, month, day, hour, or weekday from a timestamp.
         - 🟢 Facilitates time-based analysis and feature engineering.
         - 🔴 Requires careful handling of time zones and formats.
-2. ## Data Exploration
+2. ### Data Exploration
     - Involves applying statistical and visual methods to understand the dataset's structure, patterns, and relationships.
     - Includes generating summary statistics, visualizations, and correlation analysis to gain insights.
 
-- ## Tools:
+- ### Tools:
     1. ### Summary Statistics
-        1. ## Measures of Central Tendency
+        1. ### Measures of Central Tendency
             - **Mean**: The average value. It's sensitive to outliers.
             - **Median**: The middle value when the data is sorted. It's robust to outliers.
             - **Mode**: The most frequently occurring value.
-        2. ## Measures of Dispersion (Spread)
+        2. ### Measures of Dispersion (Spread)
             - **Range**: The difference between the maximum and minimum values.
             - **Variance and Standard Deviation**: Measures of how much the data deviates from the mean. A higher standard deviation indicates greater spread.
             - **Interquartile Range (IQR)**: The range of the middle 50% of the data. It's the difference between the first quartile (25th percentile) and the third quartile (75th percentile) and is a robust measure of spread.
-        3. ## Skewness
+        3. ### Skewness
             - Measure of asymmetry of a probability distribution.
             - ![img_28.png](../Images/img_28.png)
             - Types:
@@ -120,7 +115,7 @@ layout: default
                 - **Negative Skew**:
                     - The tail of the distribution extends to the left.
                     - Most of the data is concentrated on the right side.
-        4. ## Kurtosis
+        4. ### Kurtosis
             - Measure of tailedness of probability distribution.
             - $K = \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^4}{\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2\right)^2}$
             - ![img_29.png](../Images/img_29.png)
@@ -136,17 +131,17 @@ layout: default
         - Arguably the most important component of EDA.
         - Humans can much better comprehend visualizations than raw data.
         - Types:
-            1. # Histograms
+            1. ### Histograms
                 - Shows the distribution of a single numerical variable.
                 - Divides the data into bins and displays frequency of data points in each bin.
                 - ![img_25.png](../Images/img_25.png)
-            2. # Density Plot
+            2. ### Density Plot
                 - Graph that visualizes the distribution of a continuous variable using a smoothed curve.
                 - Provides a continuous and fluid representation of the data's probability density function.
-                - Alternative to histogram, using a method called kernel density estimation to smooth out data.
+                - Alternative to histogram, using a method called **kernel density estimation** to smooth out data.
                 - 🟢 Ideal for comparing two or more datasets, as overlapping curves provide an easy way to contrast different distributions.
                 - ![img_27.png](../Images/img_27.png)
-            3. # Box Plots
+            3. ### Box Plots
                 - Summarizes the distribution of a numerical variable.
                 - Useful for comparing distributions across different groups.
                 - The box represents the IQR, the line inside is the median.
@@ -156,38 +151,42 @@ layout: default
                 - Shows the relationship between two numerical variables.
                 - Each point represents an observation, position determined by the values of the two variables.
                 - 🟢 Excellent for spotting correlations.
+                - ![img_27.png](img_27.png)
             5. # Pair Plots
                 - A pair plot, also known as a scatterplot matrix, is a visualization tool that displays pairwise relationships between multiple numerical variables in a dataset.
                 - It creates a grid of plots, with scatter plots showing the relationship between two different variables.
+                - ![img_28.png](img_28.png)
             6. # Pie Chart
                 - Displays the proportion of categories in a categorical variable.
                 - 🟢 Useful for showing relative frequencies.
                 - 🔴 Can be misleading if too many categories are included.
+                - ![img_29.png](img_29.png)
             7. # Bar Plot
                 - Displays the frequency or proportion of categories in a categorical variable.
                 - 🟢 Clear and easy to interpret for categorical data.
+                - ![img_30.png](img_30.png)
             8. # HeatMaps (for correlation)
                 - A heatmap correlation is a graphical representation of a correlation matrix, where the strength and direction of the relationship between variables are shown using color.
                 - ![img_30.png](../Images/img_30.png)
     3. ### Correlation Analysis
-        1. # Pearson
+        1. ### Pearson
             - Measures the linear relationship between two numerical variables.
             - Values range from -1 to 1, where 1 indicates a perfect positive linear relationship, -1 indicates a perfect negative linear relationship, and 0 indicates no linear relationship.
             - 🟢 Works well for normally distributed data.
             - 🔴 Sensitive to outliers.
-        2. # Spearman
+        2. ### Spearman
             - Measures the monotonic relationship between two variables based on their ranks.
             - 🟢 Robust to outliers and non-linear relationships.
             - 🔴 Less sensitive to linear relationships than Pearson.
-        3. # Kendall
+        3. ### Kendall
             - Measures the ordinal association between two variables.
             - 🟢 Suitable for small datasets or non-parametric data.
             - 🔴 Less commonly used than Pearson or Spearman.
     4. ### Categorical Analysis
-        1. # Frequency Counts
+        1. ### Frequency Counts
             - Counts the occurrences of each category in a categorical variable.
             - 🟢 Simple way to understand category distribution.
-        2. # Proportions
+        2. ### Proportions
             - Calculates the relative frequency of each category.
             - 🟢 Useful for comparing category importance or prevalence.
 
