@@ -27,7 +27,7 @@ layout: default
 3. ### Outlier Detection
    Methods:
    1. ### Z-Score:
-      - Z-score is calculated as $z = \frac{x - \mu}{\sigma}$. Usually safe to consider |z| > 3 as outliers (based on the Central Limit Theorem).
+      - Z-score is calculated as $z = \frac{x - \mu}{\sigma}$. Usually safe to consider ❙z❙ > 3 as outliers (based on the Central Limit Theorem).
    2. ### IQR (Interquartile Range):
       - Calculated using median. Common to consider only points within [Q1 - 1.5 × IQR, Q3 + 1.5 × IQR] (where Q1 is 25th percentile, Q3 is 75th percentile, IQR = Q3 - Q1).
    3. ### Mahalanobis Distance:
