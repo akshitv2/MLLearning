@@ -110,7 +110,7 @@ layout: default
    - How to decide K? Elbow Plot![img.png](../Images/img.png)
 4. ### Naive Bayes
     - Supervised Classification algo
-    - **Naive** - Assumes P(X❙C) = P(x<sub>1</sub>...X<sub>n</sub>❙C) is equal to ΠP(x<sub>i</sub>❙C)
+    - **Naive** - Assumes P(X𑁇C) = P(x<sub>1</sub>...X<sub>n</sub>𑁇C) is equal to ΠP(x<sub>i</sub>𑁇C)
     - i.e. Assumes independence of feature given class
     - $$P(C \mid X) = \frac{P(C) \, P(X \mid C)}{P(X)}$$
     - $$P(X \mid C) = \prod_{i=1}^n P(x_i \mid C)$$
