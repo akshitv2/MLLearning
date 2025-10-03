@@ -126,6 +126,7 @@ layout: default
     - Can be used for classification or regression:
 
     1. Classification
+        - ![img_31.png](img_31.png)
         - Use metric Gini Impurity
         - $$Gini(t) = 1 - \sum_{i=1}^{K} p_i^2$$
         - Steps:
@@ -140,102 +141,127 @@ layout: default
                 4. Too few samples
         - Weighing is necessary to prevent formation of extremely pure minority classes earlier in tree
     2. Regression
-       - Use variance within each cluster as measure for impurity
-    6. ### Ensemble Learning
-        - Based on idea: multiple weak learners combined to form one strong learner
-        - Types:
-            1. #### Bagging
-               Improves stability by reducing variance  
-               Trains model independently on different random subsets of data with replacement.  
-               Combines predictors -
-                - Voting for classification
-                - Average for regression
-                  To give more power to higher performing learner assigns weights
-            2. #### Boosting
-               Trains model sequentially, each learner sequentially correcting the error of last.  
-               Assigns weights to each sample and tune weights for sample so later learners can focus more on samples
-               misclassified by earlier learners.
-               Steps:
-                1. Assign each sample equal weight and train first model i.e w<sub>i</sub> = 1/N (No. of samples)
-                2. Calculate rate of error in first model ε = w<sub>i</sub>*(1 is misclassified else 0)/N
-                3. Calculate α i.e model weight = (1-ε)/ε
-                4. Reassign weights w<sub>i</sub> = e^(-α) if correctly classified else e^α
-    7. ### K Means Clustering
-       Unsupervised clustering technique, group similar data points together
-        - Steps:
-            1. Choose k random points call them centroids (each centroid being it's own class)
-            2. Calculate distance of each sample from each centroid, assign class based on min distance
-            3. Once assigned to each point recalculate centroids (as being mean of the class)
-            4. Repeat process multiple times until centroids settle
-        - 🔴 Sensitive to K
-        - 🟢 Simple and Fast
-    8. ### Hierarchical Clustering:
-       Instead of setting out with a fixed k can cluster in a tree like manner.   
-       Benefit? Cutting at any depth gives us that number of clusters.  
-       Two ways:
-        - Agglomerative i.e. Bottom up
-        - Divisive i.e. Top Down
-    9. ### Agglomerative Clustering
-        - Bottom up hierarchical clustering
-        - Steps:
-            1. Start with each point being it's own class
-            2. Calculate length from every other points, merge closest ones to form combined class
-            3. Now for each class (cluster) calculate distance from every other cluster
-                - Actually you calculate distance between every single point in both clusters
-                - Choose a measure as cluster distance, called **linkage**
-                - Linkage Types:
-                    1. Single: Min dist between any 2 points
-                    2. Complete: Max dist between any 2 points
-                    3. Average: Averages of all dists
-                    4. Ward: instead of distance choose clusters which cause least in cluster variance
-            4. Combine clusters and repeat until they reach one common cluster
-               ![img_1.png](../Images/img_1.png)
-        - 🟢 No need to specify K
-        - 🔴 Computation requirements limit to small/medium datasets
-        - 🟢 Can handle non-spherical clusters by defining custom linkage
-    10. ### Random Forest
-        Bagging implementation
-        Builds n decision trees, each tree being given a bootstrapped dataset.  
-        At each split each tree gets a subset of features, split normally using gini impurity
-        This ensures reduced variance and more generalization
-        Build each tree till either they form or clip at a common length
-        Vote for classification
-    11. ### Gradient Boosted Machines
-        Boosting implementation (usually for regression)
-        Builds decision trees (not a rule but usually means this in practice), each weak learner aims to correct error (
-        residual)        of previous weak learner.
-        1. Model starts with γ (gamma) which is usally the mean of the target variable
-        2. Use y or log odds of y (classification) for residual calculation
-        3. Calculate pseudo-residual i.e. y-ŷ for MSE, can be complex for other loss functions
-        4. Train weak learner to predict the pseudo residual (usually a shallow tree)
-        5. Each weak learner is assigned a learning rate $ \eta $ (0<$ \eta $<1) which controls how much one tree
-           contributes to prevent overfitting
-           $$F_m(x) = F_{m-1}(x) + \nu \gamma_m h_m(x)$$
-           F<sub>m-1</sub>(x) = model's prediction after m-1 iterations.
-           h<sub>m</sub>(x) = next weak learner
-           $ \eta $ = learning rate
+        - Use variance within each cluster as measure for impurity
+        - Least amount of variance = highest purity
+        - Also weighted to prevent formation of extremely high accuracy for minority range
+6. ### Ensemble Learning
+    - Based on idea: multiple weak learners combined to form one strong learner
+    - Types:
+        1. ### Bagging
+           Improves stability by reducing variance  
+           Trains model independently on different random subsets of data with replacement.  
+           Combines predictors -
+            - Voting for classification
+            - Average for regression
+              To give more power to higher performing learner assigns weights
+        2. ### Boosting
+           Trains model sequentially, each learner sequentially correcting the error of last.  
+           Assigns weights to each sample and tune weights for sample so later learners can focus more on samples
+           misclassified by earlier learners.
+           Steps:
+            1. Assign each sample equal weight and train first model i.e w<sub>i</sub> = 1/N (No. of samples)
+            2. Calculate rate of error in first model ε = w<sub>i</sub>*(1 is misclassified else 0)/N
+            3. Calculate α i.e model weight = (1-ε)/ε
+            4. Reassign weights w<sub>i</sub> = e^(-α) if correctly classified else e^α
+        3. ### Stacking
+            - Takes outputs from multiple models
+            - Combined output is fed through metamodel which essentially weighs each model's output
+            - Steps:
+                1. Base models (level-0 models): Train several different models (e.g., decision trees, SVM, logistic
+                   regression) on the same dataset.
+                2. Metamodel (level-1 model): Train another model on the outputs (predictions) of the base models. This
+                   model learns how to best combine their predictions.
+                3. Final prediction: The metamodel’s prediction becomes the final output.
+            - Base models should be diverse to reduce correlation of errors.
+            - Metamodel is often a simple learner (e.g., logistic regression) to avoid overfitting.
 
-    12. ### XGBoost
-        - Extreme Gradient Boost - Extreme version of GBM
-        - Doesn't just use decision trees and residuals but also gradient and hessian (Newtonian Method)
-        - Uses a regularized objective function
-        - Start with base_score i.e. mean or log odds similar to GBM
-        - Start with first tree
-          $$\mathcal{L}(\phi) = \sum_{i=1}^{n} l(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)$$
-        - here $ \Omega $ is the regularization term to penalize complex trees
-        - $$\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^{T} w_j^2$$ where T = number of leaves in tree <br>
-          wj = leaf weight <br> $ \lambda $ = L2 reg (penalizes large weights) <br> $ \gamma $ = complexity cost per
-          leaf (penalizes long trees)
-        - This is approximated using taylor expansion to
-        - $$\mathcal{L}^{(t)} \approx \sum_{i=1}^{n} \left[ l(y_i, \hat{y}_i^{(t-1)}) + g_i f_t(x_i) + \frac{1}{2} h_i f_t^2(x_i) \right] + \Omega(f_t)$$
-        - Assuming loss to 0 we get $ w_j^* = - \frac{G_j}{H_j + \lambda} $
-        - And gain formula is calculated
-          as $\text{Gain} = \frac{1}{2} \left( \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda} \right) - \gamma$
-        - We split tree using gain till we get to desired leaf node which give
-          us $ w_j^* = - \frac{G_j}{H_j + \lambda} $
-        - This wj is the output of the tree. Aim of XGBoost is to perform multiple such trees which are usually shallow.
-        - Add multiple such trees to base score to fit (with learning rate $ \eta $)
-        - $\hat{y}_i^{(t)} = \hat{y}_i^{(t-1)} + \eta\, f_t(x_i)$
+7. ### K Means Clustering
+   Unsupervised clustering technique, group similar data points together
+    - Steps:
+        1. Choose k random points call them centroids (each centroid being its own class)
+        2. Calculate distance of each sample from each centroid, assign class based on min distance
+        3. Once assigned to each point recalculate centroids (as being mean of the class)
+        4. Repeat process multiple times until centroids settle
+    - 🔴 Sensitive to K
+    - 🟢 Simple and Fast
+
+8. ### Bisecting K Means
+    - Bisecting k-means is a variant of k-means clustering. It builds clusters using a hierarchical top-down (divisive)
+      approach instead of directly partitioning into k.
+    - Steps:
+        - Start with all points belonging to same cluster
+        - Select cluster to split (either largest or max Sum of squared errors)
+        - Apply K means with K = 2 with multiple different centroids (Choose one with the lowest SSE overall)
+        - Repeat
+
+8. ### Hierarchical Clustering:
+   Instead of setting out with a fixed k, we can cluster in a tree like manner.   
+   Benefit? Cutting at any depth gives us that number of clusters.  
+   Two ways:
+    - Agglomerative i.e. Bottom up
+    - Divisive i.e. Top Down
+
+9. ### Agglomerative Clustering
+    - Bottom up hierarchical clustering
+    - Steps:
+        1. Start with each point being its own class
+        2. Calculate length from every other points, merge the closest ones to form combined class
+        3. Now for each class (cluster) calculate distance from every other cluster
+            - Actually you calculate distance between every single point in both clusters
+            - Choose a measure as cluster distance, called **linkage**
+            - Linkage Types:
+                1. Single: Min dist between any 2 points
+                2. Complete: Max dist between any 2 points
+                3. Average: Averages of all dists
+                4. Ward: instead of distance choose clusters which cause least in cluster variance
+        4. Combine clusters and repeat until they reach one common cluster
+           ![img_1.png](../Images/img_1.png)
+    - 🟢 No need to specify K
+    - 🔴 Computation requirements limit to small/medium datasets
+    - 🟢 Can handle non-spherical clusters by defining custom linkage
+10. ### Random Forest
+    Bagging implementation
+    Builds n decision trees, each tree being given a bootstrapped dataset.  
+    At each split each tree gets a subset of features, split normally using gini impurity
+    This ensures reduced variance and more generalization
+    Build each tree till either they form or clip at a common length
+    Vote for classification
+11. ### Gradient Boosted Machines
+    Boosting implementation (usually for regression)  
+    Builds decision trees (not a rule but usually means this in practice), each weak learner aims to correct error (
+    residual) of previous weak learner.  
+    1. Model starts with γ (gamma) which is usually the mean of the target variable
+    2. Use y or log odds of y (classification) for residual calculation
+    3. Calculate pseudo-residual i.e. y-ŷ for MSE, can be complex for other loss functions
+    4. Train weak learner to predict the pseudo residual (usually a shallow tree)
+    5. Each weak learner is assigned a learning rate $ \eta $ (0<$ \eta $<1) which controls how much one tree
+       contributes to prevent overfitting
+       $$F_m(x) = F_{m-1}(x) + \nu \gamma_m h_m(x)$$
+       F<sub>m-1</sub>(x) = model's prediction after m-1 iterations.
+       h<sub>m</sub>(x) = next weak learner
+       $ \eta $ = learning rate
+
+12. ### XGBoost
+    - Extreme Gradient Boost - Extreme version of GBM
+    - Doesn't just use decision trees and residuals but also gradient and hessian (Newtonian Method)
+    - Uses a regularized objective function
+    - Start with base_score i.e. mean or log odds similar to GBM
+    - Start with first tree
+      $$\mathcal{L}(\phi) = \sum_{i=1}^{n} l(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)$$
+    - here $ \Omega $ is the regularization term to penalize complex trees
+    - $$\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^{T} w_j^2$$ where T = number of leaves in tree <br>
+      wj = leaf weight <br> $ \lambda $ = L2 reg (penalizes large weights) <br> $ \gamma $ = complexity cost per
+      leaf (penalizes long trees)
+    - This is approximated using taylor expansion to
+    - $$\mathcal{L}^{(t)} \approx \sum_{i=1}^{n} \left[ l(y_i, \hat{y}_i^{(t-1)}) + g_i f_t(x_i) + \frac{1}{2} h_i f_t^2(x_i) \right] + \Omega(f_t)$$
+    - Assuming loss to 0 we get $ w_j^* = - \frac{G_j}{H_j + \lambda} $
+    - And gain formula is calculated
+      as $\text{Gain} = \frac{1}{2} \left( \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda} \right) - \gamma$
+    - We split tree using gain till we get to desired leaf node which give
+      us $ w_j^* = - \frac{G_j}{H_j + \lambda} $
+    - This wj is the output of the tree. Aim of XGBoost is to perform multiple such trees which are usually shallow.
+    - Add multiple such trees to base score to fit (with learning rate $ \eta $)
+    - $\hat{y}_i^{(t)} = \hat{y}_i^{(t-1)} + \eta\, f_t(x_i)$
 
     13. ### Support Vector Machines
         - Classification Algo
