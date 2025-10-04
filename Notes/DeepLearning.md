@@ -125,8 +125,8 @@ layout: default
 4. ### Width of Model**
     - Number of neurons in a layer
 5. ### Weights and Biases**
-   (Mentioned above)
-   Weights: Defined for each connection. Variable input is multiplied with.  
+   (Mentioned above)  
+   Weights: Defined for each connection. Variable input is multiplied with.    
    Biases: Defined for each node. Variable input shifted by.
 6. ### Universal Approximation Theorem
    Pivotal theorem, Any continuous function can be approximated with a sufficiently large neural net with non-linear
@@ -151,8 +151,8 @@ layout: default
             - Bounded [-1,1]
             - as x→∞ y→ 1
             - as x→-∞ y→ -1
-            - at x = 0, y = 0  
-              <img src="images/img_3.png" alt="img" width="300">
+            - at x = 0, y = 0
+            - ![img_32.png](img_32.png)
             - Pro Cons:
                 - 🔴 Obsolete
                 - 🔴 f`(x) maxes out at 1 i.e. sure to cause vanishing gradient as you add more
@@ -199,9 +199,9 @@ layout: default
 8. ### Gradient Descent
    First order iterative algorithm to find local minima of loss function  
    $ \theta_{t+1} \;=\; \theta_t \;-\; \eta \,\nabla_\theta J(\theta_t)$
-    - Learning Rate: Determines the size of step taken
-    - Epoch: One go through of entire dataset
-    - Shuffling: Randomizing order of dataset before every epoch.
+    - **Learning Rate**: Determines the size of step taken
+    - **Epoch**: One go through of entire dataset
+    - **Shuffling**: Randomizing order of dataset before every epoch.
 
     1. ### Gradient Descent Types:
         1. ### Stochastic
@@ -212,9 +212,9 @@ layout: default
         2. ### Batch
             - Uses entire dataset i.e update once every epoch
             - 🟢 Very stable
+            - 🟢 Smooth Convergence
             - 🔴 Very slow
             - 🔴 Consumes a lot of memory loading entire DS into memory
-            - 🟢 Smooth Convergence
         3. ### Minibatch
             - Uses smaller batch sizes usually 32,64,128 and updates per mini batch
             - Good middle ground
@@ -263,16 +263,16 @@ layout: default
                         2. Clip by Norm: if the L2 norm of entire gradient > τ -> clip it by g = g.τ/||g||
 9. ### Backpropagation
 10. ### Weight Initialization
-    1. #### Zero Init
+    1. ### Zero Init
         - Initialize all weights as 0
         - 🔴⚠️ Terrible idea, any time all weights have same value causes symmetric learning i.e. all neurons in layer
           learn same values
-    2. #### Random Init (Naive)
+    2. ### Random Init (Naive)
         - Assigns random values to avoid zero init
         - if weights are too small or too large will cause vanishing/exploding gradient
-    3. #### Xavier Init
-        - designed to keep variance and gradients approx same across all layers to avoid vanish/exploding gradient
-        - ideal for **tanh/sigmoid**
+    3. ### Xavier Init
+        - Designed to keep variance and gradients approx same across all layers to avoid vanish/exploding gradient
+        - Ideal for **tanh/sigmoid**
         - 2 Types:
             1. Uniform:
                 - $$W \sim \mathcal{U}\!\left(-\sqrt{\tfrac{6}{n_{\text{in}} + n_{\text{out}}}}, \; \sqrt{\tfrac{6}{n_{\text{in}} + n_{\text{out}}}}\right)$$
@@ -280,9 +280,9 @@ layout: default
                 - $$W \sim \mathcal{N}\!\left(0, \; \tfrac{2}{n_{\text{in}} + n_{\text{out}}}\right)$$
         - n<sub>in</sub> and n<sub>out</sub> are number of connections in and out respectively
         - symmetric around 0 and squash values, so both the input side (fan-in) and output side (fan-out) matter
-    4. #### He Init
-        - designed to keep variance and gradients approx same across all layers to avoid vanish/exploding gradient
-        - ideal for **Relu**
+    4. ### He Init
+        - Designed to keep variance and gradients approx same across all layers to avoid vanish/exploding gradient
+        - Ideal for **Relu**
         - 2 Types:
             1. Uniform:
                 - $W \sim \mathcal{U}\!\left(-\sqrt{\tfrac{6}{n_{\text{in}}}}, \; \sqrt{\tfrac{6}{n_{\text{in}}}}\right)$
@@ -297,34 +297,34 @@ layout: default
     - ℹ️ Uniform distribution implies each value in this range is equally likely while normal implies higher likelihood
       at mean
 11. ### Learning Rate Scheduling
-    1. #### Step Decay
+    1. ### Step Decay
         - $\eta_t = \eta_0 \cdot \gamma^{\left\lfloor \tfrac{t}{T} \right\rfloor}$
         - Drops LR by a constant factor every few epochs
         - ![img_22.png](../Images/img_22.png)
-    2. #### Exponential Decay
+    2. ### Exponential Decay
         - $\eta_t = \eta_0 \cdot e^{-\lambda t}$
         - Drops learning rate exponentially per epoch
         - ![img_9.png](../Images/img_9.png)
-    3. #### Cosine Annealing
+    3. ### Cosine Annealing
         - Follows gentler cosine function (convex first then concave)
         - $\eta_t = \eta_{\min} + \tfrac{1}{2}(\eta_0 - \eta_{\min}) \left(1 + \cos\!\left(\frac{\pi t}{T_{\max}}\right)\right)$
         - ![img_10.png](../Images/img_10.png)
-    4. #### Polynomial Decay
+    4. ### Polynomial Decay
         - $\eta_t = \eta_0 \left( 1 - \frac{t}{T_{\max}} \right)^p$
         - Constant polynomial decay
-    5. #### LR On Plateau
+    5. ### LR On Plateau
         - Reduces when a validation metric plateaus (i.e. stops improving)
-    6. #### Cyclical
+    6. ### Cyclical
         - Increases and decreases learning rate
         - 🔴 Need max and min and cycle rate careful tuning
         - 🟢 can help get out of minima
         - ![img_7.png](../Images/img_7.png)
-    7. #### One cycle
+    7. ### One cycle
         - Increases initially then decreases rapidly
         - Gives fast convergence
         - ![img_11.png](../Images/img_11.png)
 12. ### Regularization
-    1. #### L1 LASSO
+    1. ### L1 LASSO
         - Least Absolute Shrinkage and selection operator
         - Applies linear penalty to magnitude of weight
         - ![img.png](../Images/3_deepLearning_L1_regularization.png)
@@ -333,7 +333,7 @@ layout: default
         - 🟢 Causes Sparsity which can speed up computation
         - 🟢 Makes model more interpretable
         - 🔴 Sparsity can force useful weights to 0, once set to 0 always vanishes
-    2. #### L2 Ridge
+    2. ### L2 Ridge
         - ![img.png](../Images/3_deepLearning_L2_regularization.png.png)
         - Applies quadratic penalty to magnitude of weight
         - Since penalty is quad doesn't force sparsity
@@ -342,19 +342,19 @@ layout: default
         - 🟢 Prevents overfitting while keeping all the features
         - Forms circular constraint region
         - ![img_14.png](../Images/img_14.png)
-    3. #### Elastic Net
+    3. ### Elastic Net
         - ![img.png](../Images/3_deepLearning_ElasticNet_regularization.png)
         - Combines L1 and L2
         - Combines benefit of both
         - 🔴 Requires tuning of relative lambda 1 and 2 for benefits
-    4. #### Dropout
+    4. ### Dropout
         - Temporarily disable output of select randomly chosen neurons while training
         - Chooses based on probablity p (hyperparam)
         - 🟢 Reduces overbalance of model on select neurons
         - 🔴 Slows convergence
         - Requires careful tuning with batch normalization (since batch norm computes mean and variance of all outputs
           while training and uses them while eval and if some are missing while training will skew the numbers)
-    5. #### Early Stopping
+    5. ### Early Stopping
         - Monitors performance on validation set and stops training once plateaus
         - i.e. some validation stops increasing
         - Params:
@@ -377,15 +377,15 @@ layout: default
         - 🟢 Faster training on regularized terms
         - 🟢 Reduces exploding and vanishing gradient
         - 🔴 Requires careful usage with dropout
-    7. #### Data Augmentation?
+    7. ### Data Augmentation?
 13. ### Optimizer
-    1. #### SGD
+    1. ### SGD
         - Foundational and simple
         - $\theta_{t+1} = \theta_t - \eta \, \nabla_\theta \mathcal{L}(\theta_t)$
         - With momentum :
             - $$v_{t+1} = \mu v_t - \eta \nabla_\theta \mathcal{L}(\theta_t), \quad \theta_{t+1} = \theta_t + v_{t+1}$$
         - [NAG](#Nesterov-Accelerated-Gradient-Descent) is possible to use with this
-    2. #### RMSProp (Root Mean Square Propagation)
+    2. ### RMSProp (Root Mean Square Propagation)
         - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
         - $$ \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \nabla_\theta \mathcal{L}(\theta_t)$$
         - E[g^2] is a vector, holding one running average per parameter.
@@ -396,7 +396,7 @@ layout: default
           highly
           sensitive to.
         - Used to be useful in RNNs no longer SOTA
-    3. #### Adam (Adaptive Moment Estimation)
+    3. ### Adam (Adaptive Moment Estimation)
         - Formulae:
             - $m_t = \beta_1 m_{t-1} + (1-\beta_1)\nabla_\theta \mathcal{L}(\theta_t)$
             - $\quad v_t = \beta_2 v_{t-1} + (1-\beta_2)(\nabla_\theta \mathcal{L}(\theta_t))^2$
@@ -417,13 +417,13 @@ layout: default
             - The squared gradient (second moment, 𝑣𝑡) will stay large (since 5^2=25, no cancellation).
             - A parameter with gradients that constantly flip sign is a parameter where the optimizer isn’t confident
               about which way to move so slows rate of descent
-    4. #### AdamW
+    4. ### AdamW
         - Difference only matters when using L2 Regularization
         - In vanilla adam lambda penalty is added to gradient
         - This means penalty is scaled and carried forward in next steps moving average too (penalty of current weights
           to be precise)
-        - AdamW only applies Lambda penalty at final step seperately
-    5. #### Ada grad
+        - AdamW only applies Lambda penalty at final step separately
+    5. ### Ada grad
         - Ancestor to RMS Prop without the moving average
 
 ## Architectures
@@ -461,11 +461,11 @@ layout: default
             - Sets middle index and rest 0
         - ##### Fully Connected:
             - Good Ol' Fully Connected Layer
-    - #### Usage:
+    - ### Usage:
         - Deep CNN themselves no longer SOTA but are used extensively in SOTA models 📌e.g. UMAP in diffusion
         - 🟢 Less resource intensive than ViT
         - 🟢 Easier to train on small datasets, ViT have massive DS requirements
-    - #### Applications:
+    - ### Applications:
         - Image Classification
         - Object Detection (can do singular and multiple as well)
     - To Explore:
@@ -495,12 +495,12 @@ layout: default
     - Can have multiple input output configurations
     - ![](/Images/3_deepLearning_rnn_5.png)
 
-    1. #### Vanilla RNN
+    1. ### Vanilla RNN
         - Usually rely on these formulas
         - $$h_t = \tanh(Wh_{t-1} + Ux_t)$$
         - $$y_t = \mathrm{softmax}(Vh_t)$$
         - Softmaxxed to give resulting probablities (like in text generation)
-    2. #### LSTM
+    2. ### LSTM
         - ![img_17.png](../Images/img_17.png)
         - Equations:
             - $$i = \sigma(W_i h_{t-1} + U_i x_t + V_i c_{t-1})$$
@@ -513,7 +513,7 @@ layout: default
         - Input controls how much of input is used in C (long term memory)
         - H is called short term memory because it is calculated and passed at each step
         - C is modified slowly over time
-    3. #### GRU
+    3. ### GRU
         - GRU only has reset and update gates
 4. ### Encoder Decoder
     - #### Architecture:
@@ -734,5 +734,6 @@ layout: default
                 - Acquisition function tells us where to try next.
                 - Common functions:
                     1. **Expected Improvement (EI)**: Choose points likely to improve current best.
-                    2. **Upper Confidence Bound (UCB)**: Combines mean and uncertainty to balance exploration/exploitation.
+                    2. **Upper Confidence Bound (UCB)**: Combines mean and uncertainty to balance
+                       exploration/exploitation.
                     3. **Probability of Improvement (PI)**: Probability that the new point improves the best so far.

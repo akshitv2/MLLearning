@@ -339,7 +339,7 @@ layout: default
 
 18. ### UMAP
     - Uniform Manifold Approximation and Projection
-    - a dimensionality reduction technique used for visualizing high-dimensional data in a lower-dimensional space,
+    - A dimensionality reduction technique used for visualizing high-dimensional data in a lower-dimensional space,
     - Process:
         1. Constructs a Graph: UMAP builds a weighted graph where data points are nodes, and edges represent
            similarities (distances) between points in the high-dimensional space.
@@ -353,6 +353,7 @@ layout: default
     - Flexibility: It can handle various types of data
     - UMAP is faster and scales better with large datasets than T-sne
     - It preserves more of the global structure compared to t-SNE, which focuses heavily on local structure.
+    - UMAP has `n_neighbors` (controls local vs global emphasis) and `min_dist` (controls tightness of clusters), which are more interpretable.
 19. ### Gaussian Mixture Models
 20. ### SHAP
     - SHAP (SHapley Additive exPlanations) is a powerful and widely used technique in machine learning that helps
