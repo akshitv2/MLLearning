@@ -1,11 +1,12 @@
 permalink: pretty
 search_enabled: false
+include_head: false
 
 plugins:
   - jekyll-include-cache
   - jekyll-remote-theme
 
-include_head: false
+
 
 include:
   - _includes
