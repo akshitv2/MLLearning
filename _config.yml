@@ -1,9 +1,8 @@
-title: ML Learning
+title: Data science Refresher
 description: A brief collection of personally assembled notes and resources for data science and machine learning
 repository: akshitv2/MLLearning
 
 permalink: pretty
-search_enabled: false
 
 plugins:
   - jekyll-include-cache
@@ -13,10 +12,11 @@ include:
   - _includes
 
 just_the_docs:
+  search_enabled: false
   include_head: false
   aux_links_new_tab: true
   heading_anchors: true
-  css:
+  custom_css:
     - "assets/css/custom.scss"
 
 remote_theme: just-the-docs/just-the-docs
