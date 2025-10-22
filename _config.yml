@@ -1,4 +1,21 @@
-remote_theme: alshedivat/al-folio
+permalink: pretty
+search_enabled: false
+
+plugins:
+  - jekyll-include-cache
+  - jekyll-remote-theme
+
+include:
+  - _includes
+
+just_the_docs:
+  include_head: false
+  aux_links_new_tab: true
+  heading_anchors: true
+  custom_css:
+    - "assets/css/custom.scss"
+
+remote_theme: just-the-docs/just-the-docs
 
 author: Akshit
 markdown: kramdown
