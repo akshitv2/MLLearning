@@ -1,10 +1,7 @@
 ---
 # Only needed so Jekyll processes this file
 ---
-$primary-color: #1abc9c;
-/* Override Just the Docs theme colors */
-:root {
-  --brand-color: #6c757d; /* Bootstrap gray */
-  --brand-color-dark: #5a6268;
-  --brand-color-light: #adb5bd;
+body {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
+
