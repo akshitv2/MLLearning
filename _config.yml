@@ -5,11 +5,13 @@ plugins:
   - jekyll-include-cache
   - jekyll-remote-theme
 
+include_head: false
+
 include:
   - _includes
 
 just_the_docs:
-  include_head: false
+
   aux_links_new_tab: true
   heading_anchors: true
   custom_css:
