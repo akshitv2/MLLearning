@@ -6,6 +6,7 @@ layout: default
 ---
 
 # Data Pre-Processing
+<hr>
 
 ## Common Data Pre-Processing
 
