@@ -206,7 +206,7 @@ layout: default
 ### How To Fit ARIMA/SARIMA etc.?
 
 1. ### Parameter Selection with ACF and PACF
-    - ![img_7.png](../assets/Images/timseries/img_7.png)
+    - ![img_7.png](../assets/images/timseries/img_7.png)
     - ACF Plot:
         - Shows the correlation between a time series and its lagged values. (Basically Cor(Xt,Xt-k))
         - For an MA(q) model, the ACF will be significant for the first q lags and then drop to zero

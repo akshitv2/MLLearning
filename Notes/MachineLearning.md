@@ -31,7 +31,7 @@ layout: default
 4. ### Cross Validation
    Used to assess the performance and generalization ability of a model.i.e.  
    It is a model evaluation process to compare models/hyperparameters
-   ![img_9.png](../assets/Images/ML/img_9.png)
+   ![img_9.png](../assets/images/ML/img_9.png)
 
    **K Folds:**
     1. Split the dataset into K equal-sized folds (subsets).
@@ -63,9 +63,9 @@ layout: default
     5. ### ROC Curve
         - Receiver Operating Characteristic Curve
         - Plots: TPR vs FPR where TPR = TP/TP+FN, FPR = FP/FP+TN
-          ![img.png](../assets/Images/ML/img.png)
+          ![img.png](../assets/images/ML/img.png)
         - Plotting
-          ![img_1.png](../assets/Images/ML/img_1.png)
+          ![img_1.png](../assets/images/ML/img_1.png)
         - **Using ROC Curve**:
             1. Set Threshold to 1 (for TP) and plot every prediction (will be 0,0)
             2. Slowly lower threshold for classification and watch as TPR and FPR rise
@@ -78,7 +78,7 @@ layout: default
         - ℹ️ When Tp = 0 and Fp = 0, we define precision as 1 (otherwise would be 0/0)
         - Here we want both prec and recall to be high, i.e false positive less and false negative less.
         - Aim: Find point closest to (1,1)
-          ![img_2.png](../assets/Images/ML/img_2.png)
+          ![img_2.png](../assets/images/ML/img_2.png)
     7. ### AUC
        Area Under ROC Curve
     8. ### F1 Score
@@ -266,7 +266,7 @@ layout: default
 
 14. ### Support Vector Machines
     - Classification Algo
-      ![img_3.png](../assets/Images/ML/img_3.png)
+      ![img_3.png](../assets/images/ML/img_3.png)
     - Separates points out by finding support vector that best separates points with the largest margin.
     - Margin ⬆️ confidence ⬆️
     - ℹ️ Note: To find if two points lie on the same point of line plug them into the equation
@@ -277,7 +277,7 @@ layout: default
         - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2\end{equation}$$
         - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, \dots, n\end{equation}$$
     - **Soft Margin Classifier**:
-      ![img_4.png](../assets/Images/ML/img_4.png)
+      ![img_4.png](../assets/images/ML/img_4.png)
         - Instead of using hard margin, allow slack using slack variable $ \epsilon $
             - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i\end{equation}$$
             - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
