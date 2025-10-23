@@ -290,7 +290,7 @@ blockquote { margin: 10px 0; margin-block-start: 0; margin-inline-start: 0; padd
 @media (min-width: 50rem) { .side-bar + .main .main-header.nav-open { display: flex; } }
 
 .main { margin: auto; }
-@media (min-width: 50rem) { .main { position: relative; max-width: 50rem; } }
+// @media (min-width: 50rem) { .main { position: relative; max-width: 50rem; } }
 
 .main-content-wrap { padding-top: 1rem; padding-bottom: 1rem; padding-right: 1rem; padding-left: 1rem; }
 @media (min-width: 50rem) { .main-content-wrap { padding-right: 2rem; padding-left: 2rem; } }
@@ -431,8 +431,8 @@ h1, .text-alpha { font-size: 2rem !important; line-height: 1.25; }
 h2, .text-beta, #toctitle { font-size: 1.125rem !important; }
 @media (min-width: 31.25rem) { h2, .text-beta, #toctitle { font-size: 1.5rem !important; line-height: 1.25; } }
 
-h3, .text-gamma { font-size: 1rem !important; }
-@media (min-width: 31.25rem) { h3, .text-gamma { font-size: 1.1rem !important; } }
+// h3, .text-gamma { font-size: 1rem !important; }
+// @media (min-width: 31.25rem) { h3, .text-gamma { font-size: 1.1rem !important; } }
 
 h4, .text-delta { font-weight: 400; text-transform: uppercase; letter-spacing: 0.1em; }
 h4, .text-delta { font-size: 0.6875rem !important; }
