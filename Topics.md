@@ -3,5 +3,8 @@
 - Auto Diff
 - Fast Attention Via positive Orthogonal Random (FAVOR+)
 - Shot Learning: Single, Few, yolo
-- Feed forward neural network
+- Inductive Learning Algorithm
+- Knowledge-based systems
+- Expert Systems
+- Independent Component Analysis
 - Context Rot

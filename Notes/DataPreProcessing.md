@@ -6,7 +6,28 @@ layout: default
 ---
 
 # Data Pre-Processing
+
+Necessary for accuracy in analysis. Real world data is often imperfect or inconsistent.
 <hr>
+
+## Common Problems in Data
+
+1. ### Data Corruption and Noise
+    - Reasons include:
+        - Sensor Issues
+        - Measurement Process Issues
+2. ### Irrelevant Data
+    - Raw Data often contains extremely large number of features and samples
+    - Most often irrelevant
+    - Feature selection more advanced process to choose features
+    - Sample selection techniques find more relevant samples
+3. ### Fractured Data
+    - Same dataset can have fractures due to various factors:
+        1. Incompatible data: Can be due to differences in sensors/measurement mediums
+        2. Multiple Sources: Data from multiple sources might require converting to same format
+        3. Data from multiple levels of granularity: Different sensors can have different levels of precision
+4. ### Missing attributes
+    - Samples and features can be missing for all or for a segment of data
 
 ## Common Data Pre-Processing
 
@@ -27,18 +48,31 @@ layout: default
     5. Regress using other variables (e.g., use regression models to predict missing values based on correlated
        features)
 
-3. ### Outlier Detection
+3. ### Outliers
+    - Data points that are statistical anomalies
+    - Significantly deviate from other observations in the dataset
+    - Can arise due to measurement errors, natural variation, or rare events
+    - Can be valid or invalid observations
+
+4. ### Outlier Detection
     - ### Basic Methods:
         1. ### Z-Score:
-            - Z-score is calculated as $z = \frac{x - \mu}{\sigma}$. Usually safe to consider ❙z❙ > 3 as outliers (based
-              on the Central Limit Theorem).
+            - Z-score is calculated as $$z = \frac{x - \mu}{\sigma}$$.
+            - Usually safe to consider 𑁇z𑁇 > 3 as outliers (based on the Central Limit Theorem).
         2. ### IQR (Interquartile Range):
+            - IQR = Q3 - Q1 (where Q1 is 25th percentile, Q3 is 75th percentile).
             - Calculated using median. Common to consider only points within
                 - [**Q1** - 1.5 × IQR, **Q3** + 1.5 × IQR]
-                - (where Q1 is 25th percentile, Q3 is 75th percentile, IQR = Q3 - Q1).
         3. ### Mahalanobis Distance:
             - Measures the distance of a point from the mean, accounting for the covariance among variables. Useful for
               multivariate outliers.
+            - Steps:
+              1. Transforms variables into uncorrelated variables
+              2. Scale to make variance equal to 1
+              3. Calculate euclidean distance
+            - Why? 
+              - If variables are correlated, as A increases so will B
+              - Points logically closer will have extra correlated distance added to them
         4. ### Box Plot Analysis:
             - Visualization method based on IQR to identify outliers.
     - ### ML Algorithms Based:
@@ -48,7 +82,14 @@ layout: default
         2. ### Auto Encoders:
             - High reconstruction error can be used as a parameter to identify outliers
 
-4. ### Data Transformation (Scaling)
+5. ### Handling Outliers
+   When and How?
+    1. If due to measurement error or inconsistency: Remove or replace
+        1. Replace using imputation techniques (e.g., mean/median replacement or model-based imputation)
+    2. If rare but valid: Keep, as they usually contain useful signal
+    3. While scaling: Use robust scaling to minimize impact
+
+6. ### Data Transformation (Scaling)
     1. ### Standardization:
         - (mean = 0, variance = 1)**:
         - Replace values with Z-score
@@ -71,14 +112,7 @@ layout: default
           \log(x_i) & \lambda = 0
           \end{cases}$$
 
-5. ### Handling Outliers
-   When and How?
-    1. If due to measurement error or inconsistency: Remove or replace
-        1. Replace using imputation techniques (e.g., mean/median replacement or model-based imputation)
-    2. If rare but valid: Keep, as they usually contain useful signal
-    3. While scaling: Use robust scaling to minimize impact
-
-6. ### Encoding Categorical Variables
+7. ### Encoding Categorical Variables
     1. **One-Hot Encoding**: Replace categories with 1 in their index, 0 in others
         - 🟢 Maintains independence of classes
         - 🔴 Grows linearly with number of classes (not suited for high cardinality)
@@ -287,7 +321,7 @@ inefficient to test the entire population).
     2. ## Dynamic Embeddings
         - Embeddings change based on context; used by modern language models.
         - | Model | How it works |
-                    |-------|--------------|
+                                        |-------|--------------|
           | ELMo | Uses deep biLSTM to generate embeddings from the entire sentence. |
           | BERT | Uses transformers and attention for bidirectional context-aware embeddings. |
           | GPT  | Uses transformer decoders for left-to-right context; produces dynamic embeddings during generation or fine-tuning. |
