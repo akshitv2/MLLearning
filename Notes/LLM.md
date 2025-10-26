@@ -366,8 +366,16 @@ Prompt engineering is the art and science of communicating effectively with an A
                 French: Comment ça va?
                 English: Good night
                 French:
-3. ### Chain-of-Thought (CoT) Prompting:
+3. ### Chain-of-Thought (CoT) Prompting
+    - [Wei et al. (2022)](https://arxiv.org/abs/2201.11903):
     - Model is guided to generate intermediate steps instead of final answer
+    - Few shot prompting as noted above has shown significant improvements in models to understand problems
+    - in 2022 Paper, Few shot prompting was used with chain of thought
+      - i.e. Provided model multiple instances of Input, Chain of Thought, Output
+    - 🟢 Able to generate correct answer to complex problems without fine-tuning .i.e **Generalization**
+    - 🔴 For smaller models output chain of thought is illogical but fluent (can cause major issues without proper checking)
+    - 🟢 Output results get better as task complexity increases
+    - ![img_33.png](img_33.png)
 4. ### Role-Playing
     - This involves assigning a specific persona or role to the AI. This helps to set the tone, style, and context of
       the conversation.

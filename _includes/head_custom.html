@@ -17,5 +17,30 @@
     li:has(h3)::marker {
     color: black;
     }
+    .consMarker::before {
+    content: "⦁" !important;
+    color: red !important;
+    font-weight: bold !important;
+    }
+    .prosMarker::before {
+    content: "⦁" !important;
+    color: green !important;
+    font-weight: bold !important;
+    }
 
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("ul li").forEach(li => {
+        if (li.textContent.substr(0,2) === "🔴") {
+          li.textContent = li.textContent.replace('🔴','');
+          li.classList.add("consMarker");
+        }
+        if (li.textContent.substr(0,2) === "🟢") {
+          li.textContent = li.textContent.replace('🟢','');
+          li.classList.add("prosMarker");
+        }
+      });
+    });
+</script>
