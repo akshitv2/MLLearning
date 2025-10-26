@@ -7,133 +7,6 @@ layout: default
 
 # LLM
 
-## Index
-
-- [LLM](#5-llm)
-    - [Foundations and basics](#foundations-and-basics)
-        - [n-grams](#n-grams)
-        - [Bag of Words](#bag-of-words)
-        - [TF-IDF](#tf-idf)
-        - [Modern Tokenization](#modern-tokenization)
-            - [Byte Pair Encoding](#byte-pair-encoding)
-            - [Word Piece Encoding](#word-piece-encoding)
-        - [Positional Encoding](#positional-encoding)
-            - [Usage](#usage)
-            - [Sinusoidal](#sinusoidal)
-            - [Learned](#learned)
-        - [Contrastive Learning](#contrastive-learning)
-            - [Contrastive Learning in LLMS](#contrastive-learning-in-llms)
-    - [Large Language Models](#large-language-models)
-        - [Training Process](#training-process)
-            - [Pre-Training](#pre-training)
-            - [Fine-Tuning](#fine-tuning)
-        - [Other Types](#other-types-of-llms)
-            - [Multimodal Large Language Models (MLLMs)](#multimodal-large-language-models-mllms)
-            - [Agentic Systems](#agentic-systems)
-            - [Advanced Reasoning Models](#advanced-reasoning-models)
-                - [Key Techniques](#key-techniques)
-                    - [Chain of thought Prompting](#chain-of-thought-prompting)
-                    - [Self Consistency](#self-consistency)
-                    - [Tool Use](#tool-use)
-                    - [Tree/Graph Based Reasoning](#treegraph-based-reasoning)
-                    - [Using RLHF (Reinforcement learning from human feedback)/ RLAIF (Reinforcement learning from ai feedback)](#using-rlhf-reinforcement-learning-from-human-feedback-rlaif-reinforcement-learning-from-ai-feedback)
-            - [Small Language Models (SMLs)](#small-language-models-smls)
-    - [RAG : Retrieval Augmented Generation](#rag--retrieval-augmented-generation)
-        - [Retriever](#retriever)
-        - [Generator](#generator)
-        - [Working Process](#working-process)
-            - [Indexing Phase (The preparation)](#indexing-phase-the-preparation)
-            - [Retrieval and Generation](#retrieval-and-generation)
-        - [Search Algorithms](#search-algorithms)
-            - [Sparse Retrieval](#sparse-retrieval)
-                - [BM25](#BM25)
-            - [Dense Retrieval](#dense-retrieval)
-                - [Dual Encoders/Bi-encoders](#dual-encodersbi-encoders)
-                - [Similarity Search](#similarity-search)
-                - [Notable Implementations](#notable-implementations)
-                    - [Dense Passage Retrieval (DPR)](#dense-passage-retrieval-dpr)
-                    - [ColBert](#colbert)
-                    - [Contriever](#contriever)
-                    - [RocketQA](#rocketqa)
-                - [Algorithms Used](#algorithms-used)
-                    - [Hierarchical Navigable Small World (HNSW)](#hierarchical-navigable-small-world-hnsw)
-                    - [FAISS (Facebook AI Similarity Search)](#faiss-facebook-ai-similarity-search)
-                    - [ScaNN (Scalable Nearest Neighbors)](#scann-scalable-nearest-neighbors)
-            - [Hybrid Search](#hybrid-search)
-            - [Recursive Retrieval](#recursive-retrieval)
-    - [Prompt Engineering](#prompt-engineering)
-        - [Techniques](#techniques)
-            - [Zero-Shot Prompting](#zero-shot-prompting)
-            - [Few Shot Prompting](#few-shot-prompting)
-            - [Chain-of-Thought (CoT) Prompting](#chain-of-thought-cot-prompting)
-            - [Role-Playing](#role-playing)
-            - [Instruction Tuning](#instruction-tuning)
-        - [Challenges](#challenges)
-            - [Catastrophic Forgetting](#catastrophic-forgetting)
-                - [Catastrophic Forgetting Solutions](#catastrophic-forgetting-solutions)
-                    - [Replay](#replay)
-                    - [Elastic Weight Consolidation](#elastic-weight-consolidation)
-                    - [Dynamic Architectures](#dynamic-architectures)
-            - [Hallucination](#hallucination)
-                - [Hallucination Solution](#hallucination-solution)
-                    - [Retrieval Augmented Generation](#retrieval-augmented-generation)
-                    - [Training with uncertainty in answer](#training-with-uncertainty-in-answer)
-                    - [Use LLMs that can use symbolic reasoning](#use-llms-that-can-use-symbolic-reasoning)
-                    - [Chain of thought](#chain-of-thought)
-                    - [let AI use tools like calculator](#let-ai-use-tools-like-calculator)
-            - [Repetition](#repetition)
-            - [Degeneration](#degeneration)
-            - [Adversarial Prompts](#adversarial-prompts)
-                - [Solutions](#adversarial-prompts-solutions)
-                    - [Instruction Separation](#instruction-separation)
-                    - [Input and token validation](#input-and-token-validation)
-                    - [Classifier Layer](#classifier-layer)
-                    - [Safeguard Systems](#safeguard-systems)
-                    - [Human in Loop](#human-in-loop)
-            - [Context Rot](#context-rot)
-                - [Solution](#context-rot-solution)
-        - [Evaluation](#evaluation)
-            - [Perplexity](#perplexity)
-            - [BLEU: Bilingual Evaluation Understudy](#bleu-bilingual-evaluation-understudy)
-                - [BP: Brevity Penalty](#bp-brevity-penalty)
-                - [Score](#score)
-            - [ROUGE: Recall Oriented Understudy for Gisting Evaluation](#rouge-recall-oriented-understudy-for-gisting-evaluation)
-                - [ROUGE-N](#rouge-n)
-                - [ROUGE-L](#rouge-l)
-                - [ROUGE-W](#rouge-w)
-                - [ROUGE-S/SU](#rouge-ssu)
-            - [Recall, Precision, F1Score](#recall-precision-f1score)
-            - [METEOR: Metric for Evaluation of Translation with Explicit Ordering](#meteor-metric-for-evaluation-of-translation-with-explicit-ordering)
-        - [Evaluation Specific to Tasks](#evaluation-specific-to-tasks)
-            - [Code](#code)
-                - [Exact Match](#exact-match)
-                - [Pass@k](#passk)
-            - [Truthfulness](#truthfulness)
-                - [TruthfulQA](#truthfulqa)
-            - [General](#general)
-            - [Maths and reasoning](#maths-and-reasoning)
-            - [Fact Check](#fact-check)
-        - [RAG Metrics](#rag-metrics)
-            - [Recall@k](#recallk)
-            - [Precision@K](#precisionk)
-            - [NDCG: (Normalized Discounted Cumulative Gain)](#ndcg-normalized-discounted-cumulative-gain)
-            - [MRR: Mean Reciprocal Rank](#mrr-mean-reciprocal-rank)
-        - [Parameter Efficient Fine-Tuning](#parameter-efficient-fine-tuning)
-            - [Full Fine-Tuning](#full-fine-tuning)
-            - [Adapters](#adapters)
-            - [Prompt Tuning](#prompt-tuning)
-            - [LoRA (Low Rank Adaption)](#lora-low-rank-adaption)
-            - [Prefix Tuning](#prefix-tuning)
-        - [RAG Specific](#rag-specific)
-            - [Vector DBS](#vector-dbs)
-        - [Text Generation Strategies](#text-generation-strategies)
-            - [Greedy decoding](#greedy-decoding)
-            - [Beam Search](#beam-search)
-            - [Top K Sampling](#top-k-sampling)
-            - [Top P Sampling](#top-p-sampling)
-            - [Temperature Scaling](#temperature-scaling)
-        - [Human Centric Eval](#human-centric-eval)
-
 # Foundations and basics
 
 - ### n-grams
@@ -246,11 +119,11 @@ layout: default
           them efficient, cost-effective, and ideal for specific tasks and resource-constrained environments like
           smartphones and edge devices.
     - ### Mixture Of Experts (MoE)
-      - Instead of one dense model, you have many “expert subnetworks,” and only a few are activated per query.
-      - 📌e.g. Google’s Switch Transformer, GLaM, and DeepSeek-V2
-      - ℹ️ One giant model classical approach is still pretty common 📌e.g. Chatgpt-4
+        - Instead of one dense model, you have many “expert subnetworks,” and only a few are activated per query.
+        - 📌e.g. Google’s Switch Transformer, GLaM, and DeepSeek-V2
+        - ℹ️ One giant model classical approach is still pretty common 📌e.g. Chatgpt-4
     - ### Instruction Rerouting
-      - Use query classification to determine best suited model and reroute request to that instance
+        - Use query classification to determine best suited model and reroute request to that instance
 
 # RAG : Retrieval Augmented Generation
 
@@ -276,17 +149,61 @@ layout: default
         - Response Generation: Regular working of LLM except it has supplemental info this time
 
     - ℹ️Note: Augmentation step usually adds context as its own separate part on top of the user query.
-      - For e.g:
-        - ````
+        - For e.g:
+            - ````
           You are a helpful assistant. Use the following retrieved context to answer the question.
           Retrieved context:
-          - Green tea is rich in catechins, which act as antioxidants.
-          - Studies suggest green tea may improve brain function and fat metabolism.
-          Question: What are the health benefits of green tea?````  
+            - Green tea is rich in catechins, which act as antioxidants.
+            - Studies suggest green tea may improve brain function and fat metabolism.
+              Question: What are the health benefits of green tea?````
 
-- ## Vector Databases:
-  - 
-
+- ## Information Storage:
+    1. ### Textual Databases / Document Stores:
+        - Plain text documents, PDFs, articles, or books stored in a searchable database.
+        - Usage: Usually through sparse embeddings generated using TF-IDF or BM25 (Best Match 25)
+        - Example: Elasticsearch
+        - 🟢 Simple explicit contexts
+        - 🔴 Cannot map complex relationships close enough
+        - Usage:
+          - Uses Sparse Retrieval
+    2. ### Vector Databases (Embeddings-based)
+        - Instead of storing just raw text, each piece of information is also converted into a vector embedding
+        - Store both text and vector
+        - Vector embedding is a one way process which extracts important features but loses content in machine readable
+          format
+        - 🔴 Relationship is implicit not explicit (i.e. not always visible explicitly)
+        - 🟢 Can encode complex contexts
+    3. ### Knowledge Graphs
+        - Way to represent knowledge in a structured, machine-readable form.
+        - Network way of representing knowledge
+        - Composed of entities and relationships:
+            - Entities (nodes): These are objects or concepts
+            - Relationships (edges): These describe how entities are connected
+            - Properties (attributes): Entities and relationships can have additional information
+        - Example:
+            - `[Albert Einstein] --developed--> [Theory of Relativity]`
+            - `[Theory of Relativity] --field--> [Physics]`
+            - `Theory of Relativity → published in → 1915` (property of an entity)
+        - 🟢 Stores atomic facts in the form of triples doing away with unnecessary fluff
+        - Usage:
+            1. Convert query → graph query
+                - _“Who developed the theory of relativity?”_
+                - Converted to
+                - ```sparql
+                  SELECT ?person WHERE {
+                  ?person :developed :Theory_of_Relativity .
+                  }
+                  ```
+            2. Expand the context (optional)
+                - Once you find the node (“Albert Einstein”), the retriever can pull related nodes:
+                - example `:won :Nobel_Prize`
+            3. Convert graph data → readable text
+                - Subgraph is verbalized — transformed into sentences or summaries.
+                - ```text
+                  Albert Einstein developed the Theory of Relativity.
+                  He was born in Ulm and won the Nobel Prize.
+                  His field was Physics.
+                  ``` 
 - ### Search Algorithms:
     - #### Sparse Retrieval:
         - ### BM25
@@ -371,10 +288,14 @@ Prompt engineering is the art and science of communicating effectively with an A
     - Model is guided to generate intermediate steps instead of final answer
     - Few shot prompting as noted above has shown significant improvements in models to understand problems
     - in 2022 Paper, Few shot prompting was used with chain of thought
-      - i.e. Provided model multiple instances of Input, Chain of Thought, Output
+        - i.e. Provided model multiple instances of Input, Chain of Thought, Output
     - 🟢 Able to generate correct answer to complex problems without fine-tuning .i.e **Generalization**
-    - 🔴 For smaller models output chain of thought is illogical but fluent (can cause major issues without proper checking)
+    - 🔴 For smaller models output chain of thought is illogical but fluent (can cause major issues without proper
+      checking)
     - 🟢 Output results get better as task complexity increases
+    - Achieves significant improvement in:
+        - Arithematic Tasks
+        - Symbolic Reasoning
     - ![img_33.png](img_33.png)
 4. ### Role-Playing
     - This involves assigning a specific persona or role to the AI. This helps to set the tone, style, and context of
@@ -564,8 +485,8 @@ Prompt engineering is the art and science of communicating effectively with an A
           For e.g: ΔW=AB, and W<sub>final</sub>​= W + ΔW  
           so W is not modified at all
     - ### Prefix Tuning:
-      - Augments KV Matrices 
-      - Increases the dimension of K and V from nxdk to (n+m)xdk
+        - Augments KV Matrices
+        - Increases the dimension of K and V from nxdk to (n+m)xdk
 
   ## RAG Specific
     - ### Vector DBS
@@ -574,7 +495,7 @@ Prompt engineering is the art and science of communicating effectively with an A
 ## Text Generation Strategies
 
 - ### Greedy decoding:
-  - Choose simply highest probablity
+    - Choose simply highest probablity
 - ### Beam Search:
     - Instead of choosing directly most probable outputs you explore top k probabilities at every step
     - essentially becoming a tree.
@@ -600,19 +521,43 @@ Prompt engineering is the art and science of communicating effectively with an A
     - Flatter dist = higher chance for less probablity to be picked
     - Sharper dist = higher chance for high probability to be picked (greedy)
 
+## Types of Tasks LLMs Solve:
+
+1. Arithmetic Reasoning
+    - Using principles of math to solve real-world practical problems and make informed decisions.
+    - Basically mathematical word problems
+    - Examples:
+        - If the sum of three consecutive even numbers is 120, what is the second number?
+        - If a car travels at a constant speed of 55 miles per hour, how long will it take to cover a distance of 165
+          miles?
+2. Commonsense Reasoning
+    - Commonsense reasoning in AI refers to a system’s ability to make logical inferences using everyday knowledge that
+      humans typically acquire through experience.
+    - Involves understanding unspoken rules about the physical world, social norms, and cause-effect relationships
+    - Examples of logic:
+        - “you can’t carry a sofa in a backpack”
+        - “if it’s raining, people might use umbrellas”
+3. Symbolic Reasoning
+    - Symbolic reasoning is a branch of AI that uses discrete symbols and predefined rules to solve problems
+    - Represents knowledge through logical structures like if-then statements, rules engines, and knowledge graphs.
+    -
+
 ## Human Centric Eval
 
-### Model Communication 
+### Model Communication
+
 A structured way to pass context to the model, so it can understand:
-- Who said what 
-- What order events happened in 
+
+- Who said what
+- What order events happened in
 - Which instructions are active
 
-- role: Identifies whether the message is from the user, assistant, or system. 
-- content: The actual text. 
+- role: Identifies whether the message is from the user, assistant, or system.
+- content: The actual text.
 - metadata: Optional additional information (like formatting, function calls, or special instructions).
 
 often like :
+
 ```json
 {
   "role": "user" | "assistant" | "system",
@@ -622,15 +567,20 @@ often like :
 ```
 
 ### Why it's needed:
-- Clarity: The model can distinguish commands vs. conversation. 
-- Memory: Past messages can be preserved within the context window. 
+
+- Clarity: The model can distinguish commands vs. conversation.
+- Memory: Past messages can be preserved within the context window.
 - Control: System instructions can steer the model’s behavior without confusing it with user input.
 
 ### Model Context Protocol
-The Model Context Protocol (MCP) is an open-source framework designed to standardize the way AI systems, particularly large language models like Anthropic's Claude, integrate with and share data from external tools, systems, and data sources.
+
+The Model Context Protocol (MCP) is an open-source framework designed to standardize the way AI systems, particularly
+large language models like Anthropic's Claude, integrate with and share data from external tools, systems, and data
+sources.
 MCP was created to solve this by providing a single, open standard that all developers can build upon.
 
-MCP Servers: These are external programs that implement the MCP standard. They provide a specific set of capabilities to the AI application. An MCP server might be a connector to a database, a cloud service, a file system, or a specific API.
+MCP Servers: These are external programs that implement the MCP standard. They provide a specific set of capabilities to
+the AI application. An MCP server might be a connector to a database, a cloud service, a file system, or a specific API.
 
 
 
