@@ -9,7 +9,7 @@ layout: default
 
 ## Fundamental Types
 
-| Type                     |                                                                               | Example                                                                                                         |
+| Type                     | Definition                                                                    | Example                                                                                                         |
 |--------------------------|-------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | Supervised Learning      | Learning with labels, target variable                                         | Classification, Regression                                                                                      |
 | Unsupervised Learning    | Learning without existing labels, usually to find pattern between data itself | Clustering                                                                                                      |
@@ -19,8 +19,8 @@ layout: default
 
 ## Concepts
 
-1. ### **Training**
-2. ### **Testing**
+1. ### Training
+2. ### Testing
 3. ### Bias Variance Trade-Off
     - In ML Trade off between model's ability to make accurate predictions on training data and its ability to
       generalize to unseen data.
@@ -33,7 +33,7 @@ layout: default
    It is a model evaluation process to compare models/hyperparameters
    ![img_9.png](../assets/images/ML/img_9.png)
 
-   **K Folds:**
+   ### K Folds Cross Validation:
     1. Split the dataset into K equal-sized folds (subsets).
     2. For each fold:
         1. Use that fold as the test set.
@@ -41,9 +41,8 @@ layout: default
         3. Train the model on the training set and evaluate on the test set.
     3. Repeat the process K times, each time with a different fold as the test set.
     4. Average the performance metrics (📌e.g., accuracy, RMSE) across all folds for a final score.
-        - Pros & Cons:
-        - 🟢 Provides a better estimate of model performance.
-        - 🟢 Helps detect overfitting or underfitting.
+        - 🟢Provides a better estimate of model performance.
+        - 🟢Helps detect overfitting or underfitting.
         - 🔴Computationally expensive for large datasets.
         - 🔴Not viable for computationally expensive algorithms like deep learning
 5. ### Evaluation Metrics
@@ -63,9 +62,9 @@ layout: default
     5. ### ROC Curve
         - Receiver Operating Characteristic Curve
         - Plots: TPR vs FPR where TPR = TP/TP+FN, FPR = FP/FP+TN
-          ![img.png](../assets/images/ML/img.png)
+        - ![img.png](../assets/images/ML/img.png)
         - Plotting
-          ![img_1.png](../assets/images/ML/img_1.png)
+        - ![img_36.png](img_36.png)
         - **Using ROC Curve**:
             1. Set Threshold to 1 (for TP) and plot every prediction (will be 0,0)
             2. Slowly lower threshold for classification and watch as TPR and FPR rise
@@ -203,23 +202,23 @@ layout: default
     - Divisive i.e. Top Down
 
 10. ### Agglomerative Clustering
-     - Bottom up hierarchical clustering
-     - Steps:
-         1. Start with each point being its own class
-         2. Calculate length from every other points, merge the closest ones to form combined class
-         3. Now for each class (cluster) calculate distance from every other cluster
-             - Actually you calculate distance between every single point in both clusters
-             - Choose a measure as cluster distance, called **linkage**
-             - Linkage Types:
-                 1. Single: Min dist between any 2 points
-                 2. Complete: Max dist between any 2 points
-                 3. Average: Averages of all dists
-                 4. Ward: instead of distance choose clusters which cause least in cluster variance
-         4. Combine clusters and repeat until they reach one common cluster
-            ![img_1.png](../Images/img_1.png)
-     - 🟢 No need to specify K
-     - 🔴Computation requirements limit to small/medium datasets
-     - 🟢 Can handle non-spherical clusters by defining custom linkage
+    - Bottom up hierarchical clustering
+    - Steps:
+        1. Start with each point being its own class
+        2. Calculate length from every other points, merge the closest ones to form combined class
+        3. Now for each class (cluster) calculate distance from every other cluster
+            - Actually you calculate distance between every single point in both clusters
+            - Choose a measure as cluster distance, called **linkage**
+            - Linkage Types:
+                1. Single: Min dist between any 2 points
+                2. Complete: Max dist between any 2 points
+                3. Average: Averages of all dists
+                4. Ward: instead of distance choose clusters which cause least in cluster variance
+        4. Combine clusters and repeat until they reach one common cluster
+           ![img_1.png](../Images/img_1.png)
+    - 🟢 No need to specify K
+    - 🔴Computation requirements limit to small/medium datasets
+    - 🟢 Can handle non-spherical clusters by defining custom linkage
 11. ### Random Forest
     Bagging implementation
     Builds n decision trees, each tree being given a bootstrapped dataset.  
@@ -230,7 +229,7 @@ layout: default
 12. ### Gradient Boosted Machines
     Boosting implementation (usually for regression)  
     Builds decision trees (not a rule but usually means this in practice), each weak learner aims to correct error (
-    residual) of previous weak learner.  
+    residual) of previous weak learner.
     1. Model starts with γ (gamma) which is usually the mean of the target variable
     2. Use y or log odds of y (classification) for residual calculation
     3. Calculate pseudo-residual i.e. y-ŷ for MSE, can be complex for other loss functions
@@ -308,7 +307,8 @@ layout: default
     - Principal Component Analysis - Doesn't use target variable
     - Breaks down all features into n PCA vectors (which are weighted linear combinations of other features) using
       eigen vectors
-    - Note: Essentially creates linear combinations of features with the highest amount of variability starting from PC1, PC2...
+    - Note: Essentially creates linear combinations of features with the highest amount of variability starting from
+      PC1, PC2...
     - We usually consider only first 2 PCA components as they contain most of the variance of data
     - 🔴Bad for interpretability
     - 🟢 Finds compact uncorrelated representations
@@ -353,7 +353,8 @@ layout: default
     - Flexibility: It can handle various types of data
     - UMAP is faster and scales better with large datasets than T-sne
     - It preserves more of the global structure compared to t-SNE, which focuses heavily on local structure.
-    - UMAP has `n_neighbors` (controls local vs global emphasis) and `min_dist` (controls tightness of clusters), which are more interpretable.
+    - UMAP has `n_neighbors` (controls local vs global emphasis) and `min_dist` (controls tightness of clusters), which
+      are more interpretable.
 19. ### Gaussian Mixture Models
 20. ### SHAP
     - SHAP (SHapley Additive exPlanations) is a powerful and widely used technique in machine learning that helps
