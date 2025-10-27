@@ -9,118 +9,27 @@ layout: default
 
 # Index for Deep Learning
 
-- [Basics](#basics)
-    - [Perceptron](#perceptron)
-    - [Feed Forward Neural Networks](#feed-forward-neural-networks)
-    - [Hidden Layers](#hidden-layers)
-    - [Width of Model](#width-of-model)
-    - [Weights and Biases](#weights-and-biases)
-    - [Universal Approximation Theorem](#universal-approximation-theorem)
-    - [Activation Function](#activation-function)
-        - [Need](#need)
-        - [Types](#types)
-            - [Sigmoid](#Sigmoid-DEPRECATED)
-            - [Tanh](#tanh-DEPRECATED)
-            - [ReLU (Rectified Linear Unit)](#relu-rectified-linear-unit)
-            - [Leaky ReLU](#leaky-relu)
-            - [Parametric ReLU](#parametric-relu)
-            - [Swish](#swish)
-            - [eLU (Exponential Linear Unit)](#elu-exponential-linear-unit)
-            - [Softmax](#softmax)
-        - [Questions](#questions)
-    - [Gradient Descent](#gradient-descent)
-        - [Types](#gradient-descent-types)
-            - [Stochastic](#stochastic)
-            - [Batch](#batch)
-            - [Minibatch](#minibatch)
-            - [Momentum Based](#momentum-based)
-            - [Nesterov Accelerated Gradient Descent](#nesterov-accelerated-gradient-descent)
-        - [Common Issues](#common-issues)
-            - [Vanishing Gradient](#vanishing-gradient)
-            - [Exploding Gradient](#exploding-gradient)
-    - [Backpropagation](#backpropagation)
-    - [Weight Initialization](#weight-initialization)
-        - [Zero Init](#zero-init)
-        - [Random Init (Naive)](#random-init-naive)
-        - [Xavier Init](#xavier-init)
-        - [He Init](#he-init)
-    - [Learning Rate Scheduling](#learning-rate-scheduling)
-        - [Step Decay](#step-decay)
-        - [Exponential Decay](#exponential-decay)
-        - [Cosine Annealing](#cosine-annealing)
-        - [Polynomial Decay](#polynomial-decay)
-        - [LR On Plateau](#lr-on-plateau)
-        - [Cyclical](#cyclical)
-        - [One Cycle](#one-cycle)
-    - [Regularization](#regularization)
-        - [L1 LASSO](#l1-lasso)
-        - [L2 Ridge](#l2-ridge)
-        - [Elastic Net](#elastic-net)
-        - [Dropout](#dropout)
-        - [Early Stopping](#early-stopping)
-        - [Batch Norm](#batch-norm)
-        - [Data Augmentation](#data-augmentation)
-    - [Optimizer](#optimizer)
-        - [SGD](#sgd)
-        - [RMSProp](#RMSProp-Root-Mean-Square-Propagation))
-        - [Adam](#adam-adaptive-moment-estimation)
-        - [AdamW](#adamw)
-        - [Ada Grad](#ada-grad)
-- [Architectures](#architectures)
-    - [Convolutional Neural Networks](#convolutional-neural-networks)
-        - [Purpose](#purpose)
-        - [Working](#working)
-        - [Layer Types](#layer-types)
-            - [Convolution](#convolution)
-            - [Pooling](#pooling)
-            - [Conv Transpose](#conv-transpose)
-            - [Unpooling](#unpooling)
-            - [Fully Connected](#fully-connected)
-        - [Usage](#usage)
-        - [Applications](#applications)
-    - [Residual Connections / Skip Connections](#residual-connections--skip-connections)
-        - [Notable Implementations](#notable-implementations)
-    - [Recurrent Neural Networks](#recurrent-neural-networks)
-        - [Vanilla RNN](#vanilla-rnn)
-        - [LSTM](#lstm)
-        - [GRU](#gru)
-    - [Encoder Decoder](#encoder-decoder)
-        - [Architecture](#architecture)
-        - [Shortcomings](#shortcomings)
-    - [Attention Mechanism](Transformers.md#Attention-Mechanism)
-    - [Transformer](Transformers.md)
-    - [Generative Adversarial Network](#generative-adversarial-network)
-    - [Auto Encoder](#auto-encoder)
-    - [Variational Auto Encoder](#variational-auto-encoder)
-    - [Diffusion Networks](#diffusion-networks)
-    - [Transfer Learning](#transfer-learning)
-        - [Common Uses](#common-uses-tl)
-        - [Usage](#how-to-implement)
-    - [Training Strategies](#training-strategies)
-        - [Teacher Forcing](#teacher-forcing)
-        - [Scheduled Sampling](#scheduled-sampling)
-        - [Curriculum Learning](#curriculum-learning)
-        - [Professor Forcing](#professor-forcing)
-        - [Label Smoothing](#label-smoothing)
-
 ## Basics
 
 1. ### Perceptron
    Simplest type of artificial neural network.  
    Predicts using weighted sum and bias followed by an activation function.
-    1. **Inputs** (x1,x2,...,xnx_1, x_2, ..., x_nx1,x2,...,xn): Features of the data.
-    2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that stand for importance of
-       each feature.
-    3. **Bias** (b): A constant term that allows shifting the decision boundary.
-    4. **Summation Function:** Computes the weighted sum of inputs
-       $$z = \sum_{i=1}^{n} w_i x_i + b$$
-    5. **Activation Function**: Applies a step function (threshold function) to determine the output:
-       $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$
-2. ### **Feed Forward Neural Networks**
+    - ![img_35.png](img_35.png)
+    - Composed of:
+        1. **Inputs** (x1,x2,...,xnx_1, x_2, ..., x_nx1,x2,...,xn): Features of the data.
+        2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that stand for importance of
+           each feature.
+        3. **Bias** (b): A constant term that allows shifting the decision boundary.
+        4. **Summation Function:** Computes the weighted sum of inputs
+           $$z = \sum_{i=1}^{n} w_i x_i + b$$
+        5. **Activation Function**: Applies a step function (threshold function) to determine the output:
+           $$y = \begin{cases} 1, & \text{if } z \geq 0 \\ 0, & \text{otherwise} \end{cases}$$<br><br>
+
+2. ### Feed Forward Neural Networks
     - Simplest type of NN
     - Composed of just:
         - Layers process input → hidden → output.
-3. ### **Hidden Layers**
+3. ### Hidden Layers
     - Layers between the input and output layers
 4. ### Width of Model**
     - Number of neurons in a layer
@@ -130,7 +39,8 @@ layout: default
    Biases: Defined for each node. Variable input shifted by.
 6. ### Universal Approximation Theorem
    Pivotal theorem, Any continuous function can be approximated with a sufficiently large neural net with non-linear
-   activations (existence, not efficiency). (not a proof of finding it but least knowing that it's possible).
+   activations (existence, not efficiency).  
+   (not a proof of finding it but least knowing that it's possible).
 7. ### Activation Function:
    Function applied to the output of a neural network.
     1. ### Need:
@@ -142,7 +52,7 @@ layout: default
             - Bounded [0,1]
             - as x→∞ y→ 1
             - as x→-∞ y→ 0
-            - at x = 0, y = 0.5  
+            - at x = 0, y = 0.5
             - 🔴Obsolete
             - 🔴f`(x) maxes out at 0.25 i.e. sure to cause vanishing gradient as you add more
         2. ### Tanh [DEPRECATED]

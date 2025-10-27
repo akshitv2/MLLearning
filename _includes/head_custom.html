@@ -36,9 +36,25 @@ window.MathJax = {
     font-weight: bold !important;
     }
     .explainMarker::before {
-    content: "➤" !important;
+    content: "➞" !important;
     color: blue !important;
     font-weight: bold !important;
+    }
+    .questionMarker::before {
+    content: "Q" !important;
+    color: red !important;
+    font-weight: bold !important;
+    }
+    .answerMarker::before {
+    content: "A" !important;
+    color: green !important;
+    font-weight: bold !important;
+    }
+    .warningMarker::before {
+    content: "⚠️" !important;
+    }
+    .ideaMarker::before {
+    content: "💡" !important;
     }
 
 </style>
@@ -50,13 +66,27 @@ window.MathJax = {
           li.textContent = li.textContent.replace('🔴','');
           li.classList.add("consMarker");
         }
-        if (li.textContent.substr(0,2) === "🟢") {
+        else if (li.textContent.substr(0,2) === "🟢") {
           li.textContent = li.textContent.replace('🟢','');
           li.classList.add("prosMarker");
         }
-        if (li.textContent.substr(0,2) === "➡️") {
+        else if (li.textContent.substr(0,2) === "➡️") {
           li.textContent = li.textContent.replace('➡️','');
           li.classList.add("explainMarker");
+        }
+        else if (li.textContent.substr(0,1) === "❓") {
+          li.textContent = li.textContent.replace('❓','');
+          li.classList.add("questionMarker");
+        }
+        else if (li.textContent.substr(0,3) === "🅰️") {
+          li.textContent = li.textContent.replace('🅰️','');
+          li.classList.add("answerMarker");
+        }else if (li.textContent.substr(0,2) === "⚠️") {
+          li.textContent = li.textContent.replace('⚠️','');
+          li.classList.add("warningMarker");
+        }else if (li.textContent.substr(0,2) === "💡") {
+          li.textContent = li.textContent.replace('💡','');
+          li.classList.add("ideaMarker");
         }
 
       });
