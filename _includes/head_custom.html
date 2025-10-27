@@ -1,6 +1,14 @@
 <script id="MathJax-script" async
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
 <link href="https://db.onlinewebfonts.com/c/8ec4c9ee1facfe4bd7ac04d52af457ea?family=ITC+Century+Std+Book"
       rel="stylesheet">
 <style>
@@ -27,6 +35,11 @@
     color: green !important;
     font-weight: bold !important;
     }
+    .explainMarker::before {
+    content: "➤" !important;
+    color: blue !important;
+    font-weight: bold !important;
+    }
 
 </style>
 
@@ -41,6 +54,11 @@
           li.textContent = li.textContent.replace('🟢','');
           li.classList.add("prosMarker");
         }
+        if (li.textContent.substr(0,2) === "➡️") {
+          li.textContent = li.textContent.replace('➡️','');
+          li.classList.add("explainMarker");
+        }
+
       });
     });
 </script>

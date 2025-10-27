@@ -64,15 +64,15 @@ layout: default
   - Provides descriptive context (e.g., customer details, product info).
   - Smaller, less frequently updated.
 - **Example**:
-  #### Fact Table: FactSales
+  ### Fact Table: FactSales
   | DateKey    | ProductKey | CustomerKey | Quantity | SalesAmount |
   |------------|------------|-------------|----------|-------------|
   | 2025-09-21 | 101        | 201         | 2        | 1500        |
-  #### Dimension Table: DimProduct
+  ### Dimension Table: DimProduct
   | ProductKey | Name     | Category | ListPrice |
   |------------|----------|----------|-----------|
   | 101        | Widget A | Gadget   | 800       |
-  #### Dimension Table: DimCustomer
+  ### Dimension Table: DimCustomer
   | CustomerKey | Name  | AgeGroup | City  |
   |-------------|-------|----------|-------|
   | 201         | Alice | 25–34    | Delhi |

@@ -115,19 +115,19 @@ Necessary for accuracy in analysis. Real world data is often imperfect or incons
 7. ### Encoding Categorical Variables
     1. **One-Hot Encoding**: Replace categories with 1 in their index, 0 in others
         - 🟢 Maintains independence of classes
-        - 🔴 Grows linearly with number of classes (not suited for high cardinality)
+        - 🔴Grows linearly with number of classes (not suited for high cardinality)
     2. **Label Encoding**: Assign integers to each class
-        - 🔴 Integers assigned can cause the model to assume numerical relationships where none exist
+        - 🔴Integers assigned can cause the model to assume numerical relationships where none exist
     3. **Ordinal Encoding**: Same as label encoding, but used when order actually exists (e.g., Small, Medium, Large)
     4. **Binary Encoding**: Similar to one-hot but more space-efficient and less independent (converts classes to binary
        representations, reusing dimensions but potentially mixing information)
     5. **Hash Encoding**: Maps high-cardinality categories to fixed-size vectors using a hash function (collisions can
        occur)
     6. **Target Encoding**: Replace category with the mean of the target variable for samples in that category
-        - 🔴 Can cause leakage of target information into features
+        - 🔴Can cause leakage of target information into features
     7. **Frequency Encoding**: Replace classes with their frequency of occurrence
         - 🟢 Can simplify encoding for very high cardinality
-        - 🔴 Maps multiple categories to the same value and can be confusing when no inherent imbalance
+        - 🔴Maps multiple categories to the same value and can be confusing when no inherent imbalance
 
 ## Dimensionality Reduction Techniques
 
@@ -193,19 +193,19 @@ inefficient to test the entire population).
     1. **Simple Random Sampling**
         - Every individual has an equal chance of being selected.
         - 🟢 Pros: Unbiased if truly random and easy to analyze
-        - 🔴 Cons: Impractical due to requiring a full list of the population
+        - 🔴Cons: Impractical due to requiring a full list of the population
     2. **Stratified Sampling**
         - Divide population into homogeneous subgroups (strata) and take random samples from each (e.g., divide by age).
         - 🟢 Pros: Ensures representation of all groups
-        - 🔴 Cons: Requires complex design and knowledge to divide strata
+        - 🔴Cons: Requires complex design and knowledge to divide strata
     3. **Systematic Sampling**
         - Select every k-th item.
         - 🟢 Pros: Easy, good coverage
-        - 🔴 Cons: Hidden numerical patterns can cause bias; requires full list
+        - 🔴Cons: Hidden numerical patterns can cause bias; requires full list
     4. **Cluster Sampling**
         - Divide population into clusters and select one or more entire clusters.
         - 🟢 Pros: Cheaper and convenient
-        - 🔴 Cons: Less precise than stratified; bias due to only some clusters selected
+        - 🔴Cons: Less precise than stratified; bias due to only some clusters selected
     5. **Multi-Stage Sampling**
         - Combines several sampling methods (e.g., cluster then random within clusters).
 
@@ -215,20 +215,20 @@ inefficient to test the entire population).
     1. **Convenience Sampling**
         - Sample whoever is accessible.
         - 🟢 Pros: Cheap and convenient
-        - 🔴 Cons: Extremely biased
+        - 🔴Cons: Extremely biased
     2. **Purposive/Judgmental Sampling**
         - Researcher selects samples based on expert judgment or specific characteristics.
         - 🟢 Pros: Targeted and efficient for qualitative research
-        - 🔴 Cons: Subjective and prone to bias
+        - 🔴Cons: Subjective and prone to bias
     3. **Quota Sampling**
         - Like stratified, but non-random selection within predefined quotas (e.g., interview 50 men and 50 women).
         - 🟢 Pros: Ensures diversity without full population list
-        - 🔴 Cons: Non-random, potential selection bias
+        - 🔴Cons: Non-random, potential selection bias
     4. **Snowball Sampling**
         - Start with initial subjects who refer others (useful for hard-to-reach populations, e.g., rare disease
           patients).
         - 🟢 Pros: Effective for hidden populations
-        - 🔴 Cons: Biased toward connected individuals; hard to control
+        - 🔴Cons: Biased toward connected individuals; hard to control
     5. **Sampling Distributions**
         - The distribution of a statistic (e.g., sample mean) over many samples. Central Limit Theorem: Sample means
           approximate normal distribution for large n, regardless of population shape.
@@ -239,12 +239,12 @@ inefficient to test the entire population).
     1. ### SMOTE (Synthetic Minority Oversampling Technique)
         - For the minority class, use k-nearest neighbors to create synthetic samples by interpolating between
           neighbors.
-        - 🔴 Not real data, so might cause overfitting
+        - 🔴Not real data, so might cause overfitting
     2. ### ADASYN (Adaptive Synthetic Sampling)
         - Similar to SMOTE but focuses on generating more samples near decision boundaries (minority points with many
           majority neighbors).
         - 🟢 Teaches the model more by focusing on difficult regions
-        - 🔴 Can introduce noise
+        - 🔴Can introduce noise
     3. ### Undersampling
         - Randomly remove samples from the majority class (e.g., RandomUnderSampler or NearMiss for intelligent
           selection).
@@ -262,7 +262,7 @@ inefficient to test the entire population).
         - Word tokenization: Splits into individual words.
         - Character tokenization: Splits into characters.
             - 🟢 Small vocabulary
-            - 🔴 Computationally intensive; doesn't capture context
+            - 🔴Computationally intensive; doesn't capture context
         - Sentence tokenization: Splits into sentences (low use case).
         - Subword tokenization: Breaks into smaller units than words (useful in deep learning).  
           Two popular types: (See [Modern Tokenizations](LLM.md#Modern-tokenization))
@@ -304,7 +304,7 @@ inefficient to test the entire population).
 - Types:
     1. ## Static Embeddings [DEPRECATED]
         - Created with a large but finite corpus; only works with words in vocabulary.
-        - 🔴 Doesn't handle polysemy well (words with multiple meanings).  
+        - 🔴Doesn't handle polysemy well (words with multiple meanings).  
           Notable Implementations:
 
         1. **Word2Vec**: Trained using a neural network with input (W_in) and output (W_out) embeddings.

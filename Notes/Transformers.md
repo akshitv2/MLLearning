@@ -86,11 +86,11 @@ In Transformers, two major strategies exist for applying LayerNorm
         - Residual: $ x + \text{sub-layer}(x) $.
         - Then apply LayerNorm: $ \text{LN}(x + \text{sub-layer}(x)) $.
         - This is repeated across $ L $ layers.
-    - 🔴 This can affect the signal from skip connection since it's normalized (across N encoders distorts greatly)
-    - 🔴 Causes gradient instability: Why? At init outputs of sublayer (attention with linear) are small (due to He init)
+    - 🔴This can affect the signal from skip connection since it's normalized (across N encoders distorts greatly)
+    - 🔴Causes gradient instability: Why? At init outputs of sublayer (attention with linear) are small (due to He init)
       so residual path
       dominates forcing both to same range and multiply over deepstacks.(Thus attention output dilutes)
-    - 🔴 Requires learning rate warm up
+    - 🔴Requires learning rate warm up
 2. **Pre-Normalization** (Pre-LN):
     - LayerNorm is applied inside the residual connection, before each sub-layer.
         - i.e. Apply LayerNorm first: $ \text{LN}(x) $

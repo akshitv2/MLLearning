@@ -44,8 +44,8 @@ layout: default
         - Pros & Cons:
         - 🟢 Provides a better estimate of model performance.
         - 🟢 Helps detect overfitting or underfitting.
-        - 🔴 Computationally expensive for large datasets.
-        - 🔴 Not viable for computationally expensive algorithms like deep learning
+        - 🔴Computationally expensive for large datasets.
+        - 🔴Not viable for computationally expensive algorithms like deep learning
 5. ### Evaluation Metrics
    <br>TP = True Positives
    <br>TN = True Negatives
@@ -104,7 +104,7 @@ layout: default
 3. ### K Nearest Neighbours
     - Lazy learner, assigns class to samples based on neighbours
     - Supervised Classification algo
-    - 🔴 Sensitive to k chosen (incorrect k can split points into incomprehensible mess)
+    - 🔴Sensitive to k chosen (incorrect k can split points into incomprehensible mess)
     - K↑ Bias↑ | K↓ Variance ↑
     - Working: Find K points closest to new sample, assign class based on majority of them
     - Ideal to use Odd (if binary classfn). Else choose lowest dist or smallest total dist.
@@ -183,7 +183,7 @@ layout: default
         2. Calculate distance of each sample from each centroid, assign class based on min distance
         3. Once assigned to each point recalculate centroids (as being mean of the class)
         4. Repeat process multiple times until centroids settle
-    - 🔴 Sensitive to K
+    - 🔴Sensitive to K
     - 🟢 Simple and Fast
 
 8. ### Bisecting K Means
@@ -218,7 +218,7 @@ layout: default
          4. Combine clusters and repeat until they reach one common cluster
             ![img_1.png](../Images/img_1.png)
      - 🟢 No need to specify K
-     - 🔴 Computation requirements limit to small/medium datasets
+     - 🔴Computation requirements limit to small/medium datasets
      - 🟢 Can handle non-spherical clusters by defining custom linkage
 11. ### Random Forest
     Bagging implementation
@@ -286,8 +286,8 @@ layout: default
     ![img_5.png](../Images/img_5.png)
     - Density based spatial clustering with noise
     - 🟢 Allows non-circular clusters and noise
-    - 🔴 Sensitive to hyperparams
-    - 🔴 Struggles with density variation in same dataset
+    - 🔴Sensitive to hyperparams
+    - 🔴Struggles with density variation in same dataset
     - Uses params:
         - ε : Cluster Radius
         - Min Points
@@ -310,9 +310,9 @@ layout: default
       eigen vectors
     - Note: Essentially creates linear combinations of features with the highest amount of variability starting from PC1, PC2...
     - We usually consider only first 2 PCA components as they contain most of the variance of data
-    - 🔴 Bad for interpretability
+    - 🔴Bad for interpretability
     - 🟢 Finds compact uncorrelated representations
-    - 🔴 Doesn't optimize for predicting y
+    - 🔴Doesn't optimize for predicting y
 17. ### T-SNE
     - T stochastic neighbour embedding
     - Used exclusively for visualization
@@ -335,7 +335,7 @@ layout: default
         4. Perform gradient descent, one trained q should match spatial locality like p
     - Why T dist used? T dist has flatter mean and heavier tails, points do not crowd at center and are more spread
       about
-    - 🔴 Very sensitive to perplexity param
+    - 🔴Very sensitive to perplexity param
 
 18. ### UMAP
     - Uniform Manifold Approximation and Projection

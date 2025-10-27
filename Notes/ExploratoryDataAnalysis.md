@@ -22,7 +22,7 @@ layout: default
         - Process of identifying and correcting errors, inconsistencies, or inaccuracies in the dataset.
         - Includes fixing typos, standardizing formats, and resolving inconsistencies in data entries.
         - 🟢 Ensures data quality and reliability for analysis.
-        - 🔴 Can be time-consuming and may require domain knowledge to identify errors.
+        - 🔴Can be time-consuming and may require domain knowledge to identify errors.
     2. ### Handling Missing Data
         - Missing data can arise due to errors in data collection, system failures, or incomplete responses.
         - Strategies for handling missing data ensure the dataset remains usable without introducing significant bias.
@@ -36,23 +36,23 @@ layout: default
             - **Interpolation**: Estimate missing values based on surrounding data points, often used in time-series
               data.
             - 🟢 Simple to implement and preserves dataset size.
-            - 🔴 May introduce bias if missing data is not random.
+            - 🔴May introduce bias if missing data is not random.
         - ### Regression Imputation
             - Predict missing values using a regression model based on other variables in the dataset.
             - 🟢 Accounts for relationships between variables.
-            - 🔴 Computationally intensive and assumes linear relationships.
+            - 🔴Computationally intensive and assumes linear relationships.
         - ### Advanced Methods
             - **K-Nearest Neighbors (KNN) Imputation**: Replace missing values with the average of the nearest neighbors
               based on other features.
             - **Multiple Imputation by Chained Equations (MICE)**: Models each variable with missing data as a function
               of other variables iteratively.
             - 🟢 More accurate for complex datasets.
-            - 🔴 Computationally expensive and requires careful implementation.
+            - 🔴Computationally expensive and requires careful implementation.
     3. ### Handling Duplicates
         - Involves identifying and removing duplicate records to prevent skewed analysis.
         - Common in datasets from merged sources or user input errors.
         - 🟢 Improves data quality and reduces bias in results.
-        - 🔴 Risk of accidentally removing valid data if duplicates are not correctly identified.
+        - 🔴Risk of accidentally removing valid data if duplicates are not correctly identified.
     4. ### Handling Outliers
         - Outliers are data points that deviate significantly from the rest of the dataset.
         - Can skew analysis and affect model performance if not addressed.
@@ -76,27 +76,27 @@ layout: default
                     - $y(\lambda) = \begin{cases} \frac{y^\lambda - 1}{\lambda}, & \lambda \neq 0 \\ \ln(y), & \lambda = 0 \end{cases}$
                     - Generalized transformation.
                     - 🟢 Keeps all data.
-                    - 🔴 Requires choosing Lambda.
-                    - 🔴 Hard to interpret.
-                    - 🔴 Not applicable to <=0.
+                    - 🔴Requires choosing Lambda.
+                    - 🔴Hard to interpret.
+                    - 🔴Not applicable to <=0.
         - ### Removal
             - Removing outliers involves deleting the extreme values entirely from your dataset.
             - 🟢 Simple and effective.
             - 🟢 Avoids statistical distortion.
-            - 🔴 Risk losing signal.
+            - 🔴Risk losing signal.
     7. ### [Encoding](DataPreProcessing.md#Encoding-Categorical-Variables)
         - Converts categorical data into numerical format for analysis or modeling.
     8. ### Creating New Features
         - Involves generating new variables from existing data to enhance analysis or model performance.
         - Examples: Creating interaction terms, polynomial features, or aggregating data.
         - 🟢 Can uncover hidden patterns or improve model accuracy.
-        - 🔴 May increase complexity or risk overfitting.
+        - 🔴May increase complexity or risk overfitting.
     9. ### Date Time Decomposition
         - Process of breaking down a single date-time value into its individual components to make it easier to analyze,
           manipulate, or use in calculations.
         - Examples: Extracting year, month, day, hour, or weekday from a timestamp.
         - 🟢 Facilitates time-based analysis and feature engineering.
-        - 🔴 Requires careful handling of time zones and formats.
+        - 🔴Requires careful handling of time zones and formats.
 2. ### Data Exploration
     - Involves applying statistical and visual methods to understand the dataset's structure, patterns, and
       relationships.
@@ -173,7 +173,7 @@ layout: default
             6. # Pie Chart
                 - Displays the proportion of categories in a categorical variable.
                 - 🟢 Useful for showing relative frequencies.
-                - 🔴 Can be misleading if too many categories are included.
+                - 🔴Can be misleading if too many categories are included.
                 - ![img_29.png](img_29.png)
             7. # Bar Plot
                 - Displays the frequency or proportion of categories in a categorical variable.
@@ -189,15 +189,15 @@ layout: default
             - Values range from -1 to 1, where 1 indicates a perfect positive linear relationship, -1 indicates a
               perfect negative linear relationship, and 0 indicates no linear relationship.
             - 🟢 Works well for normally distributed data.
-            - 🔴 Sensitive to outliers.
+            - 🔴Sensitive to outliers.
         2. ### Spearman
             - Measures the monotonic relationship between two variables based on their ranks.
             - 🟢 Robust to outliers and non-linear relationships.
-            - 🔴 Less sensitive to linear relationships than Pearson.
+            - 🔴Less sensitive to linear relationships than Pearson.
         3. ### Kendall
             - Measures the ordinal association between two variables.
             - 🟢 Suitable for small datasets or non-parametric data.
-            - 🔴 Less commonly used than Pearson or Spearman.
+            - 🔴Less commonly used than Pearson or Spearman.
     4. ### Categorical Analysis
         1. ### Frequency Counts
             - Counts the occurrences of each category in a categorical variable.
@@ -257,4 +257,4 @@ layout: default
             - **Undersampling**: Reduces the majority class to balance the dataset.
             - **Class Weight Adjustment**: Assigns higher weights to minority class samples in model training.
             - 🟢 Improves model performance on imbalanced datasets.
-            - 🔴 May lead to overfitting (oversampling) or loss of information (undersampling).
+            - 🔴May lead to overfitting (oversampling) or loss of information (undersampling).

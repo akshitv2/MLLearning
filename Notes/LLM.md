@@ -9,61 +9,69 @@ layout: default
 
 # Foundations and basics
 
-- ### n-grams
-  n → No. of words  
-  example: Hi I am Sam  
-  then 1 gram: ["Hi","I","am","Sam"]  
-  then 2 gram: [["Hi","I"],["I","am"],["am","Sam"]]  
-  then 3 gram: [["Hi","I","am"],["I","am","Sam"]]  
-  then 4 gram: ["Hi","I","am","Sam"]
+1. ## n-grams
+    - Sequence of \(n\) adjacent items from a given text
+    - Used in NLP
+    - n → No. of words
+    - example: Hi I am Sam
+        - then 1 gram: ["Hi","I","am","Sam"]
+        - then 2 gram: [["Hi","I"],["I","am"],["am","Sam"]]
+        - then 3 gram: [["Hi","I","am"],["I","am","Sam"]]
+        - then 4 gram: ["Hi","I","am","Sam"]
+    - N-grams treat groups of adjacent tokens as single composite tokens.
+    - ➡️Way to represent groups of tokens as tokens themselves
 
-- ### Bag of Words
+2. ### Bag of Words
+    - ➡️Way of converting tokens to numerical representation by just using raw frequencies
     - Let our lowercased vocab be ["the","cat","dog","sat","on","mat"]
     - then BOW converts sentence "The cat sat on the mat" to [2,1,0,1,1,1] (i.e. frequency of each word on the index in
       vocab).
     - 🔴Doesn't care about the word order
-- ### **TF-IDF**
+    - 🔴Leads to sparsity as in large vocab more words will be missing in sentence than present
+3. ### TF-IDF
     - Term Frequency Inverse Document Frequency
     - Tf(T,d) = count of times t appears in doc d/total number of terms in d
     - IDF(T,d) = log(Number of docs in corpus/Number of docs containing t)
     - TFIDF = TFxIDF
-    - **Idea:** TF gives how much word appears but is biased to common words. IDF gives lower scores for common words
-      i.e. Rare
-      word in docs means probably significant presence.
-- ### Modern Tokenization:
-    - ##### Byte Pair Encoding:
+    - ➡️TF gives how much word appears but is biased to common words. IDF gives lower scores for common words
+      i.e. Rare word in docs means probably significant presence.
+
+4. ### Modern Tokenization:
+    - ### Byte Pair Encoding:
         - Iteratively merge two most frequent pairs of symbols (starts from characters merging to
           form words).
         - Choose two most frequent pairs of characters that appear together until you reach required vocab so creates
           combinations of common words: eg Un happy  
           h e l l o → he l l o → hel l o → hell o → hello
-    - ##### **Word Piece Encoding**:
+    - ### **Word Piece Encoding**:
         - Combines word based on maximizing log likelihood of sentences. Likelihood of characters
           alone grows at rate of (1/26)^c.
         - So a vocab forming increases probablity of words.  
           $$s^\ast(w) = \arg\max_{s \in \mathcal{S}_V(w)} \prod_{i=1}^{K(s)} P(u_i)
           = \arg\max_{s \in \mathcal{S}_V(w)} \sum_{i=1}^{K(s)} \log P(u_i)$$
-- #### **Positional Encoding**
-    - ##### Usage:
+
+- ### Positional Encoding
+    - ### Usage:
         - Added to deep/shallow embeddings to create encoded and embedded token
-    - ##### Sinusoidal:
-        - Encodes position in sentence as well dimensionally.
-        - $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
-        - $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
-        - where d is the dimension of embedding and p position in sentence
-            - bound to [-1,1] due to sin and cos functions
-    - #### Learned:
-        - Train a set of vectors to output embedding number
-        - Since learned embeddings are not bound by sin and cos can cause embedding collision
+    - ### Types:
+      - ### Sinusoidal:
+          - Encodes position in sentence as well dimensionally.
+          - $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
+          - $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
+          - where d is the dimension of embedding and p position in sentence
+              - bound to [-1,1] due to sin and cos functions
+      - ### Learned:
+          - Train a set of vectors to output embedding number
+          - Since learned embeddings are not bound by sin and cos can cause embedding collision
     - ℹ️Note: Since each embedding is different for each position the same word at position 1 and position 2 will appear
       as different words to the model (but since sin and cos are [-1,1] not that different)
-- #### **Contrastive Learning**
+- ### **Contrastive Learning**
   Type of self supervised/supervised learning, teaches models to recognize similar and diff things. Learns by comparing
   examples.
   Sometime use labels, but can learn without them as well by instead augmenting same sample enough times so that model
   learns to generalize 📌e.g. model learns two
   dogs are similar by augmenting each dog enough times.
-    - #### Contrastive Learning in LLMs
+    - ### Contrastive Learning in LLMs
         - Types:  
           Inputs are text sequences, to create similarity pairs:
             - Positive pairs: (created using augmenting text)
@@ -142,7 +150,7 @@ layout: default
         - Chunking: Documents broken down to fit LLMs context window
         - Embedding: Convert into numerical representation
         - Vector DataBase: Embeddings stored in specialized db for vectors
-    2. #### Retrieval and Generation
+    2. ### Retrieval and Generation
         - Query Embedding: User query is also embedded into same space
         - Vector Search: System performs similarity search in vector db to find most relevant document chunks
         - Prompt Augmentation: Retrieved chunks combined with original query and prompt is asked from LLM.
@@ -163,15 +171,15 @@ layout: default
         - Usage: Usually through sparse embeddings generated using TF-IDF or BM25 (Best Match 25)
         - Example: Elasticsearch
         - 🟢 Simple explicit contexts
-        - 🔴 Cannot map complex relationships close enough
+        - 🔴Cannot map complex relationships close enough
         - Usage:
-          - Uses Sparse Retrieval
+            - Uses Sparse Retrieval
     2. ### Vector Databases (Embeddings-based)
         - Instead of storing just raw text, each piece of information is also converted into a vector embedding
         - Store both text and vector
         - Vector embedding is a one way process which extracts important features but loses content in machine readable
           format
-        - 🔴 Relationship is implicit not explicit (i.e. not always visible explicitly)
+        - 🔴Relationship is implicit not explicit (i.e. not always visible explicitly)
         - 🟢 Can encode complex contexts
     3. ### Knowledge Graphs
         - Way to represent knowledge in a structured, machine-readable form.
@@ -205,7 +213,7 @@ layout: default
                   His field was Physics.
                   ``` 
 - ### Search Algorithms:
-    - #### Sparse Retrieval:
+    - ### Sparse Retrieval:
         - ### BM25
             - Sparse retrieval → Lexical matching
             - Works using tf-idf with some normalization.
@@ -213,10 +221,10 @@ layout: default
                     - Term Frequency
                     - Inverse Document Frequency
                     - Document Length Normalization
-            - 🔴 Only matches exact tokens and struggles with synonyms
+            - 🔴Only matches exact tokens and struggles with synonyms
             - 🟢 Best performance at keyword heavy queries
             - 🟢 Very Fast
-    - #### Dense Retrieval:
+    - ### Dense Retrieval:
         - Uses Dense embeddings by converting both query and docs to same common embedding
         - 🟢 Understands semantic similarity and contextual meaning.
         - 🟢 Better performance in capturing meaning
@@ -235,32 +243,32 @@ layout: default
             - ### Cross Encoder:
                 - Sometimes added on top
                 - A third model (not just encoders) can be used in re-ranking
-        - #### Similarity Search:
+        - ### Similarity Search:
             - Queries vector DB to find document vectors using cosine similarity or dot product (usually)
 
-        - #### Notable Implementations:
-            - #### Dense Passage Retrieval (DPR):
+        - ### Notable Implementations:
+            - ### Dense Passage Retrieval (DPR):
                 - Uses two BERTs , uses negatives to push non-relevant docs away
-            - #### ColBert:
+            - ### ColBert:
                 - Contextualized Late Interaction over BERT
                 - Creates a vector for every token in the document as well as query and does similarity matching on
                   those two.
-            - #### Contriever
-            - #### RocketQA
-        - #### Algorithms Used:
+            - ### Contriever
+            - ### RocketQA
+        - ### Algorithms Used:
             - Dense ret algos are based on ANN (Approximate Nearest Neighbour) Search
-            - #### Hierarchical Navigable Small World (HNSW):
+            - ### Hierarchical Navigable Small World (HNSW):
                 - Builds a multi layer graph to find nearest vector
-            - #### FAISS (Facebook AI Similarity Search):
+            - ### FAISS (Facebook AI Similarity Search):
                 - library of algorithms for efficient similarity
-            - #### ScaNN (Scalable Nearest Neighbors):
+            - ### ScaNN (Scalable Nearest Neighbors):
                 - Developed by Google, ScaNN is a library for ANN search that focuses on high-performance and is
                   particularly effective for large-scale datasets.
-    - #### Hybrid Search
+    - ### Hybrid Search
         - Combining semantic search (using embeddings to find related meanings) with keyword search (like TF-IDF or
           BM25) to get the best of both worlds. This ensures that both exact matches and semantically similar
           information are retrieved.
-    - #### Recursive Retrieval
+    - ### Recursive Retrieval
         - More complex approach where the system retrieves information, uses it to generate a more detailed query, and
           then retrieves more information in an iterative process to build a comprehensive answer
 
@@ -284,14 +292,24 @@ Prompt engineering is the art and science of communicating effectively with an A
                 English: Good night
                 French:
 3. ### Chain-of-Thought (CoT) Prompting
-    - [Wei et al. (2022)](https://arxiv.org/abs/2201.11903):
+    - [Wei et al. (2022) 🔗](https://arxiv.org/abs/2201.11903)
     - Model is guided to generate intermediate steps instead of final answer
-    - Few shot prompting as noted above has shown significant improvements in models to understand problems
-    - in 2022 Paper, Few shot prompting was used with chain of thought
-        - i.e. Provided model multiple instances of Input, Chain of Thought, Output
-    - 🟢 Able to generate correct answer to complex problems without fine-tuning .i.e **Generalization**
-    - 🔴 For smaller models output chain of thought is illogical but fluent (can cause major issues without proper
-      checking)
+    - With **Few Shot Prompting**:
+        - Few shot prompting as noted above has shown significant improvements in models to understand problems
+        - in 2022 Paper, Few shot prompting was used with chain of thought
+            - i.e. Provided model multiple instances of Input, Chain of Thought, Output
+        - 🟢 Able to generate correct answer to complex problems without fine-tuning .i.e **Generalization**
+        - 🔴For smaller models output chain of thought is illogical but fluent (can cause major issues without proper
+          checking)
+    - With **Zero Shot Prompting** (Prompting model to show steps):
+        - Example:
+            - Prompt without zero shot: `I went to the market and bought 10 apples. I gave 2 apples to the neighbor and 2 to the repairman. I then went
+          and bought 5 more apples and ate 1. How many apples did I remain with?`
+                - Output: `11 apples`
+            - Prompt with zero shot:
+              `I went to the market and bought 10 apples. I gave 2 apples to the neighbor and 2 to the repairman. I then went and bought 5 more apples and ate 1. How many apples did I remain with? Let's think step by step.`
+                - Output:
+                  `First, you started with 10 apples. You gave away 2 apples to the neighbor and 2 to the repairman, so you had 6 apples left. Then you bought 5 more apples, so now you had 11 apples. Finally, you ate 1 apple, so you would remain with 10 apples.`
     - 🟢 Output results get better as task complexity increases
     - Achieves significant improvement in:
         - Arithematic Tasks
@@ -311,14 +329,14 @@ Prompt engineering is the art and science of communicating effectively with an A
 - ### Catastrophic Forgetting**:
     - Model forgets previously learned information when trained on new task.
     - ### Catastrophic Forgetting Solutions:
-        1. #### Replay:
+        1. ### Replay:
             - Store examples of previous task and retrain on them alongside new task
-        2. #### Elastic Weight Consolidation:
+        2. ### Elastic Weight Consolidation:
             - (Regularization):
             - Uses Fisher Information Matrix.
             - if fim score ↑ then importance ↑ so penalizes more.
             - ℹ️ Note: FIM: Basically squared probablity of getting ∂(y<sub>actual</sub> | x)/∂(this nueron)
-        3. #### Dynamic Architectures:
+        3. ### Dynamic Architectures:
             - Add neurons or layers for giving model space to learn new tasks.
 - ### Hallucination
     - Model generates incorrect outputs with fluency and confidence. Since LLM are prediction models if they don't know
@@ -341,7 +359,7 @@ Prompt engineering is the art and science of communicating effectively with an A
       Penalties, RLHF is always an option
 - ### Adversarial Prompts:
     - Models can be tricked by certain malicious prompts.
-    - #### Adversarial Prompts Solutions:
+    - ### Adversarial Prompts Solutions:
         - ### **Instruction Separation:**
             - Keep the system prompt (instructions the model must follow) separate and immutable in your application
             - Give system prompts much higher priority to prevent overriding
@@ -359,25 +377,25 @@ Prompt engineering is the art and science of communicating effectively with an A
 - ### Context Rot:
     - Degeneration as context window gets larger.
     - LLMs especially earlier ones were often trained on small sequence sets.
-    - #### Context Rot Solution:
+    - ### Context Rot Solution:
         - Summarize text as it goes out of immediate window (can use deep embeddings or text summary)
 
 ## Evaluation
 
-1. #### Perplexity
+1. ### Perplexity
     - Measures how much model was perplexed by input (lower is better).
     - Actually how likely was this prediction.
     - $$\text{Perplexity} = \exp\Bigg(- \frac{1}{N} \sum_{i=1}^{N} \log P(w_i \mid w_1, w_2, \dots, w_{i-1}) \Bigg)$$
     - Notice how it's just average log likelihood, and it's just probablity of getting the word i when we have predicted
       till i-1. (So taken at every word)
-2. #### BLEU: Bilingual Evaluation Understudy
+2. ### BLEU: Bilingual Evaluation Understudy
     - Calling output sequence candidate here
     - ℹ️Bilingual: Because it was used for comparing translations from machine and human
     - Calculated in two parts:
-        1. #### BP: Brevity Penalty
+        1. ### BP: Brevity Penalty
             - if candidate sequence length is shorter than reference penalizes it
             - $$\mathrm{BP} = \begin{cases}1, & \text{if } c > r,\\[6pt]\exp\!\left(1 - \dfrac{r}{c}\right), & \text{if } c \le r.\end{cases}$$
-        2. #### Score:
+        2. ### Score:
             - Calculated as overlap of n grams (maxed out at ref text ngram frequency to discourage repitition more than
               needed).
             - p<sub>n</sub> = no. of times n gram appears in candidate (maxed at appearance in ref)/no. of times n gram
@@ -389,27 +407,27 @@ Prompt engineering is the art and science of communicating effectively with an A
               becomes
               product and ln cancels out exp/
 
-        - 🔴 Bad at synonyms/semantically same sentences
-3. #### **ROUGE**: Recall Oriented Understudy for Gisting Evaluation
+        - 🔴Bad at synonyms/semantically same sentences
+3. ### **ROUGE**: Recall Oriented Understudy for Gisting Evaluation
     - How much of reference is captured by candidate (or how well can candidate recall)
-    - #### ROUGE-N:
+    - ### ROUGE-N:
         - use ngrams too
         - = no. of grams that appear in candidate(maxed out at n grams in
           ref)/no. of grams that appear in **reference**
-    - #### ROUGE-L:
+    - ### ROUGE-L:
         - Measures longest common subsequence
         - Reference: "The cat sat on the mat"
         - Candidate: "Cat sat on mat"
         - LCS = "cat sat on mat" → length = 4
-    - #### ROUGE-W:
+    - ### ROUGE-W:
         - (Weighted LCS) Divide by Length of C or R
-    - #### ROUGE-S/SU:
+    - ### ROUGE-S/SU:
         - Allows skips
-4. #### **Recall, Precision, F1Score**: Use N grams
+4. ### **Recall, Precision, F1Score**: Use N grams
     - Precision: No. of correct gen ngrams/total n grams gen
     - Recall: No. of correct gen ngrams/total n grams in ref
     - F1 Score: 2 * (Precision * Recall)/(Precision + Recall)
-5. #### **METEOR**: Metric for Evaluation of Translation with Explicit Ordering
+5. ### **METEOR**: Metric for Evaluation of Translation with Explicit Ordering
     - Works by having a more lenient matching, as it matches:
         1. Synonyms
         2. Stemmed words eg. running run
@@ -418,11 +436,11 @@ Prompt engineering is the art and science of communicating effectively with an A
 
 ## Evaluation Specific to Tasks
 
-1. #### Code:
-    1. #### Exact Match:
+1. ### Code:
+    1. ### Exact Match:
         - No differences allowed except variable names.
         - ⚠️Overly strict since code can have differences for same logic
-    2. #### Pass@k:
+    2. ### Pass@k:
         - Measures probablity least some of the top k probabilistic outputs is correct
         - Rewards model if it's mostly correct instead of a harsh penalty.
         - pass@k = 1 - no. of ways of choosing incorrect outputs/no. of ways of choosing outputs
@@ -435,41 +453,41 @@ Prompt engineering is the art and science of communicating effectively with an A
             - def add(a,b): return a*b ❌
             - Pass@1k = 1 - 2c1/5c1 = 0.6
             - Pass@3k = 1 - 2c3/5c3 = 1 - 0 = 1
-2. #### Truthfulness:
-    -  #### TruthfulQA:
+2. ### Truthfulness:
+    -  ### TruthfulQA:
         - Benchmark dataset for evaluating truthfulness of LLMs
         - Covers cases which tempt models into giving false answers i.e. cases where humans are often misinformed
-3.  #### General:
+3.  ### General:
     - MMLU (Massive Multitask Language Understanding)
-4. #### Maths and reasoning:
+4. ### Maths and reasoning:
     - GSM8K, MATH
-5.  #### Fact Check:
+5.  ### Fact Check:
     - FEVER, FAST-CC, SciFact
 
 ## RAG Metrics
 
 - For recall and precision R = Relevant Docs, S<sub>k</sub>= Top k retrieved docs
-    - #### Recall@k:
+    - ### Recall@k:
         - $$\text{Recall@k} = \frac{|R \cap S_k|}{|R|}$$
-    - #### Precision@K:
+    - ### Precision@K:
         - $$\text{Precision@k} = \frac{|R \cap S_k|}{k}$$
 
-- #### NDCG: (Normalized Discounted Cumulative Gain)
+- ### NDCG: (Normalized Discounted Cumulative Gain)
   Search retrieval ranking algo.  
   Basically you assign a relevance score to each doc (higher = more relevant) and divide by log(i+1) where i is how
   retrieval ranks it 1-inf (since small i = small denom. i.e higher score)  
   You sum up these scores. If ideal ordered followed then score would be high.   
   So you compare NDCG<sub>Predicted</sub>/NDCG<sub>ideal</sub>
   $$\text{NDCG@k} = \frac{\sum_{i=1}^{k} \frac{2^{rel_i}-1}{\log_2(i+1)}}{\sum_{i=1}^{k} \frac{2^{rel_i^\text{ideal}}-1}{\log_2(i+1)}}$$
-- #### MRR: Mean Reciprocal Rank
+- ### MRR: Mean Reciprocal Rank
   Ranks how quickly relevant item appears in a list (done over Q times)  
   Reciprocal Rank is 1/rank of first relevant doc
   $$\text{MRR} = \frac{1}{Q} \sum_{i=1}^{Q} \frac{1}{\text{rank}_i}$$
 
   ## Parameter Efficient Fine-Tuning
     - ### Full Fine-Tuning:
-        - 🔴 Expensive to compute
-        - 🔴 High risk of catastrophic forgetting especially when pretrained model Dataset not available to you to
+        - 🔴Expensive to compute
+        - 🔴High risk of catastrophic forgetting especially when pretrained model Dataset not available to you to
           revisit
     - ### Adapters:
         - Small trainable set of layers introduced in a frozen model
@@ -503,7 +521,7 @@ Prompt engineering is the art and science of communicating effectively with an A
         - Maximum log likelihood (of entire sequence) since later tokens might push up probablity
     - 🟢 Simple to implement
     - 🟢 More optimal than greedy decoding
-    - 🔴 Doesn't guarantee optimal solution
+    - 🔴Doesn't guarantee optimal solution
 
 - ### Top K Sampling:
     - Instead of picking top probablity sample from top K
@@ -515,7 +533,7 @@ Prompt engineering is the art and science of communicating effectively with an A
     - Actually at each step creates a pool of candidates which combine >=p and choose one of them.
     - Why? Because top k fails if top 5 only cover 20% i.e a lot of reasonable options
 
--  #### Temperature Scaling:
+-  ### Temperature Scaling:
     - Controls sharpness of probablity distribution before sampling. Higher temp = Flatter Dist
     - $$P_i^{(\tau)} = \frac{\exp\!\left(\frac{z_i}{\tau}\right)}{\sum_j \exp\!\left(\frac{z_j}{\tau}\right)}$$
     - Flatter dist = higher chance for less probablity to be picked

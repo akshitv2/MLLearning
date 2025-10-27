@@ -133,63 +133,61 @@ layout: default
    activations (existence, not efficiency). (not a proof of finding it but least knowing that it's possible).
 7. ### Activation Function:
    Function applied to the output of a neural network.
-    1. #### Need:
+    1. ### Need:
        Introduce Non Linearity: Without them NN of any depth would be same as one linear transformation
-    2. #### Types:
-        1. ##### Sigmoid [DEPRECATED]
+    2. ### Types:
+        1. ### Sigmoid [DEPRECATED]
            $$f(x) = \frac{1}{1 + e^{-x}}$$
             - ![img_21.png](../Images/img_21.png)
             - Bounded [0,1]
             - as x→∞ y→ 1
             - as x→-∞ y→ 0
             - at x = 0, y = 0.5  
-              Pro Cons:
-            - 🔴 Obsolete
-            - 🔴 f`(x) maxes out at 0.25 i.e. sure to cause vanishing gradient as you add more
-        2. ##### Tanh [DEPRECATED]
+            - 🔴Obsolete
+            - 🔴f`(x) maxes out at 0.25 i.e. sure to cause vanishing gradient as you add more
+        2. ### Tanh [DEPRECATED]
            $$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
             - Bounded [-1,1]
             - as x→∞ y→ 1
             - as x→-∞ y→ -1
             - at x = 0, y = 0
             - ![img_32.png](img_32.png)
-            - Pro Cons:
-                - 🔴 Obsolete
-                - 🔴 f`(x) maxes out at 1 i.e. sure to cause vanishing gradient as you add more
-        3. ##### ReLU (Rectified Linear Unit)
+            - 🔴Obsolete
+            - 🔴f`(x) maxes out at 1 i.e. sure to cause vanishing gradient as you add more
+        3. ### ReLU (Rectified Linear Unit)
            $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}$$
             - 🟢 Only negatively saturates
             - 🟢 Better Sparsity so less computation
-            - 🔴 Dying RELU (Can get stuck at 0)
-            - 🔴 Not differentiable at 0 (solved using f′(0)=0)
-        4. ##### Leaky ReLU
+            - 🔴Dying RELU (Can get stuck at 0)
+            - 🔴Not differentiable at 0 (solved using f′(0)=0)
+        4. ### Leaky ReLU
            $$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
-            - 🟢 Solves dying relu by letting a small amount of negative gradient through 0< $\alpha$ <<1
-            - 🔴 Fixes dying relu but at cost of sparsity
-        5. ##### Parametric ReLU
+            - 🟢Solves dying relu by letting a small amount of negative gradient through 0< $ \alpha $ <<1
+            - 🔴Fixes dying relu but at cost of sparsity
+        5. ### Parametric ReLU
            $$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
             - Same equation as leaky except alpha is a learnable param
             - 🟢 Solves dying relu again
-            - 🔴 At cost of sparsity and increased computation
-        6. ##### Swish
+            - 🔴At cost of sparsity and increased computation
+        6. ### Swish
            $$f(x) = x \cdot \sigma(\beta x) = \frac{x}{1 + e^{-\beta x}}$$
             - $ \beta $ is usually 1
             - Behaves same as relu for x >>0
             - 🟢 provides negative gradient solving dying relu
-            - 🔴 Gains are very task dependant, not a universal choice. Used only in deep CNNs
-            - 🔴 Increases computation cost
-        7. ##### eLU (Exponential Linear Unit)
+            - 🔴Gains are very task dependant, not a universal choice. Used only in deep CNNs
+            - 🔴Increases computation cost
+        7. ### eLU (Exponential Linear Unit)
            $$f(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha \left(e^x - 1\right) & \text{if } x \leq 0 \end{cases}$$
             - 🟢 smooth and allows -ve gradient
             - 🟢 centers at 0 with a smooth negative gradient
-            - 🔴 more computation
+            - 🔴more computation
             - requires $ \alpha $ tuning
-        8. ##### Softmax
+        8. ### Softmax
            $$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$
             - Used in multi class classification gives normalized probabilities which sum to 1
             - uses e because summing + and - can cancel some out and e^x is never 0
             - The softmax function takes a vector of raw scores (called logits) and turns them into probabilities.
-    3. #### ❓Questions:
+    3. ### ❓Questions:
         1. **Why is softmax e<sup>z<sub>i</sub></sup> and not z<sub>i</sub> when both sum to 1?**
             - Zi has certain problems:
                 - Negative values break it e.g 1,2,-3
@@ -206,21 +204,21 @@ layout: default
     1. ### Gradient Descent Types:
         1. ### Stochastic
             - Uses one training example per update
-            - 🔴 Noisy updates can cause zigzagging
-            - 🔴 Unstable
+            - 🔴Noisy updates can cause zigzagging
+            - 🔴Unstable
             - 🟢 Stochasticity can help escape local minima
         2. ### Batch
             - Uses entire dataset i.e update once every epoch
             - 🟢 Very stable
             - 🟢 Smooth Convergence
-            - 🔴 Very slow
-            - 🔴 Consumes a lot of memory loading entire DS into memory
+            - 🔴Very slow
+            - 🔴Consumes a lot of memory loading entire DS into memory
         3. ### Minibatch
             - Uses smaller batch sizes usually 32,64,128 and updates per mini batch
             - Good middle ground
             - 🟢 Smoother than stochastic
             - 🟢 Faster convergence than batch
-            - 🔴 Requires tuning batch size
+            - 🔴Requires tuning batch size
         4. ### Momentum Based
             - Not a metric of data set used.
             - Adds a fraction of previous update to accelerate descent
@@ -316,7 +314,7 @@ layout: default
         - Reduces when a validation metric plateaus (i.e. stops improving)
     6. ### Cyclical
         - Increases and decreases learning rate
-        - 🔴 Need max and min and cycle rate careful tuning
+        - 🔴Need max and min and cycle rate careful tuning
         - 🟢 can help get out of minima
         - ![img_7.png](../Images/img_7.png)
     7. ### One cycle
@@ -332,7 +330,7 @@ layout: default
         - ![img_13.png](../Images/img_13.png)
         - 🟢 Causes Sparsity which can speed up computation
         - 🟢 Makes model more interpretable
-        - 🔴 Sparsity can force useful weights to 0, once set to 0 always vanishes
+        - 🔴Sparsity can force useful weights to 0, once set to 0 always vanishes
     2. ### L2 Ridge
         - ![img.png](../Images/3_deepLearning_L2_regularization.png.png)
         - Applies quadratic penalty to magnitude of weight
@@ -346,12 +344,12 @@ layout: default
         - ![img.png](../Images/3_deepLearning_ElasticNet_regularization.png)
         - Combines L1 and L2
         - Combines benefit of both
-        - 🔴 Requires tuning of relative lambda 1 and 2 for benefits
+        - 🔴Requires tuning of relative lambda 1 and 2 for benefits
     4. ### Dropout
         - Temporarily disable output of select randomly chosen neurons while training
         - Chooses based on probablity p (hyperparam)
         - 🟢 Reduces overbalance of model on select neurons
-        - 🔴 Slows convergence
+        - 🔴Slows convergence
         - Requires careful tuning with batch normalization (since batch norm computes mean and variance of all outputs
           while training and uses them while eval and if some are missing while training will skew the numbers)
     5. ### Early Stopping
@@ -364,9 +362,9 @@ layout: default
             - Min_Delta: What counts as a plateau
         - 🟢 Easy to implement
         - 🟢 Reduces overfitting
-        - 🔴 Requires validation set
-        - 🔴 May prematurely stop (good training can have plateaus)
-    6. #### Batch Norm
+        - 🔴Requires validation set
+        - 🔴May prematurely stop (good training can have plateaus)
+    6. ### Batch Norm
         - Applied after linear and convolution layer but before activation function
         - (Linear / Convolution)→BatchNorm→Activation(📌e.g. ReLU)
         - Converts Values to Z score:
@@ -376,7 +374,7 @@ layout: default
         - $z_{\text{BN}} = \gamma \hat{z} + \beta$
         - 🟢 Faster training on regularized terms
         - 🟢 Reduces exploding and vanishing gradient
-        - 🔴 Requires careful usage with dropout
+        - 🔴Requires careful usage with dropout
     7. ### Data Augmentation?
 13. ### Optimizer
     1. ### SGD
@@ -430,13 +428,13 @@ layout: default
 
 1. ### Convolutional Neural Networks
    ![img_12.png](../Images/img_12.png)
-    - #### Purpose:
+    - ### Purpose:
         - For processing grid structured data like images
-    - #### Working:
+    - ### Working:
         - Apply kernels to input images to extract important features
         - Kernel: Smaller matrix that slides over image
-    - #### Layer Types:
-        - ##### Convolution:
+    - ### Layer Types:
+        - ### Convolution:
             - Performs convolution operation with Filter of **size F** and **Stride S**
             - Filter is trainable
             - Specify n to have n different filters to produce n separate feature maps
@@ -448,18 +446,18 @@ layout: default
                     - Same → Pads to same as input
                     - Full → Actually upsamples, each layer gets it's full conv
                     - Formula Output Size = 1+(N-F)/S where N is input dimension
-        - ##### Pooling:
+        - ### Pooling:
             - Pooling non trainable downsampling operation
             - Applies simple operation on its filter elements:
                 - Max → 🟢 Preserves Best detected features
                 - Average → 🟢 Preserves overall features
-        - ##### Conv Transpose:
+        - ### Conv Transpose:
             - Opposite of convolution, transpose
             - Upsampling operation, trainable
-        - ##### Unpooling:
+        - ### Unpooling:
             - Not as popular
             - Sets middle index and rest 0
-        - ##### Fully Connected:
+        - ### Fully Connected:
             - Good Ol' Fully Connected Layer
     - ### Usage:
         - Deep CNN themselves no longer SOTA but are used extensively in SOTA models 📌e.g. UMAP in diffusion
@@ -516,12 +514,12 @@ layout: default
     3. ### GRU
         - GRU only has reset and update gates
 4. ### Encoder Decoder
-    - #### Architecture:
-    - #### Shortcomings:
-        1. 🔴 Sequential Execution: Happens across time step with each next step dependent on previous (slows max
+    - ### Architecture:
+    - ### Shortcomings:
+        1. 🔴Sequential Execution: Happens across time step with each next step dependent on previous (slows max
            possible rate of training)
-        2. 🔴 Bottle Neck at Encoded Vector: Since context vector is fixed length no matter length of input sequence
-        3. 🔴 No long range dependencies: Hidden state decays almost instantly, even long term memory decays across
+        2. 🔴Bottle Neck at Encoded Vector: Since context vector is fixed length no matter length of input sequence
+        3. 🔴No long range dependencies: Hidden state decays almost instantly, even long term memory decays across
            sequence
 5. ### Attention Mechanism [explained in Transformers.md](Transformers.md#Attention-Mechanism)
 6. ### Transformer [explained in Transformers.md](Transformers.md)
@@ -645,25 +643,25 @@ layout: default
                   representations.
                 - Fine-tuning is beneficial when the target task differs significantly from the source task.
 12. ### Training Strategies
-    1. #### Teacher Forcing:
+    1. ### Teacher Forcing:
         - Feeds the ground truth previous tokens at time t rather than the model's output at time t-1
         - 🟢 Allows training in parallel since model is not required to output t-1
         - 🟢 Allows model to learn accurate output to accurate t-1
-        - 🔴 Exposure Bias: Model struggles with its own predictions since it never trained on that
-    2. #### Scheduled Sampling
+        - 🔴Exposure Bias: Model struggles with its own predictions since it never trained on that
+    2. ### Scheduled Sampling
         - Solution to teacher forcing (Solves exposure bias)
         - Gradually reduces amount of teacher forcing
-        - 🔴 Causes training instability
-        - 🔴 Can cascade errors if models t-1 output is wrong
-    3. #### Curriculum Learning
+        - 🔴Causes training instability
+        - 🔴Can cascade errors if models t-1 output is wrong
+    3. ### Curriculum Learning
         - Trains on easier sequences first then more difficult one
         - Imitates teaching humans via curriculum
         - 2 styles:
             - In Epoch (ordered Batches):
                 - same epoch ordered easy to hard
                 - 🟢 Simple
-                - 🔴 Doesn't give model enough time
-                - 🔴 Can confuse optimizer due to change in gradient
+                - 🔴Doesn't give model enough time
+                - 🔴Can confuse optimizer due to change in gradient
             - Across Epoch (staged):
                 - Feed easier DS first
                 - 🟢Improved Generalization
@@ -671,15 +669,15 @@ layout: default
         - 🟢 Faster convergence
         - 🟢 Improved Generalization
         - 🔴Difficult to tell what model actually considers difficult
-    4. #### Professor Forcing
+    4. ### Professor Forcing
         - Similar to GAN
         - Generate both teacher forced and free run output together
         - Aim is to fool discriminator into thinking it was teacher forced when it wasn't
         - 🟢 Eliminates Train Test Mismatch
         - 🟢 Differentiable
         - 🟢 Works well for longer sequences
-        - 🔴 Very complex
-    5. #### Label Smoothing
+        - 🔴Very complex
+    5. ### Label Smoothing
 13. ### Model Compression and Optimization
     1. ### Knowledge Distillation
         - Used to create smaller models yb scaling down larger ones without signficat loss in accuracy
@@ -716,13 +714,13 @@ layout: default
             - Define discrete values for each hyperparameter.
             - Train on all combinations.
             - 🟢 Exhaustive, easy to implement
-            - 🔴 Very computationally expensive for many parameters
+            - 🔴Very computationally expensive for many parameters
         3. ### Random Search
             - Randomly sample hyperparameters from distributions.
             - Often better than grid search because some parameters matter more than others.
             - Example: sample learning rate from log-uniform(1e-5, 1e-1)
             - 🟢 Can explore more space efficiently
-            - 🔴 Still can be slow if model is large
+            - 🔴Still can be slow if model is large
         4. ### Bayesian Optimization
             - Uses past results to choose the next set of hyperparameters intelligently.
             - BO treats the objective function (e.g., validation accuracy as a function of hyperparameters) as unknown
