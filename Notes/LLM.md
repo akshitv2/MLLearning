@@ -50,19 +50,37 @@ layout: default
           $$s^\ast(w) = \arg\max_{s \in \mathcal{S}_V(w)} \prod_{i=1}^{K(s)} P(u_i)
           = \arg\max_{s \in \mathcal{S}_V(w)} \sum_{i=1}^{K(s)} \log P(u_i)$$
 
-- ### Positional Encoding
+5. ### Positional Encoding
     - ### Usage:
         - Added to deep/shallow embeddings to create encoded and embedded token
     - ### Types:
-      - ### Sinusoidal:
-          - Encodes position in sentence as well dimensionally.
-          - $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
-          - $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
-          - where d is the dimension of embedding and p position in sentence
-              - bound to [-1,1] due to sin and cos functions
-      - ### Learned:
-          - Train a set of vectors to output embedding number
-          - Since learned embeddings are not bound by sin and cos can cause embedding collision
+        - ### Sinusoidal:
+            - Encodes position in sentence as well dimensionally.
+            - $${PE}_{p,2i} = \sin\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
+            - $${PE}_{p,2i+1} = \cos\!\left(\frac{p}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
+            - where d is the dimension of embedding and p position in sentence
+                - bound to [-1,1] due to sin and cos functions
+                - In practice much smaller, meant to be used with embeddings with mean 0 var 1 to keep in same scale
+            - Choice of 10000 in denominator:
+              - Large enough to match the embedding which is usually max 1024
+            - Wavelength of embedding: 
+              - Since sin/cos are repeating functions each has a specific wavelength
+              - Wavelength increases with increasing i
+              - this is why we get displacement of baselines with higher frequency near the start
+              - This means higher i have larger wavelengths
+              - Not a problem since QKV can transform vectors as long as there is distinction between two positions of same word
+            - ![img_34.png](img_34.png)
+            - ❓**Why not use simple values 0.01, 0.02?**
+            - 🅰️Attention score between two tokens at positions 𝑝 and 𝑞 depends on their dot product through 𝑄𝐾<sup>𝑇</sup>
+            - That inner product structure determines whether the model can compute relative relationships between positions.
+              - $PE(p) \cdot PE(q) = i \sum_i \cos\big((p - q)\omega_i\big)$
+                - the dot product depends only on the difference p-q and not magnitudes of p&q
+              - If we used arbitrary indices we get $PE(p) \cdot PE(q) = d_{\text{model}} \times p q$
+                - This doesn't give us distance between the two<br><br>
+        - ### Learned Embedding:
+            - Train a set of vectors to output embedding number
+            - Since learned embeddings are not bound by sin and cos can cause embedding collision
+              - Mitigated in practice if you log transform or cap these
     - ℹ️Note: Since each embedding is different for each position the same word at position 1 and position 2 will appear
       as different words to the model (but since sin and cos are [-1,1] not that different)
 - ### **Contrastive Learning**
