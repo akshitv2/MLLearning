@@ -1,11 +1,11 @@
 ---
-title: Transformer
+title: Transformers
 nav_order: 6
 parent: Notes
 layout: default
 ---
 
-# Transformer
+# Transformers
 
 - Key component: Attention Mechanism
 
