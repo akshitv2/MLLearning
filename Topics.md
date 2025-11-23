@@ -10,3 +10,6 @@
 - Context Rot
 - Small Language Models (SLM) - Trained using Knowledge Distill, usacases - autofill, contextual help, suggestions
 - Better use cases than chatbots - Routing and tagging text data, action suggestions, ai based search filters
+
+## Topics toDo
+- Laplace Smoothing

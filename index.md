@@ -13,7 +13,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 ## Notes
 1. ### [Data Pre-Processing](Notes/DataPreProcessing.md)
 2. ### [Machine Learning](Notes/MachineLearning.md)
-3. ### [Machine Learning](Notes/Statistics.md)
+3. ### [Statistics](Notes/Statistics.md)
 4. ### [Deep Learning](Notes/DeepLearning.md)
 5. ### [Transformers](Notes/Transformers.md)
 6. ### [Large Language Models](Notes/LLM.md)

@@ -110,40 +110,81 @@ layout: default
     - How to decide K? Elbow Plot![img.png](../Images/img.png)
 4. ### Naive Bayes
     - Supervised Classification algo
-    - **Naive** - Assumes P(X𑁇C) = P(x<sub>1</sub>...X<sub>n</sub>𑁇C) is equal to ΠP(x<sub>i</sub>𑁇C)
+    - Based on Bayes Theorem
+    - **Why Naive?** - Assumes P(X𑁇C) = P(x<sub>1</sub>...X<sub>n</sub>𑁇C) is equal to ΠP(x<sub>i</sub>𑁇C)
+    - One feature in the model is independent of existence of another feature
     - i.e. Assumes independence of feature given class
+    - Mostly in high-dimensional text classification
     - $$P(C \mid X) = \frac{P(C) \, P(X \mid C)}{P(X)}$$
     - $$P(X \mid C) = \prod_{i=1}^n P(x_i \mid C)$$
-    - For Example:
+    - How to Calculate:
         - C→ Covid, x1→ has cold, x2→cough
         - Calculate P(C) = no. of examples of class C/ total number of samples
         - P(x<sub>i</sub>𑁇C) = no. of examples of xi in C/ total number of samples in C
         - Use this to calc P(C𑁇X)
+    - **Example:**
+        - ## Problem: Predict if a fruit is an **Apple** or **Banana**
+        - We have the following training data:
+        - <table><tr><th>Fruit</th><th>Long</th><th>Sweet</th><th>Yellow</th></tr><tr><td>Apple</td><td>No</td><td>Yes</td><td>No</td></tr><tr><td>Apple</td><td>No</td><td>Yes</td><td>No</td></tr><tr><td>Apple</td><td>No</td><td>Yes</td><td>No</td></tr><tr><td>Apple</td><td>No</td><td>Yes</td><td>No</td></tr><tr><td>Apple</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Apple</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Apple</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td>Banana</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Banana</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Banana</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Banana</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Banana</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Banana</td><td>Yes</td><td>Yes</td><td>No</td></tr><tr><td>Banana</td><td>No</td><td>No</td><td>Yes</td></tr></table>
+        - Test Sample: Classify a new fruit: **Long = Yes, Sweet = Yes, Yellow = Yes
+        - We want to compute:  P(Apple | features) vs P(Banana | features)
+        - ### Prior Probabilities
+            - P(Apple) = 7/14 = **0.5**
+            - P(Banana) = 7/14 = **0.5**
+        - ### Conditional Probabilities (with laplace smoothing) :
+            - (Laplace smoothing α=1 → add 1 to each count, +2 to denominator)
+            - **For Apple:**
+                - P(Long=Yes | Apple) = (3+1)/(7+2) = 4/9
+                - P(Sweet=Yes | Apple) = (6+1)/(7+2) = 7/9
+                - P(Yellow=Yes | Apple) = (2+1)/(7+2) = 3/9 = 1/3
+                - → P(features | Apple) = (4/9) × (7/9) × (1/3) ≈ 0.1152
+            - **For Banana:**
+                - P(Long=Yes | Banana) = (6+1)/(7+2) = 7/9
+                - P(Sweet=Yes | Banana) = (6+1)/(7+2) = 7/9
+                - P(Yellow=Yes | Banana) = (6+1)/(7+2) = 7/9
+                - → P(features | Banana) = (7/9) × (7/9) × (7/9) ≈ 0.4705
+        - ### Final Scores (proportional to posterior)
+            - Apple:   0.5 × 0.1152 ≈ 0.0576
+            - Banana:  0.5 × 0.4705 ≈ 0.23525
+        - **Prediction: Banana** (much higher probability)
 5. ### Decision Trees
     - Supervised - Classification and Regression
     - Also called **Classification and Regression Tree (CART)**
     - Split data to create leafs with maximal purity
     - Can be used for classification or regression:
 
-    1. Classification
+    1. **Classification**
         - ![img_31.png](img_31.png)
-        - Use metric Gini Impurity
-        - $$Gini(t) = 1 - \sum_{i=1}^{K} p_i^2$$
+        - Use metric Gini Impurity: $ Gini(t) = 1 - \sum_{i=1}^{K} p_i^2 $
         - Steps:
-            1. Start from top, divide into two
-            2. For each calculate gini impurity of both sides
-            3. Calculate weighted impurity $$Gini_{split} = \frac{N_{L}}{N} \, Gini(L) + \frac{N_{R}}{N} \, Gini(R)$$
-            4. Select split with the lowest impurity
-            5. Stop when:
+            1. Start from top
+            2. Using all possible values of each feature divide into two (for e.g. petal width <=0.8)
+                - Note: In practice we discretize the values instead of picking every value on number line for
+                  performance
+            3. For each calculate gini impurity of both sides
+            4. Calculate weighted impurity $$Gini_{split} = \frac{N_{L}}{N} \, Gini(L) + \frac{N_{R}}{N} \, Gini(R)$$
+            5. Select split with the lowest impurity
+            6. Stop when:
                 1. All examples in a node belong to same class
                 2. No more features to split
                 3. Max Tree Depth (decide yourself)
                 4. Too few samples
         - Weighing is necessary to prevent formation of extremely pure minority classes earlier in tree
-    2. Regression
-        - Use variance within each cluster as measure for impurity
-        - Least amount of variance = highest purity
-        - Also weighted to prevent formation of extremely high accuracy for minority range
+    2. **Regression**
+        - Aim is to partition the entire predictor space (i.e. set of all possible input values into distinct non overlapping R<sub>i</sub> regions) by means of splitting
+        - For any observation lying in a Region R<sub>j</sub>, the output is simply the avg of all outputs of other values lying in R<sub>j</sub>
+        - Measure of impurity:
+          - We use difference between actual values and predicted values in a region i.e Residual Sum of Squares (RSS)
+          - Choose splits which minimize RSS (Weighted)
+          - Called Variance Reduction
+          - Least amount of variance = highest purity
+          - Also weighted to prevent formation of extremely high accuracy for minority range
+        - Since each leaf outputs a specific value, regression trees give output as a small subset of values
+        - Stop when:
+          - Number of observations in a leaf below threshold
+          - Reeducation of RSS between a specific threshold
+          - Max Tree Depth
+        - ![img_37.png](img_37.png)
 6. ### Ensemble Learning
     - Based on idea: multiple weak learners combined to form one strong learner
     - Types:
