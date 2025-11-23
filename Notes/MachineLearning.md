@@ -343,8 +343,8 @@ layout: default
             - $$K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)$$
 
 15. ### DBSCAN
-    ![img_5.png](../Images/img_5.png)
     - Density based spatial clustering with noise
+    - ![img_5.png](../Images/img_5.png)
     - 🟢 Allows non-circular clusters and noise
     - 🔴Sensitive to hyperparams
     - 🔴Struggles with density variation in same dataset
