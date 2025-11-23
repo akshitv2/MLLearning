@@ -59,6 +59,10 @@ window.MathJax = {
     .ideaMarker::before {
     content: "💡" !important;
     }
+    .infoMarker::before {
+    content: "ⓘ" !important;
+    color: aqua !important;
+    }
 
 </style>
 
@@ -90,6 +94,10 @@ window.MathJax = {
         }else if (li.textContent.substr(0,2) === "💡") {
           li.textContent = li.textContent.replace('💡','');
           li.classList.add("ideaMarker");
+        }
+        else if (li.textContent.substr(0,2) === "ℹ️") {
+          li.textContent = li.textContent.replace('ℹ️','');
+          li.classList.add("infoMarker");
         }
 
       });

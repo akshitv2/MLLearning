@@ -171,37 +171,40 @@ layout: default
                 4. Too few samples
         - Weighing is necessary to prevent formation of extremely pure minority classes earlier in tree
     2. **Regression**
-        - Aim is to partition the entire predictor space (i.e. set of all possible input values into distinct non overlapping R<sub>i</sub> regions) by means of splitting
-        - For any observation lying in a Region R<sub>j</sub>, the output is simply the avg of all outputs of other values lying in R<sub>j</sub>
+        - Aim is to partition the entire predictor space (i.e. set of all possible input values into distinct non
+          overlapping R<sub>i</sub> regions) by means of splitting
+        - For any observation lying in a Region R<sub>j</sub>, the output is simply the avg of all outputs of other
+          values lying in R<sub>j</sub>
         - Measure of impurity:
-          - We use difference between actual values and predicted values in a region i.e Residual Sum of Squares (RSS)
-          - Choose splits which minimize RSS (Weighted)
-          - Called Variance Reduction
-          - Least amount of variance = highest purity
-          - Also weighted to prevent formation of extremely high accuracy for minority range
+            - We use difference between actual values and predicted values in a region i.e Residual Sum of Squares (RSS)
+            - Choose splits which minimize RSS (Weighted)
+            - Called Variance Reduction
+            - Least amount of variance = highest purity
+            - Also weighted to prevent formation of extremely high accuracy for minority range
         - Since each leaf outputs a specific value, regression trees give output as a small subset of values
         - Stop when:
-          - Number of observations in a leaf below threshold
-          - Reeducation of RSS between a specific threshold
-          - Max Tree Depth
+            - Number of observations in a leaf below threshold
+            - Reeducation of RSS between a specific threshold
+            - Max Tree Depth
         - ![img_37.png](img_37.png)
 6. ### Ensemble Learning
     - Based on idea: multiple weak learners combined to form one strong learner
     - Types:
         1. ### Bagging
-           Improves stability by reducing variance  
-           Trains model independently on different random subsets of data with replacement.  
-           Combines predictors -
-            - Voting for classification
-            - Average for regression
-              To give more power to higher performing learner assigns weights
+            - Improves stability by reducing variance
+            - Trains model independently on different random subsets of data with replacement.
+            - Combines predictors -
+                - Voting for classification
+                - Average for regression
+            - To give more power to higher performing learner assign weights
         2. ### Boosting
-           Trains model sequentially, each learner sequentially correcting the error of last.  
-           Assigns weights to each sample and tune weights for sample so later learners can focus more on samples
-           misclassified by earlier learners.
-           Steps:
+            - Trains model sequentially, each learner sequentially correcting the error of last.
+            - Assigns weights to each sample and tune weights for sample so later learners can focus more on samples
+              misclassified by earlier learners.
+            - Steps:
+
             1. Assign each sample equal weight and train first model i.e w<sub>i</sub> = 1/N (No. of samples)
-            2. Calculate rate of error in first model ε = w<sub>i</sub>*(1 is misclassified else 0)/N
+            2. Calculate rate of error in first model ε = w<sub>i</sub>*(Σ1 if misclassified else 0)/N
             3. Calculate α i.e model weight = (1-ε)/ε
             4. Reassign weights w<sub>i</sub> = e^(-α) if correctly classified else e^α
         3. ### Stacking
@@ -214,7 +217,7 @@ layout: default
                    model learns how to best combine their predictions.
                 3. Final prediction: The metamodel’s prediction becomes the final output.
             - Base models should be diverse to reduce correlation of errors.
-            - Metamodel is often a simple learner (e.g., logistic regression) to avoid overfitting.
+            - Metamodel is often a simple learner (e.g.,linear, logistic regression) to avoid overfitting.
 
 7. ### K Means Clustering
    Unsupervised clustering technique, group similar data points together
@@ -225,6 +228,7 @@ layout: default
         4. Repeat process multiple times until centroids settle
     - 🔴Sensitive to K
     - 🟢 Simple and Fast
+    - ![img_38.png](img_38.png)
 
 8. ### Bisecting K Means
     - Bisecting k-means is a variant of k-means clustering. It builds clusters using a hierarchical top-down (divisive)
@@ -237,10 +241,12 @@ layout: default
 
 9. ### Hierarchical Clustering:
    Instead of setting out with a fixed k, we can cluster in a tree like manner.   
-   Benefit? Cutting at any depth gives us that number of clusters.  
-   Two ways:
-    - Agglomerative i.e. Bottom up
-    - Divisive i.e. Top Down
+   Benefit? Cutting at any depth gives us that number of clusters.
+    - ![img_40.png](img_40.png)
+    - Two ways:
+        - Agglomerative i.e. Bottom up
+        - Divisive i.e. Top Down
+    - ![img_39.png](img_39.png)
 
 10. ### Agglomerative Clustering
     - Bottom up hierarchical clustering
@@ -256,7 +262,7 @@ layout: default
                 3. Average: Averages of all dists
                 4. Ward: instead of distance choose clusters which cause least in cluster variance
         4. Combine clusters and repeat until they reach one common cluster
-           ![img_1.png](../Images/img_1.png)
+    - ![img_1.png](../Images/img_1.png)
     - 🟢 No need to specify K
     - 🔴Computation requirements limit to small/medium datasets
     - 🟢 Can handle non-spherical clusters by defining custom linkage
@@ -265,7 +271,7 @@ layout: default
     Builds n decision trees, each tree being given a bootstrapped dataset.  
     At each split each tree gets a subset of features, split normally using gini impurity
     This ensures reduced variance and more generalization
-    Build each tree till either they form or clip at a common length
+    Build each tree till either they become pure or clip at a common length
     Vote for classification
 12. ### Gradient Boosted Machines
     Boosting implementation (usually for regression)  
@@ -313,15 +319,29 @@ layout: default
         - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b > 0 same side
         - if wx<sub>1</sub>+b > 0 and wx<sub>2</sub>+b < 0 different side
         - if either equals 0 → On the line
-    - To solve: maximize margins i.e. we need to maximize 1/(2❙❙w❙❙<sup>2</sup>) with constraint
+    - To solve: maximize margins i.e. we need to maximize 1/(2∣∣w∣∣<sup>2</sup>) with constraint
         - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2\end{equation}$$
         - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, \dots, n\end{equation}$$
+    - ℹ️ Note: Why yi(wx+b)>=1? Because if yi is negative so will be (wx+b) if predicted correctly
     - **Soft Margin Classifier**:
       ![img_4.png](../assets/images/ML/img_4.png)
         - Instead of using hard margin, allow slack using slack variable $ \epsilon $
             - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i\end{equation}$$
             - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
     - **Kernel Trick**:
+        - ![img_41.png](img_41.png)
+        - Allows us to solve non-linear classification problems using linear classifier by projecting data into higher
+          dimensions where it might be linearly seperable using a Feature Map $\phi$.
+        - The hope is that in this higher-dimensional space $\mathcal{H}$, the data will be linearly separable.
+            - Problem with this mapping:  If the feature space $\mathcal{H}$ is very high-dimensional calculating the
+              coordinates $\phi(\mathbf{x}_i)$ for every data point $\mathbf{x}_i$ and then computing the dot
+              product $\phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)$ becomes computationally infeasible and often
+              memory-intensive.
+        - The **Kernel Trick**: A Kernel Function $K(\mathbf{x}_i, \mathbf{x}_j)$ is defined such that it computes this
+          dot product directly in the original, lower-dimensional space $\mathcal{X}$ thus bypassing need for heavy
+          calculations
+            - $$K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)$$
+
 15. ### DBSCAN
     ![img_5.png](../Images/img_5.png)
     - Density based spatial clustering with noise
