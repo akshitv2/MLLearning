@@ -67,12 +67,12 @@ Necessary for accuracy in analysis. Real world data is often imperfect or incons
             - Measures the distance of a point from the mean, accounting for the covariance among variables. Useful for
               multivariate outliers.
             - Steps:
-              1. Transforms variables into uncorrelated variables
-              2. Scale to make variance equal to 1
-              3. Calculate euclidean distance
-            - Why? 
-              - If variables are correlated, as A increases so will B
-              - Points logically closer will have extra correlated distance added to them
+                1. Transforms variables into uncorrelated variables
+                2. Scale to make variance equal to 1
+                3. Calculate euclidean distance
+            - Why?
+                - If variables are correlated, as A increases so will B
+                - Points logically closer will have extra correlated distance added to them
         4. ### Box Plot Analysis:
             - Visualization method based on IQR to identify outliers.
     - ### ML Algorithms Based:
@@ -146,22 +146,32 @@ Done via:
 
 2. ### Correlation Filtering
     - Correlated variables can cause multicollinearity.
-    - **Multicollinearity**: When features are linearly dependent.
-        - **Issues**: Destabilizes training as the model can't distinguish which feature to assign weights to;
-          expressive power becomes shared (e.g., coefficients could be 1:9, 1:1, or -2:12).
+    - **Multicollinearity**: When features are linearly dependent/related to each other.
+        - **Issues**:
+            - Instability and Unreliability of coefficients:
+                - Leads to inflation in standard error (the standard error is the std dev in coefficient if we perform
+                  random sampling of data multiple times)
+                - Lower standard error implies high confidence in coefficient
+            - Destabilizes training as the model can't distinguish which feature to assign weights to:
+              expressive power becomes shared (e.g., coefficients could be 1:9, 1:1, or -2:12).
     - Techniques:
-
-    1. Pearson Correlation (for numeric-numeric data):
+    1. Variance Inflation Factor (VIF):
+       VIF Quantifies how much variance of an estimated coefficient is inflated due to multicollinearity
+       - $$\text{VIF}_j = \frac{1}{1 - R_j^2}$$
+         - if VIF = 1: No correlation between jth predictor and remaining predictors
+         - VIF > 5/10: High multicollinearity, >10 is considered problematic
+         - This R^2 Score is calculated by taking our jth predictor and linearly regressing it using all the other predictors
+    2. Pearson Correlation (for numeric-numeric data):
        $$r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
-       i.e., $$\cov(X,Y) / (\std(X) \std(Y))$$
-    2. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. The matrix compares every feature pair and looks
+       i.e., $$ cov(X,Y) / (std(X) std(Y)) $$
+    3. Correlation Matrix: Calculated using Pearson/Spearman/Kendall. The matrix compares every feature pair and looks
        for high correlations.
-    3. Chi-Square Test: For categorical features
-    4. Monotonic Increase (Spearman): For non-linear correlations (e.g., height and weight in a population)
+    4. Chi-Square Test: For categorical features
+    5. Monotonic Increase (Spearman): For non-linear correlations (e.g., height and weight in a population)
        $$\rho_{X,Y} = 1 - \frac{6 \sum_{i=1}^{n} d_i^2}{n(n^2 - 1)}$$
        where $d_i = R(x_i) - R(y_i)$ and $R$ is the rank (position in sorted ascending order)
-    5. Kendall: Measures ordinal association
-    6. Mutual Information Score: Uses KL Divergence
+    6. Kendall: Measures ordinal association
+    7. Mutual Information Score: Uses KL Divergence
         - KL Divergence: The difference between two probability distributions in terms of bits (extra bits required to
           encode one distribution using the other).
           $$I(X;Y) = \sum_{x \in X} \sum_{y \in Y} p(x,y) \log \left( \frac{p(x,y)}{p(x)p(y)} \right)$$
@@ -321,7 +331,7 @@ inefficient to test the entire population).
     2. ## Dynamic Embeddings
         - Embeddings change based on context; used by modern language models.
         - | Model | How it works |
-                                        |-------|--------------|
+                                                            |-------|--------------|
           | ELMo | Uses deep biLSTM to generate embeddings from the entire sentence. |
           | BERT | Uses transformers and attention for bidirectional context-aware embeddings. |
           | GPT  | Uses transformer decoders for left-to-right context; produces dynamic embeddings during generation or fine-tuning. |

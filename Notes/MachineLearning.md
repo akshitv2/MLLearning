@@ -29,8 +29,10 @@ layout: default
     - The goal is to find a balance between bias and variance
 
 4. ### Cross Validation
-   Used to assess the performance and generalization ability of a model.i.e.  
-   It is a model evaluation process to compare models/hyperparameters
+   Used to assess the performance and generalization ability of a model .i.e.  
+   It is a model evaluation process to compare models/hyperparameters  
+   The aim of cross validation is to generalize the model by testing over multiple splits instead of basing performance
+   off a single one
    ![img_9.png](../assets/images/ML/img_9.png)
 
    ### K Folds Cross Validation:
@@ -85,15 +87,21 @@ layout: default
        $$\text{F1Score} = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}$$
        $$\text{F1Score} = \frac{2TP}{2TP + FP + FN}$$
     9. Confusion Matrix
-        <table>
+        <table width="50%">
         <tr> <td>Actual \ Predicted</td><td>Positive</td><td>Negative</td></tr>
-        <tr> <td>**Positive**</td><td>TP</td><td>FN</td></tr>
-        <tr> <td>**Negative**</td><td>FP</td><td>TN</td></tr>
+        <tr> <td>Positive</td><td>TP</td><td>FN</td></tr>
+        <tr> <td>Negative</td><td>FP</td><td>TN</td></tr>
        </table>
     10. ### R<sup>2</sup> Score
         Tells how much variance in target variable is explained by model i.e.   
-        doesn't punish model as much for wrong prediction if the zscore of prediction is high (unexpected).
-        $$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}$$
+        Doesn't punish model as much for wrong prediction if the zscore of prediction is high (unexpected).
+        - $$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}$$
+        - $$ R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}} $$
+        - i.e. Squared Sum of residual (error) / Squared sum of yi - mean of y
+            - R<sup>2</sup> = 1 -> Model Explains all variability in outcome, perfect fit
+            - R<sup>2</sup> = 0 -> Model Explains none of the variability in outcome, terrible fit
+            - 0 < R<sup>2</sup> < 1 -> Model explains some but not all variability
+            - Technically R^2 Can be less than 0 if predictors are very bad
 
 # ML Algorithms
 
@@ -202,11 +210,13 @@ layout: default
             - Assigns weights to each sample and tune weights for sample so later learners can focus more on samples
               misclassified by earlier learners.
             - Steps:
-
-            1. Assign each sample equal weight and train first model i.e w<sub>i</sub> = 1/N (No. of samples)
-            2. Calculate rate of error in first model ε = w<sub>i</sub>*(Σ1 if misclassified else 0)/N
-            3. Calculate α i.e model weight = (1-ε)/ε
-            4. Reassign weights w<sub>i</sub> = e^(-α) if correctly classified else e^α
+                1. Assign each sample equal weight and train first model i.e w<sub>i</sub> = 1/N (No. of samples)
+                2. Calculate rate of error in first model (ε)
+                    - $$\varepsilon = \frac{w_i}{N} \sum_{k=1}^{N} \begin{cases} 1, & \text{if sample } k \text{ is misclassified}, \\ 0, & \text{otherwise} \end{cases} $$
+                3. Calculate the weight assigned to each model (α)
+                    - $$ \alpha = \frac{1 - \varepsilon}{\varepsilon} $$
+                4. Reassign weights w<sub>i</sub> = e^(-α) if correctly classified else e^α
+                    - $$ w_i = \begin{cases} e^{-\alpha}, & \text{if correctly classified},\\[6pt] e^{\alpha}, & \text{if misclassified}. \end{cases} $$
         3. ### Stacking
             - Takes outputs from multiple models
             - Combined output is fed through metamodel which essentially weighs each model's output
@@ -218,7 +228,10 @@ layout: default
                 3. Final prediction: The metamodel’s prediction becomes the final output.
             - Base models should be diverse to reduce correlation of errors.
             - Metamodel is often a simple learner (e.g.,linear, logistic regression) to avoid overfitting.
-
+            - All models get the same dataset (X) and predict same ouptut (y)
+            - Doesn't cause multicollinearity as:
+                - Different models learn different patterns well
+                - Have different bias/variance and make different errors
 7. ### K Means Clustering
    Unsupervised clustering technique, group similar data points together
     - Steps:
@@ -368,7 +381,7 @@ layout: default
     - Principal Component Analysis - Doesn't use target variable
     - Breaks down all features into n PCA vectors (which are weighted linear combinations of other features) using
       eigen vectors
-    - Note: Essentially creates linear combinations of features with the highest amount of variability starting from
+    - ℹ️Note: Essentially creates linear combinations of features with the highest amount of variability starting from
       PC1, PC2...
     - We usually consider only first 2 PCA components as they contain most of the variance of data
     - 🔴Bad for interpretability
