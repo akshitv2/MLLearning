@@ -163,22 +163,22 @@ layout: default
                 - Shows the relationship between two numerical variables.
                 - Each point represents an observation, position determined by the values of the two variables.
                 - 🟢 Excellent for spotting correlations.
-                - ![img_27.png](img_27.png)
+                - ![img_27.png](../assets/images/ExploratoryDataAnalysis/img_27.png)
             5. # Pair Plots
                 - A pair plot, also known as a scatterplot matrix, is a visualization tool that displays pairwise
                   relationships between multiple numerical variables in a dataset.
                 - It creates a grid of plots, with scatter plots showing the relationship between two different
                   variables.
-                - ![img_28.png](img_28.png)
+                - ![img_28.png](../assets/images/ExploratoryDataAnalysis/img_28.png)
             6. # Pie Chart
                 - Displays the proportion of categories in a categorical variable.
                 - 🟢 Useful for showing relative frequencies.
                 - 🔴Can be misleading if too many categories are included.
-                - ![img_29.png](img_29.png)
+                - ![img_29.png](../assets/images/ExploratoryDataAnalysis/img_29.png)
             7. # Bar Plot
                 - Displays the frequency or proportion of categories in a categorical variable.
                 - 🟢 Clear and easy to interpret for categorical data.
-                - ![img_30.png](img_30.png)
+                - ![img_30.png](../assets/images/ExploratoryDataAnalysis/img_30.png)
             8. # HeatMaps (for correlation)
                 - A heatmap correlation is a graphical representation of a correlation matrix, where the strength and
                   direction of the relationship between variables are shown using color.

@@ -14,7 +14,7 @@ layout: default
 1. ### Perceptron
    Simplest type of artificial neural network.  
    Predicts using weighted sum and bias followed by an activation function.
-    - ![img_35.png](img_35.png)
+    - ![img_35.png](../assets/images/DeepLearning/img_35.png)
     - Composed of:
         1. **Inputs** (x1,x2,...,xnx_1, x_2, ..., x_nx1,x2,...,xn): Features of the data.
         2. **Weights** (w1,w2,...,wnw_1, w_2, ..., w_nw1,w2,...,wn): Adjustable parameters that stand for importance of
@@ -61,7 +61,7 @@ layout: default
             - as x→∞ y→ 1
             - as x→-∞ y→ -1
             - at x = 0, y = 0
-            - ![img_32.png](img_32.png)
+            - ![img_32.png](../assets/images/DeepLearning/img_32.png)
             - 🔴Obsolete
             - 🔴f`(x) maxes out at 1 i.e. sure to cause vanishing gradient as you add more
         3. ### ReLU (Rectified Linear Unit)
@@ -235,14 +235,14 @@ layout: default
     1. ### L1 LASSO
         - Least Absolute Shrinkage and selection operator
         - Applies linear penalty to magnitude of weight
-        - ![img.png](../Images/3_deepLearning_L1_regularization.png)
+        - ![img.png](../assets/images/DeepLearning/3_deepLearning_L1_regularization.png)
         - Forms n dimensional diamond constraint region
         - ![img_13.png](../Images/img_13.png)
         - 🟢 Causes Sparsity which can speed up computation
         - 🟢 Makes model more interpretable
         - 🔴Sparsity can force useful weights to 0, once set to 0 always vanishes
     2. ### L2 Ridge
-        - ![img.png](../Images/3_deepLearning_L2_regularization.png.png)
+        - ![img.png](../assets/images/DeepLearning/3_deepLearning_L2_regularization.png.png)
         - Applies quadratic penalty to magnitude of weight
         - Since penalty is quad doesn't force sparsity
         - Since w < 1 would make w^2 even smaller
@@ -251,7 +251,7 @@ layout: default
         - Forms circular constraint region
         - ![img_14.png](../Images/img_14.png)
     3. ### Elastic Net
-        - ![img.png](../Images/3_deepLearning_ElasticNet_regularization.png)
+        - ![img.png](../assets/images/DeepLearning/3_deepLearning_ElasticNet_regularization.png)
         - Combines L1 and L2
         - Combines benefit of both
         - 🔴Requires tuning of relative lambda 1 and 2 for benefits
@@ -396,12 +396,12 @@ layout: default
 3. ### Recurrent Neural Networks
     - Composed of sequential units that use previous output and have hidden states carried forward
     - Each neuron feeds into itself at every timestep, shown below unrolled
-    - ![](/Images/3_deepLearning_rnn_2.png)
+    - ![](/assets/images/DeepLearning/3_deepLearning_rnn_2.png)
     - Hidden state is a function of last hidden state and input $$h_t = \phi(h_{t-1}, X_t)$$
     - Trained using backpropagation through time (BPTT) i.e. same weights are trained calculating gradient multiple
       times for each sequence.
     - Can have multiple input output configurations
-    - ![](/Images/3_deepLearning_rnn_5.png)
+    - ![](/assets/images/DeepLearning/3_deepLearning_rnn_5.png)
 
     1. ### Vanilla RNN
         - Usually rely on these formulas

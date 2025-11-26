@@ -69,7 +69,7 @@ layout: default
               - this is why we get displacement of baselines with higher frequency near the start
               - This means higher i have larger wavelengths
               - Not a problem since QKV can transform vectors as long as there is distinction between two positions of same word
-            - ![img_34.png](img_34.png)
+            - ![img_34.png](../assets/images/DeepLearning/img_34.png)
             - ❓**Why not use simple values 0.01, 0.02?**
             - 🅰️Attention score between two tokens at positions 𝑝 and 𝑞 depends on their dot product through 𝑄𝐾<sup>𝑇</sup>
             - That inner product structure determines whether the model can compute relative relationships between positions.
@@ -332,7 +332,7 @@ Prompt engineering is the art and science of communicating effectively with an A
     - Achieves significant improvement in:
         - Arithematic Tasks
         - Symbolic Reasoning
-    - ![img_33.png](img_33.png)
+    - ![img_33.png](../assets/images/LLM/img_33.png)
 4. ### Role-Playing
     - This involves assigning a specific persona or role to the AI. This helps to set the tone, style, and context of
       the conversation.

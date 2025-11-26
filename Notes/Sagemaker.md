@@ -5,7 +5,7 @@ parent: Notes
 layout: default
 ---
 
-# SageMaker![img_1.png](img_1.png)
+# SageMaker![img_1.png](../assets/images/Sagemaker/img_1.png)
 
 Amazon SageMaker is a fully managed service from AWS that helps developers and data scientists build, train, and deploy
 machine learning (ML) models quickly and easily.
@@ -120,16 +120,16 @@ The ML lifecycle can be broken down into several key stages:
             - AutoML automatically selects the best algorithm and tunes the model to deliver accurate predictions.
         5. Choose build type:
             - Gives you a quick view of expected error (runs a tiny model on a small sample)
-            - ![img_9.png](img_9.png)
-              ![img_7.png](img_7.png)
+            - ![img_9.png](../assets/images/Sagemaker/img_9.png)
+              ![img_7.png](../assets/images/Sagemaker/img_7.png)
             - Standard Build: Accuracy Over Speed (Takes hours)
             - Quick Build : Speed over accuracy (takes minutes)
         6. Analyse:
-           ![img_8.png](img_8.png)
+           ![img_8.png](../assets/images/Sagemaker/img_8.png)
             - Gives you expected error metric
             - Also Provides you contribution of each
             - Gives you advanced metrics here too
-            - ![img_10.png](img_10.png)
+            - ![img_10.png](../assets/images/Sagemaker/img_10.png)
         7. Predict:
             - Upload dataset to test prediction on
         8. Deploy
@@ -377,14 +377,14 @@ lets you move data from raw sources to a form suitable for machine learning
       Feature Store, or directly to a processing/training job
 
 On creating new data flow:
-![img_11.png](img_11.png)
+![img_11.png](../assets/images/Sagemaker/img_11.png)
 
 1. You can get data insights
-2. ![img_12.png](img_12.png)
+2. ![img_12.png](../assets/images/Sagemaker/img_12.png)
 3. Select target column and analysis name
 4. Wrangler will generate you your report
-    - ![img_13.png](img_13.png)
-    - ![img_14.png](img_14.png)
+    - ![img_13.png](../assets/images/Sagemaker/img_13.png)
+    - ![img_14.png](../assets/images/Sagemaker/img_14.png)
 6.
 
 - Interactive Data Preparation: You can connect to data sources like S3, Amazon Redshift, and Snowflake. Data Wrangler
@@ -407,7 +407,7 @@ detection).
   which helps improve efficiency and quality. This process is called active learning.
 
 ## Amazon SageMaker Model Registry
-![img_26.png](img_26.png)
+![img_26.png](../assets/images/Sagemaker/img_26.png)
 
 - Feature within AWS SageMaker designed to manage the lifecycle of machine learning (ML) models.
 - Acts as a central repository for storing, versioning, and tracking models, making it easier for teams to deploy,

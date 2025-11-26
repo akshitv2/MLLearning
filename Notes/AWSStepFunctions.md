@@ -7,21 +7,21 @@ layout: default
 
 # AWS Step Functions
 
-- ![img_15.png](img_15.png)
-- ![img_16.png](img_16.png)
-- ![img_17.png](img_17.png)
-- ![img_18.png](img_18.png)
-- ![img_19.png](img_19.png)
-- ![img_20.png](img_20.png)
-- ![img_21.png](img_21.png)
-- ![img_22.png](img_22.png)
+- ![img_15.png](../assets/images/AWSStepFunctions/img_15.png)
+- ![img_16.png](../assets/images/AWSStepFunctions/img_16.png)
+- ![img_17.png](../assets/images/AWSStepFunctions/img_17.png)
+- ![img_18.png](../assets/images/AWSStepFunctions/img_18.png)
+- ![img_19.png](../assets/images/AWSStepFunctions/img_19.png)
+- ![img_20.png](../assets/images/AWSStepFunctions/img_20.png)
+- ![img_21.png](../assets/images/AWSStepFunctions/img_21.png)
+- ![img_22.png](../assets/images/AWSStepFunctions/img_22.png)
 - Default: error pauses
 - Step Functions issues a task token to a worker and pauses. The worker (or external system) later calls Step Functions
   with that token to signal success or failure, which resumes the workflow.
-- ![img_23.png](img_23.png)
+- ![img_23.png](../assets/images/AWSStepFunctions/img_23.png)
 - Amazon States Language
-- ![img_24.png](img_24.png)
-- ![img_25.png](img_25.png)
+- ![img_24.png](../assets/images/AWSStepFunctions/img_24.png)
+- ![img_25.png](../assets/images/AWSStepFunctions/img_25.png)
 - a heartbeat is a way to ensure that a task is still alive and making progress while it runs.
 - For activities (manual or external worker tasks), your worker needs to periodically call `SendTaskHeartbeat` API to
   tell Step Functions that it’s still alive.

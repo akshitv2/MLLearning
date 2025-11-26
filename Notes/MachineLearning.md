@@ -66,7 +66,7 @@ layout: default
         - Plots: TPR vs FPR where TPR = TP/TP+FN, FPR = FP/FP+TN
         - ![img.png](../assets/images/ML/img.png)
         - Plotting
-        - ![img_36.png](img_36.png)
+        - ![img_36.png](../assets/images/ML/img_36.png)
         - **Using ROC Curve**:
             1. Set Threshold to 1 (for TP) and plot every prediction (will be 0,0)
             2. Slowly lower threshold for classification and watch as TPR and FPR rise
@@ -162,7 +162,7 @@ layout: default
     - Can be used for classification or regression:
 
     1. **Classification**
-        - ![img_31.png](img_31.png)
+        - ![img_31.png](../assets/images/ML/img_31.png)
         - Use metric Gini Impurity: $ Gini(t) = 1 - \sum_{i=1}^{K} p_i^2 $
         - Steps:
             1. Start from top
@@ -194,7 +194,7 @@ layout: default
             - Number of observations in a leaf below threshold
             - Reeducation of RSS between a specific threshold
             - Max Tree Depth
-        - ![img_37.png](img_37.png)
+        - ![img_37.png](../assets/images/ML/img_37.png)
 6. ### Ensemble Learning
     - Based on idea: multiple weak learners combined to form one strong learner
     - Types:
@@ -241,7 +241,7 @@ layout: default
         4. Repeat process multiple times until centroids settle
     - 🔴Sensitive to K
     - 🟢 Simple and Fast
-    - ![img_38.png](img_38.png)
+    - ![img_38.png](../assets/images/ML/img_38.png)
 
 8. ### Bisecting K Means
     - Bisecting k-means is a variant of k-means clustering. It builds clusters using a hierarchical top-down (divisive)
@@ -255,11 +255,11 @@ layout: default
 9. ### Hierarchical Clustering:
    Instead of setting out with a fixed k, we can cluster in a tree like manner.   
    Benefit? Cutting at any depth gives us that number of clusters.
-    - ![img_40.png](img_40.png)
+    - ![img_40.png](../assets/images/ML/img_40.png)
     - Two ways:
         - Agglomerative i.e. Bottom up
         - Divisive i.e. Top Down
-    - ![img_39.png](img_39.png)
+    - ![img_39.png](../assets/images/ML/img_39.png)
 
 10. ### Agglomerative Clustering
     - Bottom up hierarchical clustering
@@ -342,7 +342,7 @@ layout: default
             - $$ \begin{equation}\min_{\mathbf{w}, b, {\xi}} \; \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i\end{equation}$$
             - $$\begin{equation} \text{subject to: } y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad i = 1, \dots, n\end{equation}$$
     - **Kernel Trick**:
-        - ![img_41.png](img_41.png)
+        - ![img_41.png](../assets/images/ML/img_41.png)
         - Allows us to solve non-linear classification problems using linear classifier by projecting data into higher
           dimensions where it might be linearly seperable using a Feature Map $\phi$.
         - The hope is that in this higher-dimensional space $\mathcal{H}$, the data will be linearly separable.
@@ -357,7 +357,7 @@ layout: default
 
 15. ### DBSCAN
     - Density based spatial clustering with noise
-    - ![img_5.png](../Images/img_5.png)
+    - ![img_5.png](../assets/images/ML/img_5.png)
     - 🟢 Allows non-circular clusters and noise
     - 🔴Sensitive to hyperparams
     - 🔴Struggles with density variation in same dataset

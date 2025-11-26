@@ -54,26 +54,26 @@ Benefits: Simple, seamless deployment and scaling
 
 ## Creating a Lex Bot
 
-- On lex create<br>![alt text](../Images/image.png)
-- Have a few options<br>![alt text](../Images/image-1.png)
-- Can configure timeout<br>![alt text](../Images/image-2.png)
-- Can add multiple languages and specify intent confidence score <br>![alt text](../Images/image-3.png)
-- Creating new intent <br>![alt text](../Images/image-4.png)
-- Add sample utterances to compute similarity and finally confidence from <br>![alt text](../Images/image-5.png)
+- On lex create<br>![alt text](../assets/images/AWSLexAndBedrock/image.png)
+- Have a few options<br>![alt text](../assets/images/AWSLexAndBedrock/image-1.png)
+- Can configure timeout<br>![alt text](../assets/images/AWSLexAndBedrock/image-2.png)
+- Can add multiple languages and specify intent confidence score <br>![alt text](../assets/images/AWSLexAndBedrock/image-3.png)
+- Creating new intent <br>![alt text](../assets/images/AWSLexAndBedrock/image-4.png)
+- Add sample utterances to compute similarity and finally confidence from <br>![alt text](../assets/images/AWSLexAndBedrock/image-5.png)
 - Select text and select from drop down to convert part of utterance to slot which will be populated at the bottom (name
-  them appropriately) <br>![alt text](../Images/image-6.png)![alt text](../Images/image-7.png)
-- Give prompts to make sure user populates slot<br> ![alt text](../Images/image-8.png)
+  them appropriately) <br>![alt text](../assets/images/AWSLexAndBedrock/image-6.png)![alt text](../assets/images/AWSLexAndBedrock/image-7.png)
+- Give prompts to make sure user populates slot<br> ![alt text](../assets/images/AWSLexAndBedrock/image-8.png)
 - If Amazon Predefined Slot Types Doesn't fit create a new slot type i.e new data
-  type<br> ![alt text](../Images/image-9.png) which can expand (capitalization, stemming, spaces) or be very
-  strict ![alt text](../Images/image-10.png)
-- Add confirmation for the value<br>![alt text](../Images/image-11.png)
+  type<br> ![alt text](../assets/images/AWSLexAndBedrock/image-9.png) which can expand (capitalization, stemming, spaces) or be very
+  strict ![alt text](../assets/images/AWSLexAndBedrock/image-10.png)
+- Add confirmation for the value<br>![alt text](../assets/images/AWSLexAndBedrock/image-11.png)
 - You can visualize convo using visual
-  builder <br>![alt text](../Images/image-12.png)![alt text](../Images/image-13.png)
+  builder <br>![alt text](../assets/images/AWSLexAndBedrock/image-12.png)![alt text](../assets/images/AWSLexAndBedrock/image-13.png)
 - Define lambda handler to handle<br>
-  ![alt text](../Images/image-14.png)
+  ![alt text](../assets/images/AWSLexAndBedrock/image-14.png)
 - Can give response cards to make interaction easier by adding Response
-  Cards <br>![alt text](../Images/image-15.png)![alt text](../Images/image-16.png)
-- Can use Amazon AI Intents using AWS Bedrock <br>![alt text](../Images/image-23.png)
+  Cards <br>![alt text](../assets/images/AWSLexAndBedrock/image-15.png)![alt text](../assets/images/AWSLexAndBedrock/image-16.png)
+- Can use Amazon AI Intents using AWS Bedrock <br>![alt text](../assets/images/AWSLexAndBedrock/image-23.png)
 
 # AWS Bedrock
 
@@ -96,21 +96,21 @@ Available Models:
 
 ## Setup
 
-1. Choose model <br> ![alt text](../Images/image-17.png)
-2. Test model on playground <br> ![alt text](../Images/image-18.png)
-3. You can also compare multiple models in terms of output, speed etc <br> ![alt text](../Images/image-19.png)
-4. Model access isn't available to begin with but can be granted really quickly <br>![alt text](../Images/image-20.png)
+1. Choose model <br> ![alt text](../assets/images/AWSLexAndBedrock/image-17.png)
+2. Test model on playground <br> ![alt text](../assets/images/AWSLexAndBedrock/image-18.png)
+3. You can also compare multiple models in terms of output, speed etc <br> ![alt text](../assets/images/AWSLexAndBedrock/image-19.png)
+4. Model access isn't available to begin with but can be granted really quickly <br>![alt text](../assets/images/AWSLexAndBedrock/image-20.png)
 5. To integrate knowledge bases:
     1. Create a knowledge store: Either S3
-6. Add your knowledge base <br> ![alt text](../Images/image-21.png) <br> Choose your embedding and vector
-   store ![alt text](../Images/image-22.png)
+6. Add your knowledge base <br> ![alt text](../assets/images/AWSLexAndBedrock/image-21.png) <br> Choose your embedding and vector
+   store ![alt text](../assets/images/AWSLexAndBedrock/image-22.png)
 
 ### AWS Bedrock Flows
 
 Flows are a new orchestration tool within Amazon Bedrock that allows developers to create sequences of connected events
 and actions.
 
-![img_2.png](img_2.png)
+![img_2.png](../assets/images/AWSLexAndBedrock/img_2.png)
 All the nodes in the flow builder are bucketed into six categories:
 Categories of Nodes:
 
@@ -120,7 +120,7 @@ Categories of Nodes:
 3. Code : A simple node triggers the Lambda function and gets the output.
 4. Data : Everything related to data retrieval, storage, and sending a query to a knowledge base.
 5. AI Services : An Amazon Lex node sends the input to an Amazon Lex bot for interpretation.
-   ![img_4.png](img_4.png)
+   ![img_4.png](../assets/images/AWSLexAndBedrock/img_4.png)
 
 Example from [this link](https://dev.to/aws-builders/understanding-amazon-bedrocks-new-feature-flows-1ohd)
 
@@ -136,15 +136,15 @@ else, output "OTHER"
 Only respond with a category.
 ```
 
-![img_3.png](img_3.png)
+![img_3.png](../assets/images/AWSLexAndBedrock/img_3.png)
 For example, after classifying incoming messages, we'll create two distinct paths: one for appointment requests and
 another for general inquiries. Let's test this with the message "Do you guys do plumbing work?" Since this is a general
 service inquiry rather than an appointment request, our prompt node classifies it as "OTHER." The Condition node then
 routes it to "FlowOutputNode_2"
-![img_6.png](img_6.png)
+![img_6.png](../assets/images/AWSLexAndBedrock/img_6.png)
 Add our knowledge base and AI agent to the flow to handle the respective route.
 
-![img_5.png](img_5.png)
+![img_5.png](../assets/images/AWSLexAndBedrock/img_5.png)
 
 
 ### AWS Bedrock Guard rails
