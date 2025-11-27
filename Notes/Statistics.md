@@ -11,9 +11,7 @@ layout: default
 
 1. **Mean**: The arithmetic average of a dataset, calculated by summing all values and dividing by the number of
    observations. For a dataset $x_1, x_2, \ldots, x_n$, the mean is:
-   \[
-   \bar{x} = \frac{\sum_{i=1}^n x_i}{n}
-   \]
+   $ \bar{x} = \frac{\sum_{i=1}^n x_i}{n} $
 
 2. **Mode**: The value that appears most frequently in a dataset. A dataset may have one mode (unimodal), multiple
    modes (multimodal), or no mode if all values occur equally often.
@@ -24,32 +22,24 @@ layout: default
 ## Spread Measures
 
 1. **Variance**: Measures the average squared deviation of each data point from the mean. For a population:
-   \[
-   \sigma^2 = \frac{\sum_{i=1}^N (x_i - \mu)^2}{N}
-   \]
-   For a sample:
-   \[
-   s^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}
-   \]
-
+    - For Population:
+      $  \sigma^2 = \frac{\sum_{i=1}^N (x_i - \mu)^2}{N} $
+    - For a sample:
+      $ s^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1} $
+    - ℹ️Sample is divided by n-1 instead of n to be unbiased:
+        - A mean is called population mean only when it is calculated from every single data point
+        - The Sum of Squared Residuals (SSR) is min. from the population mean, but since sample mean is biased to always
+          be less than (or equal to in ideal case) population mean, we must unbias it.
+        - All this is not considered much in real world as this is significant usually at n<30
 2. **Standard Deviation**: The square root of the variance, providing a measure of spread in the same units as the data.
-   For a population:
-   \[
-   \sigma = \sqrt{\sigma^2}
-   \]
-   For a sample:
-   \[
-   s = \sqrt{s^2}
-   \]
-
+    - For a population:
+      $ \sigma = \sqrt{\sigma^2} $
+    - For a sample:
+      $ s = \sqrt{s^2} $
 3. **Range**: The difference between the maximum and minimum values in a dataset.
-
 4. **Interquartile Range (IQR)**: The range between the first quartile ($Q_1$, 25th percentile) and the third
    quartile ($Q_3$, 75th percentile):
-   \[
-   \text{IQR} = Q_3 - Q_1
-   \]
-
+   $ \text{IQR} = Q_3 - Q_1 $
 5. **Outlier Detection using IQR**: Outliers are values that lie below $Q_1 - 1.5 \cdot \text{IQR}$ or
    above $Q_3 + 1.5 \cdot \text{IQR}$.
 
@@ -72,9 +62,7 @@ layout: default
 1. **Normal Distribution**:
     - A symmetric, bell-shaped distribution characterized by its mean ($\mu$) and standard deviation ($\sigma$).
     - **Z-Score**: Measures how many standard deviations a data point is from the mean:
-      \[
-      z = \frac{x - \mu}{\sigma}
-      \]
+      $ z = \frac{x - \mu}{\sigma} $
     - **Empirical Rule**: For a normal distribution:
         - Approximately 68% of data lies within $\mu \pm 1\sigma$.
         - Approximately 95% of data lies within $\mu \pm 2\sigma$.
