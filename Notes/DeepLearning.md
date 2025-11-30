@@ -299,7 +299,7 @@ layout: default
         - [NAG](#Nesterov-Accelerated-Gradient-Descent) is possible to use with this
     2. ### RMSProp (Root Mean Square Propagation)
         - Keeps running average of squared gradients:
-          - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
+            - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
         - $$ \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \nabla_\theta \mathcal{L}(\theta_t)$$
         - E[g^2] is a vector, holding one running average per parameter.
         - $\epsilon$ small number, prevents divide by 0
@@ -428,15 +428,16 @@ layout: default
         - H is called short term memory because it is calculated and passed at each step
         - C is modified slowly over time
     3. ### GRU
+        - ![img_5.png](img_5.png)
         - GRU only has reset and update gates
 4. ### Encoder Decoder
     - ### Architecture:
     - ### Shortcomings:
-        1. 🔴Sequential Execution: Happens across time step with each next step dependent on previous (slows max
-           possible rate of training)
-        2. 🔴Bottle Neck at Encoded Vector: Since context vector is fixed length no matter length of input sequence
-        3. 🔴No long range dependencies: Hidden state decays almost instantly, even long term memory decays across
-           sequence
+        - 🔴Sequential Execution: Happens across time step with each next step dependent on previous (slows max
+          possible rate of training)
+        - 🔴Bottle Neck at Encoded Vector: Since context vector is fixed length no matter length of input sequence
+        - 🔴No long range dependencies: Hidden state decays almost instantly, even long term memory decays across
+          sequence
 5. ### Attention Mechanism [explained in Transformers.md](Transformers.md#Attention-Mechanism)
 6. ### Transformer [explained in Transformers.md](Transformers.md)
 7. ### Generative Adversarial Network
@@ -447,6 +448,7 @@ layout: default
         2. Discriminator:
             - This neural network acts as a binary classifier.
             - Its job is to examine an input and determine whether it's genuine or fake.
+    - ![img_6.png](img_6.png)
     - The Adversarial Process:
         - The generator and discriminator are trained simultaneously.
         - The generator tries to produce outputs that are so realistic they can fool the discriminator. The
@@ -522,6 +524,15 @@ layout: default
         - reparameterization trick solves this by separating the randomness from the network's parameters. Instead of
           sampling directly from N(μ,σ^2), we sample from a standard normal distribution N(0,1)
         - z = μ+σ⋅ϵ
+        - ```python
+          z = f_random(mu, sigma)   # totally nondifferentiable black box
+          ```
+        - ```python
+          epsilon = f_random(0,1)   # randomness: independent of mu, sigma
+          z = mu + sigma * epsilon   # *deterministic math* using mu, sigma
+          ```
+        - We didn’t make noise differentiable — we made the output differentiable with respect to the parameters by
+          removing the parameters from the random part.
     - Loss Function:
         - VAE's objective function, often called the Evidence Lower Bound (ELBO), is a trade-off between two competing
           goals: accurate reconstruction and a well-behaved latent space.
@@ -532,9 +543,13 @@ layout: default
                 - Usually binary cross-entropy for black and white images
                 - MSE for colored ones
             - KL Divergence:
-                - measures the difference between the distribution learned by the encoder for a given data point and a
+                - Measures the difference between the distribution learned by the encoder for a given data point and a
                   standard normal distribution N(0,1)
                   Loss=ReconstructionLoss+β⋅KL_Divergence
+                - Necessary to make multiple distinct inputs map to the same latent space.
+                    - Thus sampling the same space gives different outputs making VAE generative
+                - Attempts to recreate N(0,1), if unbalanced can cause model collapse where everything converts to one distribution and recreates only
+                  one image
 10. ### Diffusion Networks
 11. ### Transfer Learning
     - Machine learning technique where a model trained on one task is reused (partially or fully)
@@ -596,7 +611,7 @@ layout: default
     5. ### Label Smoothing
 13. ### Model Compression and Optimization
     1. ### Knowledge Distillation
-        - Used to create smaller models yb scaling down larger ones without signficat loss in accuracy
+        - Used to create smaller models by scaling down larger ones without significant loss in accuracy
         - Process:
             - Use teacher(original) and student model
             - Train student model to predict the same outputs as teacher but with one difference
@@ -611,7 +626,7 @@ layout: default
     - hyperparameters are settings that are not learned by the model during training but are set before training starts.
       They control the learning process.
     - 📌Examples of hyperparameters:
-        - **Category**    | Examples
+        - **Category** : **Examples**
         - **Model architecture**:    Number of layers, number of neurons per layer
         - **Learning process:**    Learning rate, batch size, optimizer type
         - **Regularization:**    Dropout rate, L2/L1 weight decay
