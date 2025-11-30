@@ -402,12 +402,12 @@ layout: default
 3. ### Recurrent Neural Networks
     - Composed of sequential units that use previous output and have hidden states carried forward
     - Each neuron feeds into itself at every timestep, shown below unrolled
-    - ![3_deepLearning_rnn_2.png](/assets/images/DeepLearning/3_deepLearning_rnn_2.png)
+    - ![3_deepLearning_rnn_2.png](../assets/images/DeepLearning/3_deepLearning_rnn_2.png)
     - Hidden state is a function of last hidden state and input $$h_t = \phi(h_{t-1}, X_t)$$
     - Trained using backpropagation through time (BPTT) i.e. same weights are trained calculating gradient multiple
       times for each sequence.
     - Can have multiple input output configurations
-    - ![](/assets/images/DeepLearning/3_deepLearning_rnn_5.png)
+    - ![](../assets/images/DeepLearning/3_deepLearning_rnn_5.png)
 
     1. ### Vanilla RNN
         - Usually rely on these formulas
