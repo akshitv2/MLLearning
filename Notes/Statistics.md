@@ -60,6 +60,7 @@ layout: default
 ## Important Distributions
 
 1. **Normal Distribution**:
+    - ![img.png](img.png)
     - A symmetric, bell-shaped distribution characterized by its mean ($\mu$) and standard deviation ($\sigma$).
     - **Z-Score**: Measures how many standard deviations a data point is from the mean:
       $ z = \frac{x - \mu}{\sigma} $
@@ -68,60 +69,71 @@ layout: default
         - Approximately 95% of data lies within $\mu \pm 2\sigma$.
         - Approximately 99.7% of data lies within $\mu \pm 3\sigma$.
 
-2. **Bernoulli Distribution**: Models a single trial with two outcomes (success or failure), with probability of
-   success $p$. Mean: $p$, Variance: $p(1-p)$.
+2. **Bernoulli Distribution**:
+    - Models a single trial with two outcomes (success or failure), with probability of
+      success $p$.
+    - Mean: $p$
+    - Variance: $p(1-p)$
 
-3. **Poisson Distribution**: Models the number of events occurring in a fixed interval, with mean $\lambda$. Probability
-   mass function:
-   \[
-   P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0, 1, 2, \ldots
-   \]
-   Mean and variance: $\lambda$.
+3. **Poisson Distribution**:
+    - Models the number of events occurring in a fixed interval, with mean $\lambda$.
+    - i.e. Probablity of a given number of events occurring in a fixed interval of time/space if events occur at a
+      constant mean rate.
+    - Models rare events that happen randomly and independently
+    - Probability mass function:
+        - $ P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0, 1, 2, \ldots $
+    - Mean and variance: $\lambda$.
 
-4. **Binomial Distribution**: Models the number of successes in $n$ independent Bernoulli trials, each with success
-   probability $p$. Probability mass function:
-   \[
-   P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}
-   \]
-   Mean: $np$, Variance: $np(1-p)$.
+4. **Binomial Distribution**:
+    - Models the number of successes in $n$ independent Bernoulli trials, each with success
+      probability $p$.
+    - Probability mass function:
+        - $ P(X = k) = \binom{n}{k} p^k (1-p)^{n-k} $
+    - Mean: $np$
+    - Variance: $np(1-p)$.
 
 ## Confidence Interval
 
 - A range where a population parameter is likely to lie, with a specified confidence level (e.g., 95%).
+- $$\text{CI} = \text{Point Estimate} \pm \text{Margin of Error}$$
+- $$\text{CI} = \hat{\theta} \pm Z^* \cdot \text{SE}(\hat{\theta})$$
 - For large samples ($n > 30$), use the z-score:
-  \[
-  \text{CI} = \bar{x} \pm z \cdot \frac{s}{\sqrt{n}}
-  \]
+    - $ \text{CI} = \bar{x} \pm z \cdot \frac{s}{\sqrt{n}} $
 - For small samples ($n \leq 30$), use the t-score, which accounts for greater variability with fatter tails. The
   t-distribution varies with degrees of freedom ($df = n-1$).
+- Need for it?
+    - When trying to estimate a true population parameter, in real life you can usually only measure a sample param.
+    - Since sample is an estimate unlikely to be exactly right
+    - So you define the interval where you're confident instead of a point estimate
+- Composed of:
+    - Point Estimate
+    - Margin of Error
+    - Confidence Level
+- What it means -> If we were to repeat the sampling process and construct a $95\%$ confidence interval many times,
+  approximately $95\%$
+  of those intervals would contain the true, fixed population parameter.
+- What it doesn't mean -> There is a $95\%$ probability that the true parameter lies within this specific, single
+  calculated interval.
+- i.e. It's same as saying we are giving you this mean using a method which work 95% of the time
 
 ## Expected Value
 
 - The long-run average of a random variable, calculated as:
-  \[
-  E(X) = \sum x_i \cdot P(x_i) \quad \text{(discrete case)}
-  \]
-  \[
-  E(X) = \int_{-\infty}^{\infty} x \cdot f(x) \, dx \quad \text{(continuous case)}
-  \]
+    - $E(X) = \sum x_i \cdot P(x_i) \quad \text{(discrete case)}$
+    - $E(X) = \int_{-\infty}^{\infty} x \cdot f(x) \, dx \quad \text{(continuous case)}$
 
 ## Standard Error
 
 - Measures the precision of a sample mean as an estimate of the population mean:
-  \[
-  \text{SE} = \frac{s}{\sqrt{n}}
-  \]
+    - $ \text{SE} = \frac{s}{\sqrt{n}} $
 
 ## Probability
 
-- **Probability of an Event**:
-  \[
-  P(A) = \frac{\text{Number of favorable outcomes for } A}{\text{Total number of outcomes in sample space}}
-  \]
-- **Conditional Probability**: The probability of event $A$ given event $B$:
-  \[
-  P(A|B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0
-  \]
+- ### Probability of an Event:
+    - $ P(A) = \frac{\text{Number of favorable outcomes for } A}{\text{Total number of outcomes in sample space}} $
+- ### Conditional Probability:
+    - The probability of event $A$ given event $B$:
+        - $  P(A|B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0 $
 - ### Bayes' Theorem:
     - Relates conditional probabilities:
     - Mathematical formula used to determine conditional probablity of an event based on prior knowledge and new
@@ -130,32 +142,20 @@ layout: default
     - **P(A|B)** is the probability of event A when event B happens,
 - **Probability Rules**:
     - **Union**:
-      \[
-      P(A \cup B) = P(A) + P(B) - P(A \cap B)
-      \]
+      $       P(A \cup B) = P(A) + P(B) - P(A \cap B) $
     - **Intersection**:
-      \[
-      P(A \cap B) = P(A) \cdot P(B) \quad \text{(if } A \text{ and } B \text{ are independent)}
-      \]
+      $ P(A \cap B) = P(A) \cdot P(B) \quad \text{(if } A \text{ and } B \text{ are independent)} $
 - **Probability Independence**: Events $A$ and $B$ are independent if:
-  \[
-  P(A \cap B) = P(A) \cdot P(B)
-  \]
+  $  P(A \cap B) = P(A) \cdot P(B) $
 - ### Laplace Smoothing
 
 ## Permutations
-
 - The number of ways to arrange $n$ items taken $r$ at a time:
-  \[
-  P(n, r) = \frac{n!}{(n-r)!}
-  \]
+  $   P(n, r) = \frac{n!}{(n-r)!} $
 
 ## Combinations
-
 - The number of ways to choose $r$ items from $n$ without regard to order:
-  \[
-  C(n, r) = \binom{n}{r} = \frac{n!}{r!(n-r)!}
-  \]
+  $ C(n, r) = \binom{n}{r} = \frac{n!}{r!(n-r)!} $
 
 ## Random Variable
 
@@ -166,33 +166,26 @@ layout: default
 ## Probability Mass Function (PMF)
 
 - For a discrete random variable, gives the probability of each possible value:
-  \[
-  P(X = x)
-  \]
-  Must satisfy: $\sum P(X = x) = 1$.
+  $ P(X = x) $
+    - i.e. probablity of the random variable being x
+- Must satisfy: $\sum P(X = x) = 1$.
+    - i.e. Probablity of random variable being every possible must sum upto 1
 
 ## Probability Density Function (PDF)
 
 - For a continuous random variable, describes the likelihood of values within an interval:
-  \[
-  P(a \leq X \leq b) = \int_a^b f(x) \, dx
-  \]
-  The total area under the PDF curve equals 1.
+  $ P(a \leq X \leq b) = \int_a^b f(x) \, dx $
+- The total area under the PDF curve equals 1.
+    - i.e. The total likelihood of being all values must sum upto 1
 
 ## Cumulative Distribution Function (CDF)
 
 - Gives the probability that a random variable $X$ is less than or equal to a value $x$:
-  \[
-  F(x) = P(X \leq x)
-  \]
-  For discrete variables:
-  \[
-  F(x) = \sum_{k \leq x} P(X = k)
-  \]
-  For continuous variables:
-  \[
-  F(x) = \int_{-\infty}^x f(t) \, dt
-  \]
+  - $   F(x) = P(X \leq x) $
+  - For discrete variables:
+    - $ F(x) = \sum_{k \leq x} P(X = k) $
+  - For continuous variables:
+    - $ F(x) = \int_{-\infty}^x f(t) \, dt $
 
 ## Additional Topics
 

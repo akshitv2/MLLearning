@@ -48,6 +48,11 @@ An AI agent observes its environment, makes decisions using internal logic (ofte
 - **Action/Execution**: Interacts with external systems (e.g., tools, APIs, file I/O) to impact the environment.
 - **Learning and Adaptation**: Improves performance through experience and feedback.
 
+
+## Agentic vs Traditional AI:
+- Modern Agents use LLMs for reasoning and planning, older agents relied on algorithms (like symbolic).
+
+
 ## Architecture
 
 ### Base Model

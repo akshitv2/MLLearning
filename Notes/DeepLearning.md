@@ -31,9 +31,9 @@ layout: default
         - Layers process input → hidden → output.
 3. ### Hidden Layers
     - Layers between the input and output layers
-4. ### Width of Model**
+4. ### Width of Model
     - Number of neurons in a layer
-5. ### Weights and Biases**
+5. ### Weights and Biases
    (Mentioned above)  
    Weights: Defined for each connection. Variable input is multiplied with.    
    Biases: Defined for each node. Variable input shifted by.
@@ -66,12 +66,14 @@ layout: default
             - 🔴f`(x) maxes out at 1 i.e. sure to cause vanishing gradient as you add more
         3. ### ReLU (Rectified Linear Unit)
            $$f(x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}$$
+            - ![img_3.png](img_3.png)
             - 🟢 Only negatively saturates
             - 🟢 Better Sparsity so less computation
             - 🔴Dying RELU (Can get stuck at 0)
             - 🔴Not differentiable at 0 (solved using f′(0)=0)
         4. ### Leaky ReLU
            $$f(x) = \begin{cases} x, & \text{if } x \geq 0 \\ \alpha x, & \text{if } x < 0 \end{cases}$$
+            - ![img_4.png](img_4.png)
             - 🟢Solves dying relu by letting a small amount of negative gradient through 0< $ \alpha $ <<1
             - 🔴Fixes dying relu but at cost of sparsity
         5. ### Parametric ReLU
@@ -81,6 +83,7 @@ layout: default
             - 🔴At cost of sparsity and increased computation
         6. ### Swish
            $$f(x) = x \cdot \sigma(\beta x) = \frac{x}{1 + e^{-\beta x}}$$
+            - ![img_1.png](img_1.png)
             - $ \beta $ is usually 1
             - Behaves same as relu for x >>0
             - 🟢 provides negative gradient solving dying relu
@@ -88,6 +91,7 @@ layout: default
             - 🔴Increases computation cost
         7. ### eLU (Exponential Linear Unit)
            $$f(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha \left(e^x - 1\right) & \text{if } x \leq 0 \end{cases}$$
+            - ![img_2.png](img_2.png)
             - 🟢 smooth and allows -ve gradient
             - 🟢 centers at 0 with a smooth negative gradient
             - 🔴more computation
@@ -168,7 +172,7 @@ layout: default
                 - Gradient Clipping:
                     - Two Common ways:
                         1. Clipping by Value: each individual gradient is maxed at v threshold
-                        2. Clip by Norm: if the L2 norm of entire gradient > τ -> clip it by g = g.τ/||g||
+                        2. Clip by Norm: if the L2 norm of entire gradient > τ -> clip it by g = g.τ/‖g‖
 9. ### Backpropagation
 10. ### Weight Initialization
     1. ### Zero Init
@@ -294,10 +298,12 @@ layout: default
             - $$v_{t+1} = \mu v_t - \eta \nabla_\theta \mathcal{L}(\theta_t), \quad \theta_{t+1} = \theta_t + v_{t+1}$$
         - [NAG](#Nesterov-Accelerated-Gradient-Descent) is possible to use with this
     2. ### RMSProp (Root Mean Square Propagation)
-        - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
+        - Keeps running average of squared gradients:
+          - $$E[g^2]_t = \gamma E[g^2]_{t-1} + (1-\gamma)(\nabla_\theta \mathcal{L}(\theta_t))^2$$
         - $$ \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \nabla_\theta \mathcal{L}(\theta_t)$$
         - E[g^2] is a vector, holding one running average per parameter.
         - $\epsilon$ small number, prevents divide by 0
+        - $ \gamma $ is the decay rate
         - Adapts learning rate according to each parameter individually.
         - Keeps a moving squared average of squared gradients (not Expectation)
         - Updates are smaller when gradient is large -> Why? We want to move slower on params which loss function is
@@ -396,7 +402,7 @@ layout: default
 3. ### Recurrent Neural Networks
     - Composed of sequential units that use previous output and have hidden states carried forward
     - Each neuron feeds into itself at every timestep, shown below unrolled
-    - ![](/assets/images/DeepLearning/3_deepLearning_rnn_2.png)
+    - ![3_deepLearning_rnn_2.png](/assets/images/DeepLearning/3_deepLearning_rnn_2.png)
     - Hidden state is a function of last hidden state and input $$h_t = \phi(h_{t-1}, X_t)$$
     - Trained using backpropagation through time (BPTT) i.e. same weights are trained calculating gradient multiple
       times for each sequence.

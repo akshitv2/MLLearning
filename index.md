@@ -25,6 +25,7 @@ Welcome to my study notebook! This serves as an index to all topics and notes.
 12. ### [ETL](Notes/ETL.md)
 13. ### [Model Choice](Notes/ModelGuide.md)
 14. ### [Time Series](Notes/TimeSeries.md)
+15. ### [Agentic](Notes/Agentic.md)
 
 ---
 
